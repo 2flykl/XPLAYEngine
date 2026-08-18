@@ -1,0 +1,46 @@
+{
+  "engine": "puzzle",
+  "title": "Thought Link \u00b7 Flux Edition",
+  "description": "Flux-powered Memory-match puzzle PLX.",
+  "duration": 45,
+  "objective": {
+    "label": "Match all pairs"
+  },
+  "theme": {
+    "background": "#0c2134"
+  },
+  "physics": {
+    "gravity": 0
+  },
+  "assets": {
+    "images": {
+      "background": "/flux-pack/runtime/backgrounds/digital_xplay.png",
+      "player": "/flux-pack/14_PLX_PUZZLE/frames/think/think_000.png",
+      "hazard": "assets/hazard.svg",
+      "collectible": "assets/collectible.svg",
+      "platform": "assets/platform.svg",
+      "cardBack": "/rc-assets/puzzle/cardBack.png",
+      "face0": "/rc-assets/puzzle/face0.png",
+      "face1": "/rc-assets/puzzle/face1.png",
+      "face2": "/rc-assets/puzzle/face2.png",
+      "face3": "/rc-assets/puzzle/face3.png"
+    }
+  },
+  "fluxEdition": true,
+  "fluxPack": {
+    "folder": "14_PLX_PUZZLE",
+    "defaultAnimation": "think",
+    "speculativeFrames": 300
+  },
+  "parallax": {
+    "far": "/flux-pack/20_ENVIRONMENTS/digital_xplay/far.png",
+    "mid": "/flux-pack/20_ENVIRONMENTS/digital_xplay/mid.png",
+    "near": "/flux-pack/20_ENVIRONMENTS/digital_xplay/near.png"
+  },
+  "scrollProfile": {
+    "axis": "none",
+    "direction": "static"
+  },
+  "releaseCandidateArt": true,
+  "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback"
+}

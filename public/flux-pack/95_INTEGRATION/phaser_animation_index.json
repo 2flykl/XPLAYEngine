@@ -1,0 +1,4022 @@
+{
+  "runner": {
+    "idle": {
+      "frames": [
+        "frames/idle/idle_000.png",
+        "frames/idle/idle_001.png",
+        "frames/idle/idle_002.png",
+        "frames/idle/idle_003.png",
+        "frames/idle/idle_004.png",
+        "frames/idle/idle_005.png",
+        "frames/idle/idle_006.png",
+        "frames/idle/idle_007.png",
+        "frames/idle/idle_008.png",
+        "frames/idle/idle_009.png",
+        "frames/idle/idle_010.png",
+        "frames/idle/idle_011.png",
+        "frames/idle/idle_012.png",
+        "frames/idle/idle_013.png",
+        "frames/idle/idle_014.png"
+      ],
+      "fps": 14
+    },
+    "run": {
+      "frames": [
+        "frames/run/run_000.png",
+        "frames/run/run_001.png",
+        "frames/run/run_002.png",
+        "frames/run/run_003.png",
+        "frames/run/run_004.png",
+        "frames/run/run_005.png",
+        "frames/run/run_006.png",
+        "frames/run/run_007.png",
+        "frames/run/run_008.png",
+        "frames/run/run_009.png",
+        "frames/run/run_010.png",
+        "frames/run/run_011.png",
+        "frames/run/run_012.png",
+        "frames/run/run_013.png",
+        "frames/run/run_014.png"
+      ],
+      "fps": 14
+    },
+    "sprint": {
+      "frames": [
+        "frames/sprint/sprint_000.png",
+        "frames/sprint/sprint_001.png",
+        "frames/sprint/sprint_002.png",
+        "frames/sprint/sprint_003.png",
+        "frames/sprint/sprint_004.png",
+        "frames/sprint/sprint_005.png",
+        "frames/sprint/sprint_006.png",
+        "frames/sprint/sprint_007.png",
+        "frames/sprint/sprint_008.png",
+        "frames/sprint/sprint_009.png",
+        "frames/sprint/sprint_010.png",
+        "frames/sprint/sprint_011.png",
+        "frames/sprint/sprint_012.png",
+        "frames/sprint/sprint_013.png",
+        "frames/sprint/sprint_014.png"
+      ],
+      "fps": 14
+    },
+    "jump": {
+      "frames": [
+        "frames/jump/jump_000.png",
+        "frames/jump/jump_001.png",
+        "frames/jump/jump_002.png",
+        "frames/jump/jump_003.png",
+        "frames/jump/jump_004.png",
+        "frames/jump/jump_005.png",
+        "frames/jump/jump_006.png",
+        "frames/jump/jump_007.png",
+        "frames/jump/jump_008.png",
+        "frames/jump/jump_009.png",
+        "frames/jump/jump_010.png",
+        "frames/jump/jump_011.png",
+        "frames/jump/jump_012.png",
+        "frames/jump/jump_013.png",
+        "frames/jump/jump_014.png"
+      ],
+      "fps": 14
+    },
+    "double_jump": {
+      "frames": [
+        "frames/double_jump/double_jump_000.png",
+        "frames/double_jump/double_jump_001.png",
+        "frames/double_jump/double_jump_002.png",
+        "frames/double_jump/double_jump_003.png",
+        "frames/double_jump/double_jump_004.png",
+        "frames/double_jump/double_jump_005.png",
+        "frames/double_jump/double_jump_006.png",
+        "frames/double_jump/double_jump_007.png",
+        "frames/double_jump/double_jump_008.png",
+        "frames/double_jump/double_jump_009.png",
+        "frames/double_jump/double_jump_010.png",
+        "frames/double_jump/double_jump_011.png",
+        "frames/double_jump/double_jump_012.png",
+        "frames/double_jump/double_jump_013.png",
+        "frames/double_jump/double_jump_014.png"
+      ],
+      "fps": 14
+    },
+    "fall": {
+      "frames": [
+        "frames/fall/fall_000.png",
+        "frames/fall/fall_001.png",
+        "frames/fall/fall_002.png",
+        "frames/fall/fall_003.png",
+        "frames/fall/fall_004.png",
+        "frames/fall/fall_005.png",
+        "frames/fall/fall_006.png",
+        "frames/fall/fall_007.png",
+        "frames/fall/fall_008.png",
+        "frames/fall/fall_009.png",
+        "frames/fall/fall_010.png",
+        "frames/fall/fall_011.png",
+        "frames/fall/fall_012.png",
+        "frames/fall/fall_013.png",
+        "frames/fall/fall_014.png"
+      ],
+      "fps": 14
+    },
+    "land": {
+      "frames": [
+        "frames/land/land_000.png",
+        "frames/land/land_001.png",
+        "frames/land/land_002.png",
+        "frames/land/land_003.png",
+        "frames/land/land_004.png",
+        "frames/land/land_005.png",
+        "frames/land/land_006.png",
+        "frames/land/land_007.png",
+        "frames/land/land_008.png",
+        "frames/land/land_009.png",
+        "frames/land/land_010.png",
+        "frames/land/land_011.png",
+        "frames/land/land_012.png",
+        "frames/land/land_013.png",
+        "frames/land/land_014.png"
+      ],
+      "fps": 14
+    },
+    "slide": {
+      "frames": [
+        "frames/slide/slide_000.png",
+        "frames/slide/slide_001.png",
+        "frames/slide/slide_002.png",
+        "frames/slide/slide_003.png",
+        "frames/slide/slide_004.png",
+        "frames/slide/slide_005.png",
+        "frames/slide/slide_006.png",
+        "frames/slide/slide_007.png",
+        "frames/slide/slide_008.png",
+        "frames/slide/slide_009.png",
+        "frames/slide/slide_010.png",
+        "frames/slide/slide_011.png",
+        "frames/slide/slide_012.png",
+        "frames/slide/slide_013.png",
+        "frames/slide/slide_014.png"
+      ],
+      "fps": 14
+    },
+    "tongue_grab": {
+      "frames": [
+        "frames/tongue_grab/tongue_grab_000.png",
+        "frames/tongue_grab/tongue_grab_001.png",
+        "frames/tongue_grab/tongue_grab_002.png",
+        "frames/tongue_grab/tongue_grab_003.png",
+        "frames/tongue_grab/tongue_grab_004.png",
+        "frames/tongue_grab/tongue_grab_005.png",
+        "frames/tongue_grab/tongue_grab_006.png",
+        "frames/tongue_grab/tongue_grab_007.png",
+        "frames/tongue_grab/tongue_grab_008.png",
+        "frames/tongue_grab/tongue_grab_009.png",
+        "frames/tongue_grab/tongue_grab_010.png",
+        "frames/tongue_grab/tongue_grab_011.png",
+        "frames/tongue_grab/tongue_grab_012.png",
+        "frames/tongue_grab/tongue_grab_013.png",
+        "frames/tongue_grab/tongue_grab_014.png"
+      ],
+      "fps": 14
+    },
+    "wall_run": {
+      "frames": [
+        "frames/wall_run/wall_run_000.png",
+        "frames/wall_run/wall_run_001.png",
+        "frames/wall_run/wall_run_002.png",
+        "frames/wall_run/wall_run_003.png",
+        "frames/wall_run/wall_run_004.png",
+        "frames/wall_run/wall_run_005.png",
+        "frames/wall_run/wall_run_006.png",
+        "frames/wall_run/wall_run_007.png",
+        "frames/wall_run/wall_run_008.png",
+        "frames/wall_run/wall_run_009.png",
+        "frames/wall_run/wall_run_010.png",
+        "frames/wall_run/wall_run_011.png",
+        "frames/wall_run/wall_run_012.png",
+        "frames/wall_run/wall_run_013.png",
+        "frames/wall_run/wall_run_014.png"
+      ],
+      "fps": 14
+    },
+    "skid": {
+      "frames": [
+        "frames/skid/skid_000.png",
+        "frames/skid/skid_001.png",
+        "frames/skid/skid_002.png",
+        "frames/skid/skid_003.png",
+        "frames/skid/skid_004.png",
+        "frames/skid/skid_005.png",
+        "frames/skid/skid_006.png",
+        "frames/skid/skid_007.png",
+        "frames/skid/skid_008.png",
+        "frames/skid/skid_009.png",
+        "frames/skid/skid_010.png",
+        "frames/skid/skid_011.png",
+        "frames/skid/skid_012.png",
+        "frames/skid/skid_013.png",
+        "frames/skid/skid_014.png"
+      ],
+      "fps": 14
+    },
+    "dash": {
+      "frames": [
+        "frames/dash/dash_000.png",
+        "frames/dash/dash_001.png",
+        "frames/dash/dash_002.png",
+        "frames/dash/dash_003.png",
+        "frames/dash/dash_004.png",
+        "frames/dash/dash_005.png",
+        "frames/dash/dash_006.png",
+        "frames/dash/dash_007.png",
+        "frames/dash/dash_008.png",
+        "frames/dash/dash_009.png",
+        "frames/dash/dash_010.png",
+        "frames/dash/dash_011.png",
+        "frames/dash/dash_012.png",
+        "frames/dash/dash_013.png",
+        "frames/dash/dash_014.png"
+      ],
+      "fps": 14
+    },
+    "collect": {
+      "frames": [
+        "frames/collect/collect_000.png",
+        "frames/collect/collect_001.png",
+        "frames/collect/collect_002.png",
+        "frames/collect/collect_003.png",
+        "frames/collect/collect_004.png",
+        "frames/collect/collect_005.png",
+        "frames/collect/collect_006.png",
+        "frames/collect/collect_007.png",
+        "frames/collect/collect_008.png",
+        "frames/collect/collect_009.png",
+        "frames/collect/collect_010.png",
+        "frames/collect/collect_011.png",
+        "frames/collect/collect_012.png",
+        "frames/collect/collect_013.png",
+        "frames/collect/collect_014.png"
+      ],
+      "fps": 14
+    },
+    "hurt": {
+      "frames": [
+        "frames/hurt/hurt_000.png",
+        "frames/hurt/hurt_001.png",
+        "frames/hurt/hurt_002.png",
+        "frames/hurt/hurt_003.png",
+        "frames/hurt/hurt_004.png",
+        "frames/hurt/hurt_005.png",
+        "frames/hurt/hurt_006.png",
+        "frames/hurt/hurt_007.png",
+        "frames/hurt/hurt_008.png",
+        "frames/hurt/hurt_009.png",
+        "frames/hurt/hurt_010.png",
+        "frames/hurt/hurt_011.png",
+        "frames/hurt/hurt_012.png",
+        "frames/hurt/hurt_013.png",
+        "frames/hurt/hurt_014.png"
+      ],
+      "fps": 14
+    },
+    "checkpoint": {
+      "frames": [
+        "frames/checkpoint/checkpoint_000.png",
+        "frames/checkpoint/checkpoint_001.png",
+        "frames/checkpoint/checkpoint_002.png",
+        "frames/checkpoint/checkpoint_003.png",
+        "frames/checkpoint/checkpoint_004.png",
+        "frames/checkpoint/checkpoint_005.png",
+        "frames/checkpoint/checkpoint_006.png",
+        "frames/checkpoint/checkpoint_007.png",
+        "frames/checkpoint/checkpoint_008.png",
+        "frames/checkpoint/checkpoint_009.png",
+        "frames/checkpoint/checkpoint_010.png",
+        "frames/checkpoint/checkpoint_011.png",
+        "frames/checkpoint/checkpoint_012.png",
+        "frames/checkpoint/checkpoint_013.png",
+        "frames/checkpoint/checkpoint_014.png"
+      ],
+      "fps": 14
+    },
+    "celebrate": {
+      "frames": [
+        "frames/celebrate/celebrate_000.png",
+        "frames/celebrate/celebrate_001.png",
+        "frames/celebrate/celebrate_002.png",
+        "frames/celebrate/celebrate_003.png",
+        "frames/celebrate/celebrate_004.png",
+        "frames/celebrate/celebrate_005.png",
+        "frames/celebrate/celebrate_006.png",
+        "frames/celebrate/celebrate_007.png",
+        "frames/celebrate/celebrate_008.png",
+        "frames/celebrate/celebrate_009.png",
+        "frames/celebrate/celebrate_010.png",
+        "frames/celebrate/celebrate_011.png",
+        "frames/celebrate/celebrate_012.png",
+        "frames/celebrate/celebrate_013.png",
+        "frames/celebrate/celebrate_014.png"
+      ],
+      "fps": 14
+    },
+    "defeat": {
+      "frames": [
+        "frames/defeat/defeat_000.png",
+        "frames/defeat/defeat_001.png",
+        "frames/defeat/defeat_002.png",
+        "frames/defeat/defeat_003.png",
+        "frames/defeat/defeat_004.png",
+        "frames/defeat/defeat_005.png",
+        "frames/defeat/defeat_006.png",
+        "frames/defeat/defeat_007.png",
+        "frames/defeat/defeat_008.png",
+        "frames/defeat/defeat_009.png",
+        "frames/defeat/defeat_010.png",
+        "frames/defeat/defeat_011.png",
+        "frames/defeat/defeat_012.png",
+        "frames/defeat/defeat_013.png",
+        "frames/defeat/defeat_014.png"
+      ],
+      "fps": 14
+    },
+    "camouflage": {
+      "frames": [
+        "frames/camouflage/camouflage_000.png",
+        "frames/camouflage/camouflage_001.png",
+        "frames/camouflage/camouflage_002.png",
+        "frames/camouflage/camouflage_003.png",
+        "frames/camouflage/camouflage_004.png",
+        "frames/camouflage/camouflage_005.png",
+        "frames/camouflage/camouflage_006.png",
+        "frames/camouflage/camouflage_007.png",
+        "frames/camouflage/camouflage_008.png",
+        "frames/camouflage/camouflage_009.png",
+        "frames/camouflage/camouflage_010.png",
+        "frames/camouflage/camouflage_011.png",
+        "frames/camouflage/camouflage_012.png",
+        "frames/camouflage/camouflage_013.png",
+        "frames/camouflage/camouflage_014.png"
+      ],
+      "fps": 14
+    },
+    "turnaround": {
+      "frames": [
+        "frames/turnaround/turnaround_000.png",
+        "frames/turnaround/turnaround_001.png",
+        "frames/turnaround/turnaround_002.png",
+        "frames/turnaround/turnaround_003.png",
+        "frames/turnaround/turnaround_004.png",
+        "frames/turnaround/turnaround_005.png",
+        "frames/turnaround/turnaround_006.png",
+        "frames/turnaround/turnaround_007.png",
+        "frames/turnaround/turnaround_008.png",
+        "frames/turnaround/turnaround_009.png",
+        "frames/turnaround/turnaround_010.png",
+        "frames/turnaround/turnaround_011.png",
+        "frames/turnaround/turnaround_012.png",
+        "frames/turnaround/turnaround_013.png",
+        "frames/turnaround/turnaround_014.png"
+      ],
+      "fps": 14
+    },
+    "finish": {
+      "frames": [
+        "frames/finish/finish_000.png",
+        "frames/finish/finish_001.png",
+        "frames/finish/finish_002.png",
+        "frames/finish/finish_003.png",
+        "frames/finish/finish_004.png",
+        "frames/finish/finish_005.png",
+        "frames/finish/finish_006.png",
+        "frames/finish/finish_007.png",
+        "frames/finish/finish_008.png",
+        "frames/finish/finish_009.png",
+        "frames/finish/finish_010.png",
+        "frames/finish/finish_011.png",
+        "frames/finish/finish_012.png",
+        "frames/finish/finish_013.png",
+        "frames/finish/finish_014.png"
+      ],
+      "fps": 14
+    }
+  },
+  "dodge": {
+    "idle": {
+      "frames": [
+        "frames/idle/idle_000.png",
+        "frames/idle/idle_001.png",
+        "frames/idle/idle_002.png",
+        "frames/idle/idle_003.png",
+        "frames/idle/idle_004.png",
+        "frames/idle/idle_005.png",
+        "frames/idle/idle_006.png",
+        "frames/idle/idle_007.png",
+        "frames/idle/idle_008.png",
+        "frames/idle/idle_009.png",
+        "frames/idle/idle_010.png",
+        "frames/idle/idle_011.png",
+        "frames/idle/idle_012.png",
+        "frames/idle/idle_013.png",
+        "frames/idle/idle_014.png"
+      ],
+      "fps": 12
+    },
+    "move_up": {
+      "frames": [
+        "frames/move_up/move_up_000.png",
+        "frames/move_up/move_up_001.png",
+        "frames/move_up/move_up_002.png",
+        "frames/move_up/move_up_003.png",
+        "frames/move_up/move_up_004.png",
+        "frames/move_up/move_up_005.png",
+        "frames/move_up/move_up_006.png",
+        "frames/move_up/move_up_007.png",
+        "frames/move_up/move_up_008.png",
+        "frames/move_up/move_up_009.png",
+        "frames/move_up/move_up_010.png",
+        "frames/move_up/move_up_011.png",
+        "frames/move_up/move_up_012.png",
+        "frames/move_up/move_up_013.png",
+        "frames/move_up/move_up_014.png"
+      ],
+      "fps": 12
+    },
+    "move_down": {
+      "frames": [
+        "frames/move_down/move_down_000.png",
+        "frames/move_down/move_down_001.png",
+        "frames/move_down/move_down_002.png",
+        "frames/move_down/move_down_003.png",
+        "frames/move_down/move_down_004.png",
+        "frames/move_down/move_down_005.png",
+        "frames/move_down/move_down_006.png",
+        "frames/move_down/move_down_007.png",
+        "frames/move_down/move_down_008.png",
+        "frames/move_down/move_down_009.png",
+        "frames/move_down/move_down_010.png",
+        "frames/move_down/move_down_011.png",
+        "frames/move_down/move_down_012.png",
+        "frames/move_down/move_down_013.png",
+        "frames/move_down/move_down_014.png"
+      ],
+      "fps": 12
+    },
+    "move_left": {
+      "frames": [
+        "frames/move_left/move_left_000.png",
+        "frames/move_left/move_left_001.png",
+        "frames/move_left/move_left_002.png",
+        "frames/move_left/move_left_003.png",
+        "frames/move_left/move_left_004.png",
+        "frames/move_left/move_left_005.png",
+        "frames/move_left/move_left_006.png",
+        "frames/move_left/move_left_007.png",
+        "frames/move_left/move_left_008.png",
+        "frames/move_left/move_left_009.png",
+        "frames/move_left/move_left_010.png",
+        "frames/move_left/move_left_011.png",
+        "frames/move_left/move_left_012.png",
+        "frames/move_left/move_left_013.png",
+        "frames/move_left/move_left_014.png"
+      ],
+      "fps": 12
+    },
+    "move_right": {
+      "frames": [
+        "frames/move_right/move_right_000.png",
+        "frames/move_right/move_right_001.png",
+        "frames/move_right/move_right_002.png",
+        "frames/move_right/move_right_003.png",
+        "frames/move_right/move_right_004.png",
+        "frames/move_right/move_right_005.png",
+        "frames/move_right/move_right_006.png",
+        "frames/move_right/move_right_007.png",
+        "frames/move_right/move_right_008.png",
+        "frames/move_right/move_right_009.png",
+        "frames/move_right/move_right_010.png",
+        "frames/move_right/move_right_011.png",
+        "frames/move_right/move_right_012.png",
+        "frames/move_right/move_right_013.png",
+        "frames/move_right/move_right_014.png"
+      ],
+      "fps": 12
+    },
+    "sidestep": {
+      "frames": [
+        "frames/sidestep/sidestep_000.png",
+        "frames/sidestep/sidestep_001.png",
+        "frames/sidestep/sidestep_002.png",
+        "frames/sidestep/sidestep_003.png",
+        "frames/sidestep/sidestep_004.png",
+        "frames/sidestep/sidestep_005.png",
+        "frames/sidestep/sidestep_006.png",
+        "frames/sidestep/sidestep_007.png",
+        "frames/sidestep/sidestep_008.png",
+        "frames/sidestep/sidestep_009.png",
+        "frames/sidestep/sidestep_010.png",
+        "frames/sidestep/sidestep_011.png",
+        "frames/sidestep/sidestep_012.png",
+        "frames/sidestep/sidestep_013.png",
+        "frames/sidestep/sidestep_014.png"
+      ],
+      "fps": 12
+    },
+    "duck": {
+      "frames": [
+        "frames/duck/duck_000.png",
+        "frames/duck/duck_001.png",
+        "frames/duck/duck_002.png",
+        "frames/duck/duck_003.png",
+        "frames/duck/duck_004.png",
+        "frames/duck/duck_005.png",
+        "frames/duck/duck_006.png",
+        "frames/duck/duck_007.png",
+        "frames/duck/duck_008.png",
+        "frames/duck/duck_009.png",
+        "frames/duck/duck_010.png",
+        "frames/duck/duck_011.png",
+        "frames/duck/duck_012.png",
+        "frames/duck/duck_013.png",
+        "frames/duck/duck_014.png"
+      ],
+      "fps": 12
+    },
+    "quick_turn": {
+      "frames": [
+        "frames/quick_turn/quick_turn_000.png",
+        "frames/quick_turn/quick_turn_001.png",
+        "frames/quick_turn/quick_turn_002.png",
+        "frames/quick_turn/quick_turn_003.png",
+        "frames/quick_turn/quick_turn_004.png",
+        "frames/quick_turn/quick_turn_005.png",
+        "frames/quick_turn/quick_turn_006.png",
+        "frames/quick_turn/quick_turn_007.png",
+        "frames/quick_turn/quick_turn_008.png",
+        "frames/quick_turn/quick_turn_009.png",
+        "frames/quick_turn/quick_turn_010.png",
+        "frames/quick_turn/quick_turn_011.png",
+        "frames/quick_turn/quick_turn_012.png",
+        "frames/quick_turn/quick_turn_013.png",
+        "frames/quick_turn/quick_turn_014.png"
+      ],
+      "fps": 12
+    },
+    "camouflage": {
+      "frames": [
+        "frames/camouflage/camouflage_000.png",
+        "frames/camouflage/camouflage_001.png",
+        "frames/camouflage/camouflage_002.png",
+        "frames/camouflage/camouflage_003.png",
+        "frames/camouflage/camouflage_004.png",
+        "frames/camouflage/camouflage_005.png",
+        "frames/camouflage/camouflage_006.png",
+        "frames/camouflage/camouflage_007.png",
+        "frames/camouflage/camouflage_008.png",
+        "frames/camouflage/camouflage_009.png",
+        "frames/camouflage/camouflage_010.png",
+        "frames/camouflage/camouflage_011.png",
+        "frames/camouflage/camouflage_012.png",
+        "frames/camouflage/camouflage_013.png",
+        "frames/camouflage/camouflage_014.png"
+      ],
+      "fps": 12
+    },
+    "warning": {
+      "frames": [
+        "frames/warning/warning_000.png",
+        "frames/warning/warning_001.png",
+        "frames/warning/warning_002.png",
+        "frames/warning/warning_003.png",
+        "frames/warning/warning_004.png",
+        "frames/warning/warning_005.png",
+        "frames/warning/warning_006.png",
+        "frames/warning/warning_007.png",
+        "frames/warning/warning_008.png",
+        "frames/warning/warning_009.png",
+        "frames/warning/warning_010.png",
+        "frames/warning/warning_011.png",
+        "frames/warning/warning_012.png",
+        "frames/warning/warning_013.png",
+        "frames/warning/warning_014.png"
+      ],
+      "fps": 12
+    },
+    "near_miss": {
+      "frames": [
+        "frames/near_miss/near_miss_000.png",
+        "frames/near_miss/near_miss_001.png",
+        "frames/near_miss/near_miss_002.png",
+        "frames/near_miss/near_miss_003.png",
+        "frames/near_miss/near_miss_004.png",
+        "frames/near_miss/near_miss_005.png",
+        "frames/near_miss/near_miss_006.png",
+        "frames/near_miss/near_miss_007.png",
+        "frames/near_miss/near_miss_008.png",
+        "frames/near_miss/near_miss_009.png",
+        "frames/near_miss/near_miss_010.png",
+        "frames/near_miss/near_miss_011.png",
+        "frames/near_miss/near_miss_012.png",
+        "frames/near_miss/near_miss_013.png",
+        "frames/near_miss/near_miss_014.png"
+      ],
+      "fps": 12
+    },
+    "collect": {
+      "frames": [
+        "frames/collect/collect_000.png",
+        "frames/collect/collect_001.png",
+        "frames/collect/collect_002.png",
+        "frames/collect/collect_003.png",
+        "frames/collect/collect_004.png",
+        "frames/collect/collect_005.png",
+        "frames/collect/collect_006.png",
+        "frames/collect/collect_007.png",
+        "frames/collect/collect_008.png",
+        "frames/collect/collect_009.png",
+        "frames/collect/collect_010.png",
+        "frames/collect/collect_011.png",
+        "frames/collect/collect_012.png",
+        "frames/collect/collect_013.png",
+        "frames/collect/collect_014.png"
+      ],
+      "fps": 12
+    },
+    "hurt": {
+      "frames": [
+        "frames/hurt/hurt_000.png",
+        "frames/hurt/hurt_001.png",
+        "frames/hurt/hurt_002.png",
+        "frames/hurt/hurt_003.png",
+        "frames/hurt/hurt_004.png",
+        "frames/hurt/hurt_005.png",
+        "frames/hurt/hurt_006.png",
+        "frames/hurt/hurt_007.png",
+        "frames/hurt/hurt_008.png",
+        "frames/hurt/hurt_009.png",
+        "frames/hurt/hurt_010.png",
+        "frames/hurt/hurt_011.png",
+        "frames/hurt/hurt_012.png",
+        "frames/hurt/hurt_013.png",
+        "frames/hurt/hurt_014.png"
+      ],
+      "fps": 12
+    },
+    "recover": {
+      "frames": [
+        "frames/recover/recover_000.png",
+        "frames/recover/recover_001.png",
+        "frames/recover/recover_002.png",
+        "frames/recover/recover_003.png",
+        "frames/recover/recover_004.png",
+        "frames/recover/recover_005.png",
+        "frames/recover/recover_006.png",
+        "frames/recover/recover_007.png",
+        "frames/recover/recover_008.png",
+        "frames/recover/recover_009.png",
+        "frames/recover/recover_010.png",
+        "frames/recover/recover_011.png",
+        "frames/recover/recover_012.png",
+        "frames/recover/recover_013.png",
+        "frames/recover/recover_014.png"
+      ],
+      "fps": 12
+    },
+    "dash": {
+      "frames": [
+        "frames/dash/dash_000.png",
+        "frames/dash/dash_001.png",
+        "frames/dash/dash_002.png",
+        "frames/dash/dash_003.png",
+        "frames/dash/dash_004.png",
+        "frames/dash/dash_005.png",
+        "frames/dash/dash_006.png",
+        "frames/dash/dash_007.png",
+        "frames/dash/dash_008.png",
+        "frames/dash/dash_009.png",
+        "frames/dash/dash_010.png",
+        "frames/dash/dash_011.png",
+        "frames/dash/dash_012.png",
+        "frames/dash/dash_013.png",
+        "frames/dash/dash_014.png"
+      ],
+      "fps": 12
+    },
+    "stumble": {
+      "frames": [
+        "frames/stumble/stumble_000.png",
+        "frames/stumble/stumble_001.png",
+        "frames/stumble/stumble_002.png",
+        "frames/stumble/stumble_003.png",
+        "frames/stumble/stumble_004.png",
+        "frames/stumble/stumble_005.png",
+        "frames/stumble/stumble_006.png",
+        "frames/stumble/stumble_007.png",
+        "frames/stumble/stumble_008.png",
+        "frames/stumble/stumble_009.png",
+        "frames/stumble/stumble_010.png",
+        "frames/stumble/stumble_011.png",
+        "frames/stumble/stumble_012.png",
+        "frames/stumble/stumble_013.png",
+        "frames/stumble/stumble_014.png"
+      ],
+      "fps": 12
+    },
+    "celebrate": {
+      "frames": [
+        "frames/celebrate/celebrate_000.png",
+        "frames/celebrate/celebrate_001.png",
+        "frames/celebrate/celebrate_002.png",
+        "frames/celebrate/celebrate_003.png",
+        "frames/celebrate/celebrate_004.png",
+        "frames/celebrate/celebrate_005.png",
+        "frames/celebrate/celebrate_006.png",
+        "frames/celebrate/celebrate_007.png",
+        "frames/celebrate/celebrate_008.png",
+        "frames/celebrate/celebrate_009.png",
+        "frames/celebrate/celebrate_010.png",
+        "frames/celebrate/celebrate_011.png",
+        "frames/celebrate/celebrate_012.png",
+        "frames/celebrate/celebrate_013.png",
+        "frames/celebrate/celebrate_014.png"
+      ],
+      "fps": 12
+    },
+    "defeat": {
+      "frames": [
+        "frames/defeat/defeat_000.png",
+        "frames/defeat/defeat_001.png",
+        "frames/defeat/defeat_002.png",
+        "frames/defeat/defeat_003.png",
+        "frames/defeat/defeat_004.png",
+        "frames/defeat/defeat_005.png",
+        "frames/defeat/defeat_006.png",
+        "frames/defeat/defeat_007.png",
+        "frames/defeat/defeat_008.png",
+        "frames/defeat/defeat_009.png",
+        "frames/defeat/defeat_010.png",
+        "frames/defeat/defeat_011.png",
+        "frames/defeat/defeat_012.png",
+        "frames/defeat/defeat_013.png",
+        "frames/defeat/defeat_014.png"
+      ],
+      "fps": 12
+    },
+    "alert": {
+      "frames": [
+        "frames/alert/alert_000.png",
+        "frames/alert/alert_001.png",
+        "frames/alert/alert_002.png",
+        "frames/alert/alert_003.png",
+        "frames/alert/alert_004.png",
+        "frames/alert/alert_005.png",
+        "frames/alert/alert_006.png",
+        "frames/alert/alert_007.png",
+        "frames/alert/alert_008.png",
+        "frames/alert/alert_009.png",
+        "frames/alert/alert_010.png",
+        "frames/alert/alert_011.png",
+        "frames/alert/alert_012.png",
+        "frames/alert/alert_013.png",
+        "frames/alert/alert_014.png"
+      ],
+      "fps": 12
+    },
+    "evade": {
+      "frames": [
+        "frames/evade/evade_000.png",
+        "frames/evade/evade_001.png",
+        "frames/evade/evade_002.png",
+        "frames/evade/evade_003.png",
+        "frames/evade/evade_004.png",
+        "frames/evade/evade_005.png",
+        "frames/evade/evade_006.png",
+        "frames/evade/evade_007.png",
+        "frames/evade/evade_008.png",
+        "frames/evade/evade_009.png",
+        "frames/evade/evade_010.png",
+        "frames/evade/evade_011.png",
+        "frames/evade/evade_012.png",
+        "frames/evade/evade_013.png",
+        "frames/evade/evade_014.png"
+      ],
+      "fps": 12
+    }
+  },
+  "collect": {
+    "idle": {
+      "frames": [
+        "frames/idle/idle_000.png",
+        "frames/idle/idle_001.png",
+        "frames/idle/idle_002.png",
+        "frames/idle/idle_003.png",
+        "frames/idle/idle_004.png",
+        "frames/idle/idle_005.png",
+        "frames/idle/idle_006.png",
+        "frames/idle/idle_007.png",
+        "frames/idle/idle_008.png",
+        "frames/idle/idle_009.png",
+        "frames/idle/idle_010.png",
+        "frames/idle/idle_011.png",
+        "frames/idle/idle_012.png",
+        "frames/idle/idle_013.png",
+        "frames/idle/idle_014.png"
+      ],
+      "fps": 12
+    },
+    "walk": {
+      "frames": [
+        "frames/walk/walk_000.png",
+        "frames/walk/walk_001.png",
+        "frames/walk/walk_002.png",
+        "frames/walk/walk_003.png",
+        "frames/walk/walk_004.png",
+        "frames/walk/walk_005.png",
+        "frames/walk/walk_006.png",
+        "frames/walk/walk_007.png",
+        "frames/walk/walk_008.png",
+        "frames/walk/walk_009.png",
+        "frames/walk/walk_010.png",
+        "frames/walk/walk_011.png",
+        "frames/walk/walk_012.png",
+        "frames/walk/walk_013.png",
+        "frames/walk/walk_014.png"
+      ],
+      "fps": 12
+    },
+    "run": {
+      "frames": [
+        "frames/run/run_000.png",
+        "frames/run/run_001.png",
+        "frames/run/run_002.png",
+        "frames/run/run_003.png",
+        "frames/run/run_004.png",
+        "frames/run/run_005.png",
+        "frames/run/run_006.png",
+        "frames/run/run_007.png",
+        "frames/run/run_008.png",
+        "frames/run/run_009.png",
+        "frames/run/run_010.png",
+        "frames/run/run_011.png",
+        "frames/run/run_012.png",
+        "frames/run/run_013.png",
+        "frames/run/run_014.png"
+      ],
+      "fps": 12
+    },
+    "inspect": {
+      "frames": [
+        "frames/inspect/inspect_000.png",
+        "frames/inspect/inspect_001.png",
+        "frames/inspect/inspect_002.png",
+        "frames/inspect/inspect_003.png",
+        "frames/inspect/inspect_004.png",
+        "frames/inspect/inspect_005.png",
+        "frames/inspect/inspect_006.png",
+        "frames/inspect/inspect_007.png",
+        "frames/inspect/inspect_008.png",
+        "frames/inspect/inspect_009.png",
+        "frames/inspect/inspect_010.png",
+        "frames/inspect/inspect_011.png",
+        "frames/inspect/inspect_012.png",
+        "frames/inspect/inspect_013.png",
+        "frames/inspect/inspect_014.png"
+      ],
+      "fps": 12
+    },
+    "pickup": {
+      "frames": [
+        "frames/pickup/pickup_000.png",
+        "frames/pickup/pickup_001.png",
+        "frames/pickup/pickup_002.png",
+        "frames/pickup/pickup_003.png",
+        "frames/pickup/pickup_004.png",
+        "frames/pickup/pickup_005.png",
+        "frames/pickup/pickup_006.png",
+        "frames/pickup/pickup_007.png",
+        "frames/pickup/pickup_008.png",
+        "frames/pickup/pickup_009.png",
+        "frames/pickup/pickup_010.png",
+        "frames/pickup/pickup_011.png",
+        "frames/pickup/pickup_012.png",
+        "frames/pickup/pickup_013.png",
+        "frames/pickup/pickup_014.png"
+      ],
+      "fps": 12
+    },
+    "celebrate": {
+      "frames": [
+        "frames/celebrate/celebrate_000.png",
+        "frames/celebrate/celebrate_001.png",
+        "frames/celebrate/celebrate_002.png",
+        "frames/celebrate/celebrate_003.png",
+        "frames/celebrate/celebrate_004.png",
+        "frames/celebrate/celebrate_005.png",
+        "frames/celebrate/celebrate_006.png",
+        "frames/celebrate/celebrate_007.png",
+        "frames/celebrate/celebrate_008.png",
+        "frames/celebrate/celebrate_009.png",
+        "frames/celebrate/celebrate_010.png",
+        "frames/celebrate/celebrate_011.png",
+        "frames/celebrate/celebrate_012.png",
+        "frames/celebrate/celebrate_013.png",
+        "frames/celebrate/celebrate_014.png"
+      ],
+      "fps": 12
+    },
+    "tongue_pickup": {
+      "frames": [
+        "frames/tongue_pickup/tongue_pickup_000.png",
+        "frames/tongue_pickup/tongue_pickup_001.png",
+        "frames/tongue_pickup/tongue_pickup_002.png",
+        "frames/tongue_pickup/tongue_pickup_003.png",
+        "frames/tongue_pickup/tongue_pickup_004.png",
+        "frames/tongue_pickup/tongue_pickup_005.png",
+        "frames/tongue_pickup/tongue_pickup_006.png",
+        "frames/tongue_pickup/tongue_pickup_007.png",
+        "frames/tongue_pickup/tongue_pickup_008.png",
+        "frames/tongue_pickup/tongue_pickup_009.png",
+        "frames/tongue_pickup/tongue_pickup_010.png",
+        "frames/tongue_pickup/tongue_pickup_011.png",
+        "frames/tongue_pickup/tongue_pickup_012.png",
+        "frames/tongue_pickup/tongue_pickup_013.png",
+        "frames/tongue_pickup/tongue_pickup_014.png"
+      ],
+      "fps": 12
+    },
+    "crouch": {
+      "frames": [
+        "frames/crouch/crouch_000.png",
+        "frames/crouch/crouch_001.png",
+        "frames/crouch/crouch_002.png",
+        "frames/crouch/crouch_003.png",
+        "frames/crouch/crouch_004.png",
+        "frames/crouch/crouch_005.png",
+        "frames/crouch/crouch_006.png",
+        "frames/crouch/crouch_007.png",
+        "frames/crouch/crouch_008.png",
+        "frames/crouch/crouch_009.png",
+        "frames/crouch/crouch_010.png",
+        "frames/crouch/crouch_011.png",
+        "frames/crouch/crouch_012.png",
+        "frames/crouch/crouch_013.png",
+        "frames/crouch/crouch_014.png"
+      ],
+      "fps": 12
+    },
+    "climb": {
+      "frames": [
+        "frames/climb/climb_000.png",
+        "frames/climb/climb_001.png",
+        "frames/climb/climb_002.png",
+        "frames/climb/climb_003.png",
+        "frames/climb/climb_004.png",
+        "frames/climb/climb_005.png",
+        "frames/climb/climb_006.png",
+        "frames/climb/climb_007.png",
+        "frames/climb/climb_008.png",
+        "frames/climb/climb_009.png",
+        "frames/climb/climb_010.png",
+        "frames/climb/climb_011.png",
+        "frames/climb/climb_012.png",
+        "frames/climb/climb_013.png",
+        "frames/climb/climb_014.png"
+      ],
+      "fps": 12
+    },
+    "camouflage": {
+      "frames": [
+        "frames/camouflage/camouflage_000.png",
+        "frames/camouflage/camouflage_001.png",
+        "frames/camouflage/camouflage_002.png",
+        "frames/camouflage/camouflage_003.png",
+        "frames/camouflage/camouflage_004.png",
+        "frames/camouflage/camouflage_005.png",
+        "frames/camouflage/camouflage_006.png",
+        "frames/camouflage/camouflage_007.png",
+        "frames/camouflage/camouflage_008.png",
+        "frames/camouflage/camouflage_009.png",
+        "frames/camouflage/camouflage_010.png",
+        "frames/camouflage/camouflage_011.png",
+        "frames/camouflage/camouflage_012.png",
+        "frames/camouflage/camouflage_013.png",
+        "frames/camouflage/camouflage_014.png"
+      ],
+      "fps": 12
+    },
+    "hide": {
+      "frames": [
+        "frames/hide/hide_000.png",
+        "frames/hide/hide_001.png",
+        "frames/hide/hide_002.png",
+        "frames/hide/hide_003.png",
+        "frames/hide/hide_004.png",
+        "frames/hide/hide_005.png",
+        "frames/hide/hide_006.png",
+        "frames/hide/hide_007.png",
+        "frames/hide/hide_008.png",
+        "frames/hide/hide_009.png",
+        "frames/hide/hide_010.png",
+        "frames/hide/hide_011.png",
+        "frames/hide/hide_012.png",
+        "frames/hide/hide_013.png",
+        "frames/hide/hide_014.png"
+      ],
+      "fps": 12
+    },
+    "jump": {
+      "frames": [
+        "frames/jump/jump_000.png",
+        "frames/jump/jump_001.png",
+        "frames/jump/jump_002.png",
+        "frames/jump/jump_003.png",
+        "frames/jump/jump_004.png",
+        "frames/jump/jump_005.png",
+        "frames/jump/jump_006.png",
+        "frames/jump/jump_007.png",
+        "frames/jump/jump_008.png",
+        "frames/jump/jump_009.png",
+        "frames/jump/jump_010.png",
+        "frames/jump/jump_011.png",
+        "frames/jump/jump_012.png",
+        "frames/jump/jump_013.png",
+        "frames/jump/jump_014.png"
+      ],
+      "fps": 12
+    },
+    "fall": {
+      "frames": [
+        "frames/fall/fall_000.png",
+        "frames/fall/fall_001.png",
+        "frames/fall/fall_002.png",
+        "frames/fall/fall_003.png",
+        "frames/fall/fall_004.png",
+        "frames/fall/fall_005.png",
+        "frames/fall/fall_006.png",
+        "frames/fall/fall_007.png",
+        "frames/fall/fall_008.png",
+        "frames/fall/fall_009.png",
+        "frames/fall/fall_010.png",
+        "frames/fall/fall_011.png",
+        "frames/fall/fall_012.png",
+        "frames/fall/fall_013.png",
+        "frames/fall/fall_014.png"
+      ],
+      "fps": 12
+    },
+    "hurt": {
+      "frames": [
+        "frames/hurt/hurt_000.png",
+        "frames/hurt/hurt_001.png",
+        "frames/hurt/hurt_002.png",
+        "frames/hurt/hurt_003.png",
+        "frames/hurt/hurt_004.png",
+        "frames/hurt/hurt_005.png",
+        "frames/hurt/hurt_006.png",
+        "frames/hurt/hurt_007.png",
+        "frames/hurt/hurt_008.png",
+        "frames/hurt/hurt_009.png",
+        "frames/hurt/hurt_010.png",
+        "frames/hurt/hurt_011.png",
+        "frames/hurt/hurt_012.png",
+        "frames/hurt/hurt_013.png",
+        "frames/hurt/hurt_014.png"
+      ],
+      "fps": 12
+    },
+    "recover": {
+      "frames": [
+        "frames/recover/recover_000.png",
+        "frames/recover/recover_001.png",
+        "frames/recover/recover_002.png",
+        "frames/recover/recover_003.png",
+        "frames/recover/recover_004.png",
+        "frames/recover/recover_005.png",
+        "frames/recover/recover_006.png",
+        "frames/recover/recover_007.png",
+        "frames/recover/recover_008.png",
+        "frames/recover/recover_009.png",
+        "frames/recover/recover_010.png",
+        "frames/recover/recover_011.png",
+        "frames/recover/recover_012.png",
+        "frames/recover/recover_013.png",
+        "frames/recover/recover_014.png"
+      ],
+      "fps": 12
+    },
+    "interact": {
+      "frames": [
+        "frames/interact/interact_000.png",
+        "frames/interact/interact_001.png",
+        "frames/interact/interact_002.png",
+        "frames/interact/interact_003.png",
+        "frames/interact/interact_004.png",
+        "frames/interact/interact_005.png",
+        "frames/interact/interact_006.png",
+        "frames/interact/interact_007.png",
+        "frames/interact/interact_008.png",
+        "frames/interact/interact_009.png",
+        "frames/interact/interact_010.png",
+        "frames/interact/interact_011.png",
+        "frames/interact/interact_012.png",
+        "frames/interact/interact_013.png",
+        "frames/interact/interact_014.png"
+      ],
+      "fps": 12
+    },
+    "puzzle_press": {
+      "frames": [
+        "frames/puzzle_press/puzzle_press_000.png",
+        "frames/puzzle_press/puzzle_press_001.png",
+        "frames/puzzle_press/puzzle_press_002.png",
+        "frames/puzzle_press/puzzle_press_003.png",
+        "frames/puzzle_press/puzzle_press_004.png",
+        "frames/puzzle_press/puzzle_press_005.png",
+        "frames/puzzle_press/puzzle_press_006.png",
+        "frames/puzzle_press/puzzle_press_007.png",
+        "frames/puzzle_press/puzzle_press_008.png",
+        "frames/puzzle_press/puzzle_press_009.png",
+        "frames/puzzle_press/puzzle_press_010.png",
+        "frames/puzzle_press/puzzle_press_011.png",
+        "frames/puzzle_press/puzzle_press_012.png",
+        "frames/puzzle_press/puzzle_press_013.png",
+        "frames/puzzle_press/puzzle_press_014.png"
+      ],
+      "fps": 12
+    },
+    "scan": {
+      "frames": [
+        "frames/scan/scan_000.png",
+        "frames/scan/scan_001.png",
+        "frames/scan/scan_002.png",
+        "frames/scan/scan_003.png",
+        "frames/scan/scan_004.png",
+        "frames/scan/scan_005.png",
+        "frames/scan/scan_006.png",
+        "frames/scan/scan_007.png",
+        "frames/scan/scan_008.png",
+        "frames/scan/scan_009.png",
+        "frames/scan/scan_010.png",
+        "frames/scan/scan_011.png",
+        "frames/scan/scan_012.png",
+        "frames/scan/scan_013.png",
+        "frames/scan/scan_014.png"
+      ],
+      "fps": 12
+    },
+    "carry": {
+      "frames": [
+        "frames/carry/carry_000.png",
+        "frames/carry/carry_001.png",
+        "frames/carry/carry_002.png",
+        "frames/carry/carry_003.png",
+        "frames/carry/carry_004.png",
+        "frames/carry/carry_005.png",
+        "frames/carry/carry_006.png",
+        "frames/carry/carry_007.png",
+        "frames/carry/carry_008.png",
+        "frames/carry/carry_009.png",
+        "frames/carry/carry_010.png",
+        "frames/carry/carry_011.png",
+        "frames/carry/carry_012.png",
+        "frames/carry/carry_013.png",
+        "frames/carry/carry_014.png"
+      ],
+      "fps": 12
+    },
+    "victory": {
+      "frames": [
+        "frames/victory/victory_000.png",
+        "frames/victory/victory_001.png",
+        "frames/victory/victory_002.png",
+        "frames/victory/victory_003.png",
+        "frames/victory/victory_004.png",
+        "frames/victory/victory_005.png",
+        "frames/victory/victory_006.png",
+        "frames/victory/victory_007.png",
+        "frames/victory/victory_008.png",
+        "frames/victory/victory_009.png",
+        "frames/victory/victory_010.png",
+        "frames/victory/victory_011.png",
+        "frames/victory/victory_012.png",
+        "frames/victory/victory_013.png",
+        "frames/victory/victory_014.png"
+      ],
+      "fps": 12
+    }
+  },
+  "rhythm": {
+    "idle_groove": {
+      "frames": [
+        "frames/idle_groove/idle_groove_000.png",
+        "frames/idle_groove/idle_groove_001.png",
+        "frames/idle_groove/idle_groove_002.png",
+        "frames/idle_groove/idle_groove_003.png",
+        "frames/idle_groove/idle_groove_004.png",
+        "frames/idle_groove/idle_groove_005.png",
+        "frames/idle_groove/idle_groove_006.png",
+        "frames/idle_groove/idle_groove_007.png",
+        "frames/idle_groove/idle_groove_008.png",
+        "frames/idle_groove/idle_groove_009.png",
+        "frames/idle_groove/idle_groove_010.png",
+        "frames/idle_groove/idle_groove_011.png",
+        "frames/idle_groove/idle_groove_012.png",
+        "frames/idle_groove/idle_groove_013.png",
+        "frames/idle_groove/idle_groove_014.png"
+      ],
+      "fps": 12
+    },
+    "beat_left": {
+      "frames": [
+        "frames/beat_left/beat_left_000.png",
+        "frames/beat_left/beat_left_001.png",
+        "frames/beat_left/beat_left_002.png",
+        "frames/beat_left/beat_left_003.png",
+        "frames/beat_left/beat_left_004.png",
+        "frames/beat_left/beat_left_005.png",
+        "frames/beat_left/beat_left_006.png",
+        "frames/beat_left/beat_left_007.png",
+        "frames/beat_left/beat_left_008.png",
+        "frames/beat_left/beat_left_009.png",
+        "frames/beat_left/beat_left_010.png",
+        "frames/beat_left/beat_left_011.png",
+        "frames/beat_left/beat_left_012.png",
+        "frames/beat_left/beat_left_013.png",
+        "frames/beat_left/beat_left_014.png"
+      ],
+      "fps": 12
+    },
+    "beat_right": {
+      "frames": [
+        "frames/beat_right/beat_right_000.png",
+        "frames/beat_right/beat_right_001.png",
+        "frames/beat_right/beat_right_002.png",
+        "frames/beat_right/beat_right_003.png",
+        "frames/beat_right/beat_right_004.png",
+        "frames/beat_right/beat_right_005.png",
+        "frames/beat_right/beat_right_006.png",
+        "frames/beat_right/beat_right_007.png",
+        "frames/beat_right/beat_right_008.png",
+        "frames/beat_right/beat_right_009.png",
+        "frames/beat_right/beat_right_010.png",
+        "frames/beat_right/beat_right_011.png",
+        "frames/beat_right/beat_right_012.png",
+        "frames/beat_right/beat_right_013.png",
+        "frames/beat_right/beat_right_014.png"
+      ],
+      "fps": 12
+    },
+    "beat_up": {
+      "frames": [
+        "frames/beat_up/beat_up_000.png",
+        "frames/beat_up/beat_up_001.png",
+        "frames/beat_up/beat_up_002.png",
+        "frames/beat_up/beat_up_003.png",
+        "frames/beat_up/beat_up_004.png",
+        "frames/beat_up/beat_up_005.png",
+        "frames/beat_up/beat_up_006.png",
+        "frames/beat_up/beat_up_007.png",
+        "frames/beat_up/beat_up_008.png",
+        "frames/beat_up/beat_up_009.png",
+        "frames/beat_up/beat_up_010.png",
+        "frames/beat_up/beat_up_011.png",
+        "frames/beat_up/beat_up_012.png",
+        "frames/beat_up/beat_up_013.png",
+        "frames/beat_up/beat_up_014.png"
+      ],
+      "fps": 12
+    },
+    "beat_down": {
+      "frames": [
+        "frames/beat_down/beat_down_000.png",
+        "frames/beat_down/beat_down_001.png",
+        "frames/beat_down/beat_down_002.png",
+        "frames/beat_down/beat_down_003.png",
+        "frames/beat_down/beat_down_004.png",
+        "frames/beat_down/beat_down_005.png",
+        "frames/beat_down/beat_down_006.png",
+        "frames/beat_down/beat_down_007.png",
+        "frames/beat_down/beat_down_008.png",
+        "frames/beat_down/beat_down_009.png",
+        "frames/beat_down/beat_down_010.png",
+        "frames/beat_down/beat_down_011.png",
+        "frames/beat_down/beat_down_012.png",
+        "frames/beat_down/beat_down_013.png",
+        "frames/beat_down/beat_down_014.png"
+      ],
+      "fps": 12
+    },
+    "combo": {
+      "frames": [
+        "frames/combo/combo_000.png",
+        "frames/combo/combo_001.png",
+        "frames/combo/combo_002.png",
+        "frames/combo/combo_003.png",
+        "frames/combo/combo_004.png",
+        "frames/combo/combo_005.png",
+        "frames/combo/combo_006.png",
+        "frames/combo/combo_007.png",
+        "frames/combo/combo_008.png",
+        "frames/combo/combo_009.png",
+        "frames/combo/combo_010.png",
+        "frames/combo/combo_011.png",
+        "frames/combo/combo_012.png",
+        "frames/combo/combo_013.png",
+        "frames/combo/combo_014.png"
+      ],
+      "fps": 12
+    },
+    "perfect": {
+      "frames": [
+        "frames/perfect/perfect_000.png",
+        "frames/perfect/perfect_001.png",
+        "frames/perfect/perfect_002.png",
+        "frames/perfect/perfect_003.png",
+        "frames/perfect/perfect_004.png",
+        "frames/perfect/perfect_005.png",
+        "frames/perfect/perfect_006.png",
+        "frames/perfect/perfect_007.png",
+        "frames/perfect/perfect_008.png",
+        "frames/perfect/perfect_009.png",
+        "frames/perfect/perfect_010.png",
+        "frames/perfect/perfect_011.png",
+        "frames/perfect/perfect_012.png",
+        "frames/perfect/perfect_013.png",
+        "frames/perfect/perfect_014.png"
+      ],
+      "fps": 12
+    },
+    "miss": {
+      "frames": [
+        "frames/miss/miss_000.png",
+        "frames/miss/miss_001.png",
+        "frames/miss/miss_002.png",
+        "frames/miss/miss_003.png",
+        "frames/miss/miss_004.png",
+        "frames/miss/miss_005.png",
+        "frames/miss/miss_006.png",
+        "frames/miss/miss_007.png",
+        "frames/miss/miss_008.png",
+        "frames/miss/miss_009.png",
+        "frames/miss/miss_010.png",
+        "frames/miss/miss_011.png",
+        "frames/miss/miss_012.png",
+        "frames/miss/miss_013.png",
+        "frames/miss/miss_014.png"
+      ],
+      "fps": 12
+    },
+    "charge": {
+      "frames": [
+        "frames/charge/charge_000.png",
+        "frames/charge/charge_001.png",
+        "frames/charge/charge_002.png",
+        "frames/charge/charge_003.png",
+        "frames/charge/charge_004.png",
+        "frames/charge/charge_005.png",
+        "frames/charge/charge_006.png",
+        "frames/charge/charge_007.png",
+        "frames/charge/charge_008.png",
+        "frames/charge/charge_009.png",
+        "frames/charge/charge_010.png",
+        "frames/charge/charge_011.png",
+        "frames/charge/charge_012.png",
+        "frames/charge/charge_013.png",
+        "frames/charge/charge_014.png"
+      ],
+      "fps": 12
+    },
+    "color_shift": {
+      "frames": [
+        "frames/color_shift/color_shift_000.png",
+        "frames/color_shift/color_shift_001.png",
+        "frames/color_shift/color_shift_002.png",
+        "frames/color_shift/color_shift_003.png",
+        "frames/color_shift/color_shift_004.png",
+        "frames/color_shift/color_shift_005.png",
+        "frames/color_shift/color_shift_006.png",
+        "frames/color_shift/color_shift_007.png",
+        "frames/color_shift/color_shift_008.png",
+        "frames/color_shift/color_shift_009.png",
+        "frames/color_shift/color_shift_010.png",
+        "frames/color_shift/color_shift_011.png",
+        "frames/color_shift/color_shift_012.png",
+        "frames/color_shift/color_shift_013.png",
+        "frames/color_shift/color_shift_014.png"
+      ],
+      "fps": 12
+    },
+    "camouflage_loop": {
+      "frames": [
+        "frames/camouflage_loop/camouflage_loop_000.png",
+        "frames/camouflage_loop/camouflage_loop_001.png",
+        "frames/camouflage_loop/camouflage_loop_002.png",
+        "frames/camouflage_loop/camouflage_loop_003.png",
+        "frames/camouflage_loop/camouflage_loop_004.png",
+        "frames/camouflage_loop/camouflage_loop_005.png",
+        "frames/camouflage_loop/camouflage_loop_006.png",
+        "frames/camouflage_loop/camouflage_loop_007.png",
+        "frames/camouflage_loop/camouflage_loop_008.png",
+        "frames/camouflage_loop/camouflage_loop_009.png",
+        "frames/camouflage_loop/camouflage_loop_010.png",
+        "frames/camouflage_loop/camouflage_loop_011.png",
+        "frames/camouflage_loop/camouflage_loop_012.png",
+        "frames/camouflage_loop/camouflage_loop_013.png",
+        "frames/camouflage_loop/camouflage_loop_014.png"
+      ],
+      "fps": 12
+    },
+    "stage_pose": {
+      "frames": [
+        "frames/stage_pose/stage_pose_000.png",
+        "frames/stage_pose/stage_pose_001.png",
+        "frames/stage_pose/stage_pose_002.png",
+        "frames/stage_pose/stage_pose_003.png",
+        "frames/stage_pose/stage_pose_004.png",
+        "frames/stage_pose/stage_pose_005.png",
+        "frames/stage_pose/stage_pose_006.png",
+        "frames/stage_pose/stage_pose_007.png",
+        "frames/stage_pose/stage_pose_008.png",
+        "frames/stage_pose/stage_pose_009.png",
+        "frames/stage_pose/stage_pose_010.png",
+        "frames/stage_pose/stage_pose_011.png",
+        "frames/stage_pose/stage_pose_012.png",
+        "frames/stage_pose/stage_pose_013.png",
+        "frames/stage_pose/stage_pose_014.png"
+      ],
+      "fps": 12
+    },
+    "intro": {
+      "frames": [
+        "frames/intro/intro_000.png",
+        "frames/intro/intro_001.png",
+        "frames/intro/intro_002.png",
+        "frames/intro/intro_003.png",
+        "frames/intro/intro_004.png",
+        "frames/intro/intro_005.png",
+        "frames/intro/intro_006.png",
+        "frames/intro/intro_007.png",
+        "frames/intro/intro_008.png",
+        "frames/intro/intro_009.png",
+        "frames/intro/intro_010.png",
+        "frames/intro/intro_011.png",
+        "frames/intro/intro_012.png",
+        "frames/intro/intro_013.png",
+        "frames/intro/intro_014.png"
+      ],
+      "fps": 12
+    },
+    "outro": {
+      "frames": [
+        "frames/outro/outro_000.png",
+        "frames/outro/outro_001.png",
+        "frames/outro/outro_002.png",
+        "frames/outro/outro_003.png",
+        "frames/outro/outro_004.png",
+        "frames/outro/outro_005.png",
+        "frames/outro/outro_006.png",
+        "frames/outro/outro_007.png",
+        "frames/outro/outro_008.png",
+        "frames/outro/outro_009.png",
+        "frames/outro/outro_010.png",
+        "frames/outro/outro_011.png",
+        "frames/outro/outro_012.png",
+        "frames/outro/outro_013.png",
+        "frames/outro/outro_014.png"
+      ],
+      "fps": 12
+    },
+    "spin": {
+      "frames": [
+        "frames/spin/spin_000.png",
+        "frames/spin/spin_001.png",
+        "frames/spin/spin_002.png",
+        "frames/spin/spin_003.png",
+        "frames/spin/spin_004.png",
+        "frames/spin/spin_005.png",
+        "frames/spin/spin_006.png",
+        "frames/spin/spin_007.png",
+        "frames/spin/spin_008.png",
+        "frames/spin/spin_009.png",
+        "frames/spin/spin_010.png",
+        "frames/spin/spin_011.png",
+        "frames/spin/spin_012.png",
+        "frames/spin/spin_013.png",
+        "frames/spin/spin_014.png"
+      ],
+      "fps": 12
+    },
+    "hop": {
+      "frames": [
+        "frames/hop/hop_000.png",
+        "frames/hop/hop_001.png",
+        "frames/hop/hop_002.png",
+        "frames/hop/hop_003.png",
+        "frames/hop/hop_004.png",
+        "frames/hop/hop_005.png",
+        "frames/hop/hop_006.png",
+        "frames/hop/hop_007.png",
+        "frames/hop/hop_008.png",
+        "frames/hop/hop_009.png",
+        "frames/hop/hop_010.png",
+        "frames/hop/hop_011.png",
+        "frames/hop/hop_012.png",
+        "frames/hop/hop_013.png",
+        "frames/hop/hop_014.png"
+      ],
+      "fps": 12
+    },
+    "tongue_hit": {
+      "frames": [
+        "frames/tongue_hit/tongue_hit_000.png",
+        "frames/tongue_hit/tongue_hit_001.png",
+        "frames/tongue_hit/tongue_hit_002.png",
+        "frames/tongue_hit/tongue_hit_003.png",
+        "frames/tongue_hit/tongue_hit_004.png",
+        "frames/tongue_hit/tongue_hit_005.png",
+        "frames/tongue_hit/tongue_hit_006.png",
+        "frames/tongue_hit/tongue_hit_007.png",
+        "frames/tongue_hit/tongue_hit_008.png",
+        "frames/tongue_hit/tongue_hit_009.png",
+        "frames/tongue_hit/tongue_hit_010.png",
+        "frames/tongue_hit/tongue_hit_011.png",
+        "frames/tongue_hit/tongue_hit_012.png",
+        "frames/tongue_hit/tongue_hit_013.png",
+        "frames/tongue_hit/tongue_hit_014.png"
+      ],
+      "fps": 12
+    },
+    "crowd_hype": {
+      "frames": [
+        "frames/crowd_hype/crowd_hype_000.png",
+        "frames/crowd_hype/crowd_hype_001.png",
+        "frames/crowd_hype/crowd_hype_002.png",
+        "frames/crowd_hype/crowd_hype_003.png",
+        "frames/crowd_hype/crowd_hype_004.png",
+        "frames/crowd_hype/crowd_hype_005.png",
+        "frames/crowd_hype/crowd_hype_006.png",
+        "frames/crowd_hype/crowd_hype_007.png",
+        "frames/crowd_hype/crowd_hype_008.png",
+        "frames/crowd_hype/crowd_hype_009.png",
+        "frames/crowd_hype/crowd_hype_010.png",
+        "frames/crowd_hype/crowd_hype_011.png",
+        "frames/crowd_hype/crowd_hype_012.png",
+        "frames/crowd_hype/crowd_hype_013.png",
+        "frames/crowd_hype/crowd_hype_014.png"
+      ],
+      "fps": 12
+    },
+    "streak": {
+      "frames": [
+        "frames/streak/streak_000.png",
+        "frames/streak/streak_001.png",
+        "frames/streak/streak_002.png",
+        "frames/streak/streak_003.png",
+        "frames/streak/streak_004.png",
+        "frames/streak/streak_005.png",
+        "frames/streak/streak_006.png",
+        "frames/streak/streak_007.png",
+        "frames/streak/streak_008.png",
+        "frames/streak/streak_009.png",
+        "frames/streak/streak_010.png",
+        "frames/streak/streak_011.png",
+        "frames/streak/streak_012.png",
+        "frames/streak/streak_013.png",
+        "frames/streak/streak_014.png"
+      ],
+      "fps": 12
+    },
+    "victory": {
+      "frames": [
+        "frames/victory/victory_000.png",
+        "frames/victory/victory_001.png",
+        "frames/victory/victory_002.png",
+        "frames/victory/victory_003.png",
+        "frames/victory/victory_004.png",
+        "frames/victory/victory_005.png",
+        "frames/victory/victory_006.png",
+        "frames/victory/victory_007.png",
+        "frames/victory/victory_008.png",
+        "frames/victory/victory_009.png",
+        "frames/victory/victory_010.png",
+        "frames/victory/victory_011.png",
+        "frames/victory/victory_012.png",
+        "frames/victory/victory_013.png",
+        "frames/victory/victory_014.png"
+      ],
+      "fps": 12
+    }
+  },
+  "puzzle": {
+    "think": {
+      "frames": [
+        "frames/think/think_000.png",
+        "frames/think/think_001.png",
+        "frames/think/think_002.png",
+        "frames/think/think_003.png",
+        "frames/think/think_004.png",
+        "frames/think/think_005.png",
+        "frames/think/think_006.png",
+        "frames/think/think_007.png",
+        "frames/think/think_008.png",
+        "frames/think/think_009.png",
+        "frames/think/think_010.png",
+        "frames/think/think_011.png",
+        "frames/think/think_012.png",
+        "frames/think/think_013.png",
+        "frames/think/think_014.png"
+      ],
+      "fps": 12
+    },
+    "inspect": {
+      "frames": [
+        "frames/inspect/inspect_000.png",
+        "frames/inspect/inspect_001.png",
+        "frames/inspect/inspect_002.png",
+        "frames/inspect/inspect_003.png",
+        "frames/inspect/inspect_004.png",
+        "frames/inspect/inspect_005.png",
+        "frames/inspect/inspect_006.png",
+        "frames/inspect/inspect_007.png",
+        "frames/inspect/inspect_008.png",
+        "frames/inspect/inspect_009.png",
+        "frames/inspect/inspect_010.png",
+        "frames/inspect/inspect_011.png",
+        "frames/inspect/inspect_012.png",
+        "frames/inspect/inspect_013.png",
+        "frames/inspect/inspect_014.png"
+      ],
+      "fps": 12
+    },
+    "look_left": {
+      "frames": [
+        "frames/look_left/look_left_000.png",
+        "frames/look_left/look_left_001.png",
+        "frames/look_left/look_left_002.png",
+        "frames/look_left/look_left_003.png",
+        "frames/look_left/look_left_004.png",
+        "frames/look_left/look_left_005.png",
+        "frames/look_left/look_left_006.png",
+        "frames/look_left/look_left_007.png",
+        "frames/look_left/look_left_008.png",
+        "frames/look_left/look_left_009.png",
+        "frames/look_left/look_left_010.png",
+        "frames/look_left/look_left_011.png",
+        "frames/look_left/look_left_012.png",
+        "frames/look_left/look_left_013.png",
+        "frames/look_left/look_left_014.png"
+      ],
+      "fps": 12
+    },
+    "look_right": {
+      "frames": [
+        "frames/look_right/look_right_000.png",
+        "frames/look_right/look_right_001.png",
+        "frames/look_right/look_right_002.png",
+        "frames/look_right/look_right_003.png",
+        "frames/look_right/look_right_004.png",
+        "frames/look_right/look_right_005.png",
+        "frames/look_right/look_right_006.png",
+        "frames/look_right/look_right_007.png",
+        "frames/look_right/look_right_008.png",
+        "frames/look_right/look_right_009.png",
+        "frames/look_right/look_right_010.png",
+        "frames/look_right/look_right_011.png",
+        "frames/look_right/look_right_012.png",
+        "frames/look_right/look_right_013.png",
+        "frames/look_right/look_right_014.png"
+      ],
+      "fps": 12
+    },
+    "choose": {
+      "frames": [
+        "frames/choose/choose_000.png",
+        "frames/choose/choose_001.png",
+        "frames/choose/choose_002.png",
+        "frames/choose/choose_003.png",
+        "frames/choose/choose_004.png",
+        "frames/choose/choose_005.png",
+        "frames/choose/choose_006.png",
+        "frames/choose/choose_007.png",
+        "frames/choose/choose_008.png",
+        "frames/choose/choose_009.png",
+        "frames/choose/choose_010.png",
+        "frames/choose/choose_011.png",
+        "frames/choose/choose_012.png",
+        "frames/choose/choose_013.png",
+        "frames/choose/choose_014.png"
+      ],
+      "fps": 12
+    },
+    "press": {
+      "frames": [
+        "frames/press/press_000.png",
+        "frames/press/press_001.png",
+        "frames/press/press_002.png",
+        "frames/press/press_003.png",
+        "frames/press/press_004.png",
+        "frames/press/press_005.png",
+        "frames/press/press_006.png",
+        "frames/press/press_007.png",
+        "frames/press/press_008.png",
+        "frames/press/press_009.png",
+        "frames/press/press_010.png",
+        "frames/press/press_011.png",
+        "frames/press/press_012.png",
+        "frames/press/press_013.png",
+        "frames/press/press_014.png"
+      ],
+      "fps": 12
+    },
+    "rotate": {
+      "frames": [
+        "frames/rotate/rotate_000.png",
+        "frames/rotate/rotate_001.png",
+        "frames/rotate/rotate_002.png",
+        "frames/rotate/rotate_003.png",
+        "frames/rotate/rotate_004.png",
+        "frames/rotate/rotate_005.png",
+        "frames/rotate/rotate_006.png",
+        "frames/rotate/rotate_007.png",
+        "frames/rotate/rotate_008.png",
+        "frames/rotate/rotate_009.png",
+        "frames/rotate/rotate_010.png",
+        "frames/rotate/rotate_011.png",
+        "frames/rotate/rotate_012.png",
+        "frames/rotate/rotate_013.png",
+        "frames/rotate/rotate_014.png"
+      ],
+      "fps": 12
+    },
+    "tongue_select": {
+      "frames": [
+        "frames/tongue_select/tongue_select_000.png",
+        "frames/tongue_select/tongue_select_001.png",
+        "frames/tongue_select/tongue_select_002.png",
+        "frames/tongue_select/tongue_select_003.png",
+        "frames/tongue_select/tongue_select_004.png",
+        "frames/tongue_select/tongue_select_005.png",
+        "frames/tongue_select/tongue_select_006.png",
+        "frames/tongue_select/tongue_select_007.png",
+        "frames/tongue_select/tongue_select_008.png",
+        "frames/tongue_select/tongue_select_009.png",
+        "frames/tongue_select/tongue_select_010.png",
+        "frames/tongue_select/tongue_select_011.png",
+        "frames/tongue_select/tongue_select_012.png",
+        "frames/tongue_select/tongue_select_013.png",
+        "frames/tongue_select/tongue_select_014.png"
+      ],
+      "fps": 12
+    },
+    "correct": {
+      "frames": [
+        "frames/correct/correct_000.png",
+        "frames/correct/correct_001.png",
+        "frames/correct/correct_002.png",
+        "frames/correct/correct_003.png",
+        "frames/correct/correct_004.png",
+        "frames/correct/correct_005.png",
+        "frames/correct/correct_006.png",
+        "frames/correct/correct_007.png",
+        "frames/correct/correct_008.png",
+        "frames/correct/correct_009.png",
+        "frames/correct/correct_010.png",
+        "frames/correct/correct_011.png",
+        "frames/correct/correct_012.png",
+        "frames/correct/correct_013.png",
+        "frames/correct/correct_014.png"
+      ],
+      "fps": 12
+    },
+    "wrong": {
+      "frames": [
+        "frames/wrong/wrong_000.png",
+        "frames/wrong/wrong_001.png",
+        "frames/wrong/wrong_002.png",
+        "frames/wrong/wrong_003.png",
+        "frames/wrong/wrong_004.png",
+        "frames/wrong/wrong_005.png",
+        "frames/wrong/wrong_006.png",
+        "frames/wrong/wrong_007.png",
+        "frames/wrong/wrong_008.png",
+        "frames/wrong/wrong_009.png",
+        "frames/wrong/wrong_010.png",
+        "frames/wrong/wrong_011.png",
+        "frames/wrong/wrong_012.png",
+        "frames/wrong/wrong_013.png",
+        "frames/wrong/wrong_014.png"
+      ],
+      "fps": 12
+    },
+    "confused": {
+      "frames": [
+        "frames/confused/confused_000.png",
+        "frames/confused/confused_001.png",
+        "frames/confused/confused_002.png",
+        "frames/confused/confused_003.png",
+        "frames/confused/confused_004.png",
+        "frames/confused/confused_005.png",
+        "frames/confused/confused_006.png",
+        "frames/confused/confused_007.png",
+        "frames/confused/confused_008.png",
+        "frames/confused/confused_009.png",
+        "frames/confused/confused_010.png",
+        "frames/confused/confused_011.png",
+        "frames/confused/confused_012.png",
+        "frames/confused/confused_013.png",
+        "frames/confused/confused_014.png"
+      ],
+      "fps": 12
+    },
+    "idea": {
+      "frames": [
+        "frames/idea/idea_000.png",
+        "frames/idea/idea_001.png",
+        "frames/idea/idea_002.png",
+        "frames/idea/idea_003.png",
+        "frames/idea/idea_004.png",
+        "frames/idea/idea_005.png",
+        "frames/idea/idea_006.png",
+        "frames/idea/idea_007.png",
+        "frames/idea/idea_008.png",
+        "frames/idea/idea_009.png",
+        "frames/idea/idea_010.png",
+        "frames/idea/idea_011.png",
+        "frames/idea/idea_012.png",
+        "frames/idea/idea_013.png",
+        "frames/idea/idea_014.png"
+      ],
+      "fps": 12
+    },
+    "idle": {
+      "frames": [
+        "frames/idle/idle_000.png",
+        "frames/idle/idle_001.png",
+        "frames/idle/idle_002.png",
+        "frames/idle/idle_003.png",
+        "frames/idle/idle_004.png",
+        "frames/idle/idle_005.png",
+        "frames/idle/idle_006.png",
+        "frames/idle/idle_007.png",
+        "frames/idle/idle_008.png",
+        "frames/idle/idle_009.png",
+        "frames/idle/idle_010.png",
+        "frames/idle/idle_011.png",
+        "frames/idle/idle_012.png",
+        "frames/idle/idle_013.png",
+        "frames/idle/idle_014.png"
+      ],
+      "fps": 12
+    },
+    "shuffle": {
+      "frames": [
+        "frames/shuffle/shuffle_000.png",
+        "frames/shuffle/shuffle_001.png",
+        "frames/shuffle/shuffle_002.png",
+        "frames/shuffle/shuffle_003.png",
+        "frames/shuffle/shuffle_004.png",
+        "frames/shuffle/shuffle_005.png",
+        "frames/shuffle/shuffle_006.png",
+        "frames/shuffle/shuffle_007.png",
+        "frames/shuffle/shuffle_008.png",
+        "frames/shuffle/shuffle_009.png",
+        "frames/shuffle/shuffle_010.png",
+        "frames/shuffle/shuffle_011.png",
+        "frames/shuffle/shuffle_012.png",
+        "frames/shuffle/shuffle_013.png",
+        "frames/shuffle/shuffle_014.png"
+      ],
+      "fps": 12
+    },
+    "scan": {
+      "frames": [
+        "frames/scan/scan_000.png",
+        "frames/scan/scan_001.png",
+        "frames/scan/scan_002.png",
+        "frames/scan/scan_003.png",
+        "frames/scan/scan_004.png",
+        "frames/scan/scan_005.png",
+        "frames/scan/scan_006.png",
+        "frames/scan/scan_007.png",
+        "frames/scan/scan_008.png",
+        "frames/scan/scan_009.png",
+        "frames/scan/scan_010.png",
+        "frames/scan/scan_011.png",
+        "frames/scan/scan_012.png",
+        "frames/scan/scan_013.png",
+        "frames/scan/scan_014.png"
+      ],
+      "fps": 12
+    },
+    "reveal": {
+      "frames": [
+        "frames/reveal/reveal_000.png",
+        "frames/reveal/reveal_001.png",
+        "frames/reveal/reveal_002.png",
+        "frames/reveal/reveal_003.png",
+        "frames/reveal/reveal_004.png",
+        "frames/reveal/reveal_005.png",
+        "frames/reveal/reveal_006.png",
+        "frames/reveal/reveal_007.png",
+        "frames/reveal/reveal_008.png",
+        "frames/reveal/reveal_009.png",
+        "frames/reveal/reveal_010.png",
+        "frames/reveal/reveal_011.png",
+        "frames/reveal/reveal_012.png",
+        "frames/reveal/reveal_013.png",
+        "frames/reveal/reveal_014.png"
+      ],
+      "fps": 12
+    },
+    "match": {
+      "frames": [
+        "frames/match/match_000.png",
+        "frames/match/match_001.png",
+        "frames/match/match_002.png",
+        "frames/match/match_003.png",
+        "frames/match/match_004.png",
+        "frames/match/match_005.png",
+        "frames/match/match_006.png",
+        "frames/match/match_007.png",
+        "frames/match/match_008.png",
+        "frames/match/match_009.png",
+        "frames/match/match_010.png",
+        "frames/match/match_011.png",
+        "frames/match/match_012.png",
+        "frames/match/match_013.png",
+        "frames/match/match_014.png"
+      ],
+      "fps": 12
+    },
+    "celebrate": {
+      "frames": [
+        "frames/celebrate/celebrate_000.png",
+        "frames/celebrate/celebrate_001.png",
+        "frames/celebrate/celebrate_002.png",
+        "frames/celebrate/celebrate_003.png",
+        "frames/celebrate/celebrate_004.png",
+        "frames/celebrate/celebrate_005.png",
+        "frames/celebrate/celebrate_006.png",
+        "frames/celebrate/celebrate_007.png",
+        "frames/celebrate/celebrate_008.png",
+        "frames/celebrate/celebrate_009.png",
+        "frames/celebrate/celebrate_010.png",
+        "frames/celebrate/celebrate_011.png",
+        "frames/celebrate/celebrate_012.png",
+        "frames/celebrate/celebrate_013.png",
+        "frames/celebrate/celebrate_014.png"
+      ],
+      "fps": 12
+    },
+    "frustrated": {
+      "frames": [
+        "frames/frustrated/frustrated_000.png",
+        "frames/frustrated/frustrated_001.png",
+        "frames/frustrated/frustrated_002.png",
+        "frames/frustrated/frustrated_003.png",
+        "frames/frustrated/frustrated_004.png",
+        "frames/frustrated/frustrated_005.png",
+        "frames/frustrated/frustrated_006.png",
+        "frames/frustrated/frustrated_007.png",
+        "frames/frustrated/frustrated_008.png",
+        "frames/frustrated/frustrated_009.png",
+        "frames/frustrated/frustrated_010.png",
+        "frames/frustrated/frustrated_011.png",
+        "frames/frustrated/frustrated_012.png",
+        "frames/frustrated/frustrated_013.png",
+        "frames/frustrated/frustrated_014.png"
+      ],
+      "fps": 12
+    },
+    "victory": {
+      "frames": [
+        "frames/victory/victory_000.png",
+        "frames/victory/victory_001.png",
+        "frames/victory/victory_002.png",
+        "frames/victory/victory_003.png",
+        "frames/victory/victory_004.png",
+        "frames/victory/victory_005.png",
+        "frames/victory/victory_006.png",
+        "frames/victory/victory_007.png",
+        "frames/victory/victory_008.png",
+        "frames/victory/victory_009.png",
+        "frames/victory/victory_010.png",
+        "frames/victory/victory_011.png",
+        "frames/victory/victory_012.png",
+        "frames/victory/victory_013.png",
+        "frames/victory/victory_014.png"
+      ],
+      "fps": 12
+    }
+  },
+  "fps": {
+    "idle_aim": {
+      "frames": [
+        "frames/idle_aim/idle_aim_000.png",
+        "frames/idle_aim/idle_aim_001.png",
+        "frames/idle_aim/idle_aim_002.png",
+        "frames/idle_aim/idle_aim_003.png",
+        "frames/idle_aim/idle_aim_004.png",
+        "frames/idle_aim/idle_aim_005.png",
+        "frames/idle_aim/idle_aim_006.png",
+        "frames/idle_aim/idle_aim_007.png",
+        "frames/idle_aim/idle_aim_008.png",
+        "frames/idle_aim/idle_aim_009.png",
+        "frames/idle_aim/idle_aim_010.png",
+        "frames/idle_aim/idle_aim_011.png",
+        "frames/idle_aim/idle_aim_012.png",
+        "frames/idle_aim/idle_aim_013.png",
+        "frames/idle_aim/idle_aim_014.png"
+      ],
+      "fps": 12
+    },
+    "walk_aim": {
+      "frames": [
+        "frames/walk_aim/walk_aim_000.png",
+        "frames/walk_aim/walk_aim_001.png",
+        "frames/walk_aim/walk_aim_002.png",
+        "frames/walk_aim/walk_aim_003.png",
+        "frames/walk_aim/walk_aim_004.png",
+        "frames/walk_aim/walk_aim_005.png",
+        "frames/walk_aim/walk_aim_006.png",
+        "frames/walk_aim/walk_aim_007.png",
+        "frames/walk_aim/walk_aim_008.png",
+        "frames/walk_aim/walk_aim_009.png",
+        "frames/walk_aim/walk_aim_010.png",
+        "frames/walk_aim/walk_aim_011.png",
+        "frames/walk_aim/walk_aim_012.png",
+        "frames/walk_aim/walk_aim_013.png",
+        "frames/walk_aim/walk_aim_014.png"
+      ],
+      "fps": 12
+    },
+    "strafe_left": {
+      "frames": [
+        "frames/strafe_left/strafe_left_000.png",
+        "frames/strafe_left/strafe_left_001.png",
+        "frames/strafe_left/strafe_left_002.png",
+        "frames/strafe_left/strafe_left_003.png",
+        "frames/strafe_left/strafe_left_004.png",
+        "frames/strafe_left/strafe_left_005.png",
+        "frames/strafe_left/strafe_left_006.png",
+        "frames/strafe_left/strafe_left_007.png",
+        "frames/strafe_left/strafe_left_008.png",
+        "frames/strafe_left/strafe_left_009.png",
+        "frames/strafe_left/strafe_left_010.png",
+        "frames/strafe_left/strafe_left_011.png",
+        "frames/strafe_left/strafe_left_012.png",
+        "frames/strafe_left/strafe_left_013.png",
+        "frames/strafe_left/strafe_left_014.png"
+      ],
+      "fps": 12
+    },
+    "strafe_right": {
+      "frames": [
+        "frames/strafe_right/strafe_right_000.png",
+        "frames/strafe_right/strafe_right_001.png",
+        "frames/strafe_right/strafe_right_002.png",
+        "frames/strafe_right/strafe_right_003.png",
+        "frames/strafe_right/strafe_right_004.png",
+        "frames/strafe_right/strafe_right_005.png",
+        "frames/strafe_right/strafe_right_006.png",
+        "frames/strafe_right/strafe_right_007.png",
+        "frames/strafe_right/strafe_right_008.png",
+        "frames/strafe_right/strafe_right_009.png",
+        "frames/strafe_right/strafe_right_010.png",
+        "frames/strafe_right/strafe_right_011.png",
+        "frames/strafe_right/strafe_right_012.png",
+        "frames/strafe_right/strafe_right_013.png",
+        "frames/strafe_right/strafe_right_014.png"
+      ],
+      "fps": 12
+    },
+    "reload": {
+      "frames": [
+        "frames/reload/reload_000.png",
+        "frames/reload/reload_001.png",
+        "frames/reload/reload_002.png",
+        "frames/reload/reload_003.png",
+        "frames/reload/reload_004.png",
+        "frames/reload/reload_005.png",
+        "frames/reload/reload_006.png",
+        "frames/reload/reload_007.png",
+        "frames/reload/reload_008.png",
+        "frames/reload/reload_009.png",
+        "frames/reload/reload_010.png",
+        "frames/reload/reload_011.png",
+        "frames/reload/reload_012.png",
+        "frames/reload/reload_013.png",
+        "frames/reload/reload_014.png"
+      ],
+      "fps": 12
+    },
+    "fire": {
+      "frames": [
+        "frames/fire/fire_000.png",
+        "frames/fire/fire_001.png",
+        "frames/fire/fire_002.png",
+        "frames/fire/fire_003.png",
+        "frames/fire/fire_004.png",
+        "frames/fire/fire_005.png",
+        "frames/fire/fire_006.png",
+        "frames/fire/fire_007.png",
+        "frames/fire/fire_008.png",
+        "frames/fire/fire_009.png",
+        "frames/fire/fire_010.png",
+        "frames/fire/fire_011.png",
+        "frames/fire/fire_012.png",
+        "frames/fire/fire_013.png",
+        "frames/fire/fire_014.png"
+      ],
+      "fps": 12
+    },
+    "alt_fire": {
+      "frames": [
+        "frames/alt_fire/alt_fire_000.png",
+        "frames/alt_fire/alt_fire_001.png",
+        "frames/alt_fire/alt_fire_002.png",
+        "frames/alt_fire/alt_fire_003.png",
+        "frames/alt_fire/alt_fire_004.png",
+        "frames/alt_fire/alt_fire_005.png",
+        "frames/alt_fire/alt_fire_006.png",
+        "frames/alt_fire/alt_fire_007.png",
+        "frames/alt_fire/alt_fire_008.png",
+        "frames/alt_fire/alt_fire_009.png",
+        "frames/alt_fire/alt_fire_010.png",
+        "frames/alt_fire/alt_fire_011.png",
+        "frames/alt_fire/alt_fire_012.png",
+        "frames/alt_fire/alt_fire_013.png",
+        "frames/alt_fire/alt_fire_014.png"
+      ],
+      "fps": 12
+    },
+    "interact": {
+      "frames": [
+        "frames/interact/interact_000.png",
+        "frames/interact/interact_001.png",
+        "frames/interact/interact_002.png",
+        "frames/interact/interact_003.png",
+        "frames/interact/interact_004.png",
+        "frames/interact/interact_005.png",
+        "frames/interact/interact_006.png",
+        "frames/interact/interact_007.png",
+        "frames/interact/interact_008.png",
+        "frames/interact/interact_009.png",
+        "frames/interact/interact_010.png",
+        "frames/interact/interact_011.png",
+        "frames/interact/interact_012.png",
+        "frames/interact/interact_013.png",
+        "frames/interact/interact_014.png"
+      ],
+      "fps": 12
+    },
+    "hurt": {
+      "frames": [
+        "frames/hurt/hurt_000.png",
+        "frames/hurt/hurt_001.png",
+        "frames/hurt/hurt_002.png",
+        "frames/hurt/hurt_003.png",
+        "frames/hurt/hurt_004.png",
+        "frames/hurt/hurt_005.png",
+        "frames/hurt/hurt_006.png",
+        "frames/hurt/hurt_007.png",
+        "frames/hurt/hurt_008.png",
+        "frames/hurt/hurt_009.png",
+        "frames/hurt/hurt_010.png",
+        "frames/hurt/hurt_011.png",
+        "frames/hurt/hurt_012.png",
+        "frames/hurt/hurt_013.png",
+        "frames/hurt/hurt_014.png"
+      ],
+      "fps": 12
+    },
+    "recover": {
+      "frames": [
+        "frames/recover/recover_000.png",
+        "frames/recover/recover_001.png",
+        "frames/recover/recover_002.png",
+        "frames/recover/recover_003.png",
+        "frames/recover/recover_004.png",
+        "frames/recover/recover_005.png",
+        "frames/recover/recover_006.png",
+        "frames/recover/recover_007.png",
+        "frames/recover/recover_008.png",
+        "frames/recover/recover_009.png",
+        "frames/recover/recover_010.png",
+        "frames/recover/recover_011.png",
+        "frames/recover/recover_012.png",
+        "frames/recover/recover_013.png",
+        "frames/recover/recover_014.png"
+      ],
+      "fps": 12
+    },
+    "sprint": {
+      "frames": [
+        "frames/sprint/sprint_000.png",
+        "frames/sprint/sprint_001.png",
+        "frames/sprint/sprint_002.png",
+        "frames/sprint/sprint_003.png",
+        "frames/sprint/sprint_004.png",
+        "frames/sprint/sprint_005.png",
+        "frames/sprint/sprint_006.png",
+        "frames/sprint/sprint_007.png",
+        "frames/sprint/sprint_008.png",
+        "frames/sprint/sprint_009.png",
+        "frames/sprint/sprint_010.png",
+        "frames/sprint/sprint_011.png",
+        "frames/sprint/sprint_012.png",
+        "frames/sprint/sprint_013.png",
+        "frames/sprint/sprint_014.png"
+      ],
+      "fps": 12
+    },
+    "crouch": {
+      "frames": [
+        "frames/crouch/crouch_000.png",
+        "frames/crouch/crouch_001.png",
+        "frames/crouch/crouch_002.png",
+        "frames/crouch/crouch_003.png",
+        "frames/crouch/crouch_004.png",
+        "frames/crouch/crouch_005.png",
+        "frames/crouch/crouch_006.png",
+        "frames/crouch/crouch_007.png",
+        "frames/crouch/crouch_008.png",
+        "frames/crouch/crouch_009.png",
+        "frames/crouch/crouch_010.png",
+        "frames/crouch/crouch_011.png",
+        "frames/crouch/crouch_012.png",
+        "frames/crouch/crouch_013.png",
+        "frames/crouch/crouch_014.png"
+      ],
+      "fps": 12
+    },
+    "camouflage": {
+      "frames": [
+        "frames/camouflage/camouflage_000.png",
+        "frames/camouflage/camouflage_001.png",
+        "frames/camouflage/camouflage_002.png",
+        "frames/camouflage/camouflage_003.png",
+        "frames/camouflage/camouflage_004.png",
+        "frames/camouflage/camouflage_005.png",
+        "frames/camouflage/camouflage_006.png",
+        "frames/camouflage/camouflage_007.png",
+        "frames/camouflage/camouflage_008.png",
+        "frames/camouflage/camouflage_009.png",
+        "frames/camouflage/camouflage_010.png",
+        "frames/camouflage/camouflage_011.png",
+        "frames/camouflage/camouflage_012.png",
+        "frames/camouflage/camouflage_013.png",
+        "frames/camouflage/camouflage_014.png"
+      ],
+      "fps": 12
+    },
+    "melee_tongue": {
+      "frames": [
+        "frames/melee_tongue/melee_tongue_000.png",
+        "frames/melee_tongue/melee_tongue_001.png",
+        "frames/melee_tongue/melee_tongue_002.png",
+        "frames/melee_tongue/melee_tongue_003.png",
+        "frames/melee_tongue/melee_tongue_004.png",
+        "frames/melee_tongue/melee_tongue_005.png",
+        "frames/melee_tongue/melee_tongue_006.png",
+        "frames/melee_tongue/melee_tongue_007.png",
+        "frames/melee_tongue/melee_tongue_008.png",
+        "frames/melee_tongue/melee_tongue_009.png",
+        "frames/melee_tongue/melee_tongue_010.png",
+        "frames/melee_tongue/melee_tongue_011.png",
+        "frames/melee_tongue/melee_tongue_012.png",
+        "frames/melee_tongue/melee_tongue_013.png",
+        "frames/melee_tongue/melee_tongue_014.png"
+      ],
+      "fps": 12
+    },
+    "throw": {
+      "frames": [
+        "frames/throw/throw_000.png",
+        "frames/throw/throw_001.png",
+        "frames/throw/throw_002.png",
+        "frames/throw/throw_003.png",
+        "frames/throw/throw_004.png",
+        "frames/throw/throw_005.png",
+        "frames/throw/throw_006.png",
+        "frames/throw/throw_007.png",
+        "frames/throw/throw_008.png",
+        "frames/throw/throw_009.png",
+        "frames/throw/throw_010.png",
+        "frames/throw/throw_011.png",
+        "frames/throw/throw_012.png",
+        "frames/throw/throw_013.png",
+        "frames/throw/throw_014.png"
+      ],
+      "fps": 12
+    },
+    "examine": {
+      "frames": [
+        "frames/examine/examine_000.png",
+        "frames/examine/examine_001.png",
+        "frames/examine/examine_002.png",
+        "frames/examine/examine_003.png",
+        "frames/examine/examine_004.png",
+        "frames/examine/examine_005.png",
+        "frames/examine/examine_006.png",
+        "frames/examine/examine_007.png",
+        "frames/examine/examine_008.png",
+        "frames/examine/examine_009.png",
+        "frames/examine/examine_010.png",
+        "frames/examine/examine_011.png",
+        "frames/examine/examine_012.png",
+        "frames/examine/examine_013.png",
+        "frames/examine/examine_014.png"
+      ],
+      "fps": 12
+    },
+    "use_device": {
+      "frames": [
+        "frames/use_device/use_device_000.png",
+        "frames/use_device/use_device_001.png",
+        "frames/use_device/use_device_002.png",
+        "frames/use_device/use_device_003.png",
+        "frames/use_device/use_device_004.png",
+        "frames/use_device/use_device_005.png",
+        "frames/use_device/use_device_006.png",
+        "frames/use_device/use_device_007.png",
+        "frames/use_device/use_device_008.png",
+        "frames/use_device/use_device_009.png",
+        "frames/use_device/use_device_010.png",
+        "frames/use_device/use_device_011.png",
+        "frames/use_device/use_device_012.png",
+        "frames/use_device/use_device_013.png",
+        "frames/use_device/use_device_014.png"
+      ],
+      "fps": 12
+    },
+    "low_health": {
+      "frames": [
+        "frames/low_health/low_health_000.png",
+        "frames/low_health/low_health_001.png",
+        "frames/low_health/low_health_002.png",
+        "frames/low_health/low_health_003.png",
+        "frames/low_health/low_health_004.png",
+        "frames/low_health/low_health_005.png",
+        "frames/low_health/low_health_006.png",
+        "frames/low_health/low_health_007.png",
+        "frames/low_health/low_health_008.png",
+        "frames/low_health/low_health_009.png",
+        "frames/low_health/low_health_010.png",
+        "frames/low_health/low_health_011.png",
+        "frames/low_health/low_health_012.png",
+        "frames/low_health/low_health_013.png",
+        "frames/low_health/low_health_014.png"
+      ],
+      "fps": 12
+    },
+    "victory": {
+      "frames": [
+        "frames/victory/victory_000.png",
+        "frames/victory/victory_001.png",
+        "frames/victory/victory_002.png",
+        "frames/victory/victory_003.png",
+        "frames/victory/victory_004.png",
+        "frames/victory/victory_005.png",
+        "frames/victory/victory_006.png",
+        "frames/victory/victory_007.png",
+        "frames/victory/victory_008.png",
+        "frames/victory/victory_009.png",
+        "frames/victory/victory_010.png",
+        "frames/victory/victory_011.png",
+        "frames/victory/victory_012.png",
+        "frames/victory/victory_013.png",
+        "frames/victory/victory_014.png"
+      ],
+      "fps": 12
+    },
+    "defeat": {
+      "frames": [
+        "frames/defeat/defeat_000.png",
+        "frames/defeat/defeat_001.png",
+        "frames/defeat/defeat_002.png",
+        "frames/defeat/defeat_003.png",
+        "frames/defeat/defeat_004.png",
+        "frames/defeat/defeat_005.png",
+        "frames/defeat/defeat_006.png",
+        "frames/defeat/defeat_007.png",
+        "frames/defeat/defeat_008.png",
+        "frames/defeat/defeat_009.png",
+        "frames/defeat/defeat_010.png",
+        "frames/defeat/defeat_011.png",
+        "frames/defeat/defeat_012.png",
+        "frames/defeat/defeat_013.png",
+        "frames/defeat/defeat_014.png"
+      ],
+      "fps": 12
+    }
+  },
+  "fighting": {
+    "stance": {
+      "frames": [
+        "frames/stance/stance_000.png",
+        "frames/stance/stance_001.png",
+        "frames/stance/stance_002.png",
+        "frames/stance/stance_003.png",
+        "frames/stance/stance_004.png",
+        "frames/stance/stance_005.png",
+        "frames/stance/stance_006.png",
+        "frames/stance/stance_007.png",
+        "frames/stance/stance_008.png",
+        "frames/stance/stance_009.png",
+        "frames/stance/stance_010.png",
+        "frames/stance/stance_011.png",
+        "frames/stance/stance_012.png",
+        "frames/stance/stance_013.png",
+        "frames/stance/stance_014.png"
+      ],
+      "fps": 12
+    },
+    "walk_forward": {
+      "frames": [
+        "frames/walk_forward/walk_forward_000.png",
+        "frames/walk_forward/walk_forward_001.png",
+        "frames/walk_forward/walk_forward_002.png",
+        "frames/walk_forward/walk_forward_003.png",
+        "frames/walk_forward/walk_forward_004.png",
+        "frames/walk_forward/walk_forward_005.png",
+        "frames/walk_forward/walk_forward_006.png",
+        "frames/walk_forward/walk_forward_007.png",
+        "frames/walk_forward/walk_forward_008.png",
+        "frames/walk_forward/walk_forward_009.png",
+        "frames/walk_forward/walk_forward_010.png",
+        "frames/walk_forward/walk_forward_011.png",
+        "frames/walk_forward/walk_forward_012.png",
+        "frames/walk_forward/walk_forward_013.png",
+        "frames/walk_forward/walk_forward_014.png"
+      ],
+      "fps": 12
+    },
+    "walk_back": {
+      "frames": [
+        "frames/walk_back/walk_back_000.png",
+        "frames/walk_back/walk_back_001.png",
+        "frames/walk_back/walk_back_002.png",
+        "frames/walk_back/walk_back_003.png",
+        "frames/walk_back/walk_back_004.png",
+        "frames/walk_back/walk_back_005.png",
+        "frames/walk_back/walk_back_006.png",
+        "frames/walk_back/walk_back_007.png",
+        "frames/walk_back/walk_back_008.png",
+        "frames/walk_back/walk_back_009.png",
+        "frames/walk_back/walk_back_010.png",
+        "frames/walk_back/walk_back_011.png",
+        "frames/walk_back/walk_back_012.png",
+        "frames/walk_back/walk_back_013.png",
+        "frames/walk_back/walk_back_014.png"
+      ],
+      "fps": 12
+    },
+    "crouch": {
+      "frames": [
+        "frames/crouch/crouch_000.png",
+        "frames/crouch/crouch_001.png",
+        "frames/crouch/crouch_002.png",
+        "frames/crouch/crouch_003.png",
+        "frames/crouch/crouch_004.png",
+        "frames/crouch/crouch_005.png",
+        "frames/crouch/crouch_006.png",
+        "frames/crouch/crouch_007.png",
+        "frames/crouch/crouch_008.png",
+        "frames/crouch/crouch_009.png",
+        "frames/crouch/crouch_010.png",
+        "frames/crouch/crouch_011.png",
+        "frames/crouch/crouch_012.png",
+        "frames/crouch/crouch_013.png",
+        "frames/crouch/crouch_014.png"
+      ],
+      "fps": 12
+    },
+    "jump": {
+      "frames": [
+        "frames/jump/jump_000.png",
+        "frames/jump/jump_001.png",
+        "frames/jump/jump_002.png",
+        "frames/jump/jump_003.png",
+        "frames/jump/jump_004.png",
+        "frames/jump/jump_005.png",
+        "frames/jump/jump_006.png",
+        "frames/jump/jump_007.png",
+        "frames/jump/jump_008.png",
+        "frames/jump/jump_009.png",
+        "frames/jump/jump_010.png",
+        "frames/jump/jump_011.png",
+        "frames/jump/jump_012.png",
+        "frames/jump/jump_013.png",
+        "frames/jump/jump_014.png"
+      ],
+      "fps": 12
+    },
+    "punch": {
+      "frames": [
+        "frames/punch/punch_000.png",
+        "frames/punch/punch_001.png",
+        "frames/punch/punch_002.png",
+        "frames/punch/punch_003.png",
+        "frames/punch/punch_004.png",
+        "frames/punch/punch_005.png",
+        "frames/punch/punch_006.png",
+        "frames/punch/punch_007.png",
+        "frames/punch/punch_008.png",
+        "frames/punch/punch_009.png",
+        "frames/punch/punch_010.png",
+        "frames/punch/punch_011.png",
+        "frames/punch/punch_012.png",
+        "frames/punch/punch_013.png",
+        "frames/punch/punch_014.png"
+      ],
+      "fps": 12
+    },
+    "kick": {
+      "frames": [
+        "frames/kick/kick_000.png",
+        "frames/kick/kick_001.png",
+        "frames/kick/kick_002.png",
+        "frames/kick/kick_003.png",
+        "frames/kick/kick_004.png",
+        "frames/kick/kick_005.png",
+        "frames/kick/kick_006.png",
+        "frames/kick/kick_007.png",
+        "frames/kick/kick_008.png",
+        "frames/kick/kick_009.png",
+        "frames/kick/kick_010.png",
+        "frames/kick/kick_011.png",
+        "frames/kick/kick_012.png",
+        "frames/kick/kick_013.png",
+        "frames/kick/kick_014.png"
+      ],
+      "fps": 12
+    },
+    "block": {
+      "frames": [
+        "frames/block/block_000.png",
+        "frames/block/block_001.png",
+        "frames/block/block_002.png",
+        "frames/block/block_003.png",
+        "frames/block/block_004.png",
+        "frames/block/block_005.png",
+        "frames/block/block_006.png",
+        "frames/block/block_007.png",
+        "frames/block/block_008.png",
+        "frames/block/block_009.png",
+        "frames/block/block_010.png",
+        "frames/block/block_011.png",
+        "frames/block/block_012.png",
+        "frames/block/block_013.png",
+        "frames/block/block_014.png"
+      ],
+      "fps": 12
+    },
+    "tail_whip": {
+      "frames": [
+        "frames/tail_whip/tail_whip_000.png",
+        "frames/tail_whip/tail_whip_001.png",
+        "frames/tail_whip/tail_whip_002.png",
+        "frames/tail_whip/tail_whip_003.png",
+        "frames/tail_whip/tail_whip_004.png",
+        "frames/tail_whip/tail_whip_005.png",
+        "frames/tail_whip/tail_whip_006.png",
+        "frames/tail_whip/tail_whip_007.png",
+        "frames/tail_whip/tail_whip_008.png",
+        "frames/tail_whip/tail_whip_009.png",
+        "frames/tail_whip/tail_whip_010.png",
+        "frames/tail_whip/tail_whip_011.png",
+        "frames/tail_whip/tail_whip_012.png",
+        "frames/tail_whip/tail_whip_013.png",
+        "frames/tail_whip/tail_whip_014.png"
+      ],
+      "fps": 12
+    },
+    "tongue_strike": {
+      "frames": [
+        "frames/tongue_strike/tongue_strike_000.png",
+        "frames/tongue_strike/tongue_strike_001.png",
+        "frames/tongue_strike/tongue_strike_002.png",
+        "frames/tongue_strike/tongue_strike_003.png",
+        "frames/tongue_strike/tongue_strike_004.png",
+        "frames/tongue_strike/tongue_strike_005.png",
+        "frames/tongue_strike/tongue_strike_006.png",
+        "frames/tongue_strike/tongue_strike_007.png",
+        "frames/tongue_strike/tongue_strike_008.png",
+        "frames/tongue_strike/tongue_strike_009.png",
+        "frames/tongue_strike/tongue_strike_010.png",
+        "frames/tongue_strike/tongue_strike_011.png",
+        "frames/tongue_strike/tongue_strike_012.png",
+        "frames/tongue_strike/tongue_strike_013.png",
+        "frames/tongue_strike/tongue_strike_014.png"
+      ],
+      "fps": 12
+    },
+    "combo": {
+      "frames": [
+        "frames/combo/combo_000.png",
+        "frames/combo/combo_001.png",
+        "frames/combo/combo_002.png",
+        "frames/combo/combo_003.png",
+        "frames/combo/combo_004.png",
+        "frames/combo/combo_005.png",
+        "frames/combo/combo_006.png",
+        "frames/combo/combo_007.png",
+        "frames/combo/combo_008.png",
+        "frames/combo/combo_009.png",
+        "frames/combo/combo_010.png",
+        "frames/combo/combo_011.png",
+        "frames/combo/combo_012.png",
+        "frames/combo/combo_013.png",
+        "frames/combo/combo_014.png"
+      ],
+      "fps": 12
+    },
+    "special_shift": {
+      "frames": [
+        "frames/special_shift/special_shift_000.png",
+        "frames/special_shift/special_shift_001.png",
+        "frames/special_shift/special_shift_002.png",
+        "frames/special_shift/special_shift_003.png",
+        "frames/special_shift/special_shift_004.png",
+        "frames/special_shift/special_shift_005.png",
+        "frames/special_shift/special_shift_006.png",
+        "frames/special_shift/special_shift_007.png",
+        "frames/special_shift/special_shift_008.png",
+        "frames/special_shift/special_shift_009.png",
+        "frames/special_shift/special_shift_010.png",
+        "frames/special_shift/special_shift_011.png",
+        "frames/special_shift/special_shift_012.png",
+        "frames/special_shift/special_shift_013.png",
+        "frames/special_shift/special_shift_014.png"
+      ],
+      "fps": 12
+    },
+    "hurt": {
+      "frames": [
+        "frames/hurt/hurt_000.png",
+        "frames/hurt/hurt_001.png",
+        "frames/hurt/hurt_002.png",
+        "frames/hurt/hurt_003.png",
+        "frames/hurt/hurt_004.png",
+        "frames/hurt/hurt_005.png",
+        "frames/hurt/hurt_006.png",
+        "frames/hurt/hurt_007.png",
+        "frames/hurt/hurt_008.png",
+        "frames/hurt/hurt_009.png",
+        "frames/hurt/hurt_010.png",
+        "frames/hurt/hurt_011.png",
+        "frames/hurt/hurt_012.png",
+        "frames/hurt/hurt_013.png",
+        "frames/hurt/hurt_014.png"
+      ],
+      "fps": 12
+    },
+    "knockback": {
+      "frames": [
+        "frames/knockback/knockback_000.png",
+        "frames/knockback/knockback_001.png",
+        "frames/knockback/knockback_002.png",
+        "frames/knockback/knockback_003.png",
+        "frames/knockback/knockback_004.png",
+        "frames/knockback/knockback_005.png",
+        "frames/knockback/knockback_006.png",
+        "frames/knockback/knockback_007.png",
+        "frames/knockback/knockback_008.png",
+        "frames/knockback/knockback_009.png",
+        "frames/knockback/knockback_010.png",
+        "frames/knockback/knockback_011.png",
+        "frames/knockback/knockback_012.png",
+        "frames/knockback/knockback_013.png",
+        "frames/knockback/knockback_014.png"
+      ],
+      "fps": 12
+    },
+    "knockdown": {
+      "frames": [
+        "frames/knockdown/knockdown_000.png",
+        "frames/knockdown/knockdown_001.png",
+        "frames/knockdown/knockdown_002.png",
+        "frames/knockdown/knockdown_003.png",
+        "frames/knockdown/knockdown_004.png",
+        "frames/knockdown/knockdown_005.png",
+        "frames/knockdown/knockdown_006.png",
+        "frames/knockdown/knockdown_007.png",
+        "frames/knockdown/knockdown_008.png",
+        "frames/knockdown/knockdown_009.png",
+        "frames/knockdown/knockdown_010.png",
+        "frames/knockdown/knockdown_011.png",
+        "frames/knockdown/knockdown_012.png",
+        "frames/knockdown/knockdown_013.png",
+        "frames/knockdown/knockdown_014.png"
+      ],
+      "fps": 12
+    },
+    "getup": {
+      "frames": [
+        "frames/getup/getup_000.png",
+        "frames/getup/getup_001.png",
+        "frames/getup/getup_002.png",
+        "frames/getup/getup_003.png",
+        "frames/getup/getup_004.png",
+        "frames/getup/getup_005.png",
+        "frames/getup/getup_006.png",
+        "frames/getup/getup_007.png",
+        "frames/getup/getup_008.png",
+        "frames/getup/getup_009.png",
+        "frames/getup/getup_010.png",
+        "frames/getup/getup_011.png",
+        "frames/getup/getup_012.png",
+        "frames/getup/getup_013.png",
+        "frames/getup/getup_014.png"
+      ],
+      "fps": 12
+    },
+    "taunt": {
+      "frames": [
+        "frames/taunt/taunt_000.png",
+        "frames/taunt/taunt_001.png",
+        "frames/taunt/taunt_002.png",
+        "frames/taunt/taunt_003.png",
+        "frames/taunt/taunt_004.png",
+        "frames/taunt/taunt_005.png",
+        "frames/taunt/taunt_006.png",
+        "frames/taunt/taunt_007.png",
+        "frames/taunt/taunt_008.png",
+        "frames/taunt/taunt_009.png",
+        "frames/taunt/taunt_010.png",
+        "frames/taunt/taunt_011.png",
+        "frames/taunt/taunt_012.png",
+        "frames/taunt/taunt_013.png",
+        "frames/taunt/taunt_014.png"
+      ],
+      "fps": 12
+    },
+    "victory": {
+      "frames": [
+        "frames/victory/victory_000.png",
+        "frames/victory/victory_001.png",
+        "frames/victory/victory_002.png",
+        "frames/victory/victory_003.png",
+        "frames/victory/victory_004.png",
+        "frames/victory/victory_005.png",
+        "frames/victory/victory_006.png",
+        "frames/victory/victory_007.png",
+        "frames/victory/victory_008.png",
+        "frames/victory/victory_009.png",
+        "frames/victory/victory_010.png",
+        "frames/victory/victory_011.png",
+        "frames/victory/victory_012.png",
+        "frames/victory/victory_013.png",
+        "frames/victory/victory_014.png"
+      ],
+      "fps": 12
+    },
+    "defeat": {
+      "frames": [
+        "frames/defeat/defeat_000.png",
+        "frames/defeat/defeat_001.png",
+        "frames/defeat/defeat_002.png",
+        "frames/defeat/defeat_003.png",
+        "frames/defeat/defeat_004.png",
+        "frames/defeat/defeat_005.png",
+        "frames/defeat/defeat_006.png",
+        "frames/defeat/defeat_007.png",
+        "frames/defeat/defeat_008.png",
+        "frames/defeat/defeat_009.png",
+        "frames/defeat/defeat_010.png",
+        "frames/defeat/defeat_011.png",
+        "frames/defeat/defeat_012.png",
+        "frames/defeat/defeat_013.png",
+        "frames/defeat/defeat_014.png"
+      ],
+      "fps": 12
+    },
+    "intro": {
+      "frames": [
+        "frames/intro/intro_000.png",
+        "frames/intro/intro_001.png",
+        "frames/intro/intro_002.png",
+        "frames/intro/intro_003.png",
+        "frames/intro/intro_004.png",
+        "frames/intro/intro_005.png",
+        "frames/intro/intro_006.png",
+        "frames/intro/intro_007.png",
+        "frames/intro/intro_008.png",
+        "frames/intro/intro_009.png",
+        "frames/intro/intro_010.png",
+        "frames/intro/intro_011.png",
+        "frames/intro/intro_012.png",
+        "frames/intro/intro_013.png",
+        "frames/intro/intro_014.png"
+      ],
+      "fps": 12
+    }
+  },
+  "open_world": {
+    "idle": {
+      "frames": [
+        "frames/idle/idle_000.png",
+        "frames/idle/idle_001.png",
+        "frames/idle/idle_002.png",
+        "frames/idle/idle_003.png",
+        "frames/idle/idle_004.png",
+        "frames/idle/idle_005.png",
+        "frames/idle/idle_006.png",
+        "frames/idle/idle_007.png",
+        "frames/idle/idle_008.png",
+        "frames/idle/idle_009.png",
+        "frames/idle/idle_010.png",
+        "frames/idle/idle_011.png",
+        "frames/idle/idle_012.png",
+        "frames/idle/idle_013.png",
+        "frames/idle/idle_014.png"
+      ],
+      "fps": 12
+    },
+    "walk_n": {
+      "frames": [
+        "frames/walk_n/walk_n_000.png",
+        "frames/walk_n/walk_n_001.png",
+        "frames/walk_n/walk_n_002.png",
+        "frames/walk_n/walk_n_003.png",
+        "frames/walk_n/walk_n_004.png",
+        "frames/walk_n/walk_n_005.png",
+        "frames/walk_n/walk_n_006.png",
+        "frames/walk_n/walk_n_007.png",
+        "frames/walk_n/walk_n_008.png",
+        "frames/walk_n/walk_n_009.png",
+        "frames/walk_n/walk_n_010.png",
+        "frames/walk_n/walk_n_011.png",
+        "frames/walk_n/walk_n_012.png",
+        "frames/walk_n/walk_n_013.png",
+        "frames/walk_n/walk_n_014.png"
+      ],
+      "fps": 12
+    },
+    "walk_s": {
+      "frames": [
+        "frames/walk_s/walk_s_000.png",
+        "frames/walk_s/walk_s_001.png",
+        "frames/walk_s/walk_s_002.png",
+        "frames/walk_s/walk_s_003.png",
+        "frames/walk_s/walk_s_004.png",
+        "frames/walk_s/walk_s_005.png",
+        "frames/walk_s/walk_s_006.png",
+        "frames/walk_s/walk_s_007.png",
+        "frames/walk_s/walk_s_008.png",
+        "frames/walk_s/walk_s_009.png",
+        "frames/walk_s/walk_s_010.png",
+        "frames/walk_s/walk_s_011.png",
+        "frames/walk_s/walk_s_012.png",
+        "frames/walk_s/walk_s_013.png",
+        "frames/walk_s/walk_s_014.png"
+      ],
+      "fps": 12
+    },
+    "walk_e": {
+      "frames": [
+        "frames/walk_e/walk_e_000.png",
+        "frames/walk_e/walk_e_001.png",
+        "frames/walk_e/walk_e_002.png",
+        "frames/walk_e/walk_e_003.png",
+        "frames/walk_e/walk_e_004.png",
+        "frames/walk_e/walk_e_005.png",
+        "frames/walk_e/walk_e_006.png",
+        "frames/walk_e/walk_e_007.png",
+        "frames/walk_e/walk_e_008.png",
+        "frames/walk_e/walk_e_009.png",
+        "frames/walk_e/walk_e_010.png",
+        "frames/walk_e/walk_e_011.png",
+        "frames/walk_e/walk_e_012.png",
+        "frames/walk_e/walk_e_013.png",
+        "frames/walk_e/walk_e_014.png"
+      ],
+      "fps": 12
+    },
+    "walk_w": {
+      "frames": [
+        "frames/walk_w/walk_w_000.png",
+        "frames/walk_w/walk_w_001.png",
+        "frames/walk_w/walk_w_002.png",
+        "frames/walk_w/walk_w_003.png",
+        "frames/walk_w/walk_w_004.png",
+        "frames/walk_w/walk_w_005.png",
+        "frames/walk_w/walk_w_006.png",
+        "frames/walk_w/walk_w_007.png",
+        "frames/walk_w/walk_w_008.png",
+        "frames/walk_w/walk_w_009.png",
+        "frames/walk_w/walk_w_010.png",
+        "frames/walk_w/walk_w_011.png",
+        "frames/walk_w/walk_w_012.png",
+        "frames/walk_w/walk_w_013.png",
+        "frames/walk_w/walk_w_014.png"
+      ],
+      "fps": 12
+    },
+    "run_n": {
+      "frames": [
+        "frames/run_n/run_n_000.png",
+        "frames/run_n/run_n_001.png",
+        "frames/run_n/run_n_002.png",
+        "frames/run_n/run_n_003.png",
+        "frames/run_n/run_n_004.png",
+        "frames/run_n/run_n_005.png",
+        "frames/run_n/run_n_006.png",
+        "frames/run_n/run_n_007.png",
+        "frames/run_n/run_n_008.png",
+        "frames/run_n/run_n_009.png",
+        "frames/run_n/run_n_010.png",
+        "frames/run_n/run_n_011.png",
+        "frames/run_n/run_n_012.png",
+        "frames/run_n/run_n_013.png",
+        "frames/run_n/run_n_014.png"
+      ],
+      "fps": 12
+    },
+    "run_s": {
+      "frames": [
+        "frames/run_s/run_s_000.png",
+        "frames/run_s/run_s_001.png",
+        "frames/run_s/run_s_002.png",
+        "frames/run_s/run_s_003.png",
+        "frames/run_s/run_s_004.png",
+        "frames/run_s/run_s_005.png",
+        "frames/run_s/run_s_006.png",
+        "frames/run_s/run_s_007.png",
+        "frames/run_s/run_s_008.png",
+        "frames/run_s/run_s_009.png",
+        "frames/run_s/run_s_010.png",
+        "frames/run_s/run_s_011.png",
+        "frames/run_s/run_s_012.png",
+        "frames/run_s/run_s_013.png",
+        "frames/run_s/run_s_014.png"
+      ],
+      "fps": 12
+    },
+    "run_e": {
+      "frames": [
+        "frames/run_e/run_e_000.png",
+        "frames/run_e/run_e_001.png",
+        "frames/run_e/run_e_002.png",
+        "frames/run_e/run_e_003.png",
+        "frames/run_e/run_e_004.png",
+        "frames/run_e/run_e_005.png",
+        "frames/run_e/run_e_006.png",
+        "frames/run_e/run_e_007.png",
+        "frames/run_e/run_e_008.png",
+        "frames/run_e/run_e_009.png",
+        "frames/run_e/run_e_010.png",
+        "frames/run_e/run_e_011.png",
+        "frames/run_e/run_e_012.png",
+        "frames/run_e/run_e_013.png",
+        "frames/run_e/run_e_014.png"
+      ],
+      "fps": 12
+    },
+    "run_w": {
+      "frames": [
+        "frames/run_w/run_w_000.png",
+        "frames/run_w/run_w_001.png",
+        "frames/run_w/run_w_002.png",
+        "frames/run_w/run_w_003.png",
+        "frames/run_w/run_w_004.png",
+        "frames/run_w/run_w_005.png",
+        "frames/run_w/run_w_006.png",
+        "frames/run_w/run_w_007.png",
+        "frames/run_w/run_w_008.png",
+        "frames/run_w/run_w_009.png",
+        "frames/run_w/run_w_010.png",
+        "frames/run_w/run_w_011.png",
+        "frames/run_w/run_w_012.png",
+        "frames/run_w/run_w_013.png",
+        "frames/run_w/run_w_014.png"
+      ],
+      "fps": 12
+    },
+    "interact": {
+      "frames": [
+        "frames/interact/interact_000.png",
+        "frames/interact/interact_001.png",
+        "frames/interact/interact_002.png",
+        "frames/interact/interact_003.png",
+        "frames/interact/interact_004.png",
+        "frames/interact/interact_005.png",
+        "frames/interact/interact_006.png",
+        "frames/interact/interact_007.png",
+        "frames/interact/interact_008.png",
+        "frames/interact/interact_009.png",
+        "frames/interact/interact_010.png",
+        "frames/interact/interact_011.png",
+        "frames/interact/interact_012.png",
+        "frames/interact/interact_013.png",
+        "frames/interact/interact_014.png"
+      ],
+      "fps": 12
+    },
+    "talk": {
+      "frames": [
+        "frames/talk/talk_000.png",
+        "frames/talk/talk_001.png",
+        "frames/talk/talk_002.png",
+        "frames/talk/talk_003.png",
+        "frames/talk/talk_004.png",
+        "frames/talk/talk_005.png",
+        "frames/talk/talk_006.png",
+        "frames/talk/talk_007.png",
+        "frames/talk/talk_008.png",
+        "frames/talk/talk_009.png",
+        "frames/talk/talk_010.png",
+        "frames/talk/talk_011.png",
+        "frames/talk/talk_012.png",
+        "frames/talk/talk_013.png",
+        "frames/talk/talk_014.png"
+      ],
+      "fps": 12
+    },
+    "pickup": {
+      "frames": [
+        "frames/pickup/pickup_000.png",
+        "frames/pickup/pickup_001.png",
+        "frames/pickup/pickup_002.png",
+        "frames/pickup/pickup_003.png",
+        "frames/pickup/pickup_004.png",
+        "frames/pickup/pickup_005.png",
+        "frames/pickup/pickup_006.png",
+        "frames/pickup/pickup_007.png",
+        "frames/pickup/pickup_008.png",
+        "frames/pickup/pickup_009.png",
+        "frames/pickup/pickup_010.png",
+        "frames/pickup/pickup_011.png",
+        "frames/pickup/pickup_012.png",
+        "frames/pickup/pickup_013.png",
+        "frames/pickup/pickup_014.png"
+      ],
+      "fps": 12
+    },
+    "climb": {
+      "frames": [
+        "frames/climb/climb_000.png",
+        "frames/climb/climb_001.png",
+        "frames/climb/climb_002.png",
+        "frames/climb/climb_003.png",
+        "frames/climb/climb_004.png",
+        "frames/climb/climb_005.png",
+        "frames/climb/climb_006.png",
+        "frames/climb/climb_007.png",
+        "frames/climb/climb_008.png",
+        "frames/climb/climb_009.png",
+        "frames/climb/climb_010.png",
+        "frames/climb/climb_011.png",
+        "frames/climb/climb_012.png",
+        "frames/climb/climb_013.png",
+        "frames/climb/climb_014.png"
+      ],
+      "fps": 12
+    },
+    "camouflage": {
+      "frames": [
+        "frames/camouflage/camouflage_000.png",
+        "frames/camouflage/camouflage_001.png",
+        "frames/camouflage/camouflage_002.png",
+        "frames/camouflage/camouflage_003.png",
+        "frames/camouflage/camouflage_004.png",
+        "frames/camouflage/camouflage_005.png",
+        "frames/camouflage/camouflage_006.png",
+        "frames/camouflage/camouflage_007.png",
+        "frames/camouflage/camouflage_008.png",
+        "frames/camouflage/camouflage_009.png",
+        "frames/camouflage/camouflage_010.png",
+        "frames/camouflage/camouflage_011.png",
+        "frames/camouflage/camouflage_012.png",
+        "frames/camouflage/camouflage_013.png",
+        "frames/camouflage/camouflage_014.png"
+      ],
+      "fps": 12
+    },
+    "quest_complete": {
+      "frames": [
+        "frames/quest_complete/quest_complete_000.png",
+        "frames/quest_complete/quest_complete_001.png",
+        "frames/quest_complete/quest_complete_002.png",
+        "frames/quest_complete/quest_complete_003.png",
+        "frames/quest_complete/quest_complete_004.png",
+        "frames/quest_complete/quest_complete_005.png",
+        "frames/quest_complete/quest_complete_006.png",
+        "frames/quest_complete/quest_complete_007.png",
+        "frames/quest_complete/quest_complete_008.png",
+        "frames/quest_complete/quest_complete_009.png",
+        "frames/quest_complete/quest_complete_010.png",
+        "frames/quest_complete/quest_complete_011.png",
+        "frames/quest_complete/quest_complete_012.png",
+        "frames/quest_complete/quest_complete_013.png",
+        "frames/quest_complete/quest_complete_014.png"
+      ],
+      "fps": 12
+    },
+    "emote": {
+      "frames": [
+        "frames/emote/emote_000.png",
+        "frames/emote/emote_001.png",
+        "frames/emote/emote_002.png",
+        "frames/emote/emote_003.png",
+        "frames/emote/emote_004.png",
+        "frames/emote/emote_005.png",
+        "frames/emote/emote_006.png",
+        "frames/emote/emote_007.png",
+        "frames/emote/emote_008.png",
+        "frames/emote/emote_009.png",
+        "frames/emote/emote_010.png",
+        "frames/emote/emote_011.png",
+        "frames/emote/emote_012.png",
+        "frames/emote/emote_013.png",
+        "frames/emote/emote_014.png"
+      ],
+      "fps": 12
+    },
+    "use_map": {
+      "frames": [
+        "frames/use_map/use_map_000.png",
+        "frames/use_map/use_map_001.png",
+        "frames/use_map/use_map_002.png",
+        "frames/use_map/use_map_003.png",
+        "frames/use_map/use_map_004.png",
+        "frames/use_map/use_map_005.png",
+        "frames/use_map/use_map_006.png",
+        "frames/use_map/use_map_007.png",
+        "frames/use_map/use_map_008.png",
+        "frames/use_map/use_map_009.png",
+        "frames/use_map/use_map_010.png",
+        "frames/use_map/use_map_011.png",
+        "frames/use_map/use_map_012.png",
+        "frames/use_map/use_map_013.png",
+        "frames/use_map/use_map_014.png"
+      ],
+      "fps": 12
+    },
+    "sit": {
+      "frames": [
+        "frames/sit/sit_000.png",
+        "frames/sit/sit_001.png",
+        "frames/sit/sit_002.png",
+        "frames/sit/sit_003.png",
+        "frames/sit/sit_004.png",
+        "frames/sit/sit_005.png",
+        "frames/sit/sit_006.png",
+        "frames/sit/sit_007.png",
+        "frames/sit/sit_008.png",
+        "frames/sit/sit_009.png",
+        "frames/sit/sit_010.png",
+        "frames/sit/sit_011.png",
+        "frames/sit/sit_012.png",
+        "frames/sit/sit_013.png",
+        "frames/sit/sit_014.png"
+      ],
+      "fps": 12
+    },
+    "dance": {
+      "frames": [
+        "frames/dance/dance_000.png",
+        "frames/dance/dance_001.png",
+        "frames/dance/dance_002.png",
+        "frames/dance/dance_003.png",
+        "frames/dance/dance_004.png",
+        "frames/dance/dance_005.png",
+        "frames/dance/dance_006.png",
+        "frames/dance/dance_007.png",
+        "frames/dance/dance_008.png",
+        "frames/dance/dance_009.png",
+        "frames/dance/dance_010.png",
+        "frames/dance/dance_011.png",
+        "frames/dance/dance_012.png",
+        "frames/dance/dance_013.png",
+        "frames/dance/dance_014.png"
+      ],
+      "fps": 12
+    },
+    "victory": {
+      "frames": [
+        "frames/victory/victory_000.png",
+        "frames/victory/victory_001.png",
+        "frames/victory/victory_002.png",
+        "frames/victory/victory_003.png",
+        "frames/victory/victory_004.png",
+        "frames/victory/victory_005.png",
+        "frames/victory/victory_006.png",
+        "frames/victory/victory_007.png",
+        "frames/victory/victory_008.png",
+        "frames/victory/victory_009.png",
+        "frames/victory/victory_010.png",
+        "frames/victory/victory_011.png",
+        "frames/victory/victory_012.png",
+        "frames/victory/victory_013.png",
+        "frames/victory/victory_014.png"
+      ],
+      "fps": 12
+    }
+  },
+  "racing": {
+    "idle_car": {
+      "frames": [
+        "frames/idle_car/idle_car_000.png",
+        "frames/idle_car/idle_car_001.png",
+        "frames/idle_car/idle_car_002.png",
+        "frames/idle_car/idle_car_003.png",
+        "frames/idle_car/idle_car_004.png",
+        "frames/idle_car/idle_car_005.png",
+        "frames/idle_car/idle_car_006.png",
+        "frames/idle_car/idle_car_007.png",
+        "frames/idle_car/idle_car_008.png",
+        "frames/idle_car/idle_car_009.png",
+        "frames/idle_car/idle_car_010.png",
+        "frames/idle_car/idle_car_011.png",
+        "frames/idle_car/idle_car_012.png",
+        "frames/idle_car/idle_car_013.png",
+        "frames/idle_car/idle_car_014.png"
+      ],
+      "fps": 14
+    },
+    "drive_straight": {
+      "frames": [
+        "frames/drive_straight/drive_straight_000.png",
+        "frames/drive_straight/drive_straight_001.png",
+        "frames/drive_straight/drive_straight_002.png",
+        "frames/drive_straight/drive_straight_003.png",
+        "frames/drive_straight/drive_straight_004.png",
+        "frames/drive_straight/drive_straight_005.png",
+        "frames/drive_straight/drive_straight_006.png",
+        "frames/drive_straight/drive_straight_007.png",
+        "frames/drive_straight/drive_straight_008.png",
+        "frames/drive_straight/drive_straight_009.png",
+        "frames/drive_straight/drive_straight_010.png",
+        "frames/drive_straight/drive_straight_011.png",
+        "frames/drive_straight/drive_straight_012.png",
+        "frames/drive_straight/drive_straight_013.png",
+        "frames/drive_straight/drive_straight_014.png"
+      ],
+      "fps": 14
+    },
+    "steer_left": {
+      "frames": [
+        "frames/steer_left/steer_left_000.png",
+        "frames/steer_left/steer_left_001.png",
+        "frames/steer_left/steer_left_002.png",
+        "frames/steer_left/steer_left_003.png",
+        "frames/steer_left/steer_left_004.png",
+        "frames/steer_left/steer_left_005.png",
+        "frames/steer_left/steer_left_006.png",
+        "frames/steer_left/steer_left_007.png",
+        "frames/steer_left/steer_left_008.png",
+        "frames/steer_left/steer_left_009.png",
+        "frames/steer_left/steer_left_010.png",
+        "frames/steer_left/steer_left_011.png",
+        "frames/steer_left/steer_left_012.png",
+        "frames/steer_left/steer_left_013.png",
+        "frames/steer_left/steer_left_014.png"
+      ],
+      "fps": 14
+    },
+    "steer_right": {
+      "frames": [
+        "frames/steer_right/steer_right_000.png",
+        "frames/steer_right/steer_right_001.png",
+        "frames/steer_right/steer_right_002.png",
+        "frames/steer_right/steer_right_003.png",
+        "frames/steer_right/steer_right_004.png",
+        "frames/steer_right/steer_right_005.png",
+        "frames/steer_right/steer_right_006.png",
+        "frames/steer_right/steer_right_007.png",
+        "frames/steer_right/steer_right_008.png",
+        "frames/steer_right/steer_right_009.png",
+        "frames/steer_right/steer_right_010.png",
+        "frames/steer_right/steer_right_011.png",
+        "frames/steer_right/steer_right_012.png",
+        "frames/steer_right/steer_right_013.png",
+        "frames/steer_right/steer_right_014.png"
+      ],
+      "fps": 14
+    },
+    "drift_left": {
+      "frames": [
+        "frames/drift_left/drift_left_000.png",
+        "frames/drift_left/drift_left_001.png",
+        "frames/drift_left/drift_left_002.png",
+        "frames/drift_left/drift_left_003.png",
+        "frames/drift_left/drift_left_004.png",
+        "frames/drift_left/drift_left_005.png",
+        "frames/drift_left/drift_left_006.png",
+        "frames/drift_left/drift_left_007.png",
+        "frames/drift_left/drift_left_008.png",
+        "frames/drift_left/drift_left_009.png",
+        "frames/drift_left/drift_left_010.png",
+        "frames/drift_left/drift_left_011.png",
+        "frames/drift_left/drift_left_012.png",
+        "frames/drift_left/drift_left_013.png",
+        "frames/drift_left/drift_left_014.png"
+      ],
+      "fps": 14
+    },
+    "drift_right": {
+      "frames": [
+        "frames/drift_right/drift_right_000.png",
+        "frames/drift_right/drift_right_001.png",
+        "frames/drift_right/drift_right_002.png",
+        "frames/drift_right/drift_right_003.png",
+        "frames/drift_right/drift_right_004.png",
+        "frames/drift_right/drift_right_005.png",
+        "frames/drift_right/drift_right_006.png",
+        "frames/drift_right/drift_right_007.png",
+        "frames/drift_right/drift_right_008.png",
+        "frames/drift_right/drift_right_009.png",
+        "frames/drift_right/drift_right_010.png",
+        "frames/drift_right/drift_right_011.png",
+        "frames/drift_right/drift_right_012.png",
+        "frames/drift_right/drift_right_013.png",
+        "frames/drift_right/drift_right_014.png"
+      ],
+      "fps": 14
+    },
+    "boost": {
+      "frames": [
+        "frames/boost/boost_000.png",
+        "frames/boost/boost_001.png",
+        "frames/boost/boost_002.png",
+        "frames/boost/boost_003.png",
+        "frames/boost/boost_004.png",
+        "frames/boost/boost_005.png",
+        "frames/boost/boost_006.png",
+        "frames/boost/boost_007.png",
+        "frames/boost/boost_008.png",
+        "frames/boost/boost_009.png",
+        "frames/boost/boost_010.png",
+        "frames/boost/boost_011.png",
+        "frames/boost/boost_012.png",
+        "frames/boost/boost_013.png",
+        "frames/boost/boost_014.png"
+      ],
+      "fps": 14
+    },
+    "brake": {
+      "frames": [
+        "frames/brake/brake_000.png",
+        "frames/brake/brake_001.png",
+        "frames/brake/brake_002.png",
+        "frames/brake/brake_003.png",
+        "frames/brake/brake_004.png",
+        "frames/brake/brake_005.png",
+        "frames/brake/brake_006.png",
+        "frames/brake/brake_007.png",
+        "frames/brake/brake_008.png",
+        "frames/brake/brake_009.png",
+        "frames/brake/brake_010.png",
+        "frames/brake/brake_011.png",
+        "frames/brake/brake_012.png",
+        "frames/brake/brake_013.png",
+        "frames/brake/brake_014.png"
+      ],
+      "fps": 14
+    },
+    "crash": {
+      "frames": [
+        "frames/crash/crash_000.png",
+        "frames/crash/crash_001.png",
+        "frames/crash/crash_002.png",
+        "frames/crash/crash_003.png",
+        "frames/crash/crash_004.png",
+        "frames/crash/crash_005.png",
+        "frames/crash/crash_006.png",
+        "frames/crash/crash_007.png",
+        "frames/crash/crash_008.png",
+        "frames/crash/crash_009.png",
+        "frames/crash/crash_010.png",
+        "frames/crash/crash_011.png",
+        "frames/crash/crash_012.png",
+        "frames/crash/crash_013.png",
+        "frames/crash/crash_014.png"
+      ],
+      "fps": 14
+    },
+    "recover": {
+      "frames": [
+        "frames/recover/recover_000.png",
+        "frames/recover/recover_001.png",
+        "frames/recover/recover_002.png",
+        "frames/recover/recover_003.png",
+        "frames/recover/recover_004.png",
+        "frames/recover/recover_005.png",
+        "frames/recover/recover_006.png",
+        "frames/recover/recover_007.png",
+        "frames/recover/recover_008.png",
+        "frames/recover/recover_009.png",
+        "frames/recover/recover_010.png",
+        "frames/recover/recover_011.png",
+        "frames/recover/recover_012.png",
+        "frames/recover/recover_013.png",
+        "frames/recover/recover_014.png"
+      ],
+      "fps": 14
+    },
+    "airborne": {
+      "frames": [
+        "frames/airborne/airborne_000.png",
+        "frames/airborne/airborne_001.png",
+        "frames/airborne/airborne_002.png",
+        "frames/airborne/airborne_003.png",
+        "frames/airborne/airborne_004.png",
+        "frames/airborne/airborne_005.png",
+        "frames/airborne/airborne_006.png",
+        "frames/airborne/airborne_007.png",
+        "frames/airborne/airborne_008.png",
+        "frames/airborne/airborne_009.png",
+        "frames/airborne/airborne_010.png",
+        "frames/airborne/airborne_011.png",
+        "frames/airborne/airborne_012.png",
+        "frames/airborne/airborne_013.png",
+        "frames/airborne/airborne_014.png"
+      ],
+      "fps": 14
+    },
+    "land": {
+      "frames": [
+        "frames/land/land_000.png",
+        "frames/land/land_001.png",
+        "frames/land/land_002.png",
+        "frames/land/land_003.png",
+        "frames/land/land_004.png",
+        "frames/land/land_005.png",
+        "frames/land/land_006.png",
+        "frames/land/land_007.png",
+        "frames/land/land_008.png",
+        "frames/land/land_009.png",
+        "frames/land/land_010.png",
+        "frames/land/land_011.png",
+        "frames/land/land_012.png",
+        "frames/land/land_013.png",
+        "frames/land/land_014.png"
+      ],
+      "fps": 14
+    },
+    "collect": {
+      "frames": [
+        "frames/collect/collect_000.png",
+        "frames/collect/collect_001.png",
+        "frames/collect/collect_002.png",
+        "frames/collect/collect_003.png",
+        "frames/collect/collect_004.png",
+        "frames/collect/collect_005.png",
+        "frames/collect/collect_006.png",
+        "frames/collect/collect_007.png",
+        "frames/collect/collect_008.png",
+        "frames/collect/collect_009.png",
+        "frames/collect/collect_010.png",
+        "frames/collect/collect_011.png",
+        "frames/collect/collect_012.png",
+        "frames/collect/collect_013.png",
+        "frames/collect/collect_014.png"
+      ],
+      "fps": 14
+    },
+    "dodge": {
+      "frames": [
+        "frames/dodge/dodge_000.png",
+        "frames/dodge/dodge_001.png",
+        "frames/dodge/dodge_002.png",
+        "frames/dodge/dodge_003.png",
+        "frames/dodge/dodge_004.png",
+        "frames/dodge/dodge_005.png",
+        "frames/dodge/dodge_006.png",
+        "frames/dodge/dodge_007.png",
+        "frames/dodge/dodge_008.png",
+        "frames/dodge/dodge_009.png",
+        "frames/dodge/dodge_010.png",
+        "frames/dodge/dodge_011.png",
+        "frames/dodge/dodge_012.png",
+        "frames/dodge/dodge_013.png",
+        "frames/dodge/dodge_014.png"
+      ],
+      "fps": 14
+    },
+    "wheelie": {
+      "frames": [
+        "frames/wheelie/wheelie_000.png",
+        "frames/wheelie/wheelie_001.png",
+        "frames/wheelie/wheelie_002.png",
+        "frames/wheelie/wheelie_003.png",
+        "frames/wheelie/wheelie_004.png",
+        "frames/wheelie/wheelie_005.png",
+        "frames/wheelie/wheelie_006.png",
+        "frames/wheelie/wheelie_007.png",
+        "frames/wheelie/wheelie_008.png",
+        "frames/wheelie/wheelie_009.png",
+        "frames/wheelie/wheelie_010.png",
+        "frames/wheelie/wheelie_011.png",
+        "frames/wheelie/wheelie_012.png",
+        "frames/wheelie/wheelie_013.png",
+        "frames/wheelie/wheelie_014.png"
+      ],
+      "fps": 14
+    },
+    "taunt": {
+      "frames": [
+        "frames/taunt/taunt_000.png",
+        "frames/taunt/taunt_001.png",
+        "frames/taunt/taunt_002.png",
+        "frames/taunt/taunt_003.png",
+        "frames/taunt/taunt_004.png",
+        "frames/taunt/taunt_005.png",
+        "frames/taunt/taunt_006.png",
+        "frames/taunt/taunt_007.png",
+        "frames/taunt/taunt_008.png",
+        "frames/taunt/taunt_009.png",
+        "frames/taunt/taunt_010.png",
+        "frames/taunt/taunt_011.png",
+        "frames/taunt/taunt_012.png",
+        "frames/taunt/taunt_013.png",
+        "frames/taunt/taunt_014.png"
+      ],
+      "fps": 14
+    },
+    "finish": {
+      "frames": [
+        "frames/finish/finish_000.png",
+        "frames/finish/finish_001.png",
+        "frames/finish/finish_002.png",
+        "frames/finish/finish_003.png",
+        "frames/finish/finish_004.png",
+        "frames/finish/finish_005.png",
+        "frames/finish/finish_006.png",
+        "frames/finish/finish_007.png",
+        "frames/finish/finish_008.png",
+        "frames/finish/finish_009.png",
+        "frames/finish/finish_010.png",
+        "frames/finish/finish_011.png",
+        "frames/finish/finish_012.png",
+        "frames/finish/finish_013.png",
+        "frames/finish/finish_014.png"
+      ],
+      "fps": 14
+    },
+    "celebrate": {
+      "frames": [
+        "frames/celebrate/celebrate_000.png",
+        "frames/celebrate/celebrate_001.png",
+        "frames/celebrate/celebrate_002.png",
+        "frames/celebrate/celebrate_003.png",
+        "frames/celebrate/celebrate_004.png",
+        "frames/celebrate/celebrate_005.png",
+        "frames/celebrate/celebrate_006.png",
+        "frames/celebrate/celebrate_007.png",
+        "frames/celebrate/celebrate_008.png",
+        "frames/celebrate/celebrate_009.png",
+        "frames/celebrate/celebrate_010.png",
+        "frames/celebrate/celebrate_011.png",
+        "frames/celebrate/celebrate_012.png",
+        "frames/celebrate/celebrate_013.png",
+        "frames/celebrate/celebrate_014.png"
+      ],
+      "fps": 14
+    },
+    "defeat": {
+      "frames": [
+        "frames/defeat/defeat_000.png",
+        "frames/defeat/defeat_001.png",
+        "frames/defeat/defeat_002.png",
+        "frames/defeat/defeat_003.png",
+        "frames/defeat/defeat_004.png",
+        "frames/defeat/defeat_005.png",
+        "frames/defeat/defeat_006.png",
+        "frames/defeat/defeat_007.png",
+        "frames/defeat/defeat_008.png",
+        "frames/defeat/defeat_009.png",
+        "frames/defeat/defeat_010.png",
+        "frames/defeat/defeat_011.png",
+        "frames/defeat/defeat_012.png",
+        "frames/defeat/defeat_013.png",
+        "frames/defeat/defeat_014.png"
+      ],
+      "fps": 14
+    },
+    "pitstop": {
+      "frames": [
+        "frames/pitstop/pitstop_000.png",
+        "frames/pitstop/pitstop_001.png",
+        "frames/pitstop/pitstop_002.png",
+        "frames/pitstop/pitstop_003.png",
+        "frames/pitstop/pitstop_004.png",
+        "frames/pitstop/pitstop_005.png",
+        "frames/pitstop/pitstop_006.png",
+        "frames/pitstop/pitstop_007.png",
+        "frames/pitstop/pitstop_008.png",
+        "frames/pitstop/pitstop_009.png",
+        "frames/pitstop/pitstop_010.png",
+        "frames/pitstop/pitstop_011.png",
+        "frames/pitstop/pitstop_012.png",
+        "frames/pitstop/pitstop_013.png",
+        "frames/pitstop/pitstop_014.png"
+      ],
+      "fps": 14
+    }
+  },
+  "platformer": {
+    "idle": {
+      "frames": [
+        "frames/idle/idle_000.png",
+        "frames/idle/idle_001.png",
+        "frames/idle/idle_002.png",
+        "frames/idle/idle_003.png",
+        "frames/idle/idle_004.png",
+        "frames/idle/idle_005.png",
+        "frames/idle/idle_006.png",
+        "frames/idle/idle_007.png",
+        "frames/idle/idle_008.png",
+        "frames/idle/idle_009.png",
+        "frames/idle/idle_010.png",
+        "frames/idle/idle_011.png",
+        "frames/idle/idle_012.png",
+        "frames/idle/idle_013.png",
+        "frames/idle/idle_014.png"
+      ],
+      "fps": 12
+    },
+    "run": {
+      "frames": [
+        "frames/run/run_000.png",
+        "frames/run/run_001.png",
+        "frames/run/run_002.png",
+        "frames/run/run_003.png",
+        "frames/run/run_004.png",
+        "frames/run/run_005.png",
+        "frames/run/run_006.png",
+        "frames/run/run_007.png",
+        "frames/run/run_008.png",
+        "frames/run/run_009.png",
+        "frames/run/run_010.png",
+        "frames/run/run_011.png",
+        "frames/run/run_012.png",
+        "frames/run/run_013.png",
+        "frames/run/run_014.png"
+      ],
+      "fps": 12
+    },
+    "jump": {
+      "frames": [
+        "frames/jump/jump_000.png",
+        "frames/jump/jump_001.png",
+        "frames/jump/jump_002.png",
+        "frames/jump/jump_003.png",
+        "frames/jump/jump_004.png",
+        "frames/jump/jump_005.png",
+        "frames/jump/jump_006.png",
+        "frames/jump/jump_007.png",
+        "frames/jump/jump_008.png",
+        "frames/jump/jump_009.png",
+        "frames/jump/jump_010.png",
+        "frames/jump/jump_011.png",
+        "frames/jump/jump_012.png",
+        "frames/jump/jump_013.png",
+        "frames/jump/jump_014.png"
+      ],
+      "fps": 12
+    },
+    "double_jump": {
+      "frames": [
+        "frames/double_jump/double_jump_000.png",
+        "frames/double_jump/double_jump_001.png",
+        "frames/double_jump/double_jump_002.png",
+        "frames/double_jump/double_jump_003.png",
+        "frames/double_jump/double_jump_004.png",
+        "frames/double_jump/double_jump_005.png",
+        "frames/double_jump/double_jump_006.png",
+        "frames/double_jump/double_jump_007.png",
+        "frames/double_jump/double_jump_008.png",
+        "frames/double_jump/double_jump_009.png",
+        "frames/double_jump/double_jump_010.png",
+        "frames/double_jump/double_jump_011.png",
+        "frames/double_jump/double_jump_012.png",
+        "frames/double_jump/double_jump_013.png",
+        "frames/double_jump/double_jump_014.png"
+      ],
+      "fps": 12
+    },
+    "fall": {
+      "frames": [
+        "frames/fall/fall_000.png",
+        "frames/fall/fall_001.png",
+        "frames/fall/fall_002.png",
+        "frames/fall/fall_003.png",
+        "frames/fall/fall_004.png",
+        "frames/fall/fall_005.png",
+        "frames/fall/fall_006.png",
+        "frames/fall/fall_007.png",
+        "frames/fall/fall_008.png",
+        "frames/fall/fall_009.png",
+        "frames/fall/fall_010.png",
+        "frames/fall/fall_011.png",
+        "frames/fall/fall_012.png",
+        "frames/fall/fall_013.png",
+        "frames/fall/fall_014.png"
+      ],
+      "fps": 12
+    },
+    "land": {
+      "frames": [
+        "frames/land/land_000.png",
+        "frames/land/land_001.png",
+        "frames/land/land_002.png",
+        "frames/land/land_003.png",
+        "frames/land/land_004.png",
+        "frames/land/land_005.png",
+        "frames/land/land_006.png",
+        "frames/land/land_007.png",
+        "frames/land/land_008.png",
+        "frames/land/land_009.png",
+        "frames/land/land_010.png",
+        "frames/land/land_011.png",
+        "frames/land/land_012.png",
+        "frames/land/land_013.png",
+        "frames/land/land_014.png"
+      ],
+      "fps": 12
+    },
+    "wall_cling": {
+      "frames": [
+        "frames/wall_cling/wall_cling_000.png",
+        "frames/wall_cling/wall_cling_001.png",
+        "frames/wall_cling/wall_cling_002.png",
+        "frames/wall_cling/wall_cling_003.png",
+        "frames/wall_cling/wall_cling_004.png",
+        "frames/wall_cling/wall_cling_005.png",
+        "frames/wall_cling/wall_cling_006.png",
+        "frames/wall_cling/wall_cling_007.png",
+        "frames/wall_cling/wall_cling_008.png",
+        "frames/wall_cling/wall_cling_009.png",
+        "frames/wall_cling/wall_cling_010.png",
+        "frames/wall_cling/wall_cling_011.png",
+        "frames/wall_cling/wall_cling_012.png",
+        "frames/wall_cling/wall_cling_013.png",
+        "frames/wall_cling/wall_cling_014.png"
+      ],
+      "fps": 12
+    },
+    "wall_jump": {
+      "frames": [
+        "frames/wall_jump/wall_jump_000.png",
+        "frames/wall_jump/wall_jump_001.png",
+        "frames/wall_jump/wall_jump_002.png",
+        "frames/wall_jump/wall_jump_003.png",
+        "frames/wall_jump/wall_jump_004.png",
+        "frames/wall_jump/wall_jump_005.png",
+        "frames/wall_jump/wall_jump_006.png",
+        "frames/wall_jump/wall_jump_007.png",
+        "frames/wall_jump/wall_jump_008.png",
+        "frames/wall_jump/wall_jump_009.png",
+        "frames/wall_jump/wall_jump_010.png",
+        "frames/wall_jump/wall_jump_011.png",
+        "frames/wall_jump/wall_jump_012.png",
+        "frames/wall_jump/wall_jump_013.png",
+        "frames/wall_jump/wall_jump_014.png"
+      ],
+      "fps": 12
+    },
+    "ceiling_cling": {
+      "frames": [
+        "frames/ceiling_cling/ceiling_cling_000.png",
+        "frames/ceiling_cling/ceiling_cling_001.png",
+        "frames/ceiling_cling/ceiling_cling_002.png",
+        "frames/ceiling_cling/ceiling_cling_003.png",
+        "frames/ceiling_cling/ceiling_cling_004.png",
+        "frames/ceiling_cling/ceiling_cling_005.png",
+        "frames/ceiling_cling/ceiling_cling_006.png",
+        "frames/ceiling_cling/ceiling_cling_007.png",
+        "frames/ceiling_cling/ceiling_cling_008.png",
+        "frames/ceiling_cling/ceiling_cling_009.png",
+        "frames/ceiling_cling/ceiling_cling_010.png",
+        "frames/ceiling_cling/ceiling_cling_011.png",
+        "frames/ceiling_cling/ceiling_cling_012.png",
+        "frames/ceiling_cling/ceiling_cling_013.png",
+        "frames/ceiling_cling/ceiling_cling_014.png"
+      ],
+      "fps": 12
+    },
+    "tongue_swing": {
+      "frames": [
+        "frames/tongue_swing/tongue_swing_000.png",
+        "frames/tongue_swing/tongue_swing_001.png",
+        "frames/tongue_swing/tongue_swing_002.png",
+        "frames/tongue_swing/tongue_swing_003.png",
+        "frames/tongue_swing/tongue_swing_004.png",
+        "frames/tongue_swing/tongue_swing_005.png",
+        "frames/tongue_swing/tongue_swing_006.png",
+        "frames/tongue_swing/tongue_swing_007.png",
+        "frames/tongue_swing/tongue_swing_008.png",
+        "frames/tongue_swing/tongue_swing_009.png",
+        "frames/tongue_swing/tongue_swing_010.png",
+        "frames/tongue_swing/tongue_swing_011.png",
+        "frames/tongue_swing/tongue_swing_012.png",
+        "frames/tongue_swing/tongue_swing_013.png",
+        "frames/tongue_swing/tongue_swing_014.png"
+      ],
+      "fps": 12
+    },
+    "ledge_grab": {
+      "frames": [
+        "frames/ledge_grab/ledge_grab_000.png",
+        "frames/ledge_grab/ledge_grab_001.png",
+        "frames/ledge_grab/ledge_grab_002.png",
+        "frames/ledge_grab/ledge_grab_003.png",
+        "frames/ledge_grab/ledge_grab_004.png",
+        "frames/ledge_grab/ledge_grab_005.png",
+        "frames/ledge_grab/ledge_grab_006.png",
+        "frames/ledge_grab/ledge_grab_007.png",
+        "frames/ledge_grab/ledge_grab_008.png",
+        "frames/ledge_grab/ledge_grab_009.png",
+        "frames/ledge_grab/ledge_grab_010.png",
+        "frames/ledge_grab/ledge_grab_011.png",
+        "frames/ledge_grab/ledge_grab_012.png",
+        "frames/ledge_grab/ledge_grab_013.png",
+        "frames/ledge_grab/ledge_grab_014.png"
+      ],
+      "fps": 12
+    },
+    "climb": {
+      "frames": [
+        "frames/climb/climb_000.png",
+        "frames/climb/climb_001.png",
+        "frames/climb/climb_002.png",
+        "frames/climb/climb_003.png",
+        "frames/climb/climb_004.png",
+        "frames/climb/climb_005.png",
+        "frames/climb/climb_006.png",
+        "frames/climb/climb_007.png",
+        "frames/climb/climb_008.png",
+        "frames/climb/climb_009.png",
+        "frames/climb/climb_010.png",
+        "frames/climb/climb_011.png",
+        "frames/climb/climb_012.png",
+        "frames/climb/climb_013.png",
+        "frames/climb/climb_014.png"
+      ],
+      "fps": 12
+    },
+    "attack": {
+      "frames": [
+        "frames/attack/attack_000.png",
+        "frames/attack/attack_001.png",
+        "frames/attack/attack_002.png",
+        "frames/attack/attack_003.png",
+        "frames/attack/attack_004.png",
+        "frames/attack/attack_005.png",
+        "frames/attack/attack_006.png",
+        "frames/attack/attack_007.png",
+        "frames/attack/attack_008.png",
+        "frames/attack/attack_009.png",
+        "frames/attack/attack_010.png",
+        "frames/attack/attack_011.png",
+        "frames/attack/attack_012.png",
+        "frames/attack/attack_013.png",
+        "frames/attack/attack_014.png"
+      ],
+      "fps": 12
+    },
+    "stomp": {
+      "frames": [
+        "frames/stomp/stomp_000.png",
+        "frames/stomp/stomp_001.png",
+        "frames/stomp/stomp_002.png",
+        "frames/stomp/stomp_003.png",
+        "frames/stomp/stomp_004.png",
+        "frames/stomp/stomp_005.png",
+        "frames/stomp/stomp_006.png",
+        "frames/stomp/stomp_007.png",
+        "frames/stomp/stomp_008.png",
+        "frames/stomp/stomp_009.png",
+        "frames/stomp/stomp_010.png",
+        "frames/stomp/stomp_011.png",
+        "frames/stomp/stomp_012.png",
+        "frames/stomp/stomp_013.png",
+        "frames/stomp/stomp_014.png"
+      ],
+      "fps": 12
+    },
+    "collect": {
+      "frames": [
+        "frames/collect/collect_000.png",
+        "frames/collect/collect_001.png",
+        "frames/collect/collect_002.png",
+        "frames/collect/collect_003.png",
+        "frames/collect/collect_004.png",
+        "frames/collect/collect_005.png",
+        "frames/collect/collect_006.png",
+        "frames/collect/collect_007.png",
+        "frames/collect/collect_008.png",
+        "frames/collect/collect_009.png",
+        "frames/collect/collect_010.png",
+        "frames/collect/collect_011.png",
+        "frames/collect/collect_012.png",
+        "frames/collect/collect_013.png",
+        "frames/collect/collect_014.png"
+      ],
+      "fps": 12
+    },
+    "hurt": {
+      "frames": [
+        "frames/hurt/hurt_000.png",
+        "frames/hurt/hurt_001.png",
+        "frames/hurt/hurt_002.png",
+        "frames/hurt/hurt_003.png",
+        "frames/hurt/hurt_004.png",
+        "frames/hurt/hurt_005.png",
+        "frames/hurt/hurt_006.png",
+        "frames/hurt/hurt_007.png",
+        "frames/hurt/hurt_008.png",
+        "frames/hurt/hurt_009.png",
+        "frames/hurt/hurt_010.png",
+        "frames/hurt/hurt_011.png",
+        "frames/hurt/hurt_012.png",
+        "frames/hurt/hurt_013.png",
+        "frames/hurt/hurt_014.png"
+      ],
+      "fps": 12
+    },
+    "recover": {
+      "frames": [
+        "frames/recover/recover_000.png",
+        "frames/recover/recover_001.png",
+        "frames/recover/recover_002.png",
+        "frames/recover/recover_003.png",
+        "frames/recover/recover_004.png",
+        "frames/recover/recover_005.png",
+        "frames/recover/recover_006.png",
+        "frames/recover/recover_007.png",
+        "frames/recover/recover_008.png",
+        "frames/recover/recover_009.png",
+        "frames/recover/recover_010.png",
+        "frames/recover/recover_011.png",
+        "frames/recover/recover_012.png",
+        "frames/recover/recover_013.png",
+        "frames/recover/recover_014.png"
+      ],
+      "fps": 12
+    },
+    "camouflage": {
+      "frames": [
+        "frames/camouflage/camouflage_000.png",
+        "frames/camouflage/camouflage_001.png",
+        "frames/camouflage/camouflage_002.png",
+        "frames/camouflage/camouflage_003.png",
+        "frames/camouflage/camouflage_004.png",
+        "frames/camouflage/camouflage_005.png",
+        "frames/camouflage/camouflage_006.png",
+        "frames/camouflage/camouflage_007.png",
+        "frames/camouflage/camouflage_008.png",
+        "frames/camouflage/camouflage_009.png",
+        "frames/camouflage/camouflage_010.png",
+        "frames/camouflage/camouflage_011.png",
+        "frames/camouflage/camouflage_012.png",
+        "frames/camouflage/camouflage_013.png",
+        "frames/camouflage/camouflage_014.png"
+      ],
+      "fps": 12
+    },
+    "celebrate": {
+      "frames": [
+        "frames/celebrate/celebrate_000.png",
+        "frames/celebrate/celebrate_001.png",
+        "frames/celebrate/celebrate_002.png",
+        "frames/celebrate/celebrate_003.png",
+        "frames/celebrate/celebrate_004.png",
+        "frames/celebrate/celebrate_005.png",
+        "frames/celebrate/celebrate_006.png",
+        "frames/celebrate/celebrate_007.png",
+        "frames/celebrate/celebrate_008.png",
+        "frames/celebrate/celebrate_009.png",
+        "frames/celebrate/celebrate_010.png",
+        "frames/celebrate/celebrate_011.png",
+        "frames/celebrate/celebrate_012.png",
+        "frames/celebrate/celebrate_013.png",
+        "frames/celebrate/celebrate_014.png"
+      ],
+      "fps": 12
+    },
+    "finish": {
+      "frames": [
+        "frames/finish/finish_000.png",
+        "frames/finish/finish_001.png",
+        "frames/finish/finish_002.png",
+        "frames/finish/finish_003.png",
+        "frames/finish/finish_004.png",
+        "frames/finish/finish_005.png",
+        "frames/finish/finish_006.png",
+        "frames/finish/finish_007.png",
+        "frames/finish/finish_008.png",
+        "frames/finish/finish_009.png",
+        "frames/finish/finish_010.png",
+        "frames/finish/finish_011.png",
+        "frames/finish/finish_012.png",
+        "frames/finish/finish_013.png",
+        "frames/finish/finish_014.png"
+      ],
+      "fps": 12
+    }
+  }
+}

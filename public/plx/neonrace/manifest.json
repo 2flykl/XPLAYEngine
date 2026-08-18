@@ -1,0 +1,43 @@
+{
+  "title": "Neon Circuit \u00b7 Flux Edition",
+  "description": "Flux-powered High-speed top-down racing PLX.",
+  "engine": "racing",
+  "duration": 60,
+  "objective": {
+    "label": "Reach the finish line"
+  },
+  "theme": {
+    "background": "#10243b"
+  },
+  "physics": {
+    "gravity": 0
+  },
+  "assets": {
+    "images": {
+      "background": "/flux-pack/runtime/backgrounds/city_rooftop.png",
+      "player": "/rc-assets/racing/player.png",
+      "enemy": "/rc-assets/racing/enemy.png",
+      "collectible": "/rc-assets/racing/collectible.png",
+      "platform": "assets/platform.svg",
+      "hazard": "/rc-assets/racing/hazard.png",
+      "goal": "/rc-assets/racing/goal.png"
+    }
+  },
+  "fluxEdition": true,
+  "fluxPack": {
+    "folder": "18_PLX_RACING",
+    "defaultAnimation": "idle_car",
+    "speculativeFrames": 300
+  },
+  "parallax": {
+    "far": "/flux-pack/20_ENVIRONMENTS/city_rooftop/far.png",
+    "mid": "/flux-pack/20_ENVIRONMENTS/city_rooftop/mid.png",
+    "near": "/flux-pack/20_ENVIRONMENTS/city_rooftop/near.png"
+  },
+  "scrollProfile": {
+    "axis": "y",
+    "direction": "down"
+  },
+  "releaseCandidateArt": true,
+  "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback"
+}

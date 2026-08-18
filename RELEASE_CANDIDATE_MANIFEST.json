@@ -1,0 +1,26 @@
+{
+  "name": "XPLAY",
+  "version": "3.1.0-rc.1",
+  "openingExperience": "social timeline",
+  "tagline": "Scroll less. Play more.",
+  "categories": [
+    "fps",
+    "fighting",
+    "runner",
+    "dodge",
+    "collect",
+    "rhythm",
+    "puzzle",
+    "openworld",
+    "racing",
+    "platformer"
+  ],
+  "releaseLocks": {
+    "fps": true,
+    "fighting": true
+  },
+  "mockSocialPosts": 10,
+  "antigravityAgents": 6,
+  "placeholderPolicy": "no black/geometric placeholder actors in normal gameplay paths",
+  "liveStageExpected": "https://2flykl.github.io/XPLAY/"
+}

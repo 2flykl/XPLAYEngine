@@ -1,0 +1,24 @@
+XPLAY 2.7 VISUAL STACK MAP
+
+TIER 0 — EXISTING
+Vite + Phaser + Node + Supabase + Flux assets
+
+TIER 1 — NEW LOCAL VISUAL INTELLIGENCE
+Python + FastAPI + OpenCV + NumPy + Pillow
+Purpose: subject extraction, masks, clean plates, object candidates, parallax layers, QA score
+
+TIER 2 — NEW MAX LOCAL SEMANTIC MODE
+PyTorch + TorchVision Mask R-CNN
+Purpose: semantic person isolation and labeled object masks (including airplane, car, suitcase, etc.)
+Start with MAX-VISUAL-START.bat.
+First model load can download a large pretrained weight file.
+
+TIER 3 — OPTIONAL GENERATIVE ART
+OpenAI vision direction + GPT Image 2 remaster/edit
+Purpose: transform CLEAN isolated elements into visually unified premium arcade art.
+Enable by copying .env.example to .env and supplying OPENAI_API_KEY.
+
+WHY THE TIERS MATTER
+The system no longer asks one tool to do everything. Extraction, semantic understanding,
+art direction, remastering, runtime composition, and quality control are separate stages.
+That is the architecture needed for a genuine "I can't believe my photo became this" result.

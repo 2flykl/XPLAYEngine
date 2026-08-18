@@ -1,0 +1,41 @@
+{
+  "title": "Street Clash \u00b7 Flux Edition",
+  "description": "Flux-powered One-on-one fighting PLX.",
+  "engine": "fighting",
+  "duration": 60,
+  "objective": {
+    "label": "Defeat the rival"
+  },
+  "theme": {
+    "background": "#10243b"
+  },
+  "physics": {
+    "gravity": 900
+  },
+  "assets": {
+    "images": {
+      "background": "/flux-pack/runtime/backgrounds/city_rooftop.png",
+      "player": "/flux-pack/16_PLX_FIGHTING/frames/stance/stance_000.png",
+      "enemy": "/rc-assets/fighting/enemy.png",
+      "collectible": "/rc-assets/fighting/collectible.png",
+      "platform": "/rc-assets/fighting/platform.png"
+    }
+  },
+  "fluxEdition": true,
+  "fluxPack": {
+    "folder": "16_PLX_FIGHTING",
+    "defaultAnimation": "stance",
+    "speculativeFrames": 300
+  },
+  "parallax": {
+    "far": "/flux-pack/20_ENVIRONMENTS/city_rooftop/far.png",
+    "mid": "/flux-pack/20_ENVIRONMENTS/city_rooftop/mid.png",
+    "near": "/flux-pack/20_ENVIRONMENTS/city_rooftop/near.png"
+  },
+  "scrollProfile": {
+    "axis": "none",
+    "direction": "static"
+  },
+  "releaseCandidateArt": true,
+  "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback"
+}

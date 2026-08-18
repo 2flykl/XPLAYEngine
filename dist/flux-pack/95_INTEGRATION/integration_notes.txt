@@ -1,0 +1,16 @@
+Integration notes:
+1. Use Flux Classic as the default library mascot build.
+2. Use the environment kit mapped to each category to replace placeholder blocks/screens.
+3. For Phaser, start by loading atlas preview images for review, then swap to per-animation folders or packed atlases as needed.
+4. Each PLX category pack provides 20 animation groups x 15 frames.
+5. If the engine is not ready for 300-frame usage, start with these minimum subsets:
+   - Runner: idle, run, jump, fall, land, slide, celebrate
+   - Dodge: idle, move_up, move_left, move_right, duck, evade, hurt
+   - Collect: idle, walk, pickup, carry, interact, victory
+   - Rhythm: idle_groove, beat_left, beat_right, beat_up, beat_down, perfect, miss
+   - Puzzle: think, inspect, choose, correct, wrong, victory
+   - FPS: idle_aim, strafe_left, strafe_right, fire, reload, recover
+   - Fighting: stance, walk_forward, punch, kick, block, hurt, victory
+   - Open World: idle, walk_n, walk_s, interact, talk, use_map, quest_complete
+   - Racing: idle_car, drive_straight, steer_left, steer_right, boost, crash, finish
+   - Platformer: idle, run, jump, wall_cling, wall_jump, collect, finish

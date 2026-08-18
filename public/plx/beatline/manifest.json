@@ -1,0 +1,42 @@
+{
+  "engine": "rhythm",
+  "title": "Beatline City \u00b7 Flux Edition",
+  "description": "Flux-powered Four-lane rhythm timing PLX.",
+  "duration": 35,
+  "objective": {
+    "label": "Build score"
+  },
+  "theme": {
+    "background": "#101f38"
+  },
+  "physics": {
+    "gravity": 0
+  },
+  "assets": {
+    "images": {
+      "background": "/flux-pack/runtime/backgrounds/digital_xplay.png",
+      "player": "/flux-pack/13_PLX_RHYTHM/frames/idle_groove/idle_groove_000.png",
+      "hazard": "/rc-assets/rhythm/hazard.png",
+      "collectible": "/rc-assets/rhythm/collectible.png",
+      "platform": "assets/platform.svg",
+      "note": "/rc-assets/rhythm/note.png"
+    }
+  },
+  "fluxEdition": true,
+  "fluxPack": {
+    "folder": "13_PLX_RHYTHM",
+    "defaultAnimation": "idle_groove",
+    "speculativeFrames": 300
+  },
+  "parallax": {
+    "far": "/flux-pack/20_ENVIRONMENTS/digital_xplay/far.png",
+    "mid": "/flux-pack/20_ENVIRONMENTS/digital_xplay/mid.png",
+    "near": "/flux-pack/20_ENVIRONMENTS/digital_xplay/near.png"
+  },
+  "scrollProfile": {
+    "axis": "y",
+    "direction": "down"
+  },
+  "releaseCandidateArt": true,
+  "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback"
+}

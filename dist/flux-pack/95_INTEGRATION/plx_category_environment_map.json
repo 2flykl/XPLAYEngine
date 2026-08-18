@@ -1,0 +1,12 @@
+{
+  "runner": "spectrum",
+  "dodge": "airport",
+  "collect": "forest_canopy",
+  "rhythm": "digital_xplay",
+  "puzzle": "digital_xplay",
+  "fps": "city_rooftop",
+  "fighting": "city_rooftop",
+  "open_world": "airport",
+  "racing": "city_rooftop",
+  "platformer": "neon_jungle"
+}

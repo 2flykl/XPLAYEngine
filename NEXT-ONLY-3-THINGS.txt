@@ -1,0 +1,19 @@
+ONLY THREE THINGS AFTER THIS BUILD
+
+1. Confirm:
+   - built-in PLXs launch
+   - Create PLX generates a playable draft
+   - Export .PLX downloads a package
+
+2. SUPABASE:
+   Run supabase-schema.sql once.
+   Add the project URL + anon key to .env.local.
+   Do NOT use the service-role key in the frontend.
+
+3. OPENAI (when you want REAL AI direction/assets):
+   Put OPENAI_API_KEY only in server/.env.
+   Set OPENAI_MODEL.
+   Then the same Create PLX screen automatically tries the server AI Director first and falls back locally if unavailable.
+
+After those three checks, the next engineering gulp is:
+REAL GENERATIVE ASSET JOBS + CHARACTER CONSISTENCY + PUBLIC CREATOR ACCOUNTS/FEED.

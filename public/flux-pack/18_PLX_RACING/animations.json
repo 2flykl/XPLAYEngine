@@ -1,0 +1,406 @@
+{
+  "category": "RACING",
+  "frame_count_total": 300,
+  "animations": {
+    "idle_car": {
+      "frames": [
+        "frames/idle_car/idle_car_000.png",
+        "frames/idle_car/idle_car_001.png",
+        "frames/idle_car/idle_car_002.png",
+        "frames/idle_car/idle_car_003.png",
+        "frames/idle_car/idle_car_004.png",
+        "frames/idle_car/idle_car_005.png",
+        "frames/idle_car/idle_car_006.png",
+        "frames/idle_car/idle_car_007.png",
+        "frames/idle_car/idle_car_008.png",
+        "frames/idle_car/idle_car_009.png",
+        "frames/idle_car/idle_car_010.png",
+        "frames/idle_car/idle_car_011.png",
+        "frames/idle_car/idle_car_012.png",
+        "frames/idle_car/idle_car_013.png",
+        "frames/idle_car/idle_car_014.png"
+      ],
+      "fps": 14
+    },
+    "drive_straight": {
+      "frames": [
+        "frames/drive_straight/drive_straight_000.png",
+        "frames/drive_straight/drive_straight_001.png",
+        "frames/drive_straight/drive_straight_002.png",
+        "frames/drive_straight/drive_straight_003.png",
+        "frames/drive_straight/drive_straight_004.png",
+        "frames/drive_straight/drive_straight_005.png",
+        "frames/drive_straight/drive_straight_006.png",
+        "frames/drive_straight/drive_straight_007.png",
+        "frames/drive_straight/drive_straight_008.png",
+        "frames/drive_straight/drive_straight_009.png",
+        "frames/drive_straight/drive_straight_010.png",
+        "frames/drive_straight/drive_straight_011.png",
+        "frames/drive_straight/drive_straight_012.png",
+        "frames/drive_straight/drive_straight_013.png",
+        "frames/drive_straight/drive_straight_014.png"
+      ],
+      "fps": 14
+    },
+    "steer_left": {
+      "frames": [
+        "frames/steer_left/steer_left_000.png",
+        "frames/steer_left/steer_left_001.png",
+        "frames/steer_left/steer_left_002.png",
+        "frames/steer_left/steer_left_003.png",
+        "frames/steer_left/steer_left_004.png",
+        "frames/steer_left/steer_left_005.png",
+        "frames/steer_left/steer_left_006.png",
+        "frames/steer_left/steer_left_007.png",
+        "frames/steer_left/steer_left_008.png",
+        "frames/steer_left/steer_left_009.png",
+        "frames/steer_left/steer_left_010.png",
+        "frames/steer_left/steer_left_011.png",
+        "frames/steer_left/steer_left_012.png",
+        "frames/steer_left/steer_left_013.png",
+        "frames/steer_left/steer_left_014.png"
+      ],
+      "fps": 14
+    },
+    "steer_right": {
+      "frames": [
+        "frames/steer_right/steer_right_000.png",
+        "frames/steer_right/steer_right_001.png",
+        "frames/steer_right/steer_right_002.png",
+        "frames/steer_right/steer_right_003.png",
+        "frames/steer_right/steer_right_004.png",
+        "frames/steer_right/steer_right_005.png",
+        "frames/steer_right/steer_right_006.png",
+        "frames/steer_right/steer_right_007.png",
+        "frames/steer_right/steer_right_008.png",
+        "frames/steer_right/steer_right_009.png",
+        "frames/steer_right/steer_right_010.png",
+        "frames/steer_right/steer_right_011.png",
+        "frames/steer_right/steer_right_012.png",
+        "frames/steer_right/steer_right_013.png",
+        "frames/steer_right/steer_right_014.png"
+      ],
+      "fps": 14
+    },
+    "drift_left": {
+      "frames": [
+        "frames/drift_left/drift_left_000.png",
+        "frames/drift_left/drift_left_001.png",
+        "frames/drift_left/drift_left_002.png",
+        "frames/drift_left/drift_left_003.png",
+        "frames/drift_left/drift_left_004.png",
+        "frames/drift_left/drift_left_005.png",
+        "frames/drift_left/drift_left_006.png",
+        "frames/drift_left/drift_left_007.png",
+        "frames/drift_left/drift_left_008.png",
+        "frames/drift_left/drift_left_009.png",
+        "frames/drift_left/drift_left_010.png",
+        "frames/drift_left/drift_left_011.png",
+        "frames/drift_left/drift_left_012.png",
+        "frames/drift_left/drift_left_013.png",
+        "frames/drift_left/drift_left_014.png"
+      ],
+      "fps": 14
+    },
+    "drift_right": {
+      "frames": [
+        "frames/drift_right/drift_right_000.png",
+        "frames/drift_right/drift_right_001.png",
+        "frames/drift_right/drift_right_002.png",
+        "frames/drift_right/drift_right_003.png",
+        "frames/drift_right/drift_right_004.png",
+        "frames/drift_right/drift_right_005.png",
+        "frames/drift_right/drift_right_006.png",
+        "frames/drift_right/drift_right_007.png",
+        "frames/drift_right/drift_right_008.png",
+        "frames/drift_right/drift_right_009.png",
+        "frames/drift_right/drift_right_010.png",
+        "frames/drift_right/drift_right_011.png",
+        "frames/drift_right/drift_right_012.png",
+        "frames/drift_right/drift_right_013.png",
+        "frames/drift_right/drift_right_014.png"
+      ],
+      "fps": 14
+    },
+    "boost": {
+      "frames": [
+        "frames/boost/boost_000.png",
+        "frames/boost/boost_001.png",
+        "frames/boost/boost_002.png",
+        "frames/boost/boost_003.png",
+        "frames/boost/boost_004.png",
+        "frames/boost/boost_005.png",
+        "frames/boost/boost_006.png",
+        "frames/boost/boost_007.png",
+        "frames/boost/boost_008.png",
+        "frames/boost/boost_009.png",
+        "frames/boost/boost_010.png",
+        "frames/boost/boost_011.png",
+        "frames/boost/boost_012.png",
+        "frames/boost/boost_013.png",
+        "frames/boost/boost_014.png"
+      ],
+      "fps": 14
+    },
+    "brake": {
+      "frames": [
+        "frames/brake/brake_000.png",
+        "frames/brake/brake_001.png",
+        "frames/brake/brake_002.png",
+        "frames/brake/brake_003.png",
+        "frames/brake/brake_004.png",
+        "frames/brake/brake_005.png",
+        "frames/brake/brake_006.png",
+        "frames/brake/brake_007.png",
+        "frames/brake/brake_008.png",
+        "frames/brake/brake_009.png",
+        "frames/brake/brake_010.png",
+        "frames/brake/brake_011.png",
+        "frames/brake/brake_012.png",
+        "frames/brake/brake_013.png",
+        "frames/brake/brake_014.png"
+      ],
+      "fps": 14
+    },
+    "crash": {
+      "frames": [
+        "frames/crash/crash_000.png",
+        "frames/crash/crash_001.png",
+        "frames/crash/crash_002.png",
+        "frames/crash/crash_003.png",
+        "frames/crash/crash_004.png",
+        "frames/crash/crash_005.png",
+        "frames/crash/crash_006.png",
+        "frames/crash/crash_007.png",
+        "frames/crash/crash_008.png",
+        "frames/crash/crash_009.png",
+        "frames/crash/crash_010.png",
+        "frames/crash/crash_011.png",
+        "frames/crash/crash_012.png",
+        "frames/crash/crash_013.png",
+        "frames/crash/crash_014.png"
+      ],
+      "fps": 14
+    },
+    "recover": {
+      "frames": [
+        "frames/recover/recover_000.png",
+        "frames/recover/recover_001.png",
+        "frames/recover/recover_002.png",
+        "frames/recover/recover_003.png",
+        "frames/recover/recover_004.png",
+        "frames/recover/recover_005.png",
+        "frames/recover/recover_006.png",
+        "frames/recover/recover_007.png",
+        "frames/recover/recover_008.png",
+        "frames/recover/recover_009.png",
+        "frames/recover/recover_010.png",
+        "frames/recover/recover_011.png",
+        "frames/recover/recover_012.png",
+        "frames/recover/recover_013.png",
+        "frames/recover/recover_014.png"
+      ],
+      "fps": 14
+    },
+    "airborne": {
+      "frames": [
+        "frames/airborne/airborne_000.png",
+        "frames/airborne/airborne_001.png",
+        "frames/airborne/airborne_002.png",
+        "frames/airborne/airborne_003.png",
+        "frames/airborne/airborne_004.png",
+        "frames/airborne/airborne_005.png",
+        "frames/airborne/airborne_006.png",
+        "frames/airborne/airborne_007.png",
+        "frames/airborne/airborne_008.png",
+        "frames/airborne/airborne_009.png",
+        "frames/airborne/airborne_010.png",
+        "frames/airborne/airborne_011.png",
+        "frames/airborne/airborne_012.png",
+        "frames/airborne/airborne_013.png",
+        "frames/airborne/airborne_014.png"
+      ],
+      "fps": 14
+    },
+    "land": {
+      "frames": [
+        "frames/land/land_000.png",
+        "frames/land/land_001.png",
+        "frames/land/land_002.png",
+        "frames/land/land_003.png",
+        "frames/land/land_004.png",
+        "frames/land/land_005.png",
+        "frames/land/land_006.png",
+        "frames/land/land_007.png",
+        "frames/land/land_008.png",
+        "frames/land/land_009.png",
+        "frames/land/land_010.png",
+        "frames/land/land_011.png",
+        "frames/land/land_012.png",
+        "frames/land/land_013.png",
+        "frames/land/land_014.png"
+      ],
+      "fps": 14
+    },
+    "collect": {
+      "frames": [
+        "frames/collect/collect_000.png",
+        "frames/collect/collect_001.png",
+        "frames/collect/collect_002.png",
+        "frames/collect/collect_003.png",
+        "frames/collect/collect_004.png",
+        "frames/collect/collect_005.png",
+        "frames/collect/collect_006.png",
+        "frames/collect/collect_007.png",
+        "frames/collect/collect_008.png",
+        "frames/collect/collect_009.png",
+        "frames/collect/collect_010.png",
+        "frames/collect/collect_011.png",
+        "frames/collect/collect_012.png",
+        "frames/collect/collect_013.png",
+        "frames/collect/collect_014.png"
+      ],
+      "fps": 14
+    },
+    "dodge": {
+      "frames": [
+        "frames/dodge/dodge_000.png",
+        "frames/dodge/dodge_001.png",
+        "frames/dodge/dodge_002.png",
+        "frames/dodge/dodge_003.png",
+        "frames/dodge/dodge_004.png",
+        "frames/dodge/dodge_005.png",
+        "frames/dodge/dodge_006.png",
+        "frames/dodge/dodge_007.png",
+        "frames/dodge/dodge_008.png",
+        "frames/dodge/dodge_009.png",
+        "frames/dodge/dodge_010.png",
+        "frames/dodge/dodge_011.png",
+        "frames/dodge/dodge_012.png",
+        "frames/dodge/dodge_013.png",
+        "frames/dodge/dodge_014.png"
+      ],
+      "fps": 14
+    },
+    "wheelie": {
+      "frames": [
+        "frames/wheelie/wheelie_000.png",
+        "frames/wheelie/wheelie_001.png",
+        "frames/wheelie/wheelie_002.png",
+        "frames/wheelie/wheelie_003.png",
+        "frames/wheelie/wheelie_004.png",
+        "frames/wheelie/wheelie_005.png",
+        "frames/wheelie/wheelie_006.png",
+        "frames/wheelie/wheelie_007.png",
+        "frames/wheelie/wheelie_008.png",
+        "frames/wheelie/wheelie_009.png",
+        "frames/wheelie/wheelie_010.png",
+        "frames/wheelie/wheelie_011.png",
+        "frames/wheelie/wheelie_012.png",
+        "frames/wheelie/wheelie_013.png",
+        "frames/wheelie/wheelie_014.png"
+      ],
+      "fps": 14
+    },
+    "taunt": {
+      "frames": [
+        "frames/taunt/taunt_000.png",
+        "frames/taunt/taunt_001.png",
+        "frames/taunt/taunt_002.png",
+        "frames/taunt/taunt_003.png",
+        "frames/taunt/taunt_004.png",
+        "frames/taunt/taunt_005.png",
+        "frames/taunt/taunt_006.png",
+        "frames/taunt/taunt_007.png",
+        "frames/taunt/taunt_008.png",
+        "frames/taunt/taunt_009.png",
+        "frames/taunt/taunt_010.png",
+        "frames/taunt/taunt_011.png",
+        "frames/taunt/taunt_012.png",
+        "frames/taunt/taunt_013.png",
+        "frames/taunt/taunt_014.png"
+      ],
+      "fps": 14
+    },
+    "finish": {
+      "frames": [
+        "frames/finish/finish_000.png",
+        "frames/finish/finish_001.png",
+        "frames/finish/finish_002.png",
+        "frames/finish/finish_003.png",
+        "frames/finish/finish_004.png",
+        "frames/finish/finish_005.png",
+        "frames/finish/finish_006.png",
+        "frames/finish/finish_007.png",
+        "frames/finish/finish_008.png",
+        "frames/finish/finish_009.png",
+        "frames/finish/finish_010.png",
+        "frames/finish/finish_011.png",
+        "frames/finish/finish_012.png",
+        "frames/finish/finish_013.png",
+        "frames/finish/finish_014.png"
+      ],
+      "fps": 14
+    },
+    "celebrate": {
+      "frames": [
+        "frames/celebrate/celebrate_000.png",
+        "frames/celebrate/celebrate_001.png",
+        "frames/celebrate/celebrate_002.png",
+        "frames/celebrate/celebrate_003.png",
+        "frames/celebrate/celebrate_004.png",
+        "frames/celebrate/celebrate_005.png",
+        "frames/celebrate/celebrate_006.png",
+        "frames/celebrate/celebrate_007.png",
+        "frames/celebrate/celebrate_008.png",
+        "frames/celebrate/celebrate_009.png",
+        "frames/celebrate/celebrate_010.png",
+        "frames/celebrate/celebrate_011.png",
+        "frames/celebrate/celebrate_012.png",
+        "frames/celebrate/celebrate_013.png",
+        "frames/celebrate/celebrate_014.png"
+      ],
+      "fps": 14
+    },
+    "defeat": {
+      "frames": [
+        "frames/defeat/defeat_000.png",
+        "frames/defeat/defeat_001.png",
+        "frames/defeat/defeat_002.png",
+        "frames/defeat/defeat_003.png",
+        "frames/defeat/defeat_004.png",
+        "frames/defeat/defeat_005.png",
+        "frames/defeat/defeat_006.png",
+        "frames/defeat/defeat_007.png",
+        "frames/defeat/defeat_008.png",
+        "frames/defeat/defeat_009.png",
+        "frames/defeat/defeat_010.png",
+        "frames/defeat/defeat_011.png",
+        "frames/defeat/defeat_012.png",
+        "frames/defeat/defeat_013.png",
+        "frames/defeat/defeat_014.png"
+      ],
+      "fps": 14
+    },
+    "pitstop": {
+      "frames": [
+        "frames/pitstop/pitstop_000.png",
+        "frames/pitstop/pitstop_001.png",
+        "frames/pitstop/pitstop_002.png",
+        "frames/pitstop/pitstop_003.png",
+        "frames/pitstop/pitstop_004.png",
+        "frames/pitstop/pitstop_005.png",
+        "frames/pitstop/pitstop_006.png",
+        "frames/pitstop/pitstop_007.png",
+        "frames/pitstop/pitstop_008.png",
+        "frames/pitstop/pitstop_009.png",
+        "frames/pitstop/pitstop_010.png",
+        "frames/pitstop/pitstop_011.png",
+        "frames/pitstop/pitstop_012.png",
+        "frames/pitstop/pitstop_013.png",
+        "frames/pitstop/pitstop_014.png"
+      ],
+      "fps": 14
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "plx_categories": {
+    "runner": {
+      "animations": 20,
+      "frames_total": 300
+    },
+    "dodge": {
+      "animations": 20,
+      "frames_total": 300
+    },
+    "collect": {
+      "animations": 20,
+      "frames_total": 300
+    },
+    "rhythm": {
+      "animations": 20,
+      "frames_total": 300
+    },
+    "puzzle": {
+      "animations": 20,
+      "frames_total": 300
+    },
+    "fps": {
+      "animations": 20,
+      "frames_total": 300
+    },
+    "fighting": {
+      "animations": 20,
+      "frames_total": 300
+    },
+    "open_world": {
+      "animations": 20,
+      "frames_total": 300
+    },
+    "racing": {
+      "animations": 20,
+      "frames_total": 300
+    },
+    "platformer": {
+      "animations": 20,
+      "frames_total": 300
+    }
+  },
+  "environment_kits": [
+    "spectrum",
+    "airport",
+    "neon_jungle",
+    "city_rooftop",
+    "forest_canopy",
+    "digital_xplay"
+  ]
+}

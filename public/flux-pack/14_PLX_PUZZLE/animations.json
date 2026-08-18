@@ -1,0 +1,406 @@
+{
+  "category": "PUZZLE",
+  "frame_count_total": 300,
+  "animations": {
+    "think": {
+      "frames": [
+        "frames/think/think_000.png",
+        "frames/think/think_001.png",
+        "frames/think/think_002.png",
+        "frames/think/think_003.png",
+        "frames/think/think_004.png",
+        "frames/think/think_005.png",
+        "frames/think/think_006.png",
+        "frames/think/think_007.png",
+        "frames/think/think_008.png",
+        "frames/think/think_009.png",
+        "frames/think/think_010.png",
+        "frames/think/think_011.png",
+        "frames/think/think_012.png",
+        "frames/think/think_013.png",
+        "frames/think/think_014.png"
+      ],
+      "fps": 12
+    },
+    "inspect": {
+      "frames": [
+        "frames/inspect/inspect_000.png",
+        "frames/inspect/inspect_001.png",
+        "frames/inspect/inspect_002.png",
+        "frames/inspect/inspect_003.png",
+        "frames/inspect/inspect_004.png",
+        "frames/inspect/inspect_005.png",
+        "frames/inspect/inspect_006.png",
+        "frames/inspect/inspect_007.png",
+        "frames/inspect/inspect_008.png",
+        "frames/inspect/inspect_009.png",
+        "frames/inspect/inspect_010.png",
+        "frames/inspect/inspect_011.png",
+        "frames/inspect/inspect_012.png",
+        "frames/inspect/inspect_013.png",
+        "frames/inspect/inspect_014.png"
+      ],
+      "fps": 12
+    },
+    "look_left": {
+      "frames": [
+        "frames/look_left/look_left_000.png",
+        "frames/look_left/look_left_001.png",
+        "frames/look_left/look_left_002.png",
+        "frames/look_left/look_left_003.png",
+        "frames/look_left/look_left_004.png",
+        "frames/look_left/look_left_005.png",
+        "frames/look_left/look_left_006.png",
+        "frames/look_left/look_left_007.png",
+        "frames/look_left/look_left_008.png",
+        "frames/look_left/look_left_009.png",
+        "frames/look_left/look_left_010.png",
+        "frames/look_left/look_left_011.png",
+        "frames/look_left/look_left_012.png",
+        "frames/look_left/look_left_013.png",
+        "frames/look_left/look_left_014.png"
+      ],
+      "fps": 12
+    },
+    "look_right": {
+      "frames": [
+        "frames/look_right/look_right_000.png",
+        "frames/look_right/look_right_001.png",
+        "frames/look_right/look_right_002.png",
+        "frames/look_right/look_right_003.png",
+        "frames/look_right/look_right_004.png",
+        "frames/look_right/look_right_005.png",
+        "frames/look_right/look_right_006.png",
+        "frames/look_right/look_right_007.png",
+        "frames/look_right/look_right_008.png",
+        "frames/look_right/look_right_009.png",
+        "frames/look_right/look_right_010.png",
+        "frames/look_right/look_right_011.png",
+        "frames/look_right/look_right_012.png",
+        "frames/look_right/look_right_013.png",
+        "frames/look_right/look_right_014.png"
+      ],
+      "fps": 12
+    },
+    "choose": {
+      "frames": [
+        "frames/choose/choose_000.png",
+        "frames/choose/choose_001.png",
+        "frames/choose/choose_002.png",
+        "frames/choose/choose_003.png",
+        "frames/choose/choose_004.png",
+        "frames/choose/choose_005.png",
+        "frames/choose/choose_006.png",
+        "frames/choose/choose_007.png",
+        "frames/choose/choose_008.png",
+        "frames/choose/choose_009.png",
+        "frames/choose/choose_010.png",
+        "frames/choose/choose_011.png",
+        "frames/choose/choose_012.png",
+        "frames/choose/choose_013.png",
+        "frames/choose/choose_014.png"
+      ],
+      "fps": 12
+    },
+    "press": {
+      "frames": [
+        "frames/press/press_000.png",
+        "frames/press/press_001.png",
+        "frames/press/press_002.png",
+        "frames/press/press_003.png",
+        "frames/press/press_004.png",
+        "frames/press/press_005.png",
+        "frames/press/press_006.png",
+        "frames/press/press_007.png",
+        "frames/press/press_008.png",
+        "frames/press/press_009.png",
+        "frames/press/press_010.png",
+        "frames/press/press_011.png",
+        "frames/press/press_012.png",
+        "frames/press/press_013.png",
+        "frames/press/press_014.png"
+      ],
+      "fps": 12
+    },
+    "rotate": {
+      "frames": [
+        "frames/rotate/rotate_000.png",
+        "frames/rotate/rotate_001.png",
+        "frames/rotate/rotate_002.png",
+        "frames/rotate/rotate_003.png",
+        "frames/rotate/rotate_004.png",
+        "frames/rotate/rotate_005.png",
+        "frames/rotate/rotate_006.png",
+        "frames/rotate/rotate_007.png",
+        "frames/rotate/rotate_008.png",
+        "frames/rotate/rotate_009.png",
+        "frames/rotate/rotate_010.png",
+        "frames/rotate/rotate_011.png",
+        "frames/rotate/rotate_012.png",
+        "frames/rotate/rotate_013.png",
+        "frames/rotate/rotate_014.png"
+      ],
+      "fps": 12
+    },
+    "tongue_select": {
+      "frames": [
+        "frames/tongue_select/tongue_select_000.png",
+        "frames/tongue_select/tongue_select_001.png",
+        "frames/tongue_select/tongue_select_002.png",
+        "frames/tongue_select/tongue_select_003.png",
+        "frames/tongue_select/tongue_select_004.png",
+        "frames/tongue_select/tongue_select_005.png",
+        "frames/tongue_select/tongue_select_006.png",
+        "frames/tongue_select/tongue_select_007.png",
+        "frames/tongue_select/tongue_select_008.png",
+        "frames/tongue_select/tongue_select_009.png",
+        "frames/tongue_select/tongue_select_010.png",
+        "frames/tongue_select/tongue_select_011.png",
+        "frames/tongue_select/tongue_select_012.png",
+        "frames/tongue_select/tongue_select_013.png",
+        "frames/tongue_select/tongue_select_014.png"
+      ],
+      "fps": 12
+    },
+    "correct": {
+      "frames": [
+        "frames/correct/correct_000.png",
+        "frames/correct/correct_001.png",
+        "frames/correct/correct_002.png",
+        "frames/correct/correct_003.png",
+        "frames/correct/correct_004.png",
+        "frames/correct/correct_005.png",
+        "frames/correct/correct_006.png",
+        "frames/correct/correct_007.png",
+        "frames/correct/correct_008.png",
+        "frames/correct/correct_009.png",
+        "frames/correct/correct_010.png",
+        "frames/correct/correct_011.png",
+        "frames/correct/correct_012.png",
+        "frames/correct/correct_013.png",
+        "frames/correct/correct_014.png"
+      ],
+      "fps": 12
+    },
+    "wrong": {
+      "frames": [
+        "frames/wrong/wrong_000.png",
+        "frames/wrong/wrong_001.png",
+        "frames/wrong/wrong_002.png",
+        "frames/wrong/wrong_003.png",
+        "frames/wrong/wrong_004.png",
+        "frames/wrong/wrong_005.png",
+        "frames/wrong/wrong_006.png",
+        "frames/wrong/wrong_007.png",
+        "frames/wrong/wrong_008.png",
+        "frames/wrong/wrong_009.png",
+        "frames/wrong/wrong_010.png",
+        "frames/wrong/wrong_011.png",
+        "frames/wrong/wrong_012.png",
+        "frames/wrong/wrong_013.png",
+        "frames/wrong/wrong_014.png"
+      ],
+      "fps": 12
+    },
+    "confused": {
+      "frames": [
+        "frames/confused/confused_000.png",
+        "frames/confused/confused_001.png",
+        "frames/confused/confused_002.png",
+        "frames/confused/confused_003.png",
+        "frames/confused/confused_004.png",
+        "frames/confused/confused_005.png",
+        "frames/confused/confused_006.png",
+        "frames/confused/confused_007.png",
+        "frames/confused/confused_008.png",
+        "frames/confused/confused_009.png",
+        "frames/confused/confused_010.png",
+        "frames/confused/confused_011.png",
+        "frames/confused/confused_012.png",
+        "frames/confused/confused_013.png",
+        "frames/confused/confused_014.png"
+      ],
+      "fps": 12
+    },
+    "idea": {
+      "frames": [
+        "frames/idea/idea_000.png",
+        "frames/idea/idea_001.png",
+        "frames/idea/idea_002.png",
+        "frames/idea/idea_003.png",
+        "frames/idea/idea_004.png",
+        "frames/idea/idea_005.png",
+        "frames/idea/idea_006.png",
+        "frames/idea/idea_007.png",
+        "frames/idea/idea_008.png",
+        "frames/idea/idea_009.png",
+        "frames/idea/idea_010.png",
+        "frames/idea/idea_011.png",
+        "frames/idea/idea_012.png",
+        "frames/idea/idea_013.png",
+        "frames/idea/idea_014.png"
+      ],
+      "fps": 12
+    },
+    "idle": {
+      "frames": [
+        "frames/idle/idle_000.png",
+        "frames/idle/idle_001.png",
+        "frames/idle/idle_002.png",
+        "frames/idle/idle_003.png",
+        "frames/idle/idle_004.png",
+        "frames/idle/idle_005.png",
+        "frames/idle/idle_006.png",
+        "frames/idle/idle_007.png",
+        "frames/idle/idle_008.png",
+        "frames/idle/idle_009.png",
+        "frames/idle/idle_010.png",
+        "frames/idle/idle_011.png",
+        "frames/idle/idle_012.png",
+        "frames/idle/idle_013.png",
+        "frames/idle/idle_014.png"
+      ],
+      "fps": 12
+    },
+    "shuffle": {
+      "frames": [
+        "frames/shuffle/shuffle_000.png",
+        "frames/shuffle/shuffle_001.png",
+        "frames/shuffle/shuffle_002.png",
+        "frames/shuffle/shuffle_003.png",
+        "frames/shuffle/shuffle_004.png",
+        "frames/shuffle/shuffle_005.png",
+        "frames/shuffle/shuffle_006.png",
+        "frames/shuffle/shuffle_007.png",
+        "frames/shuffle/shuffle_008.png",
+        "frames/shuffle/shuffle_009.png",
+        "frames/shuffle/shuffle_010.png",
+        "frames/shuffle/shuffle_011.png",
+        "frames/shuffle/shuffle_012.png",
+        "frames/shuffle/shuffle_013.png",
+        "frames/shuffle/shuffle_014.png"
+      ],
+      "fps": 12
+    },
+    "scan": {
+      "frames": [
+        "frames/scan/scan_000.png",
+        "frames/scan/scan_001.png",
+        "frames/scan/scan_002.png",
+        "frames/scan/scan_003.png",
+        "frames/scan/scan_004.png",
+        "frames/scan/scan_005.png",
+        "frames/scan/scan_006.png",
+        "frames/scan/scan_007.png",
+        "frames/scan/scan_008.png",
+        "frames/scan/scan_009.png",
+        "frames/scan/scan_010.png",
+        "frames/scan/scan_011.png",
+        "frames/scan/scan_012.png",
+        "frames/scan/scan_013.png",
+        "frames/scan/scan_014.png"
+      ],
+      "fps": 12
+    },
+    "reveal": {
+      "frames": [
+        "frames/reveal/reveal_000.png",
+        "frames/reveal/reveal_001.png",
+        "frames/reveal/reveal_002.png",
+        "frames/reveal/reveal_003.png",
+        "frames/reveal/reveal_004.png",
+        "frames/reveal/reveal_005.png",
+        "frames/reveal/reveal_006.png",
+        "frames/reveal/reveal_007.png",
+        "frames/reveal/reveal_008.png",
+        "frames/reveal/reveal_009.png",
+        "frames/reveal/reveal_010.png",
+        "frames/reveal/reveal_011.png",
+        "frames/reveal/reveal_012.png",
+        "frames/reveal/reveal_013.png",
+        "frames/reveal/reveal_014.png"
+      ],
+      "fps": 12
+    },
+    "match": {
+      "frames": [
+        "frames/match/match_000.png",
+        "frames/match/match_001.png",
+        "frames/match/match_002.png",
+        "frames/match/match_003.png",
+        "frames/match/match_004.png",
+        "frames/match/match_005.png",
+        "frames/match/match_006.png",
+        "frames/match/match_007.png",
+        "frames/match/match_008.png",
+        "frames/match/match_009.png",
+        "frames/match/match_010.png",
+        "frames/match/match_011.png",
+        "frames/match/match_012.png",
+        "frames/match/match_013.png",
+        "frames/match/match_014.png"
+      ],
+      "fps": 12
+    },
+    "celebrate": {
+      "frames": [
+        "frames/celebrate/celebrate_000.png",
+        "frames/celebrate/celebrate_001.png",
+        "frames/celebrate/celebrate_002.png",
+        "frames/celebrate/celebrate_003.png",
+        "frames/celebrate/celebrate_004.png",
+        "frames/celebrate/celebrate_005.png",
+        "frames/celebrate/celebrate_006.png",
+        "frames/celebrate/celebrate_007.png",
+        "frames/celebrate/celebrate_008.png",
+        "frames/celebrate/celebrate_009.png",
+        "frames/celebrate/celebrate_010.png",
+        "frames/celebrate/celebrate_011.png",
+        "frames/celebrate/celebrate_012.png",
+        "frames/celebrate/celebrate_013.png",
+        "frames/celebrate/celebrate_014.png"
+      ],
+      "fps": 12
+    },
+    "frustrated": {
+      "frames": [
+        "frames/frustrated/frustrated_000.png",
+        "frames/frustrated/frustrated_001.png",
+        "frames/frustrated/frustrated_002.png",
+        "frames/frustrated/frustrated_003.png",
+        "frames/frustrated/frustrated_004.png",
+        "frames/frustrated/frustrated_005.png",
+        "frames/frustrated/frustrated_006.png",
+        "frames/frustrated/frustrated_007.png",
+        "frames/frustrated/frustrated_008.png",
+        "frames/frustrated/frustrated_009.png",
+        "frames/frustrated/frustrated_010.png",
+        "frames/frustrated/frustrated_011.png",
+        "frames/frustrated/frustrated_012.png",
+        "frames/frustrated/frustrated_013.png",
+        "frames/frustrated/frustrated_014.png"
+      ],
+      "fps": 12
+    },
+    "victory": {
+      "frames": [
+        "frames/victory/victory_000.png",
+        "frames/victory/victory_001.png",
+        "frames/victory/victory_002.png",
+        "frames/victory/victory_003.png",
+        "frames/victory/victory_004.png",
+        "frames/victory/victory_005.png",
+        "frames/victory/victory_006.png",
+        "frames/victory/victory_007.png",
+        "frames/victory/victory_008.png",
+        "frames/victory/victory_009.png",
+        "frames/victory/victory_010.png",
+        "frames/victory/victory_011.png",
+        "frames/victory/victory_012.png",
+        "frames/victory/victory_013.png",
+        "frames/victory/victory_014.png"
+      ],
+      "fps": 12
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "name": "Flux",
+  "designation": "Classic Flux",
+  "species": "stylized chameleon mascot",
+  "brand_role": "XPLAY mascot and cross-PLX test character",
+  "core_palette": {
+    "teal": "#24c9c5",
+    "navy": "#10283d",
+    "lime": "#a7e34b",
+    "cream": "#f4f8f8",
+    "dark": "#1b1f23",
+    "pink": "#ff6ab5",
+    "orange": "#ffb347",
+    "purple": "#7868e6",
+    "red": "#ef5b6a"
+  },
+  "silhouette_rules": [
+    "large eyes",
+    "curled tail",
+    "compact athletic body",
+    "X chest mark",
+    "teal/navy identity"
+  ],
+  "signature_abilities": [
+    "camouflage",
+    "color shifting",
+    "tongue grapple",
+    "wall cling",
+    "ceiling cling",
+    "independent eye tracking"
+  ],
+  "tone": [
+    "curious",
+    "adaptable",
+    "smart",
+    "playful",
+    "confident"
+  ]
+}

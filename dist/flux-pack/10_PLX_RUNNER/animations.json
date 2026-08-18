@@ -1,0 +1,406 @@
+{
+  "category": "RUNNER",
+  "frame_count_total": 300,
+  "animations": {
+    "idle": {
+      "frames": [
+        "frames/idle/idle_000.png",
+        "frames/idle/idle_001.png",
+        "frames/idle/idle_002.png",
+        "frames/idle/idle_003.png",
+        "frames/idle/idle_004.png",
+        "frames/idle/idle_005.png",
+        "frames/idle/idle_006.png",
+        "frames/idle/idle_007.png",
+        "frames/idle/idle_008.png",
+        "frames/idle/idle_009.png",
+        "frames/idle/idle_010.png",
+        "frames/idle/idle_011.png",
+        "frames/idle/idle_012.png",
+        "frames/idle/idle_013.png",
+        "frames/idle/idle_014.png"
+      ],
+      "fps": 14
+    },
+    "run": {
+      "frames": [
+        "frames/run/run_000.png",
+        "frames/run/run_001.png",
+        "frames/run/run_002.png",
+        "frames/run/run_003.png",
+        "frames/run/run_004.png",
+        "frames/run/run_005.png",
+        "frames/run/run_006.png",
+        "frames/run/run_007.png",
+        "frames/run/run_008.png",
+        "frames/run/run_009.png",
+        "frames/run/run_010.png",
+        "frames/run/run_011.png",
+        "frames/run/run_012.png",
+        "frames/run/run_013.png",
+        "frames/run/run_014.png"
+      ],
+      "fps": 14
+    },
+    "sprint": {
+      "frames": [
+        "frames/sprint/sprint_000.png",
+        "frames/sprint/sprint_001.png",
+        "frames/sprint/sprint_002.png",
+        "frames/sprint/sprint_003.png",
+        "frames/sprint/sprint_004.png",
+        "frames/sprint/sprint_005.png",
+        "frames/sprint/sprint_006.png",
+        "frames/sprint/sprint_007.png",
+        "frames/sprint/sprint_008.png",
+        "frames/sprint/sprint_009.png",
+        "frames/sprint/sprint_010.png",
+        "frames/sprint/sprint_011.png",
+        "frames/sprint/sprint_012.png",
+        "frames/sprint/sprint_013.png",
+        "frames/sprint/sprint_014.png"
+      ],
+      "fps": 14
+    },
+    "jump": {
+      "frames": [
+        "frames/jump/jump_000.png",
+        "frames/jump/jump_001.png",
+        "frames/jump/jump_002.png",
+        "frames/jump/jump_003.png",
+        "frames/jump/jump_004.png",
+        "frames/jump/jump_005.png",
+        "frames/jump/jump_006.png",
+        "frames/jump/jump_007.png",
+        "frames/jump/jump_008.png",
+        "frames/jump/jump_009.png",
+        "frames/jump/jump_010.png",
+        "frames/jump/jump_011.png",
+        "frames/jump/jump_012.png",
+        "frames/jump/jump_013.png",
+        "frames/jump/jump_014.png"
+      ],
+      "fps": 14
+    },
+    "double_jump": {
+      "frames": [
+        "frames/double_jump/double_jump_000.png",
+        "frames/double_jump/double_jump_001.png",
+        "frames/double_jump/double_jump_002.png",
+        "frames/double_jump/double_jump_003.png",
+        "frames/double_jump/double_jump_004.png",
+        "frames/double_jump/double_jump_005.png",
+        "frames/double_jump/double_jump_006.png",
+        "frames/double_jump/double_jump_007.png",
+        "frames/double_jump/double_jump_008.png",
+        "frames/double_jump/double_jump_009.png",
+        "frames/double_jump/double_jump_010.png",
+        "frames/double_jump/double_jump_011.png",
+        "frames/double_jump/double_jump_012.png",
+        "frames/double_jump/double_jump_013.png",
+        "frames/double_jump/double_jump_014.png"
+      ],
+      "fps": 14
+    },
+    "fall": {
+      "frames": [
+        "frames/fall/fall_000.png",
+        "frames/fall/fall_001.png",
+        "frames/fall/fall_002.png",
+        "frames/fall/fall_003.png",
+        "frames/fall/fall_004.png",
+        "frames/fall/fall_005.png",
+        "frames/fall/fall_006.png",
+        "frames/fall/fall_007.png",
+        "frames/fall/fall_008.png",
+        "frames/fall/fall_009.png",
+        "frames/fall/fall_010.png",
+        "frames/fall/fall_011.png",
+        "frames/fall/fall_012.png",
+        "frames/fall/fall_013.png",
+        "frames/fall/fall_014.png"
+      ],
+      "fps": 14
+    },
+    "land": {
+      "frames": [
+        "frames/land/land_000.png",
+        "frames/land/land_001.png",
+        "frames/land/land_002.png",
+        "frames/land/land_003.png",
+        "frames/land/land_004.png",
+        "frames/land/land_005.png",
+        "frames/land/land_006.png",
+        "frames/land/land_007.png",
+        "frames/land/land_008.png",
+        "frames/land/land_009.png",
+        "frames/land/land_010.png",
+        "frames/land/land_011.png",
+        "frames/land/land_012.png",
+        "frames/land/land_013.png",
+        "frames/land/land_014.png"
+      ],
+      "fps": 14
+    },
+    "slide": {
+      "frames": [
+        "frames/slide/slide_000.png",
+        "frames/slide/slide_001.png",
+        "frames/slide/slide_002.png",
+        "frames/slide/slide_003.png",
+        "frames/slide/slide_004.png",
+        "frames/slide/slide_005.png",
+        "frames/slide/slide_006.png",
+        "frames/slide/slide_007.png",
+        "frames/slide/slide_008.png",
+        "frames/slide/slide_009.png",
+        "frames/slide/slide_010.png",
+        "frames/slide/slide_011.png",
+        "frames/slide/slide_012.png",
+        "frames/slide/slide_013.png",
+        "frames/slide/slide_014.png"
+      ],
+      "fps": 14
+    },
+    "tongue_grab": {
+      "frames": [
+        "frames/tongue_grab/tongue_grab_000.png",
+        "frames/tongue_grab/tongue_grab_001.png",
+        "frames/tongue_grab/tongue_grab_002.png",
+        "frames/tongue_grab/tongue_grab_003.png",
+        "frames/tongue_grab/tongue_grab_004.png",
+        "frames/tongue_grab/tongue_grab_005.png",
+        "frames/tongue_grab/tongue_grab_006.png",
+        "frames/tongue_grab/tongue_grab_007.png",
+        "frames/tongue_grab/tongue_grab_008.png",
+        "frames/tongue_grab/tongue_grab_009.png",
+        "frames/tongue_grab/tongue_grab_010.png",
+        "frames/tongue_grab/tongue_grab_011.png",
+        "frames/tongue_grab/tongue_grab_012.png",
+        "frames/tongue_grab/tongue_grab_013.png",
+        "frames/tongue_grab/tongue_grab_014.png"
+      ],
+      "fps": 14
+    },
+    "wall_run": {
+      "frames": [
+        "frames/wall_run/wall_run_000.png",
+        "frames/wall_run/wall_run_001.png",
+        "frames/wall_run/wall_run_002.png",
+        "frames/wall_run/wall_run_003.png",
+        "frames/wall_run/wall_run_004.png",
+        "frames/wall_run/wall_run_005.png",
+        "frames/wall_run/wall_run_006.png",
+        "frames/wall_run/wall_run_007.png",
+        "frames/wall_run/wall_run_008.png",
+        "frames/wall_run/wall_run_009.png",
+        "frames/wall_run/wall_run_010.png",
+        "frames/wall_run/wall_run_011.png",
+        "frames/wall_run/wall_run_012.png",
+        "frames/wall_run/wall_run_013.png",
+        "frames/wall_run/wall_run_014.png"
+      ],
+      "fps": 14
+    },
+    "skid": {
+      "frames": [
+        "frames/skid/skid_000.png",
+        "frames/skid/skid_001.png",
+        "frames/skid/skid_002.png",
+        "frames/skid/skid_003.png",
+        "frames/skid/skid_004.png",
+        "frames/skid/skid_005.png",
+        "frames/skid/skid_006.png",
+        "frames/skid/skid_007.png",
+        "frames/skid/skid_008.png",
+        "frames/skid/skid_009.png",
+        "frames/skid/skid_010.png",
+        "frames/skid/skid_011.png",
+        "frames/skid/skid_012.png",
+        "frames/skid/skid_013.png",
+        "frames/skid/skid_014.png"
+      ],
+      "fps": 14
+    },
+    "dash": {
+      "frames": [
+        "frames/dash/dash_000.png",
+        "frames/dash/dash_001.png",
+        "frames/dash/dash_002.png",
+        "frames/dash/dash_003.png",
+        "frames/dash/dash_004.png",
+        "frames/dash/dash_005.png",
+        "frames/dash/dash_006.png",
+        "frames/dash/dash_007.png",
+        "frames/dash/dash_008.png",
+        "frames/dash/dash_009.png",
+        "frames/dash/dash_010.png",
+        "frames/dash/dash_011.png",
+        "frames/dash/dash_012.png",
+        "frames/dash/dash_013.png",
+        "frames/dash/dash_014.png"
+      ],
+      "fps": 14
+    },
+    "collect": {
+      "frames": [
+        "frames/collect/collect_000.png",
+        "frames/collect/collect_001.png",
+        "frames/collect/collect_002.png",
+        "frames/collect/collect_003.png",
+        "frames/collect/collect_004.png",
+        "frames/collect/collect_005.png",
+        "frames/collect/collect_006.png",
+        "frames/collect/collect_007.png",
+        "frames/collect/collect_008.png",
+        "frames/collect/collect_009.png",
+        "frames/collect/collect_010.png",
+        "frames/collect/collect_011.png",
+        "frames/collect/collect_012.png",
+        "frames/collect/collect_013.png",
+        "frames/collect/collect_014.png"
+      ],
+      "fps": 14
+    },
+    "hurt": {
+      "frames": [
+        "frames/hurt/hurt_000.png",
+        "frames/hurt/hurt_001.png",
+        "frames/hurt/hurt_002.png",
+        "frames/hurt/hurt_003.png",
+        "frames/hurt/hurt_004.png",
+        "frames/hurt/hurt_005.png",
+        "frames/hurt/hurt_006.png",
+        "frames/hurt/hurt_007.png",
+        "frames/hurt/hurt_008.png",
+        "frames/hurt/hurt_009.png",
+        "frames/hurt/hurt_010.png",
+        "frames/hurt/hurt_011.png",
+        "frames/hurt/hurt_012.png",
+        "frames/hurt/hurt_013.png",
+        "frames/hurt/hurt_014.png"
+      ],
+      "fps": 14
+    },
+    "checkpoint": {
+      "frames": [
+        "frames/checkpoint/checkpoint_000.png",
+        "frames/checkpoint/checkpoint_001.png",
+        "frames/checkpoint/checkpoint_002.png",
+        "frames/checkpoint/checkpoint_003.png",
+        "frames/checkpoint/checkpoint_004.png",
+        "frames/checkpoint/checkpoint_005.png",
+        "frames/checkpoint/checkpoint_006.png",
+        "frames/checkpoint/checkpoint_007.png",
+        "frames/checkpoint/checkpoint_008.png",
+        "frames/checkpoint/checkpoint_009.png",
+        "frames/checkpoint/checkpoint_010.png",
+        "frames/checkpoint/checkpoint_011.png",
+        "frames/checkpoint/checkpoint_012.png",
+        "frames/checkpoint/checkpoint_013.png",
+        "frames/checkpoint/checkpoint_014.png"
+      ],
+      "fps": 14
+    },
+    "celebrate": {
+      "frames": [
+        "frames/celebrate/celebrate_000.png",
+        "frames/celebrate/celebrate_001.png",
+        "frames/celebrate/celebrate_002.png",
+        "frames/celebrate/celebrate_003.png",
+        "frames/celebrate/celebrate_004.png",
+        "frames/celebrate/celebrate_005.png",
+        "frames/celebrate/celebrate_006.png",
+        "frames/celebrate/celebrate_007.png",
+        "frames/celebrate/celebrate_008.png",
+        "frames/celebrate/celebrate_009.png",
+        "frames/celebrate/celebrate_010.png",
+        "frames/celebrate/celebrate_011.png",
+        "frames/celebrate/celebrate_012.png",
+        "frames/celebrate/celebrate_013.png",
+        "frames/celebrate/celebrate_014.png"
+      ],
+      "fps": 14
+    },
+    "defeat": {
+      "frames": [
+        "frames/defeat/defeat_000.png",
+        "frames/defeat/defeat_001.png",
+        "frames/defeat/defeat_002.png",
+        "frames/defeat/defeat_003.png",
+        "frames/defeat/defeat_004.png",
+        "frames/defeat/defeat_005.png",
+        "frames/defeat/defeat_006.png",
+        "frames/defeat/defeat_007.png",
+        "frames/defeat/defeat_008.png",
+        "frames/defeat/defeat_009.png",
+        "frames/defeat/defeat_010.png",
+        "frames/defeat/defeat_011.png",
+        "frames/defeat/defeat_012.png",
+        "frames/defeat/defeat_013.png",
+        "frames/defeat/defeat_014.png"
+      ],
+      "fps": 14
+    },
+    "camouflage": {
+      "frames": [
+        "frames/camouflage/camouflage_000.png",
+        "frames/camouflage/camouflage_001.png",
+        "frames/camouflage/camouflage_002.png",
+        "frames/camouflage/camouflage_003.png",
+        "frames/camouflage/camouflage_004.png",
+        "frames/camouflage/camouflage_005.png",
+        "frames/camouflage/camouflage_006.png",
+        "frames/camouflage/camouflage_007.png",
+        "frames/camouflage/camouflage_008.png",
+        "frames/camouflage/camouflage_009.png",
+        "frames/camouflage/camouflage_010.png",
+        "frames/camouflage/camouflage_011.png",
+        "frames/camouflage/camouflage_012.png",
+        "frames/camouflage/camouflage_013.png",
+        "frames/camouflage/camouflage_014.png"
+      ],
+      "fps": 14
+    },
+    "turnaround": {
+      "frames": [
+        "frames/turnaround/turnaround_000.png",
+        "frames/turnaround/turnaround_001.png",
+        "frames/turnaround/turnaround_002.png",
+        "frames/turnaround/turnaround_003.png",
+        "frames/turnaround/turnaround_004.png",
+        "frames/turnaround/turnaround_005.png",
+        "frames/turnaround/turnaround_006.png",
+        "frames/turnaround/turnaround_007.png",
+        "frames/turnaround/turnaround_008.png",
+        "frames/turnaround/turnaround_009.png",
+        "frames/turnaround/turnaround_010.png",
+        "frames/turnaround/turnaround_011.png",
+        "frames/turnaround/turnaround_012.png",
+        "frames/turnaround/turnaround_013.png",
+        "frames/turnaround/turnaround_014.png"
+      ],
+      "fps": 14
+    },
+    "finish": {
+      "frames": [
+        "frames/finish/finish_000.png",
+        "frames/finish/finish_001.png",
+        "frames/finish/finish_002.png",
+        "frames/finish/finish_003.png",
+        "frames/finish/finish_004.png",
+        "frames/finish/finish_005.png",
+        "frames/finish/finish_006.png",
+        "frames/finish/finish_007.png",
+        "frames/finish/finish_008.png",
+        "frames/finish/finish_009.png",
+        "frames/finish/finish_010.png",
+        "frames/finish/finish_011.png",
+        "frames/finish/finish_012.png",
+        "frames/finish/finish_013.png",
+        "frames/finish/finish_014.png"
+      ],
+      "fps": 14
+    }
+  }
+}

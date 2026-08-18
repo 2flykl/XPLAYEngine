@@ -1,0 +1,38 @@
+{
+  "spectrum": {
+    "far": "spectrum/far.png",
+    "mid": "spectrum/mid.png",
+    "near": "spectrum/near.png",
+    "ground": "spectrum/ground.png"
+  },
+  "airport": {
+    "far": "airport/far.png",
+    "mid": "airport/mid.png",
+    "near": "airport/near.png",
+    "ground": "airport/ground.png"
+  },
+  "neon_jungle": {
+    "far": "neon_jungle/far.png",
+    "mid": "neon_jungle/mid.png",
+    "near": "neon_jungle/near.png",
+    "ground": "neon_jungle/ground.png"
+  },
+  "city_rooftop": {
+    "far": "city_rooftop/far.png",
+    "mid": "city_rooftop/mid.png",
+    "near": "city_rooftop/near.png",
+    "ground": "city_rooftop/ground.png"
+  },
+  "forest_canopy": {
+    "far": "forest_canopy/far.png",
+    "mid": "forest_canopy/mid.png",
+    "near": "forest_canopy/near.png",
+    "ground": "forest_canopy/ground.png"
+  },
+  "digital_xplay": {
+    "far": "digital_xplay/far.png",
+    "mid": "digital_xplay/mid.png",
+    "near": "digital_xplay/near.png",
+    "ground": "digital_xplay/ground.png"
+  }
+}

@@ -1,0 +1,276 @@
+{
+  "idle": {
+    "frames": [
+      "idle/idle_000.png",
+      "idle/idle_001.png",
+      "idle/idle_002.png",
+      "idle/idle_003.png",
+      "idle/idle_004.png",
+      "idle/idle_005.png",
+      "idle/idle_006.png",
+      "idle/idle_007.png",
+      "idle/idle_008.png",
+      "idle/idle_009.png",
+      "idle/idle_010.png",
+      "idle/idle_011.png"
+    ],
+    "fps": 12
+  },
+  "blink": {
+    "frames": [
+      "blink/blink_000.png",
+      "blink/blink_001.png",
+      "blink/blink_002.png",
+      "blink/blink_003.png",
+      "blink/blink_004.png",
+      "blink/blink_005.png",
+      "blink/blink_006.png",
+      "blink/blink_007.png"
+    ],
+    "fps": 12
+  },
+  "walk": {
+    "frames": [
+      "walk/walk_000.png",
+      "walk/walk_001.png",
+      "walk/walk_002.png",
+      "walk/walk_003.png",
+      "walk/walk_004.png",
+      "walk/walk_005.png",
+      "walk/walk_006.png",
+      "walk/walk_007.png",
+      "walk/walk_008.png",
+      "walk/walk_009.png",
+      "walk/walk_010.png",
+      "walk/walk_011.png"
+    ],
+    "fps": 12
+  },
+  "run": {
+    "frames": [
+      "run/run_000.png",
+      "run/run_001.png",
+      "run/run_002.png",
+      "run/run_003.png",
+      "run/run_004.png",
+      "run/run_005.png",
+      "run/run_006.png",
+      "run/run_007.png",
+      "run/run_008.png",
+      "run/run_009.png",
+      "run/run_010.png",
+      "run/run_011.png"
+    ],
+    "fps": 12
+  },
+  "jump": {
+    "frames": [
+      "jump/jump_000.png",
+      "jump/jump_001.png",
+      "jump/jump_002.png",
+      "jump/jump_003.png",
+      "jump/jump_004.png",
+      "jump/jump_005.png",
+      "jump/jump_006.png",
+      "jump/jump_007.png",
+      "jump/jump_008.png",
+      "jump/jump_009.png",
+      "jump/jump_010.png",
+      "jump/jump_011.png"
+    ],
+    "fps": 12
+  },
+  "fall": {
+    "frames": [
+      "fall/fall_000.png",
+      "fall/fall_001.png",
+      "fall/fall_002.png",
+      "fall/fall_003.png",
+      "fall/fall_004.png",
+      "fall/fall_005.png",
+      "fall/fall_006.png",
+      "fall/fall_007.png",
+      "fall/fall_008.png",
+      "fall/fall_009.png"
+    ],
+    "fps": 12
+  },
+  "land": {
+    "frames": [
+      "land/land_000.png",
+      "land/land_001.png",
+      "land/land_002.png",
+      "land/land_003.png",
+      "land/land_004.png",
+      "land/land_005.png",
+      "land/land_006.png",
+      "land/land_007.png",
+      "land/land_008.png",
+      "land/land_009.png"
+    ],
+    "fps": 12
+  },
+  "crouch": {
+    "frames": [
+      "crouch/crouch_000.png",
+      "crouch/crouch_001.png",
+      "crouch/crouch_002.png",
+      "crouch/crouch_003.png",
+      "crouch/crouch_004.png",
+      "crouch/crouch_005.png",
+      "crouch/crouch_006.png",
+      "crouch/crouch_007.png"
+    ],
+    "fps": 12
+  },
+  "hit": {
+    "frames": [
+      "hit/hit_000.png",
+      "hit/hit_001.png",
+      "hit/hit_002.png",
+      "hit/hit_003.png",
+      "hit/hit_004.png",
+      "hit/hit_005.png",
+      "hit/hit_006.png",
+      "hit/hit_007.png",
+      "hit/hit_008.png",
+      "hit/hit_009.png"
+    ],
+    "fps": 12
+  },
+  "victory": {
+    "frames": [
+      "victory/victory_000.png",
+      "victory/victory_001.png",
+      "victory/victory_002.png",
+      "victory/victory_003.png",
+      "victory/victory_004.png",
+      "victory/victory_005.png",
+      "victory/victory_006.png",
+      "victory/victory_007.png",
+      "victory/victory_008.png",
+      "victory/victory_009.png",
+      "victory/victory_010.png",
+      "victory/victory_011.png"
+    ],
+    "fps": 12
+  },
+  "defeat": {
+    "frames": [
+      "defeat/defeat_000.png",
+      "defeat/defeat_001.png",
+      "defeat/defeat_002.png",
+      "defeat/defeat_003.png",
+      "defeat/defeat_004.png",
+      "defeat/defeat_005.png",
+      "defeat/defeat_006.png",
+      "defeat/defeat_007.png",
+      "defeat/defeat_008.png",
+      "defeat/defeat_009.png"
+    ],
+    "fps": 12
+  },
+  "look": {
+    "frames": [
+      "look/look_000.png",
+      "look/look_001.png",
+      "look/look_002.png",
+      "look/look_003.png",
+      "look/look_004.png",
+      "look/look_005.png",
+      "look/look_006.png",
+      "look/look_007.png"
+    ],
+    "fps": 12
+  },
+  "camouflage": {
+    "frames": [
+      "camouflage/camouflage_000.png",
+      "camouflage/camouflage_001.png",
+      "camouflage/camouflage_002.png",
+      "camouflage/camouflage_003.png",
+      "camouflage/camouflage_004.png",
+      "camouflage/camouflage_005.png",
+      "camouflage/camouflage_006.png",
+      "camouflage/camouflage_007.png",
+      "camouflage/camouflage_008.png",
+      "camouflage/camouflage_009.png",
+      "camouflage/camouflage_010.png",
+      "camouflage/camouflage_011.png"
+    ],
+    "fps": 12
+  },
+  "tongue_extend": {
+    "frames": [
+      "tongue_extend/tongue_extend_000.png",
+      "tongue_extend/tongue_extend_001.png",
+      "tongue_extend/tongue_extend_002.png",
+      "tongue_extend/tongue_extend_003.png",
+      "tongue_extend/tongue_extend_004.png",
+      "tongue_extend/tongue_extend_005.png",
+      "tongue_extend/tongue_extend_006.png",
+      "tongue_extend/tongue_extend_007.png",
+      "tongue_extend/tongue_extend_008.png",
+      "tongue_extend/tongue_extend_009.png",
+      "tongue_extend/tongue_extend_010.png",
+      "tongue_extend/tongue_extend_011.png"
+    ],
+    "fps": 12
+  },
+  "wall_cling": {
+    "frames": [
+      "wall_cling/wall_cling_000.png",
+      "wall_cling/wall_cling_001.png",
+      "wall_cling/wall_cling_002.png",
+      "wall_cling/wall_cling_003.png",
+      "wall_cling/wall_cling_004.png",
+      "wall_cling/wall_cling_005.png",
+      "wall_cling/wall_cling_006.png",
+      "wall_cling/wall_cling_007.png"
+    ],
+    "fps": 12
+  },
+  "ceiling_cling": {
+    "frames": [
+      "ceiling_cling/ceiling_cling_000.png",
+      "ceiling_cling/ceiling_cling_001.png",
+      "ceiling_cling/ceiling_cling_002.png",
+      "ceiling_cling/ceiling_cling_003.png",
+      "ceiling_cling/ceiling_cling_004.png",
+      "ceiling_cling/ceiling_cling_005.png",
+      "ceiling_cling/ceiling_cling_006.png",
+      "ceiling_cling/ceiling_cling_007.png"
+    ],
+    "fps": 12
+  },
+  "tail_grab": {
+    "frames": [
+      "tail_grab/tail_grab_000.png",
+      "tail_grab/tail_grab_001.png",
+      "tail_grab/tail_grab_002.png",
+      "tail_grab/tail_grab_003.png",
+      "tail_grab/tail_grab_004.png",
+      "tail_grab/tail_grab_005.png",
+      "tail_grab/tail_grab_006.png",
+      "tail_grab/tail_grab_007.png"
+    ],
+    "fps": 12
+  },
+  "color_shift": {
+    "frames": [
+      "color_shift/color_shift_000.png",
+      "color_shift/color_shift_001.png",
+      "color_shift/color_shift_002.png",
+      "color_shift/color_shift_003.png",
+      "color_shift/color_shift_004.png",
+      "color_shift/color_shift_005.png",
+      "color_shift/color_shift_006.png",
+      "color_shift/color_shift_007.png",
+      "color_shift/color_shift_008.png",
+      "color_shift/color_shift_009.png",
+      "color_shift/color_shift_010.png",
+      "color_shift/color_shift_011.png"
+    ],
+    "fps": 12
+  }
+}

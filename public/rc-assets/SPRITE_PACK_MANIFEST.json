@@ -1,0 +1,68 @@
+{
+  "runner": {
+    "hazard": "rc-assets/runner/hazard.png",
+    "collectible": "rc-assets/runner/collectible.png",
+    "goal": "rc-assets/runner/goal.png",
+    "preview": "rc-assets/runner/sprite_sheet_preview.png"
+  },
+  "dodge": {
+    "hazard": "rc-assets/dodge/hazard.png",
+    "collectible": "rc-assets/dodge/collectible.png",
+    "preview": "rc-assets/dodge/sprite_sheet_preview.png"
+  },
+  "collect": {
+    "hazard": "rc-assets/collect/hazard.png",
+    "collectible": "rc-assets/collect/collectible.png",
+    "goal": "rc-assets/collect/goal.png",
+    "preview": "rc-assets/collect/sprite_sheet_preview.png"
+  },
+  "rhythm": {
+    "note": "rc-assets/rhythm/note.png",
+    "collectible": "rc-assets/rhythm/collectible.png",
+    "hazard": "rc-assets/rhythm/hazard.png",
+    "preview": "rc-assets/rhythm/sprite_sheet_preview.png"
+  },
+  "puzzle": {
+    "face0": "rc-assets/puzzle/face0.png",
+    "face1": "rc-assets/puzzle/face1.png",
+    "face2": "rc-assets/puzzle/face2.png",
+    "face3": "rc-assets/puzzle/face3.png",
+    "cardBack": "rc-assets/puzzle/cardBack.png",
+    "preview": "rc-assets/puzzle/sprite_sheet_preview.png"
+  },
+  "fps": {
+    "enemy": "rc-assets/fps/enemy.png",
+    "collectible": "rc-assets/fps/collectible.png",
+    "weapon": "rc-assets/fps/weapon.png",
+    "hazard": "rc-assets/fps/hazard.png",
+    "preview": "rc-assets/fps/sprite_sheet_preview.png"
+  },
+  "fighting": {
+    "enemy": "rc-assets/fighting/enemy.png",
+    "platform": "rc-assets/fighting/platform.png",
+    "collectible": "rc-assets/fighting/collectible.png",
+    "preview": "rc-assets/fighting/sprite_sheet_preview.png"
+  },
+  "openworld": {
+    "npc": "rc-assets/openworld/npc.png",
+    "building": "rc-assets/openworld/building.png",
+    "collectible": "rc-assets/openworld/collectible.png",
+    "goal": "rc-assets/openworld/goal.png",
+    "preview": "rc-assets/openworld/sprite_sheet_preview.png"
+  },
+  "racing": {
+    "player": "rc-assets/racing/player.png",
+    "enemy": "rc-assets/racing/enemy.png",
+    "collectible": "rc-assets/racing/collectible.png",
+    "hazard": "rc-assets/racing/hazard.png",
+    "goal": "rc-assets/racing/goal.png",
+    "preview": "rc-assets/racing/sprite_sheet_preview.png"
+  },
+  "platformer": {
+    "enemy": "rc-assets/platformer/enemy.png",
+    "collectible": "rc-assets/platformer/collectible.png",
+    "platform": "rc-assets/platformer/platform.png",
+    "goal": "rc-assets/platformer/goal.png",
+    "preview": "rc-assets/platformer/sprite_sheet_preview.png"
+  }
+}
