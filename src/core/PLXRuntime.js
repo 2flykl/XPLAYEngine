@@ -43,6 +43,20 @@ export class PLXRuntime {
 
   launch(manifest){
     this.destroy();
+    if(manifest.engine==='html'){
+      const el = document.getElementById(this.container);
+      if(el){
+        const iframe = document.createElement('iframe');
+        iframe.setAttribute('sandbox', 'allow-scripts');
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.border = 'none';
+        iframe.style.borderRadius = '22px';
+        iframe.srcdoc = manifest.assets?.html || '<h1>No playable HTML content</h1>';
+        el.appendChild(iframe);
+      }
+      return;
+    }
     const Scene = sceneMap[manifest.engine];
     if(!Scene){
       throw new Error(`Unknown PLX engine "${manifest.engine}". Registered engines: ${Object.keys(sceneMap).join(', ')}`);
