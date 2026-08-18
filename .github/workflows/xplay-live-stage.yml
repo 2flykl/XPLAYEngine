@@ -32,6 +32,21 @@ jobs:
           rm -rf node_modules
           npm install --no-audit --no-fund
 
+      - name: Apply live-stage interaction hotfix
+        working-directory: .
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('src/main.js')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace("views.studio.querySelector('#airportBtn').onclick=()=>{", "const airportBtn=views.studio.querySelector('#airportBtn'); if(airportBtn) airportBtn.onclick=()=>{")
+          s = s.replace("views.studio.querySelector('#playGenerated').onclick=()=>studioProject&&launchManifest(studioProject.manifest);", "const playGenerated=views.studio.querySelector('#playGenerated'); if(playGenerated) playGenerated.onclick=()=>studioProject&&launchManifest(studioProject.manifest);")
+          s = s.replace("views.studio.querySelector('#exportGenerated').onclick=()=>studioProject&&exportPLX(studioProject);", "const exportGenerated=views.studio.querySelector('#exportGenerated'); if(exportGenerated) exportGenerated.onclick=()=>studioProject&&exportPLX(studioProject);")
+          s = s.replace("views.studio.querySelector('#saveCloud').onclick=async()=>{", "const saveCloud=views.studio.querySelector('#saveCloud'); if(saveCloud) saveCloud.onclick=async()=>{")
+          s = s.replace("['#playGenerated','#exportGenerated','#saveCloud'].forEach(q=>views.studio.querySelector(q).disabled=false);", "['#playGenerated','#exportGenerated','#saveCloud'].forEach(q=>{const el=views.studio.querySelector(q); if(el) el.disabled=false;});")
+          p.write_text(s, encoding='utf-8')
+          PY
+
       - name: Release-candidate verification
         working-directory: .
         run: npm run verify:rc
