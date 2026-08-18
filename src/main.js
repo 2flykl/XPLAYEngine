@@ -15,7 +15,7 @@ import { STYLE_LIBRARY, OVERLAY_LIBRARY, getStyle } from './core/StyleLibrary.js
 import { generateSurpriseIdeas, formatSuggestion } from './services/surprise.js';
 import { applyMakeItBetter } from './services/makeBetter.js';
 import { createStudioPlan, finishStudioBuild } from './core/StudioPipeline.js';
-
+// Calibrate Prompt
 const BASE_URL=import.meta.env.BASE_URL || './';
 const publicUrl=(path='')=>{
   if(/^(data:|blob:|https?:)/.test(path)) return path;
