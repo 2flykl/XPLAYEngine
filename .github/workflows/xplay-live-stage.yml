@@ -26,9 +26,11 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Install dependencies
+      - name: Install clean dependencies
         working-directory: .
-        run: npm install --no-audit --no-fund
+        run: |
+          rm -rf node_modules
+          npm install --no-audit --no-fund
 
       - name: Release-candidate verification
         working-directory: .
