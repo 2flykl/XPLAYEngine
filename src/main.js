@@ -207,117 +207,106 @@ function renderLibrary(){
 }
 
 function renderStudio(){
-  views.studio.innerHTML=`
-  <div class="top">
-    <div>
-      <div class="pill">CREATE PLAYABLE</div>
-      <h1>What do you want to make playable?</h1>
-      <p class="softPill">Tell XPLAY your idea – upload media, pick a style, and watch the magic happen.</p>
-    </div>
-  </div>
-
-  <div class="playerShell">
-    <div class="sidepanel">
-      <!-- Prompt Input -->
-      <h3>Idea</h3>
-      <textarea id="prompt" placeholder="Turn this picture into a fighting game where I battle a rival on the airport runway."></textarea>
-      <div class="promptTools">
-         <!-- Calibrate Prompt -->
-         <button class="btn calibrate" id="calibratePrompt">✨ Calibrate my idea</button>
-        <span id="calibrateNote">XPLAY can refine your brief without changing its meaning.</span>
+   views.studio.innerHTML=`
+    <div class="top">
+      <div>
+        <div class="pill">CREATE PLAYABLE</div>
+        <h1>What do you want to make playable?</h1>
       </div>
-
-      <!-- Media Upload -->
-      <h3>Media</h3>
-      <input id="sourceFile" type="file" accept="image/*,video/*,audio/*" />
-      <div id="sourcePreview" style="margin-top:12px"></div>
-
-      <!-- Creation mode -->
-      <h3>How should XPLAY work?</h3>
-      <div class="modeSwitch">
-        <button class="modeBtn active" data-mode="ai">Make it for me</button>
-        <button class="modeBtn" data-mode="custom">Direct it myself</button>
-      </div>
-
-      <!-- Engine recommendation -->
-      <h3>Recommended Game Type</h3>
-      <div id="engineRecommend" class="recommendCard">
-        <p>XPLAY recommends: <strong>Fighting</strong></p>
-        <p>Because your idea sounds like a one‑on‑one battle.</p>
-        <button class="btn primary" id="useRecommendedEngine">Use Fighting</button>
-        <button class="btn ghost" id="showAllEngines">Show other game types</button>
-      </div>
-      <div id="engineOptions" class="engineGrid" hidden>
-        ${builtIns.map(([id,title,engine,label,desc])=>`<div class="engineCard" data-engine="${engine}">
-          <img src="${publicUrl(`flux-pack/runtime/library/${engine === 'openworld' ? 'open_world' : engine}_library_example.png`)}" alt="${title}" />
-          <div class="cardbody"><div class="pill">${label}</div><h3>${title}</h3><div class="muted">${desc}</div></div>
-        </div>`).join('')}
-      </div>
-
-      <!-- Style selection (curated) -->
-      <h3>Choose a look</h3>
-      <div id="styleCardsCurated" class="styleCards">
-        ${STYLE_LIBRARY.slice(0,3).map(s=>`<button class="styleCard ${s.id==='cinematic-photo'?'active':''}" data-style="${s.id}"><b>${s.name}</b><span>${s.publicDescription}</span><em>${s.testComparable}</em></button>`).join('')}
-        <button class="styleCard moreStyles" id="showMoreStyles">More styles ›</button>
-      </div>
-      <div id="styleOptions" class="styleGrid" hidden>
-        ${STYLE_LIBRARY.map(s=>`<button class="styleCard" data-style="${s.id}"><b>${s.name}</b><span>${s.publicDescription}</span><em>${s.testComparable}</em></button>`).join('')}
-      </div>
-
-      <!-- Build Action -->
-      <div class="cardActions">
-        <button class="btn primary" id="buildBtn">Make it playable</button>
-        <button class="btn secondary" id="surpriseBtn">Surprise Me</button>
-        <button class="btn secondary" id="makeBetterBtn">Make Better</button>
-      </div>
-      <div id="buildStatus" class="controls">Waiting for inspiration.</div>
-      <div id="surpriseResults" class="controls" style="margin-top:12px"></div>
     </div>
 
-    <aside class="sidepanel" hidden>
-      <h3>Advanced / Build details</h3>
-      <div class="accordion" id="advancedDetails">
-        <button class="accordionToggle">Show details</button>
-        <div class="accordionContent">
-          <p><strong>Engine:</strong> <span id="advEngine"></span></p>
-          <p><strong>Director:</strong> <span id="advDirector"></span></p>
-          <p><strong>Style DNA:</strong> <span id="advStyleDNA"></span></p>
-          <p><strong>QA score:</strong> <span id="advQA"></span></p>
+    <div class="playerShell">
+      <div class="sidepanel">
+        <h3>Idea</h3>
+        <textarea id="prompt" placeholder="Describe the experience, not the technology."></textarea>
+        <div class="promptTools">
+          <button class="btn calibrate" id="calibratePrompt">✨ Calibrate my idea</button>
+          <span id="calibrateNote">XPLAY can refine your brief without changing its meaning.</span>
         </div>
+        <h3>Media</h3>
+        <div id="mediaDrop" class="media-drop" style="border: 2px dashed #aaa; padding: 20px; text-align:center; cursor:pointer;">
+          Drop up to 3 files here or click to select
+          <input id="sourceFile" type="file" accept="image/*,video/*,audio/*" multiple style="display:none" />
+        </div>
+        <div id="mediaPreview" style="margin-top:12px; display:flex; flex-wrap:wrap; gap:8px;"></div>
+        <div class="cardActions" style="margin-top:12px;">
+          <button class="btn primary" id="analyzeBtn">ANALYZE MY IDEA</button>
+          <button class="btn secondary" id="surpriseBtn">SURPRISE ME</button>
+        </div>
+        <div id="statusMessage" class="controls" style="margin-top:8px; color:#666; min-height:1.2em;"></div>
       </div>
-    </aside>
-  </div>`;
+      <aside class="sidepanel" hidden id="advancedDetailsPanel">
+        <h3>Advanced / Build details</h3>
+        <div class="accordion" id="advancedDetails">
+          <button class="accordionToggle" onclick="this.nextElementSibling.hidden=!this.nextElementSibling.hidden;">Show details</button>
+          <div class="accordionContent" hidden>
+            <p><strong>Engine:</strong> <span id="advEngine"></span></p>
+            <p><strong>Director:</strong> <span id="advDirector"></span></p>
+            <p><strong>Style DNA:</strong> <span id="advStyleDNA"></span></p>
+            <p><strong>QA score:</strong> <span id="advQA"></span></p>
+          </div>
+        </div>
+      </aside>
+    </div>`;
 
   renderCustomControls();
   bindStudio();
 }
 
 function bindStudio(){
- const fileInput=views.studio.querySelector('#sourceFile');
- const preview=views.studio.querySelector('#sourcePreview');
- const prompt=views.studio.querySelector('#prompt');
+  // Multi-file upload handling
+  const fileInput=views.studio.querySelector('#sourceFile');
+  const previewContainer=views.studio.querySelector('#sourcePreview');
+  const prompt=views.studio.querySelector('#prompt');
 
- views.studio.querySelectorAll('.modeBtn').forEach(btn=>btn.onclick=()=>{
-   state.mode=btn.dataset.mode;
-   views.studio.querySelectorAll('.modeBtn').forEach(b=>b.classList.toggle('active',b===btn));
-   renderCustomControls();
- });
+  // Mode selection (mutually exclusive)
+  views.studio.querySelectorAll('.modeBtn').forEach(btn=>btn.onclick=()=>{
+    state.mode=btn.dataset.mode;
+    views.studio.querySelectorAll('.modeBtn').forEach(b=>b.classList.toggle('active',b===btn));
+    renderCustomControls();
+  });
 
- views.studio.querySelectorAll('.styleCard').forEach(btn=>btn.onclick=()=>{
-   views.studio.querySelectorAll('.styleCard').forEach(b=>b.classList.remove('active'));
-   btn.classList.add('active');
-   const style=getStyle(btn.dataset.style);
-   const suggested=style.overlay;
-   const overlay=views.studio.querySelector('#overlaySelect');
-   if(overlay) overlay.value=suggested;
- });
+  // Style card selection
+  views.studio.querySelectorAll('.styleCard').forEach(btn=>btn.onclick=()=>{
+    views.studio.querySelectorAll('.styleCard').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const style=getStyle(btn.dataset.style);
+    const overlay=views.studio.querySelector('#overlaySelect');
+    if(overlay) overlay.value=style.overlay;
+  });
 
- fileInput.onchange=async()=>{
-   state.file=fileInput.files[0]; if(!state.file)return;
-   state.dataUrl=await readDataUrl(state.file);
-   preview.innerHTML=`<img src="${state.dataUrl}" style="max-width:100%;max-height:340px;border-radius:16px">`;
-   views.studio.querySelector('#buildStatus').textContent='Image loaded. Visual Intelligence will isolate subject, rebuild background, and propose objects.';
- };
+  // Support multiple files (up to 3)
+  fileInput.onchange=async()=>{
+    const files=Array.from(fileInput.files).slice(0,3);
+    if(files.length===0){return;}
+    state.media=[];
+    previewContainer.innerHTML='';
+    for(const f of files){
+      const dataUrl=await readDataUrl(f);
+      const role=''; // to be inferred later
+      state.media.push({file:f,dataUrl,type:f.type,role,analysis:null});
+      const card=document.createElement('div');
+      card.className='mediaCard';
+      card.innerHTML=`
+        <img src="${dataUrl}" style="max-width:100%;max-height:120px;border-radius:8px" />
+        <div class="mediaInfo">
+          <span class="mediaName">${f.name}</span>
+          <span class="mediaType">${f.type}</span>
+          <input class="mediaRole" placeholder="Role (e.g., Main character)" />
+          <button class="removeMedia btn ghost">✕</button>
+        </div>`;
+      previewContainer.appendChild(card);
+      // role editing
+      const roleInput=card.querySelector('.mediaRole');
+      roleInput.addEventListener('input',e=>{state.media.find(m=>m.file===f).role=e.target.value;});
+      // removal
+      card.querySelector('.removeMedia').onclick=()=>{
+        state.media=state.media.filter(m=>m.file!==f);
+        card.remove();
+      };
+    }
+    views.studio.querySelector('#buildStatus').textContent='Media prepared. Visual Intelligence will process each file.';
+  };
 
  views.studio.querySelector('#airportBtn').onclick=()=>{
    prompt.value='running through the airport dodging items dropped by passing planes and collecting boarding passes';
