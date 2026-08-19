@@ -31,8 +31,6 @@ jobs:
           rm -rf node_modules
           npm install --no-audit --no-fund
 
-      - name: Repair creator bindings for live stage
-        run: python3 scripts/live-stage-repair.py
 
       - name: Release-candidate verification
         run: npm run verify:rc

@@ -6,6 +6,7 @@ import { analyzeImageStyle } from './core/StyleDNA.js';
 import { deriveVisualAssets } from './core/VisualAssetFactory.js';
 import { analyzeVisualSource } from './services/vision.js';
 import { remasterAsset } from './services/art.js';
+import { forgeProductionArtPack } from './services/worldArtForge.js';
 import { calibratePromptLocal } from './services/calibrator.js';
 import { directPLX, apiHealth } from './services/director.js';
 import { pingSupabase } from './services/supabase.js';
@@ -1253,6 +1254,19 @@ async function runBuildPipeline(container, logsEl) {
   await advanceStep(4);
   log("Step 5: Invoking Visual Asset Factory...");
   let assets = await deriveVisualAssets(primaryImgUrl, dna, spec, optionArgs, extraction);
+  // Production Art Forge: when the local/API image model is available, batch-manufacture a coherent world pack.
+  // Static GitHub Pages skips this automatically and uses the deterministic local World Forge.
+  let productionPack = null;
+  if (spec.engine !== 'html') {
+    log("Step 5b: Asking the Production Art Forge for cohesive sprite/tile/background sheets...");
+    productionPack = await forgeProductionArtPack({prompt: state.prompt, engine: spec.engine, style: optionArgs.styleName, imageDataUrl: primaryImgUrl, visualAnalysis: extraction?.analysis});
+    if (productionPack?.assets) {
+      assets = {...assets, ...productionPack.assets};
+      log(`Production Art Forge returned ${Object.keys(productionPack.assets).length} sliced game assets.`);
+    } else {
+      log("Production Art Forge unavailable — continuing with local deterministic World Forge.");
+    }
+  }
   
   if (state.htmlMode === 'game') {
     log("Overriding engine to html...");
@@ -1314,6 +1328,11 @@ async function runBuildPipeline(container, logsEl) {
   await advanceStep(6);
   log("Step 7: Applying Quality Gates and fun multiplier variables...");
   const rawManifest = manifestFrom(spec, dna, assets, optionArgs, state.prompt);
+  if (productionPack) {
+    rawManifest.generatedAnimations = productionPack.animation;
+    rawManifest.productionArtProvenance = productionPack.provenance;
+    rawManifest.characterBible = productionPack.characterBible;
+  }
   
   rawManifest.feel = state.feel;
   if (state.feel && rawManifest.physics) {

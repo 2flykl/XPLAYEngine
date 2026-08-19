@@ -61,6 +61,35 @@ app.post('/api/generate-asset',async(req,res)=>{
  catch(error){res.status(500).json({ok:false,error:error.message});}
 });
 
+
+app.post('/api/forge-art-pack',async(req,res)=>{
+ try{
+  if(!client||!process.env.OPENAI_IMAGE_MODEL)return res.status(503).json({ok:false,error:'Production image model not configured'});
+  const {prompt='',engine='runner',style='polished 16-bit arcade',imageDataUrl='',visualAnalysis=null,characterBible=null,characterLock='',repairFeedback='',regenerationPass=0}=req.body||{};
+  const theme=`${prompt} ${visualAnalysis?.environment||''}`.trim();
+  const bible=`ORIGINAL ${style}. Cohesive commercial 2D arcade game art. Same palette, lighting, perspective, outline language, scale and material treatment across every sheet. No copyrighted characters, logos, text labels, UI mockups, checkerboard, watermarks, or photoreal collage. ${engine==='fps'?'First-person arcade world.':'Side-view 2D game world.'}`;
+  const source=imageDataUrl?'Use the uploaded source as the canonical identity and world reference; reinterpret it into original game art while preserving the chosen subject identity.':'';
+  const identity=characterLock||characterBible?.identityLock||'';
+  const repair=repairFeedback?`QUALITY REPAIR PASS: Correct these prior atlas defects: ${repairFeedback}. Do not repeat them.`:'';
+  const prompts={
+   background:`${bible} ${source} World concept: ${theme}. Create one complete 16:9 gameplay background/environment plate with clear far, mid and near depth, authored landmarks, texture, atmospheric perspective, and dense environmental storytelling. Leave the central playable lane readable. No characters or UI.`,
+   player:`${bible} ${source} ${identity} ${repair} World concept: ${theme}. Create a STRICT 4 columns x 4 rows sprite contact sheet on transparent background for the SAME original player character, centered in every cell, equal scale, no cell borders. Row-major poses: idleA,idleB,run1,run2,run3,run4,jumpA,jumpB,fall,landA,landB,hurtA,hurtB,victoryA,victoryB,victoryC. Full body. Consistent costume and proportions.`,
+   tiles:`${bible} ${repair} World concept: ${theme}. Create a STRICT 4x4 tileset/contact sheet with sixteen seamless terrain/platform pieces, one piece per cell, consistent scale, clean game-ready edges: center,left edge,right edge,inner corner,outer corner,slope up,slope down,ramp,thin platform,wide platform,bridge,ledge,wall,damaged variant,alternate material,special/finish tile. No text.`,
+   props:`${bible} ${repair} World concept: ${theme}. Create a STRICT 4x4 transparent-background prop sheet, one isolated gameplay prop per cell, equal scale and clean silhouette. Make sixteen visually distinct environment-specific props with strong material detail and readable shape. No text labels.`,
+   actors:`${bible} ${repair} World concept: ${theme}. Create a STRICT 4x4 transparent-background gameplay actor sheet: four hazard families, four enemy/target families, four collectible/reward objects, and four signature/FX objects. One object per cell, equal game-ready scale, strong silhouettes, no labels.`
+  };
+  const sourceInput=imageDataUrl?.startsWith('data:')?imageDataUrl:null;
+  async function gen(text,size='1024x1024'){
+    // Generation instead of edit is intentional for coherent sheets; source analysis is already encoded in the brief.
+    const result=await client.images.generate({model:process.env.OPENAI_IMAGE_MODEL,prompt:text,size});const item=result.data?.[0];return item?.b64_json?`data:image/png;base64,${item.b64_json}`:item?.url;
+  }
+  const [background,player,tiles,props,actors]=await Promise.all([
+    gen(prompts.background,process.env.OPENAI_WIDE_IMAGE_SIZE||'1536x1024'),gen(prompts.player),gen(prompts.tiles),gen(prompts.props),gen(prompts.actors)
+  ]);
+  res.json({ok:true,background,sheets:{player,tiles,props,actors},regenerationPass,provenance:{mode:'ai-batch-world-forge-v4',engine,style,sourceUsed:Boolean(sourceInput),model:process.env.OPENAI_IMAGE_MODEL,characterBible:Boolean(characterBible),regenerationPass,repairFeedback:repairFeedback||null}});
+ }catch(error){console.error('forge-art-pack',error);res.status(500).json({ok:false,error:error.message});}
+});
+
 app.post('/api/remaster-asset',async(req,res)=>{
  try{
   if(!client||!process.env.OPENAI_IMAGE_MODEL)return res.status(503).json({ok:false,error:'OPENAI_IMAGE_MODEL not configured'});

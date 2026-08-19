@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { parallaxFactor } from '../core/WorldMath.js';
 
 const PUBLIC_BASE=import.meta.env.BASE_URL || './';
 const publicAsset=(path='')=>`${PUBLIC_BASE}${String(path).replace(/^\.\//,'').replace(/^\//,'')}`;
@@ -61,7 +62,23 @@ export class BasePLXScene extends Phaser.Scene {
     this._fluxAnimationsReady=true;
   }
 
+  setupGeneratedPlayerAnimations(){
+    const map=this.manifest.generatedAnimations?.player;if(!map||this._generatedPlayerAnimationsReady)return false;
+    for(const [state,frames] of Object.entries(map)){
+      const valid=(frames||[]).filter(k=>this.textures.exists(k));if(!valid.length)continue;
+      const key=`generated-player-${state}`;
+      if(!this.anims.exists(key))this.anims.create({key,frames:valid.map(k=>({key:k})),frameRate:state==='run'?12:8,repeat:['idle','run','fall'].includes(state)?-1:0});
+    }
+    this._generatedPlayerAnimationsReady=true;return true;
+  }
+
   createFluxPlayer(x,y,opts={}){
+    // Prefer AI-manufactured state frames when the Production Art Forge supplied them.
+    const generated=this.manifest.generatedAnimations?.player;
+    if(generated && this.setupGeneratedPlayerAnimations()){
+      const first=(generated[opts.anim||'idle']||generated.idle||[]).find(k=>this.textures.exists(k));
+      if(first){const p=opts.physics===false?this.add.sprite(x,y,first):this.physics.add.sprite(x,y,first);const src=p.texture.getSourceImage();const maxH=opts.maxHeight||150,maxW=opts.maxWidth||115,sw=src?.width||128,sh=src?.height||128;const scale=Math.min(maxW/sw,maxH/sh);p.setScale(scale*(opts.scale?opts.scale/.72:1));if(opts.depth!=null)p.setDepth(opts.depth);if(opts.physics!==false&&opts.collideWorldBounds!==false)p.setCollideWorldBounds(true);p.__generatedPlayer=true;this.playFlux(p,opts.anim||'idle',false);return p;}
+    }
     // Generated PLXs should use the extracted/remastered source subject, not force Flux into the player's slot.
     if(this.manifest.visualIntelligence && this.textures.exists('player')){
       const p=opts.physics===false?this.add.sprite(x,y,'player'):this.physics.add.sprite(x,y,'player');
@@ -99,7 +116,7 @@ export class BasePLXScene extends Phaser.Scene {
 
   updateParallax(dt=16,mult=1){
     if(!this._parallaxLayers?.length||!this._parallaxSpeed)return;
-    const f=dt/16.666;const speeds=[.20,.55,1.0];
+    const f=dt/16.666;const total=this._parallaxLayers.length;const speeds=this._parallaxLayers.map((_,i)=>Math.max(.12,parallaxFactor(total-1-i,total,1.55)));
     // Phaser TileSprite sampling means +X visually moves scenery left; -Y visually moves scenery down.
     const sign={left:1,right:-1,down:-1,up:1}[this._parallaxDirection]??1;
     this._parallaxLayers.forEach((l,i)=>{
@@ -109,7 +126,9 @@ export class BasePLXScene extends Phaser.Scene {
   }
 
   playFlux(sprite,anim,ignoreIfPlaying=true){
-    if(!sprite || sprite.__sourceSubject || !this.fluxCfg?.animations.includes(anim)) return;
+    if(!sprite)return;
+    if(sprite.__generatedPlayer){const key=`generated-player-${anim}`;if(this.anims.exists(key)&&sprite.anims?.currentAnim?.key!==key)sprite.play(key,ignoreIfPlaying);return;}
+    if(sprite.__sourceSubject || !this.fluxCfg?.animations.includes(anim)) return;
     const key=`flux-${this.manifest.engine}-${anim}`;
     if(sprite.anims?.currentAnim?.key===key && ignoreIfPlaying)return;
     sprite.play(key,ignoreIfPlaying);

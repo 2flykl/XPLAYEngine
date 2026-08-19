@@ -12,7 +12,8 @@
     "vision": "cd vision-service && python -m uvicorn app:app --host 127.0.0.1 --port 8790",
     "verify:plx": "node scripts/verify-plx.mjs",
     "verify:foundry": "node scripts/verify-foundry.mjs",
-    "verify:rc": "node scripts/verify-rc.mjs"
+    "verify:rc": "node scripts/verify-rc.mjs",
+    "verify:fasttrack": "node scripts/verify-fasttrack-v4.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.0",

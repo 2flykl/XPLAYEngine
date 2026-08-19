@@ -1,58 +1,48 @@
 import { buildProductionBlueprint } from '../directors/EngineDirectors.js';
 import { auditPLX, repairManifest } from './PLXQualityGate.js';
 import { generateWorldDNA, generateArtBible, generateLevelBlueprint, forgeWorldKit } from './WorldForge.js';
+import { targetFor } from './ReferenceTargetModel.js';
 
-export function createStudioPlan(args={}){
-  return buildProductionBlueprint(args);
-}
+export function createStudioPlan(args={}){ return buildProductionBlueprint(args); }
 
-export function finishStudioBuild(manifest, assets={}){
-  // 1. Generate World DNA and Art Bible
-  const dna = generateWorldDNA(manifest.engine, manifest.description, manifest.feel || 'action', {
-    airportTheme: manifest.variant === 'airport',
-    palette: manifest.styleDNA?.palette
-  });
-  const artBible = generateArtBible(dna, manifest.visualStyle || 'cinematic-photo');
-  const blueprint = generateLevelBlueprint(manifest.engine, dna);
+export function finishStudioBuild(manifest,assets={}){
+  const dna=generateWorldDNA(manifest.engine,manifest.description||manifest.prompt||'',manifest.feel||'action',{airportTheme:manifest.variant==='airport',palette:manifest.styleDNA?.palette,environment:manifest.visualIntelligence?.environment});
+  const artBible=generateArtBible(dna,manifest.visualStyle||'speed-16');
+  const blueprint=generateLevelBlueprint(manifest.engine,dna);
+  const forged=forgeWorldKit(dna,artBible);
 
-  manifest.worldDNA = dna;
-  manifest.artBible = artBible;
-  manifest.levelBlueprint = blueprint;
+  manifest.worldDNA=dna; manifest.artBible=artBible; manifest.levelBlueprint=blueprint; manifest.worldKit=forged.meta; manifest.targetQuality=targetFor(manifest.engine);
+  manifest.assets ||= {}; manifest.assets.images ||= {}; manifest.parallax ||= {};
 
-  // Forge world kit assets based on DNA
-  const forged = forgeWorldKit(dna, artBible);
-  
-  // Merge forged assets with derived assets
-  const combinedAssets = {
-    ...forged,
-    ...assets
-  };
+  const combined={...forged.assets,...assets};
+  const finalImages={...forged.assets,...manifest.assets.images,...assets};
+  // Prefer a coherent AI-manufactured pack when present; otherwise keep deterministic local forge assets.
+  const aiTerrain=Object.keys(finalImages).filter(k=>/^aiTerrain\d+$/.test(k)).sort();
+  const aiProps=Object.keys(finalImages).filter(k=>/^aiProp\d+$/.test(k)).sort();
+  const aiActors=Object.keys(finalImages).filter(k=>/^aiActor\d+$/.test(k)).sort();
+  if(aiTerrain.length>=12) forged.meta.terrainKeys=aiTerrain;
+  if(aiProps.length>=12) forged.meta.propKeys=aiProps;
+  if(aiActors.length>=12){forged.meta.hazardKeys=aiActors.slice(0,4);forged.meta.enemyKeys=aiActors.slice(4,8);forged.meta.collectibleKeys=aiActors.slice(8,12);forged.meta.signatureKeys=aiActors.slice(12,16);}
+  forged.meta.counts={...forged.meta.counts,terrain:forged.meta.terrainKeys.length,props:forged.meta.propKeys.length,hazards:forged.meta.hazardKeys.length,collectibles:forged.meta.collectibleKeys.length,enemies:forged.meta.enemyKeys.length};
+  forged.meta.productionArt=aiTerrain.length?'ai-batch-pack':'local-forge';
+  // Preserve a real extracted source subject when present, but never let weak runtime fallbacks replace the richer world kit.
+  if(assets.player) finalImages.player=assets.player;
+  if(!finalImages.player) finalImages.player=forged.assets.playerFighter;
+  if(manifest.engine==='fighting'){
+    finalImages.player=assets.player||forged.assets.playerFighter;
+    finalImages.enemy=assets.enemy||forged.assets.enemyFighter;
+  }
+  finalImages.background=finalImages.aiBackground||forged.assets.sky;
+  finalImages.platform=finalImages[forged.meta.terrainKeys[0]]||forged.assets.terrain00;
+  finalImages.collectible=finalImages[forged.meta.collectibleKeys[0]]||forged.assets.collectible00;
+  finalImages.hazard=finalImages[forged.meta.hazardKeys[0]]||forged.assets.hazard00;
+  finalImages.enemy=manifest.engine==='fighting'?finalImages.enemy:(finalImages[forged.meta.enemyKeys[0]]||forged.assets.enemy00);
+  manifest.assets.images=finalImages;
+  // A generated hero background becomes the far plate while local layers provide deterministic depth structure.
+  manifest.parallax={far:finalImages.aiBackground||forged.assets.backgroundFar,mid:forged.assets.backgroundMid,near:forged.assets.backgroundNear};
 
-  // Ensure backgrounds and terrain tiles are overridden by procedural forge if empty
-  if (!combinedAssets.background) combinedAssets.background = forged.sky;
-  if (!combinedAssets.platform) combinedAssets.platform = forged.platform;
-
-  const fallbacks={
-    player:combinedAssets.player,enemy:combinedAssets.enemy,hazard:combinedAssets.hazard,collectible:combinedAssets.collectible,
-    platform:combinedAssets.platform,goal:combinedAssets.goal,background:combinedAssets.background,crosshair:combinedAssets.crosshair,
-    weapon:combinedAssets.weapon,hitfx:combinedAssets.hitfx,note:combinedAssets.note,cardBack:combinedAssets.cardBack,
-    face0:combinedAssets.face0,face1:combinedAssets.face1,face2:combinedAssets.face2,face3:combinedAssets.face3,
-    npc:combinedAssets.npc,building:combinedAssets.building
-  };
-  let repaired=repairManifest(manifest,fallbacks);
-  let audit=auditPLX(repaired);
-  repaired.production ||= {};
-  repaired.production.audit=audit;
-  repaired.production.releaseClass=audit.pass?'arcade-draft':'needs-review';
-  
-  // Attach forged assets back to manifest
-  repaired.assets.images = {
-    ...repaired.assets.images,
-    background: fallbacks.background,
-    platform: fallbacks.platform,
-    collectible: fallbacks.collectible,
-    hazard: fallbacks.hazard
-  };
-
+  const fallbacks={...combined,player:finalImages.player,enemy:finalImages.enemy,hazard:finalImages.hazard,collectible:finalImages.collectible,platform:finalImages.platform,goal:forged.assets.goal,background:forged.assets.sky,crosshair:forged.assets.crosshair,weapon:forged.assets.weapon,hitfx:forged.assets.hitfx};
+  let repaired=repairManifest(manifest,fallbacks); const audit=auditPLX(repaired);
+  repaired.production ||= {}; repaired.production.audit=audit; repaired.production.releaseClass=audit.pass?'world-forged':'needs-review'; repaired.production.worldForgeVersion=4; repaired.production.referenceTarget='commercial-2d-structural-v1';
   return {manifest:repaired,audit};
 }
