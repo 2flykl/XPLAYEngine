@@ -1,21 +1,13 @@
-# XPLAY V11 — Playable Completion + Fun Factor Merge Pack
+# XPLAY V12 — Fresh Build Purge + Runtime Hotfix
 
-Layer this **after V9 and V10**.
+Paste this AFTER V9, V10, and V11.
 
-## What V11 adds
-- manifest playability assembler
-- fun-factor metadata/director
-- stronger StudioPipeline completion gate
-- runtime startup watchdog + Retry
-- player-asset preference over silent Flux fallback
-- four final agent roles focused on assembly, fun, playtesting, and release
+## Fixes
+- removes hard-coded airport prototype generation logic
+- prevents old airport titles/worlds/assets from contaminating unrelated builds
+- sanitizes generated asset references before Phaser preload
+- fixes the `startsWith is not a function` startup crash
+- makes current-upload source DNA the generation authority
 
-## Paste order
-1. V9
-2. V10
-3. V11
-
-Allow V11 to overwrite same-name guidance/runtime files.
-
-## Why this exists
-The current generated game reaches Play Lab but can stop at a dark canvas. V11 treats that as a hard runtime failure and pushes the last agents to finish the experience instead of stopping at generation.
+## Important
+After deploying V12, start a **fresh Create session** and upload the screenshot again. Do not reuse a previously generated Play Lab project, because its manifest already contains old generation output.

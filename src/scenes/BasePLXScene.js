@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { parallaxFactor } from '../core/WorldMath.js';
+import { sanitizeAssetRef, sanitizeAssetMap } from '../core/FreshBuildGuard.js';
 
 const PUBLIC_BASE=import.meta.env.BASE_URL || './';
 const publicAsset=(path='')=>`${PUBLIC_BASE}${String(path).replace(/^\.\//,'').replace(/^\//,'')}`;
@@ -29,17 +30,30 @@ export class BasePLXScene extends Phaser.Scene {
   }
 
   asset(path) {
-    if (!path) return path;
-    if (/^(data:|blob:|https?:)/.test(path)) return path;
-    if (path.startsWith('/')) return publicAsset(path);
-    return `${this.manifest.__base || ''}${path}`;
+    const ref = sanitizeAssetRef(path);
+    if (!ref) return '';
+    if (/^(data:|blob:|https?:)/.test(ref)) return ref;
+    if (ref.startsWith('/')) return publicAsset(ref);
+    return `${this.manifest.__base || ''}${ref}`;
   }
 
   preload() {
     const a = this.manifest.assets || {};
-    for (const [k, p] of Object.entries(a.images || {})) this.load.image(k, this.asset(p));
-    for (const [k, p] of Object.entries(a.audio || {})) this.load.audio(k, this.asset(p));
-    const par=this.manifest.parallax||{}; for(const [k,v] of Object.entries(par)){if(v)this.load.image(`parallax:${k}`,this.asset(v));}
+    const images = sanitizeAssetMap(a.images || {});
+    const audio = sanitizeAssetMap(a.audio || {});
+    for (const [k,p] of Object.entries(images)) {
+      const ref=this.asset(p);
+      if(ref) this.load.image(k,ref);
+    }
+    for (const [k,p] of Object.entries(audio)) {
+      const ref=this.asset(p);
+      if(ref) this.load.audio(k,ref);
+    }
+    const par=sanitizeAssetMap(this.manifest.parallax || {});
+    for(const [k,v] of Object.entries(par)){
+      const ref=this.asset(v);
+      if(ref) this.load.image(`parallax:${k}`,ref);
+    }
     this.preloadFlux();
   }
 
@@ -79,8 +93,8 @@ export class BasePLXScene extends Phaser.Scene {
       const first=(generated[opts.anim||'idle']||generated.idle||[]).find(k=>this.textures.exists(k));
       if(first){const p=opts.physics===false?this.add.sprite(x,y,first):this.physics.add.sprite(x,y,first);const src=p.texture.getSourceImage();const maxH=opts.maxHeight||150,maxW=opts.maxWidth||115,sw=src?.width||128,sh=src?.height||128;const scale=Math.min(maxW/sw,maxH/sh);p.setScale(scale*(opts.scale?opts.scale/.72:1));if(opts.depth!=null)p.setDepth(opts.depth);if(opts.physics!==false&&opts.collideWorldBounds!==false)p.setCollideWorldBounds(true);p.__generatedPlayer=true;this.playFlux(p,opts.anim||'idle',false);return p;}
     }
-    // Any manifest-provided player art wins. Flux is never a silent default when a real player asset exists.
-    if(this.textures.exists('player') && this.manifest.characterPolicy?.useFlux !== true){
+    // Generated PLXs should use the extracted/remastered source subject, not force Flux into the player's slot.
+    if(this.manifest.visualIntelligence && this.textures.exists('player')){
       const p=opts.physics===false?this.add.sprite(x,y,'player'):this.physics.add.sprite(x,y,'player');
       const maxH=opts.maxHeight||150,maxW=opts.maxWidth||115;
       const src=p.texture.getSourceImage(); const sw=src?.width||128,sh=src?.height||128;
@@ -178,6 +192,6 @@ export class BasePLXScene extends Phaser.Scene {
     this.add.rectangle(480,300,560,220,0x081b27,.94).setScrollFactor(0).setDepth(300);
     this.add.text(480,250,message,{fontFamily:'Arial',fontSize:'34px',fontStyle:'bold',color:'#2ad5c8',align:'center'}).setOrigin(.5).setScrollFactor(0).setDepth(301);
     this.add.text(480,310,`Score: ${this.score}`,{fontFamily:'Arial',fontSize:'24px',color:'#ffffff'}).setOrigin(.5).setScrollFactor(0).setDepth(301);
-    this.add.text(480,352,'PLX complete. Ready for another run.',{fontFamily:'Arial',fontSize:'16px',color:'#b9d5df'}).setOrigin(.5).setScrollFactor(0).setDepth(301);
+    this.add.text(480,352,'Flux cleared this PLX demo.',{fontFamily:'Arial',fontSize:'16px',color:'#b9d5df'}).setOrigin(.5).setScrollFactor(0).setDepth(301);
   }
 }
