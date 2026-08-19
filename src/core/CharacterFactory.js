@@ -1,0 +1,20 @@
+const PALETTES={
+ runner:['#ff5d7d','#15263b','#ffffff','#ffd166'], platformer:['#ff9f43','#24405f','#f7f3e8','#52d3aa'], dodge:['#32c7d9','#1a2340','#ffcf5c','#ffffff'], collect:['#6ccf78','#20372a','#f4d35e','#f8f5e8'], rhythm:['#d06cff','#17213d','#21e6c1','#ffec70'], puzzle:['#ff7aa2','#6b5cff','#38d9c5','#ffd166'], fighting:['#f05454','#172033','#f6c85f','#ffffff'], openworld:['#58a6ff','#24324a','#7ee787','#f0e68c'], racing:['#ff4d6d','#151b2f','#00d4ff','#ffe66d'], fps:['#57d1c9','#14212b','#ffcb69','#e8f1f2']
+};
+const STATES={
+ runner:['idle','run','jump','fall','land','hurt','victory'], platformer:['idle','run','jump','fall','land','hurt','victory'], dodge:['idle','move_left','move_right','move_up','move_down','hurt','evade'], collect:['idle','walk','run','pickup','interact','hurt','victory'], rhythm:['idle_groove','beat_left','beat_right','beat_up','beat_down','perfect','miss','victory'], puzzle:['think','inspect','choose','correct','wrong','celebrate','victory'], fighting:['stance','walk_forward','walk_back','jump','punch','kick','block','hurt','special','victory'], openworld:['idle','walk_n','walk_s','walk_e','walk_w','interact','victory'], racing:['drive_straight','steer_left','steer_right','boost','brake','crash','finish'], fps:['idle_aim','fire','reload','hurt','victory']
+};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
+export function characterStates(engine){return STATES[engine]||['idle','move','hurt','victory'];}
+export function characterKey(engine,variant,state,frame){return `character:${engine}:${variant}:${state}:${frame}`;}
+export function characterDataUrl(engine='runner',variant='player',state='idle',frame=0){
+ const p=PALETTES[engine]||PALETTES.runner;const rival=variant==='rival';const f=frame%4;const bob=[0,-2,1,-1][f];const swing=[-7,9,4,-5][f];const attack=/punch|kick|special|beat_|fire/.test(state);const crouch=/hurt|brake|block/.test(state);const jump=/jump|evade/.test(state);const vehicle=engine==='racing';
+ let body='';
+ if(vehicle){body=`<g transform="translate(48 ${58+bob})"><path d="M-34 7 L-27 -10 L16 -15 L34 -1 L32 11 L-34 11Z" fill="${rival?p[2]:p[0]}" stroke="${p[1]}" stroke-width="4"/><rect x="-16" y="-10" width="27" height="11" rx="4" fill="${p[2]}" opacity=".85"/><circle cx="-23" cy="12" r="9" fill="${p[1]}"/><circle cx="22" cy="12" r="9" fill="${p[1]}"/><circle cx="-23" cy="12" r="3" fill="${p[3]}"/><circle cx="22" cy="12" r="3" fill="${p[3]}"/></g>`;}
+ else {
+  const skin=rival?'#8b5a3c':'#6f422d';const shirt=rival?p[2]:p[0];const leg=p[1];const x=rival?52:44;const lean=attack?8:0;const ly=jump?-8:0;body=`<g transform="translate(${x} ${48+bob+ly}) rotate(${lean})"><circle cx="0" cy="-24" r="12" fill="${skin}" stroke="${p[1]}" stroke-width="3"/><path d="M-12 -15 Q0 -23 12 -15 L15 19 Q0 29 -15 19Z" fill="${shirt}" stroke="${p[1]}" stroke-width="3"/><path d="M-8 19 L${-12+swing*.18} ${crouch?34:48}" stroke="${leg}" stroke-width="9" stroke-linecap="round"/><path d="M8 19 L${12-swing*.18} ${crouch?34:48}" stroke="${leg}" stroke-width="9" stroke-linecap="round"/><path d="M-10 -5 L${-22-swing*.35} ${attack?-2:16}" stroke="${skin}" stroke-width="7" stroke-linecap="round"/><path d="M10 -5 L${attack?34:22+swing*.35} ${attack?-7:16}" stroke="${skin}" stroke-width="7" stroke-linecap="round"/><path d="M-8 -29 Q0 -38 10 -30" stroke="${p[1]}" stroke-width="7" stroke-linecap="round"/><circle cx="-4" cy="-25" r="1.6" fill="#fff"/><circle cx="5" cy="-25" r="1.6" fill="#fff"/>${state==='special'?`<circle cx="27" cy="-8" r="14" fill="${p[3]}" opacity=".65"/>`:''}</g>`;
+ }
+ const badge=engine==='puzzle'?'<rect x="6" y="7" width="32" height="13" rx="6" fill="#fff" opacity=".14"/>':'';
+ const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="96" height="112" viewBox="0 0 96 112"><defs><filter id="s"><feDropShadow dx="0" dy="4" stdDeviation="3" flood-opacity=".35"/></filter></defs><g filter="url(#s)">${body}</g>${badge}<title>${esc(engine)} ${esc(variant)} ${esc(state)}</title></svg>`;
+ return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+}

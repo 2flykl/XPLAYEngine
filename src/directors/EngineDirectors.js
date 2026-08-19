@@ -28,7 +28,7 @@ export const ENGINE_DIRECTORS = {
     scroll:{axis:'y',direction:'down',parallax:[0,.04,.08]},
     requiredAssets:['player','background','note','hitfx'],
     mechanics:['four lanes','timing windows','combo','miss recovery'],
-    signature:['combo escalation','music-reactive Flux','final chorus burst'],
+    signature:['combo escalation','music-reactive performer','final chorus burst'],
     qa:['notes move toward hit line','timing lanes readable','background motion never fights note direction']
   },
   puzzle:{

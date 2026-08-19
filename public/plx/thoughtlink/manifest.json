@@ -1,7 +1,7 @@
 {
   "engine": "puzzle",
-  "title": "Thought Link \u00b7 Flux Edition",
-  "description": "Flux-powered Memory-match puzzle PLX.",
+  "title": "Gem Circuit",
+  "description": "Colorful match-3 puzzle with cascades and score chains.",
   "duration": 45,
   "objective": {
     "label": "Match all pairs"
@@ -14,8 +14,7 @@
   },
   "assets": {
     "images": {
-      "background": "/flux-pack/runtime/backgrounds/digital_xplay.png",
-      "player": "/flux-pack/14_PLX_PUZZLE/frames/think/think_000.png",
+      "background": "/showcase/puzzle/far.svg",
       "hazard": "assets/hazard.svg",
       "collectible": "assets/collectible.svg",
       "platform": "assets/platform.svg",
@@ -26,21 +25,17 @@
       "face3": "/rc-assets/puzzle/face3.png"
     }
   },
-  "fluxEdition": true,
-  "fluxPack": {
-    "folder": "14_PLX_PUZZLE",
-    "defaultAnimation": "think",
-    "speculativeFrames": 300
-  },
   "parallax": {
-    "far": "/flux-pack/20_ENVIRONMENTS/digital_xplay/far.png",
-    "mid": "/flux-pack/20_ENVIRONMENTS/digital_xplay/mid.png",
-    "near": "/flux-pack/20_ENVIRONMENTS/digital_xplay/near.png"
+    "far": "/showcase/puzzle/far.svg",
+    "mid": "/showcase/puzzle/mid.svg",
+    "near": "/showcase/puzzle/near.svg"
   },
   "scrollProfile": {
     "axis": "none",
     "direction": "static"
   },
   "releaseCandidateArt": true,
-  "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback"
+  "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback",
+  "characterPolicy": "unique-per-plx engine character; source-derived character overrides fallback",
+  "preview": "thumb.svg"
 }

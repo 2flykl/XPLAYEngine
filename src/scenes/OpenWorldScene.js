@@ -21,7 +21,7 @@ export class OpenWorldScene extends BasePLXScene{
 
     this.physics.world.setBounds(0,0,this.worldW,this.worldH);
     this.cameras.main.setBounds(0,0,this.worldW,this.worldH);
-    this.player=this.createFluxPlayer(300,320,{scale:.68,anim:'idle'});
+    this.player=this.createPlayerCharacter(300,320,{scale:.68,anim:'idle'});
     this.cameras.main.startFollow(this.player,true,.07,.07);
 
     this.cursors=this.input.keyboard.createCursorKeys();this.keys=this.input.keyboard.addKeys('W,A,S,D,E');
@@ -45,12 +45,12 @@ export class OpenWorldScene extends BasePLXScene{
   update(){
     if(this.finished)return;
     const s=255;this.player.setVelocity(0);
-    if(this.cursors.left.isDown||this.keys.A.isDown){this.player.setVelocityX(-s);this.playFlux(this.player,'walk_w');}
-    if(this.cursors.right.isDown||this.keys.D.isDown){this.player.setVelocityX(s);this.playFlux(this.player,'walk_e');}
-    if(this.cursors.up.isDown||this.keys.W.isDown){this.player.setVelocityY(-s);this.playFlux(this.player,'walk_n');}
-    if(this.cursors.down.isDown||this.keys.S.isDown){this.player.setVelocityY(s);this.playFlux(this.player,'walk_s');}
+    if(this.cursors.left.isDown||this.keys.A.isDown){this.player.setVelocityX(-s);this.playCharacter(this.player,'walk_w');}
+    if(this.cursors.right.isDown||this.keys.D.isDown){this.player.setVelocityX(s);this.playCharacter(this.player,'walk_e');}
+    if(this.cursors.up.isDown||this.keys.W.isDown){this.player.setVelocityY(-s);this.playCharacter(this.player,'walk_n');}
+    if(this.cursors.down.isDown||this.keys.S.isDown){this.player.setVelocityY(s);this.playCharacter(this.player,'walk_s');}
 
-    if(this.player.body.velocity.lengthSq()===0)this.playFlux(this.player,'idle');const x=this.player.x,y=this.player.y;
+    if(this.player.body.velocity.lengthSq()===0)this.playCharacter(this.player,'idle');const x=this.player.x,y=this.player.y;
     const district=x<800?'OLD QUARTER':x<1600?'DOWNTOWN':'HARBOR';
     this.districtText.setText(district);
 
@@ -61,7 +61,7 @@ export class OpenWorldScene extends BasePLXScene{
     }
     this.hint.setText(near?'Press E to talk':'Explore freely · collect relics · approach NPCs');
     if(near&&Phaser.Input.Keyboard.JustDown(this.keys.E)){
-      this.flashFlux(this.player,'interact','idle');this.hint.setText('NPC: “Relics are scattered across all three districts.”');
+      this.flashCharacter(this.player,'interact','idle');this.hint.setText('NPC: “Relics are scattered across all three districts.”');
     }
   }
 }

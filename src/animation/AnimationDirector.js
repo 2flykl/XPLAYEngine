@@ -30,12 +30,12 @@ export class AnimationDirector {
   static jump(scene, sprite, config = {}) {
     const { jumpAnim = 'jump', landAnim = 'land', bounce = 0.2, duration = 150 } = config;
     if (!sprite) return;
-    // Try to play a jump animation via Flux or custom frames.
-    if (scene.playFlux) scene.playFlux(sprite, jumpAnim, false);
+    // Play the active PLX character animation when available.
+    if (scene.playCharacter) scene.playCharacter(sprite, jumpAnim, false);
     // Apply upward velocity already handled by scene; we add a small bounce on landing.
     scene.time.delayedCall(300, () => {
       // land animation if exists
-      if (scene.playFlux) scene.playFlux(sprite, landAnim, false);
+      if (scene.playCharacter) scene.playCharacter(sprite, landAnim, false);
       // bounce tween for landing impact
       scene.tweens.add({
         targets: sprite,

@@ -55,7 +55,7 @@ for(const token of ['playerhp','enemyhp','block','kick','punch']){
 }
 
 const main=fs.readFileSync(path.join(root,'src/main.js'),'utf8');
-for(const word of ['Frontline Echo','Street Clash','First-Person Shooter','Fighting']){
+for(const word of ['Terminal Zero','After Hours','First-Person Shooter','Fighting','Gem Circuit']){
  if(!main.includes(word)) failures.push(`Library UI missing ${word}`);
 }
 

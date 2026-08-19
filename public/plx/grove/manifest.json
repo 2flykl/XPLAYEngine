@@ -1,7 +1,7 @@
 {
   "engine": "collect",
-  "title": "Lantern Grove \u00b7 Flux Edition",
-  "description": "Flux-powered Explore a grove and collect twelve lantern seeds.",
+  "title": "Lantern Grove",
+  "description": "Explore a grove and collect twelve lantern seeds.",
   "duration": 50,
   "objective": {
     "label": "12 seeds"
@@ -14,29 +14,24 @@
   },
   "assets": {
     "images": {
-      "background": "/flux-pack/runtime/backgrounds/forest_canopy.png",
-      "player": "/flux-pack/12_PLX_COLLECT/frames/idle/idle_000.png",
+      "background": "/showcase/collect/far.svg",
       "hazard": "/rc-assets/collect/hazard.png",
       "collectible": "/rc-assets/collect/collectible.png",
       "platform": "assets/platform.svg",
       "goal": "/rc-assets/collect/goal.png"
     }
   },
-  "fluxEdition": true,
-  "fluxPack": {
-    "folder": "12_PLX_COLLECT",
-    "defaultAnimation": "idle",
-    "speculativeFrames": 300
-  },
   "parallax": {
-    "far": "/flux-pack/20_ENVIRONMENTS/forest_canopy/far.png",
-    "mid": "/flux-pack/20_ENVIRONMENTS/forest_canopy/mid.png",
-    "near": "/flux-pack/20_ENVIRONMENTS/forest_canopy/near.png"
+    "far": "/showcase/collect/far.svg",
+    "mid": "/showcase/collect/mid.svg",
+    "near": "/showcase/collect/near.svg"
   },
   "scrollProfile": {
     "axis": "camera",
     "direction": "free"
   },
   "releaseCandidateArt": true,
-  "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback"
+  "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback",
+  "characterPolicy": "unique-per-plx engine character; source-derived character overrides fallback",
+  "preview": "thumb.svg"
 }

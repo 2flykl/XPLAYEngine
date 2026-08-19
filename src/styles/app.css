@@ -75,7 +75,7 @@ select{width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--li
 .gameWrap[data-overlay="vhs"]:after{background:repeating-linear-gradient(to bottom,transparent 0 12px,rgba(255,255,255,.04) 12px 13px,transparent 13px 24px);box-shadow:inset 5px 0 0 rgba(0,255,255,.04),inset -5px 0 0 rgba(255,0,90,.04)}
 @media(max-width:1050px){.styleCards{grid-template-columns:1fr}}
 
-/* Flux 2.6 library polish */
+/* Specialist PLX library polish */
 .card > img{width:100%;height:210px;object-fit:cover;object-position:center;border-bottom:1px solid rgba(36,201,197,.18)}
 
 /* 2.7 Visual Intelligence */
@@ -156,13 +156,13 @@ body{
 }
 .heroActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
 .heroActions .btn{padding:13px 18px}
-.heroFlux{position:relative}
-.heroFlux:before{
+.heroVisual{position:relative}
+.heroVisual:before{
   content:"";position:absolute;inset:-40px -80px;
   background:radial-gradient(circle,rgba(35,200,193,.2),transparent 58%);
   filter:blur(12px);pointer-events:none
 }
-.heroFlux img{
+.heroVisual img{
   position:relative;width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:28px;
   box-shadow:0 24px 60px rgba(14,39,44,.17);transform:rotate(2deg)
 }
@@ -229,7 +229,7 @@ body{
 @media(max-width:1050px){
   .sidebar{position:relative;height:auto}
   .feedHero{grid-template-columns:1fr;min-height:0}
-  .heroFlux{max-width:470px;margin:0 auto;width:100%}
+  .heroVisual{max-width:470px;margin:0 auto;width:100%}
 }
 @media(max-width:640px){
   .main{padding:16px 13px 50px}
@@ -241,7 +241,7 @@ body{
   .feedHero{padding:30px 20px;border-radius:24px;gap:24px}
   .feedHeroCopy h1{font-size:56px}
   .feedHeroCopy p{font-size:16px}
-  .heroFlux img{aspect-ratio:16/11;transform:none;border-radius:20px}
+  .heroVisual img{aspect-ratio:16/11;transform:none;border-radius:20px}
   .feedIntro{margin:28px 4px 12px}
   .feedIntro .liveDot{display:none!important}
   .socialFeed{gap:14px}

@@ -13,7 +13,7 @@ export class PlatformerScene extends BasePLXScene{
     // Constraint-composed world: S-curve difficulty, alternate routes and entropy-selected tile variants.
     let ti=0;for(const section of this.levelPlan.platforms){let cell=0;for(let x=section.x;x<section.x+section.len;x+=124){const key=section.tileSequence?.[cell++]||pick(this.terrainKeys,section.keyOffset+ti++,'platform');this.platforms.create(x+62,section.y,key).setScale(1.02,section.alternate?.62:.7).refreshBody();}}
     this.decor=[];for(const d0 of this.levelPlan.dressing){if(!this.textures.exists(d0.key))continue;const d=this.add.image(d0.x,d0.y,d0.key).setScale(saliencyStyle('prop',d0.scale).scale).setDepth(saliencyStyle('prop').depth).setAlpha(saliencyStyle('prop').alpha);this.decor.push(d);}
-    this.player=this.createFluxPlayer(120,450,{scale:.76,anim:'idle',maxHeight:132,maxWidth:98});this.physics.add.collider(this.player,this.platforms);this.cameras.main.startFollow(this.player,true,.09,.08);
+    this.player=this.createPlayerCharacter(120,450,{scale:.76,anim:'idle',maxHeight:132,maxWidth:98});this.physics.add.collider(this.player,this.platforms);this.cameras.main.startFollow(this.player,true,.09,.08);
     this.cursors=this.input.keyboard.createCursorKeys();this.wasd=this.input.keyboard.addKeys('A,D,W');
     this.items=this.physics.add.staticGroup();this.levelPlan.items.forEach((it,i)=>this.items.create(it.x,it.y,it.key||pick(this.collectibleKeys,i,'collectible')).setScale(.52).refreshBody());
     this.enemies=this.physics.add.group({allowGravity:true});this.levelPlan.foes.forEach((f,i)=>{const e=this.enemies.create(f.x,f.y,f.key||pick(this.enemyKeys,i,'enemy')).setScale(.56);e.setVelocityX(f.vx);e.setBounce(1);e.setCollideWorldBounds(true);});
@@ -40,9 +40,9 @@ export class PlatformerScene extends BasePLXScene{
     this._visualRepairCount=(this._visualRepairCount||0)+actions.length;
   }
   update(){
-    if(this.finished)return;const s=245;this.player.setVelocityX(0);if(this.player.body.blocked.down)this.playFlux(this.player,'idle');
-    if(this.cursors.left.isDown||this.wasd.A.isDown){this.player.setVelocityX(-s);this.playFlux(this.player,'run');this.player.setFlipX(true);}if(this.cursors.right.isDown||this.wasd.D.isDown){this.player.setVelocityX(s);this.playFlux(this.player,'run');this.player.setFlipX(false);}
-    if((Phaser.Input.Keyboard.JustDown(this.cursors.up)||Phaser.Input.Keyboard.JustDown(this.wasd.W))&&this.player.body.blocked.down){this.player.setVelocityY(-515);this.flashFlux(this.player,'jump','run');}
+    if(this.finished)return;const s=245;this.player.setVelocityX(0);if(this.player.body.blocked.down)this.playCharacter(this.player,'idle');
+    if(this.cursors.left.isDown||this.wasd.A.isDown){this.player.setVelocityX(-s);this.playCharacter(this.player,'run');this.player.setFlipX(true);}if(this.cursors.right.isDown||this.wasd.D.isDown){this.player.setVelocityX(s);this.playCharacter(this.player,'run');this.player.setFlipX(false);}
+    if((Phaser.Input.Keyboard.JustDown(this.cursors.up)||Phaser.Input.Keyboard.JustDown(this.wasd.W))&&this.player.body.blocked.down){this.player.setVelocityY(-515);this.flashCharacter(this.player,'jump','run');}
     if(this._parallaxLayers){const sx=this.cameras.main.scrollX;this._parallaxLayers.forEach((l,i)=>l.tilePositionX=sx*[.08,.20,.38][i]);}
     if(this.player.x>this.levelPlan.signatureX&&!this.signatureDone)this.signature();
   }

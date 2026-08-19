@@ -24,30 +24,32 @@ const publicUrl=(path='')=>{
 };
 
 const builtIns=[
- ['frontline','Frontline Echo','fps','First-Person Shooter','Flagship first-person target shooter. Aim, fire, reload, survive depth-rushing targets.'],
- ['streetclash','Street Clash','fighting','Fighting','Flagship one-on-one arcade fighter. Move, jump, punch, kick, block, KO.'],
- ['skybound','Skybound Dash','runner','Runner','Floating-island cinematic runner.'],
- ['rooftop','Rooftop Rush','dodge','Dodge','Top-down dodge and collect action.'],
- ['grove','Lantern Grove','collect','Collect','Exploration and collection PLX.'],
- ['beatline','Beatline City','rhythm','Rhythm','Four-lane music timing PLX.'],
- ['thoughtlink','Thought Link','puzzle','Puzzle','Memory-match puzzle PLX.'],
- ['driftlands','Driftlands','openworld','Open World','Quest-driven free-roam PLX.'],
- ['neonrace','Neon Circuit','racing','Racing','Fast top-down racing PLX.'],
- ['wildjump','Wild Jump','platformer','Platformer','Free-movement platforming PLX.']
+ ['frontline','Terminal Zero','fps','First-Person Shooter','First-person runway defense with weapon recoil, depth-rushing enemies, impact FX and a signature wave.'],
+ ['streetclash','After Hours','fighting','Fighting','Two-character neon rooftop fighter with punch, kick, block, special meter, hit-stop and KO.'],
+ ['skybound','Skyline Delivery','runner','Runner','High-speed city delivery run with authored routes, collectible arcs, hazards and layered parallax.'],
+ ['rooftop','Rooftop Rush','dodge','Dodge','Top-down rooftop escape with a unique courier, moving hazards and energy pickups.'],
+ ['grove','Lantern Grove','collect','Collect','Atmospheric exploration hunt with a distinct ranger character, relics and reactive world dressing.'],
+ ['beatline','Beatline City','rhythm','Rhythm','Four-lane music timing game with a dedicated performer, stage lighting and combo feedback.'],
+ ['thoughtlink','Gem Circuit','puzzle','Puzzle','Colorful match-3 puzzle board with cascades, score chains and tactile gem feedback.'],
+ ['driftlands','Driftlands','openworld','Open World','Quest-driven free-roam world with its own explorer, districts, NPCs and landmarks.'],
+ ['neonrace','Neon Circuit','racing','Racing','Top-down neon street race with a dedicated vehicle, traffic, boosts and finish sequence.'],
+ ['wildjump','Canopy Rush','platformer','Platformer','Layered adventure platformer with a dedicated hero, authored terrain, enemies, collectibles and a signature event.']
 ];
 
 const socialPosts=[
- {engine:'fps',title:'Terminal Zero',creator:'@novajay',name:'Nova Jay',caption:'A late-night airport photo became a first-person survival run.',played:1284,remixes:86,comments:34,cover:'social/posts/fps.jpg'},
- {engine:'fighting',title:'After Hours',creator:'@marcusvale',name:'Marcus Vale',caption:'One photo. One rival. One neon rooftop. Settle it in the ring.',played:992,remixes:61,comments:28,cover:'social/posts/fighting.jpg'},
- {engine:'runner',title:'Skyline Delivery',creator:'@tianarae',name:'Tiana Rae',caption:'Get the package across the city before anyone sees Flux.',played:1655,remixes:119,comments:46,cover:'social/posts/runner.jpg'},
- {engine:'rhythm',title:'Color Chase',creator:'@ayorose',name:'Ayo Rose',caption:'Stay camouflaged by matching the world on beat.',played:2204,remixes:184,comments:71,cover:'social/posts/rhythm.jpg'},
- {engine:'racing',title:'Neon Circuit',creator:'@devonmiles',name:'Devon Miles',caption:'A street photo turned into a midnight boost race.',played:743,remixes:39,comments:18,cover:'social/posts/racing.jpg'},
- {engine:'platformer',title:'Canopy Rush',creator:'@kenzow',name:'Kenzo W.',caption:'Tongue swing, wall cling, disappear, repeat.',played:1881,remixes:132,comments:54,cover:'social/posts/platformer.jpg'},
- {engine:'collect',title:'Lantern Grove',creator:'@miraeast',name:'Mira East',caption:'A calm photo became a glowing collectible hunt.',played:618,remixes:27,comments:12,cover:'social/posts/collect.jpg'},
- {engine:'dodge',title:'Rooftop Rush',creator:'@jaylenmade',name:'Jaylen Made',caption:'Dodge drones and catch energy drops above the city.',played:1354,remixes:73,comments:31,cover:'social/posts/dodge.jpg'},
- {engine:'openworld',title:'Driftlands',creator:'@samori',name:'Sam Ori',caption:'A single landscape turned into a tiny place worth exploring.',played:836,remixes:42,comments:19,cover:'social/posts/open_world.jpg'},
- {engine:'puzzle',title:'Thought Link',creator:'@nialane',name:'Nia Lane',caption:'Memory, color, and camouflage folded into one playable puzzle.',played:1109,remixes:56,comments:24,cover:'social/posts/puzzle.jpg'}
+ {engine:'puzzle',title:'Gem Drop',creator:'@davidplays',name:'David',caption:'I turned a color study into a juicy match-3 puzzle. Chain four gems and the whole board starts to cascade.',played:2419,remixes:204,comments:91,cover:'plx/thoughtlink/thumb.svg'},
+ {engine:'fps',title:'Terminal Zero',creator:'@novajay',name:'Nova Jay',caption:'A late-night airport photo became a first-person runway defense game.',played:1284,remixes:86,comments:34,cover:'plx/frontline/thumb.svg'},
+ {engine:'fighting',title:'After Hours',creator:'@marcusvale',name:'Marcus Vale',caption:'One photo. One rival. One neon rooftop. Settle it in the ring.',played:992,remixes:61,comments:28,cover:'plx/streetclash/thumb.svg'},
+ {engine:'runner',title:'Skyline Delivery',creator:'@tianarae',name:'Tiana Rae',caption:'Race the skyline, grab delivery tokens, and survive the rush-hour gaps.',played:1655,remixes:119,comments:46,cover:'plx/skybound/thumb.svg'},
+ {engine:'rhythm',title:'Beatline City',creator:'@ayorose',name:'Ayo Rose',caption:'A performance clip became a four-lane neon rhythm stage.',played:2204,remixes:184,comments:71,cover:'plx/beatline/thumb.svg'},
+ {engine:'racing',title:'Neon Circuit',creator:'@devonmiles',name:'Devon Miles',caption:'A street photo turned into a midnight boost race.',played:743,remixes:39,comments:18,cover:'plx/neonrace/thumb.svg'},
+ {engine:'platformer',title:'Canopy Rush',creator:'@kenzow',name:'Kenzo W.',caption:'A forest photo became a layered platform world full of jumps, routes and hidden rewards.',played:1881,remixes:132,comments:54,cover:'plx/wildjump/thumb.svg'},
+ {engine:'collect',title:'Lantern Grove',creator:'@miraeast',name:'Mira East',caption:'A calm photo became a glowing collectible hunt.',played:618,remixes:27,comments:12,cover:'plx/grove/thumb.svg'},
+ {engine:'dodge',title:'Rooftop Rush',creator:'@jaylenmade',name:'Jaylen Made',caption:'Dodge drones and catch energy drops above the city.',played:1354,remixes:73,comments:31,cover:'plx/rooftop/thumb.svg'},
+ {engine:'openworld',title:'Driftlands',creator:'@samori',name:'Sam Ori',caption:'A single landscape turned into a tiny place worth exploring.',played:836,remixes:42,comments:19,cover:'plx/driftlands/thumb.svg'}
 ];
+
+const demoIdForEngine=(engine)=>builtIns.find(x=>x[2]===engine)?.[0]||'skybound';
 
 let studioProject=null;
 let chosenEngine='';
@@ -141,7 +143,7 @@ function renderFeed(){
      <p>Pictures, songs and ideas become little worlds. No algorithm lecture. No creator tools in your face. If something catches you, play it.</p>
      <div class="heroActions"><button class="btn primary" id="heroCreate">Make a PLX</button><button class="btn ghost" id="heroExplore">Explore the arcade</button></div>
    </div>
-   <div class="heroFlux"><img src="${publicUrl('social/posts/runner.jpg')}" alt="XPLAY playable experience"></div>
+   <div class="heroVisual"><img src="${publicUrl('plx/skybound/thumb.svg')}" alt="Runner gameplay preview"></div>
  </div>
  <div class="feedIntro">
    <div><b>Fresh on XPLAY</b><span>Playable posts from a mock community feed</span></div>
@@ -219,7 +221,7 @@ function renderLibrary(){
  const box=views.library.querySelector('#library');
  builtIns.forEach(([id,title,engine,label,desc])=>box.insertAdjacentHTML('beforeend',`
  <article class="card" data-id="${id}" data-engine="${engine}">
-   <img src="${publicUrl(`flux-pack/runtime/library/${engine === 'openworld' ? 'open_world' : engine}_library_example.png`)}" alt="${title}">
+   <img src="${publicUrl(`plx/${id}/thumb.svg`)}" alt="${title}">
    <div class="cardbody"><div class="pill">${label}</div><h3>${title}</h3><div class="muted">${desc}</div>
      <div class="cardActions">
        <button class="btn primary demoBtn">Launch Demo</button>
@@ -457,7 +459,7 @@ function renderStep3(container) {
           <li>✨ <b>Opportunities:</b> <span>${analysis.strongOpportunities}</span></li>
         </ul>
         <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 12.5px; color: var(--teal); font-style: italic;">
-          🐾 Flux says: "Wow, I can't wait to adapt to the ${analysis.environment}! It looks like a great spot."
+          🐾 XPLAY sees: "Wow, I can't wait to adapt to the ${analysis.environment}! It looks like a great spot."
         </div>
       </div>
       
@@ -529,7 +531,7 @@ function renderStep4(container) {
           
           return `
             <div class="card engineCard" data-engine="${engineId}" style="position: relative; border: ${borderStyle}; background: ${bgStyle}; cursor: pointer; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;">
-              <img src="${publicUrl(`flux-pack/runtime/library/${engineId === 'openworld' ? 'open_world' : engineId}_library_example.png`)}" alt="${title}" style="height: 120px; width: 100%; object-fit: cover;" />
+              <img src="${publicUrl(`plx/${demoIdForEngine(engineId)}/thumb.svg`)}" alt="${title}" style="height: 120px; width: 100%; object-fit: cover;" />
               <div class="cardbody" style="padding: 14px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
                 <div>
                   <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--muted); margin-bottom: 4px;">${label}</div>

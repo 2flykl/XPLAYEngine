@@ -1,6 +1,6 @@
 {
-  "title": "Neon Circuit \u00b7 Flux Edition",
-  "description": "Flux-powered High-speed top-down racing PLX.",
+  "title": "Neon Circuit",
+  "description": "High-speed top-down racing PLX.",
   "engine": "racing",
   "duration": 60,
   "objective": {
@@ -14,8 +14,7 @@
   },
   "assets": {
     "images": {
-      "background": "/flux-pack/runtime/backgrounds/city_rooftop.png",
-      "player": "/rc-assets/racing/player.png",
+      "background": "/showcase/racing/far.svg",
       "enemy": "/rc-assets/racing/enemy.png",
       "collectible": "/rc-assets/racing/collectible.png",
       "platform": "assets/platform.svg",
@@ -23,21 +22,17 @@
       "goal": "/rc-assets/racing/goal.png"
     }
   },
-  "fluxEdition": true,
-  "fluxPack": {
-    "folder": "18_PLX_RACING",
-    "defaultAnimation": "idle_car",
-    "speculativeFrames": 300
-  },
   "parallax": {
-    "far": "/flux-pack/20_ENVIRONMENTS/city_rooftop/far.png",
-    "mid": "/flux-pack/20_ENVIRONMENTS/city_rooftop/mid.png",
-    "near": "/flux-pack/20_ENVIRONMENTS/city_rooftop/near.png"
+    "far": "/showcase/racing/far.svg",
+    "mid": "/showcase/racing/mid.svg",
+    "near": "/showcase/racing/near.svg"
   },
   "scrollProfile": {
     "axis": "y",
     "direction": "down"
   },
   "releaseCandidateArt": true,
-  "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback"
+  "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback",
+  "characterPolicy": "unique-per-plx engine character; source-derived character overrides fallback",
+  "preview": "thumb.svg"
 }

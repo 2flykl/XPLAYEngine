@@ -35,7 +35,7 @@ for(const [id,engine] of required){
 }
 
 const main=fs.readFileSync(path.join(root,'src','main.js'),'utf8');
-for(const token of ['renderFeed','socialPosts','Frontline Echo','Street Clash','Calibrate Prompt']){
+for(const token of ['renderFeed','socialPosts','Terminal Zero','After Hours','Gem Circuit','Calibrate Prompt']){
   if(!main.includes(token)) failures.push(`main.js missing release feature: ${token}`);
 }
 
