@@ -1,28 +1,21 @@
-# XPLAY V10 Arcade Ascension Merge Pack
+# XPLAY V11 — Playable Completion + Fun Factor Merge Pack
 
-This pack is designed to be layered on top of V9.
+Layer this **after V9 and V10**.
 
-## Purpose
-V9 fixed direction and workflow truth.
-V10 adds the extra push needed for XPLAY to **look and feel more like a real arcade platform**.
+## What V11 adds
+- manifest playability assembler
+- fun-factor metadata/director
+- stronger StudioPipeline completion gate
+- runtime startup watchdog + Retry
+- player-asset preference over silent Flux fallback
+- four final agent roles focused on assembly, fun, playtesting, and release
 
-## Main Themes
-- gameplay-truthful presentation
-- runtime screenshot capture / representative frame system
-- per-genre cast identity
-- stronger library/feed believability
-- higher card-to-runtime parity
+## Paste order
+1. V9
+2. V10
+3. V11
 
-## Recommended Use
-Paste/merge V9 first, then V10 on top. If you are dropping both in at once, allow V10 files to overwrite same-name guidance docs.
+Allow V11 to overwrite same-name guidance/runtime files.
 
-## Key Files
-- `.agents/agents.md`
-- `ALL_AGENT_PROMPTS.md`
-- `production_artifacts/LIVE_CARD_CAPTURE_SPEC.md`
-- `production_artifacts/CATEGORY_CHARACTER_SYSTEM.md`
-- `production_artifacts/VISUAL_RUNTIME_PARITY_SPEC.md`
-- `production_artifacts/THUMBNAIL_TRUTH_SYSTEM.md`
-- `production_artifacts/SHOWCASE_PLX_TARGETS.md`
-- `production_artifacts/V10_RELEASE_GATES.md`
-- `ANTIGRAVITY_V10_COMMAND.txt`
+## Why this exists
+The current generated game reaches Play Lab but can stop at a dark canvas. V11 treats that as a hard runtime failure and pushes the last agents to finish the experience instead of stopping at generation.

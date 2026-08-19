@@ -1,19 +1,28 @@
 import Phaser from 'phaser';
 import { parallaxFactor } from '../core/WorldMath.js';
-import { characterStates, characterKey, characterDataUrl } from '../core/CharacterFactory.js';
 
 const PUBLIC_BASE=import.meta.env.BASE_URL || './';
 const publicAsset=(path='')=>`${PUBLIC_BASE}${String(path).replace(/^\.\//,'').replace(/^\//,'')}`;
 
-const CHARACTER_RUNTIME = Object.freeze({source:'per-plx',fallback:'engine-specific'});
+const FLUX_RUNTIME = {
+  runner:      { folder:'10_PLX_RUNNER',      default:'idle', animations:['idle','run','jump','fall','land','slide','hurt','celebrate'] },
+  dodge:       { folder:'11_PLX_DODGE',       default:'idle', animations:['idle','move_left','move_right','move_up','move_down','duck','hurt','evade'] },
+  collect:     { folder:'12_PLX_COLLECT',     default:'idle', animations:['idle','walk','run','pickup','carry','interact','hurt','victory'] },
+  rhythm:      { folder:'13_PLX_RHYTHM',      default:'idle_groove', animations:['idle_groove','beat_left','beat_right','beat_up','beat_down','perfect','miss','victory'] },
+  puzzle:      { folder:'14_PLX_PUZZLE',      default:'think', animations:['think','inspect','choose','correct','wrong','confused','celebrate','victory'] },
+  fps:         { folder:'15_PLX_FPS',         default:'idle_aim', animations:['idle_aim','fire','reload','hurt','recover','crouch','camouflage','victory'] },
+  fighting:    { folder:'16_PLX_FIGHTING',    default:'stance', animations:['stance','walk_forward','walk_back','jump','punch','kick','block','hurt','victory'] },
+  openworld:   { folder:'17_PLX_OPEN_WORLD',  default:'idle', animations:['idle','walk_n','walk_s','walk_e','walk_w','run_n','run_s','run_e','run_w','interact','talk','victory'] },
+  racing:      { folder:'18_PLX_RACING',      default:'idle_car', animations:['idle_car','drive_straight','steer_left','steer_right','boost','brake','crash','finish'] },
+  platformer:  { folder:'19_PLX_PLATFORMER',  default:'idle', animations:['idle','run','jump','fall','land','wall_cling','wall_jump','tongue_swing','hurt','finish'] }
+};
 
 export class BasePLXScene extends Phaser.Scene {
   constructor(key, manifest) {
     super(key);
     this.manifest = manifest;
     this.score = 0;
-    this.characterCfg = CHARACTER_RUNTIME;
-    this.characterDefault = manifest.engine==='fighting'?'stance':manifest.engine==='racing'?'drive_straight':manifest.engine==='rhythm'?'idle_groove':manifest.engine==='puzzle'?'think':'idle';
+    this.fluxCfg = FLUX_RUNTIME[manifest.engine] || null;
     // Telemetry: start timestamp and event log
     this._playStartedAt = Date.now();
     this._funEvents = [];
@@ -31,13 +40,26 @@ export class BasePLXScene extends Phaser.Scene {
     for (const [k, p] of Object.entries(a.images || {})) this.load.image(k, this.asset(p));
     for (const [k, p] of Object.entries(a.audio || {})) this.load.audio(k, this.asset(p));
     const par=this.manifest.parallax||{}; for(const [k,v] of Object.entries(par)){if(v)this.load.image(`parallax:${k}`,this.asset(v));}
-    this.preloadCharacters();
+    this.preloadFlux();
   }
 
-  preloadCharacters(){
-    const engine=this.manifest.engine||'runner';
-    const states=characterStates(engine);
-    for(const variant of ['player','rival']) for(const state of states) for(let i=0;i<4;i++) this.load.image(characterKey(engine,variant,state,i),characterDataUrl(engine,variant,state,i));
+  preloadFlux(){
+    if(!this.fluxCfg) return;
+    const base=publicAsset(`flux-pack/${this.fluxCfg.folder}/frames`);
+    for(const anim of this.fluxCfg.animations){
+      for(let i=0;i<15;i++) this.load.image(`flux:${anim}:${i}`,`${base}/${anim}/${anim}_${String(i).padStart(3,'0')}.png`);
+    }
+  }
+
+  setupFluxAnimations(){
+    if(!this.fluxCfg || this._fluxAnimationsReady) return;
+    for(const anim of this.fluxCfg.animations){
+      const key=`flux-${this.manifest.engine}-${anim}`;
+      if(!this.anims.exists(key)){
+        this.anims.create({key,frames:Array.from({length:15},(_,i)=>({key:`flux:${anim}:${i}`})),frameRate:['runner','racing'].includes(this.manifest.engine)?14:12,repeat:['hurt','victory','finish','jump','land','fire','reload','kick','punch','correct','wrong'].includes(anim)?0:-1});
+      }
+    }
+    this._fluxAnimationsReady=true;
   }
 
   setupGeneratedPlayerAnimations(){
@@ -50,27 +72,35 @@ export class BasePLXScene extends Phaser.Scene {
     this._generatedPlayerAnimationsReady=true;return true;
   }
 
-  setupCharacterAnimations(variant='player'){
-    const engine=this.manifest.engine||'runner';const states=characterStates(engine);
-    for(const state of states){const key=`plx-character-${engine}-${variant}-${state}`;if(this.anims.exists(key))continue;const frames=[];for(let i=0;i<4;i++){const k=characterKey(engine,variant,state,i);if(this.textures.exists(k))frames.push({key:k});}if(frames.length)this.anims.create({key,frames,frameRate:['run','walk','walk_forward','walk_back','drive_straight'].includes(state)?11:8,repeat:['idle','run','walk','stance','drive_straight','idle_groove','think'].includes(state)?-1:0});}
-  }
-
-  createPlayerCharacter(x,y,opts={}){
+  createFluxPlayer(x,y,opts={}){
+    // Prefer AI-manufactured state frames when the Production Art Forge supplied them.
     const generated=this.manifest.generatedAnimations?.player;
     if(generated && this.setupGeneratedPlayerAnimations()){
-      const first=(generated[opts.anim||this.characterDefault]||generated.idle||[]).find(k=>this.textures.exists(k));
-      if(first){const p=opts.physics===false?this.add.sprite(x,y,first):this.physics.add.sprite(x,y,first);this._fitCharacter(p,opts);p.__generatedPlayer=true;this.playCharacter(p,opts.anim||this.characterDefault,false);return p;}
+      const first=(generated[opts.anim||'idle']||generated.idle||[]).find(k=>this.textures.exists(k));
+      if(first){const p=opts.physics===false?this.add.sprite(x,y,first):this.physics.add.sprite(x,y,first);const src=p.texture.getSourceImage();const maxH=opts.maxHeight||150,maxW=opts.maxWidth||115,sw=src?.width||128,sh=src?.height||128;const scale=Math.min(maxW/sw,maxH/sh);p.setScale(scale*(opts.scale?opts.scale/.72:1));if(opts.depth!=null)p.setDepth(opts.depth);if(opts.physics!==false&&opts.collideWorldBounds!==false)p.setCollideWorldBounds(true);p.__generatedPlayer=true;this.playFlux(p,opts.anim||'idle',false);return p;}
     }
-    if(this.manifest.visualIntelligence && this.textures.exists('player')){const p=opts.physics===false?this.add.sprite(x,y,'player'):this.physics.add.sprite(x,y,'player');this._fitCharacter(p,opts);p.__sourceSubject=true;return p;}
-    const variant=opts.variant||'player';this.setupCharacterAnimations(variant);const state=opts.anim||this.characterDefault;const k=characterKey(this.manifest.engine||'runner',variant,state,0);const p=opts.physics===false?this.add.sprite(x,y,k):this.physics.add.sprite(x,y,k);this._fitCharacter(p,opts);p.__plxCharacterVariant=variant;this.playCharacter(p,state,false);return p;
+    // Any manifest-provided player art wins. Flux is never a silent default when a real player asset exists.
+    if(this.textures.exists('player') && this.manifest.characterPolicy?.useFlux !== true){
+      const p=opts.physics===false?this.add.sprite(x,y,'player'):this.physics.add.sprite(x,y,'player');
+      const maxH=opts.maxHeight||150,maxW=opts.maxWidth||115;
+      const src=p.texture.getSourceImage(); const sw=src?.width||128,sh=src?.height||128;
+      const scale=Math.min(maxW/sw,maxH/sh);
+      p.setScale(scale*(opts.scale?opts.scale/.72:1));
+      if(opts.depth!=null)p.setDepth(opts.depth);
+      if(opts.physics!==false && opts.collideWorldBounds!==false)p.setCollideWorldBounds(true);
+      p.__sourceSubject=true;
+      return p;
+    }
+    this.setupFluxAnimations();
+    const anim=opts.anim || this.fluxCfg?.default || 'idle';
+    const key=`flux:${anim}:0`;
+    const p=opts.physics===false?this.add.sprite(x,y,key):this.physics.add.sprite(x,y,key);
+    p.setScale(opts.scale ?? .72);
+    if(opts.depth!=null)p.setDepth(opts.depth);
+    if(opts.physics!==false && opts.collideWorldBounds!==false)p.setCollideWorldBounds(true);
+    this.playFlux(p,anim);
+    return p;
   }
-
-  createOpponentCharacter(x,y,opts={}){return this.createPlayerCharacter(x,y,{...opts,variant:'rival'});}
-  _fitCharacter(p,opts={}){const src=p.texture.getSourceImage();const sw=src?.width||96,sh=src?.height||112;const maxH=opts.maxHeight||150,maxW=opts.maxWidth||115;const base=Math.min(maxW/sw,maxH/sh);p.setScale(base*(opts.scale?opts.scale/.72:1));if(opts.depth!=null)p.setDepth(opts.depth);if(opts.physics!==false&&opts.collideWorldBounds!==false)p.setCollideWorldBounds(true);}
-
-  playCharacter(sprite,state,ignoreIfPlaying=true){if(!sprite)return;if(sprite.__generatedPlayer){const key=`generated-player-${state}`;if(this.anims.exists(key)&&sprite.anims?.currentAnim?.key!==key)sprite.play(key,ignoreIfPlaying);return;}if(sprite.__sourceSubject)return;const variant=sprite.__plxCharacterVariant||'player';const key=`plx-character-${this.manifest.engine}-${variant}-${state}`;if(this.anims.exists(key)&&sprite.anims?.currentAnim?.key!==key)sprite.play(key,ignoreIfPlaying);}
-  flashCharacter(sprite,state,returnState=this.characterDefault){if(!sprite)return;this.playCharacter(sprite,state,false);sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE,()=>this.playCharacter(sprite,returnState,false));}
-  makeCornerCharacter(state=this.characterDefault){const a=this.createPlayerCharacter(900,520,{physics:false,scale:.55,depth:85,anim:state});a.setScrollFactor(0);return a;}
 
   makeParallaxBackground({speed=0,fixed=true,axis='x',direction='left'}={}){
     const par=this.manifest.parallax||{};
@@ -94,6 +124,28 @@ export class BasePLXScene extends Phaser.Scene {
       if(this._parallaxAxis==='y')l.tilePositionY+=amount;else l.tilePositionX+=amount;
     });
   }
+
+  playFlux(sprite,anim,ignoreIfPlaying=true){
+    if(!sprite)return;
+    if(sprite.__generatedPlayer){const key=`generated-player-${anim}`;if(this.anims.exists(key)&&sprite.anims?.currentAnim?.key!==key)sprite.play(key,ignoreIfPlaying);return;}
+    if(sprite.__sourceSubject || !this.fluxCfg?.animations.includes(anim)) return;
+    const key=`flux-${this.manifest.engine}-${anim}`;
+    if(sprite.anims?.currentAnim?.key===key && ignoreIfPlaying)return;
+    sprite.play(key,ignoreIfPlaying);
+  }
+
+  flashFlux(sprite,anim,returnAnim=this.fluxCfg?.default || 'idle'){
+    if(!sprite)return;
+    this.playFlux(sprite,anim,false);
+    sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE,()=>this.playFlux(sprite,returnAnim,false));
+  }
+
+  makeFluxCornerAvatar(anim=this.fluxCfg?.default || 'idle'){
+    const avatar=this.createFluxPlayer(900,520,{physics:false,scale:.55,depth:85,anim});
+    avatar.setScrollFactor(0);
+    return avatar;
+  }
+
 
   applyArcadePolish(){
     if(this._arcadePolishApplied)return;this._arcadePolishApplied=true;
@@ -122,10 +174,10 @@ export class BasePLXScene extends Phaser.Scene {
   win(message='PLX COMPLETE'){
     if(this.finished)return;
     this.finished=true;this.physics?.pause();
-    if(this.player)this.flashCharacter(this.player,'victory');
+    if(this.player)this.flashFlux(this.player,this.fluxCfg?.animations.includes('victory')?'victory':this.fluxCfg?.animations.includes('finish')?'finish':this.fluxCfg?.default);
     this.add.rectangle(480,300,560,220,0x081b27,.94).setScrollFactor(0).setDepth(300);
     this.add.text(480,250,message,{fontFamily:'Arial',fontSize:'34px',fontStyle:'bold',color:'#2ad5c8',align:'center'}).setOrigin(.5).setScrollFactor(0).setDepth(301);
     this.add.text(480,310,`Score: ${this.score}`,{fontFamily:'Arial',fontSize:'24px',color:'#ffffff'}).setOrigin(.5).setScrollFactor(0).setDepth(301);
-    this.add.text(480,352,'Playable complete. Ready for another run.',{fontFamily:'Arial',fontSize:'16px',color:'#b9d5df'}).setOrigin(.5).setScrollFactor(0).setDepth(301);
+    this.add.text(480,352,'PLX complete. Ready for another run.',{fontFamily:'Arial',fontSize:'16px',color:'#b9d5df'}).setOrigin(.5).setScrollFactor(0).setDepth(301);
   }
 }

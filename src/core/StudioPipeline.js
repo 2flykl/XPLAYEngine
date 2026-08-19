@@ -2,6 +2,8 @@ import { buildProductionBlueprint } from '../directors/EngineDirectors.js';
 import { auditPLX, repairManifest } from './PLXQualityGate.js';
 import { generateWorldDNA, generateArtBible, generateLevelBlueprint, forgeWorldKit } from './WorldForge.js';
 import { targetFor } from './ReferenceTargetModel.js';
+import { assemblePlayableManifest, validatePlayableManifest } from './PlayableManifestAssembler.js';
+import { directFunFactor } from './FunFactorDirector.js';
 
 export function createStudioPlan(args={}){ return buildProductionBlueprint(args); }
 
@@ -49,7 +51,16 @@ export function finishStudioBuild(manifest,assets={}){
   }
 
   const fallbacks={...combined,player:finalImages.player,enemy:finalImages.enemy,hazard:finalImages.hazard,collectible:finalImages.collectible,platform:finalImages.platform,goal:assets.goal||forged.assets.goal,background:finalImages.background,crosshair:assets.crosshair||forged.assets.crosshair,weapon:assets.weapon||forged.assets.weapon,hitfx:forged.assets.hitfx};
-  let repaired=repairManifest(manifest,fallbacks); const audit=auditPLX(repaired);
-  repaired.production ||= {}; repaired.production.audit=audit; repaired.production.releaseClass=audit.pass?'world-forged':'needs-review'; repaired.production.worldForgeVersion=4; repaired.production.referenceTarget='commercial-2d-structural-v1';
-  return {manifest:repaired,audit};
+  let repaired=repairManifest(manifest,fallbacks);
+  repaired=assemblePlayableManifest(repaired);
+  repaired=directFunFactor(repaired);
+  const playabilityAudit=validatePlayableManifest(repaired);
+  const audit=auditPLX(repaired);
+  repaired.production ||= {};
+  repaired.production.audit=audit;
+  repaired.production.playabilityAudit=playabilityAudit;
+  repaired.production.releaseClass=(audit.pass && playabilityAudit.pass)?'playable-world-forged':'needs-review';
+  repaired.production.worldForgeVersion=5;
+  repaired.production.referenceTarget='commercial-2d-structural-v2';
+  return {manifest:repaired,audit:{...audit,playability:playabilityAudit}};
 }

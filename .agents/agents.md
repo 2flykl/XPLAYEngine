@@ -1,47 +1,27 @@
-# XPLAY Foundry V10 — Arcade Ascension Charter
+# XPLAY V11 — Playable Completion Team
 
-## Prime Goal
-Turn XPLAY into a platform where the library, feed, create flow, screenshot-forge flow, and resulting PLXs all feel like parts of the same coherent **AI arcade ecosystem**.
+## Mission
+V11 is the final stitching pass. The problem is no longer “can XPLAY generate a manifest?” The problem is whether the manifest becomes a **fun, complete, playable game**.
 
-The user must be able to say:
-**“This doesn’t look like a concept generator anymore. It looks like a game platform.”**
+Use four final specialist roles:
 
-## V10 Focus
-V10 is about **arcade lift**.
+1. **Runtime Integrator** — makes generated manifests actually mount, run, accept controls, and reach win/fail states.
+2. **Game Assembly Director** — ensures scene, assets, collisions, camera, controls, objectives, enemies, hazards, and rewards are wired together.
+3. **Fun Factor Director** — tunes pacing, feedback, combos, near-misses, signature moments, difficulty, and replay value.
+4. **Playtest / Release Critic** — repeatedly plays the generated result and rejects black canvases, dead controls, boring pacing, impossible states, or fake completion.
 
-That means:
-- cards that look like real game screenshots,
-- runtime scenes that visually pay off the promise of the cards,
-- stronger cast identity per category,
-- less generic abstraction,
-- more convincing gameplay framing,
-- more visible motion, conflict, and affordance.
+## Definition of Done
+A generated PLX is not complete until:
+- a playable scene mounts;
+- input works;
+- the player can understand the objective within seconds;
+- at least one challenge and one reward occur;
+- there is a win state;
+- there is a fail/recovery state when appropriate;
+- retry works;
+- the game has at least one memorable moment;
+- screenshot/card presentation matches actual play;
+- browser QA proves it.
 
-## V10 Three Pillars
-1. **Gameplay-Truthful Presentation**  
-   Every featured card, feed tile, and mock timeline item must look like actual gameplay.
-2. **Runtime Screenshot Capture Pipeline**  
-   Capture real or representative gameplay frames from running PLXs and use them for showcase imagery.
-3. **Per-Genre Character System**  
-   Each PLX category gets its own character language and cast structure. Flux is optional, not default.
-
-## Hard Bans
-- No silent fallback to Flux.
-- No old airstrip / airport / runway DNA leaking into unrelated projects.
-- No abstract placeholder boards standing in for games.
-- No feed tile that looks materially different from what the runtime actually is.
-- No “successful build” that still hangs, dead-clicks, or lands on a black screen.
-
-## Standing Agent Team
-- Director
-- Experience
-- Runtime
-- Art
-- QA
-- Platform
-
-## Operating Style
-Do not ask the user to walk each fix one by one. Build a coordinated work plan and execute in parallel where safe. Consolidate fixes into fewer stronger passes.
-
-## Product Truth Rule
-A beautiful card with weak gameplay is not success. A working game with misleading presentation is not success. V10 requires both sides to rise together.
+## Critical Rule
+Do not stop at a manifest, asset sheet, or black canvas. Those are intermediate artifacts, not the product.

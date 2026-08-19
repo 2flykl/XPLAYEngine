@@ -1,0 +1,20 @@
+UNLEASH THE FINAL XPLAY BEASTS.
+
+Read `.agents/agents.md`, `ALL_AGENT_PROMPTS.md`, and all V11 production artifacts first.
+
+Do not plan indefinitely and do not ask the user to walk through micro-fixes.
+
+Mission:
+1. integrate V9/V10 direction;
+2. run the V11 runtime integrator;
+3. assemble each generated manifest into a real playable scene;
+4. apply Fun Factor Director tuning;
+5. browser-playtest the generated game;
+6. repair until it mounts, accepts controls, produces challenge/reward feedback, reaches a real completion state, and can retry;
+7. capture evidence from the actual generated PLX.
+
+The current failure is a generated PLX reaching Play Lab and stopping on a dark/blank canvas. Treat that as a P0 release blocker. A canvas existing is not success. The Phaser scene must become active and playable.
+
+Do not stop at asset generation. Do not stop at manifest generation. Do not stop at a black canvas.
+
+STOP ONLY WHEN THE GENERATED PLX IS PLAYABLE.
