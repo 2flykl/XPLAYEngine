@@ -336,9 +336,15 @@ async function processMainImage(file, lane = state.creationLane || 'standard') {
     file,
     dataUrl,
     type: file.type,
-    role: 'player',
+    role: lane === 'screenshot' ? 'reference-screenshot' : 'player',
     analysis: null
   };
+  state.styleDNA = null;
+  state.extraction = null;
+  state.analysisCorrected = null;
+  state.chosenEngine = '';
+  chosenEngine = '';
+  if (lane === 'screenshot') state.screenshotGuide = defaultScreenshotGuide();
   goToStep(2);
 }
 
@@ -416,38 +422,50 @@ function renderStep1(container) {
 }
 
 function renderStep2(container) {
+  const isScreenshot = state.creationLane === 'screenshot';
+  const fileName = state.media.primary?.file?.name || 'uploaded image';
   container.innerHTML = `
-    <div style="text-align: center; padding: 40px 0;">
+    <div style="text-align:center;max-width:720px;margin:0 auto;">
       <div class="softPill">STEP 2</div>
-      <h2 style="font-size: 28px; margin: 16px 0;">${state.creationLane === 'screenshot' ? 'XPLAY IS REVERSE-ENGINEERING YOUR SCREENSHOT…' : 'XPLAY IS READING YOUR WORLD…'}</h2>
-      <div class="loading-bar-container" style="width: 100%; max-width: 400px; height: 6px; background: var(--line); border-radius: 3px; margin: 20px auto; overflow: hidden;">
-        <div class="loading-bar-pulse" style="width: 50%; height: 100%; background: var(--teal); border-radius: 3px; animation: pulseLoading 1.5s infinite ease-in-out;"></div>
+      <h2 style="font-size:30px;margin:14px 0 8px;">${isScreenshot ? 'Analyze the screenshot before we build' : 'Analyze your picture'}</h2>
+      <p class="muted">${isScreenshot ? 'XPLAY will inspect visual DNA, camera structure, HUD zones, scene composition and likely game grammar. Nothing is inferred until you press Analyze.' : 'XPLAY will inspect the uploaded picture and identify useful game ingredients.'}</p>
+      <div style="margin:22px auto;max-width:620px;border:1px solid var(--line);border-radius:18px;padding:14px;background:#fff;box-shadow:var(--shadow);">
+        <img src="${state.media.primary?.dataUrl || ''}" alt="${fileName}" style="width:100%;max-height:360px;object-fit:contain;border-radius:12px;background:#07131e;" />
+        <div style="display:flex;justify-content:space-between;gap:10px;margin-top:10px;font-size:12px;color:var(--soft);"><span>${fileName}</span><span>${isScreenshot ? 'REVERSE FORGE SOURCE' : 'PRIMARY SOURCE'}</span></div>
       </div>
-      <p class="muted">${state.creationLane === 'screenshot' ? 'Mapping visible characters, scene geometry, camera, palette, landmarks and gameplay cues...' : 'Analyzing characters, environments, and game opportunities from your picture...'}</p>
-    </div>
-    <style>
-      @keyframes pulseLoading {
-        0% { transform: translateX(-100%); }
-        100% { transform: translateX(200%); }
-      }
-    </style>
-  `;
+      <div id="analysisStatus" class="reverseForgeMini" style="margin:14px auto;max-width:620px;text-align:left;">${isScreenshot ? '🧬 Ready. Press Analyze Screenshot to start a fresh read of this exact image.' : 'Ready to analyze.'}</div>
+      <button class="btn primary" id="runAnalysisBtn" style="padding:14px 24px;min-width:240px;">${isScreenshot ? '🧬 ANALYZE SCREENSHOT' : 'ANALYZE PICTURE'}</button>
+      <button class="btn ghost" id="replaceImageBtn" style="padding:14px 20px;margin-left:8px;">CHOOSE ANOTHER IMAGE</button>
+    </div>`;
 
-  setTimeout(async () => {
-    try {
-      const dna = await analyzeImageStyle(state.media.primary.dataUrl);
-      state.styleDNA = dna;
-      const extraction = await safeAnalyzeVisualSource(state.media.primary.dataUrl, state.prompt || '');
-      state.extraction = extraction;
-      state.analysisCorrected = null;
-      goToStep(3);
-    } catch(e) {
+  const analyzeBtn=container.querySelector('#runAnalysisBtn');
+  const replaceBtn=container.querySelector('#replaceImageBtn');
+  const status=container.querySelector('#analysisStatus');
+  if(replaceBtn) replaceBtn.onclick=()=>goToStep(1);
+  if(analyzeBtn) analyzeBtn.onclick=async()=>{
+    analyzeBtn.disabled=true;
+    analyzeBtn.textContent='ANALYZING…';
+    if(status) status.innerHTML='⟳ Extracting color DNA, composition, scene bands and gameplay cues…';
+    try{
+      const dna=await withTimeout(analyzeImageStyle(state.media.primary.dataUrl),5000,'Style analysis timed out');
+      state.styleDNA=dna;
+      const analysisPrompt=isScreenshot
+        ? 'Analyze this as a GAMEPLAY SCREENSHOT. Identify likely game genre, camera/viewpoint, player candidates, number/type of visible opponents, HUD, traversable play space, hazards/weapons, environment, art style, palette, and apparent objective. Do not assume airport/runway content unless visibly present.'
+        : state.prompt||'';
+      const extraction=await safeAnalyzeVisualSource(state.media.primary.dataUrl,analysisPrompt);
+      state.extraction=extraction;
+      state.analysisCorrected=null;
+      if(status) status.innerHTML=`✓ Analysis complete · ${extraction.analysisMode||'visual analysis'}`;
+      setTimeout(()=>goToStep(3),180);
+    }catch(e){
       console.error(e);
-      state.styleDNA = fallbackDNA('error-fallback');
-      state.extraction = { ok: false, analysis: null, assets: {} };
-      goToStep(3);
+      state.styleDNA=state.styleDNA||fallbackDNA('analysis-fallback');
+      state.extraction=await localScreenshotExtraction(state.media.primary.dataUrl,state.styleDNA,state.media.primary?.file);
+      if(status) status.innerHTML='⚠ Remote vision was unavailable. XPLAY created a local screenshot-DNA analysis instead of inventing unrelated objects.';
+      analyzeBtn.disabled=false;analyzeBtn.textContent=isScreenshot?'🧬 ANALYZE SCREENSHOT':'ANALYZE PICTURE';
+      setTimeout(()=>goToStep(3),450);
     }
-  }, 1000);
+  };
 }
 
 function renderStep3(container) {
@@ -517,6 +535,7 @@ function renderStep3(container) {
       <div class="cardActions">
         <button class="btn primary" id="confirmAnalysisBtn">${isScreenshot ? 'LOOKS RIGHT — KEEP GOING' : 'YES, KEEP GOING'}</button>
         <button class="btn ghost" id="adjustAnalysisBtn">ADJUST WHAT XPLAY SEES</button>
+        ${isScreenshot ? '<button class="btn ghost" id="reanalyzeShotBtn">RE-ANALYZE SCREENSHOT</button>' : ''}
       </div>
       
       <div id="adjustmentForm" style="display: none; margin-top: 24px; border-top: 1px solid var(--line); padding-top: 20px;">
@@ -552,6 +571,7 @@ function renderStep3(container) {
   const confirmBtn = container.querySelector('#confirmAnalysisBtn');
   const adjustBtn = container.querySelector('#adjustAnalysisBtn');
   const saveBtn = container.querySelector('#saveCorrectionsBtn');
+  const reanalyzeBtn = container.querySelector('#reanalyzeShotBtn');
   const adjForm = container.querySelector('#adjustmentForm');
 
   if (confirmBtn) confirmBtn.onclick = () => { saveScreenshotGuide(); goToStep(4); };
@@ -566,14 +586,19 @@ function renderStep3(container) {
   if (saveBtn) {
     saveBtn.onclick = () => {
       saveScreenshotGuide();
-      state.analysisCorrected = {
-        player: container.querySelector('#correctPlayer')?.value || analysis.player,
-        environment: container.querySelector('#correctEnvironment')?.value || analysis.environment,
-        importantObject: container.querySelector('#correctObject')?.value || analysis.notableObjects
+      const corrected={
+        player: container.querySelector('#correctPlayer')?.value?.trim() || analysis.player,
+        environment: container.querySelector('#correctEnvironment')?.value?.trim() || analysis.environment,
+        notableObjects: container.querySelector('#correctObject')?.value?.trim() || analysis.notableObjects
       };
-      goToStep(4);
+      state.analysisCorrected = { player:corrected.player, environment:corrected.environment, importantObject:corrected.notableObjects };
+      state.extraction ||= {ok:true,assets:{}};
+      state.extraction.analysis={...(state.extraction.analysis||analysis),...corrected,analysisSource:'user-corrected'};
+      state.extraction.analysisMode='User-corrected screenshot analysis';
+      goToStep(3);
     };
   }
+  if(reanalyzeBtn) reanalyzeBtn.onclick=()=>goToStep(2);
 }
 
 function renderStep4(container) {
@@ -648,21 +673,26 @@ function renderStep4(container) {
 }
 
 function getCustomEngineSentence(engine) {
-  const environment = state.analysisCorrected?.environment || state.extraction?.analysis?.environment || (state.media.primary ? 'photo setting' : 'world');
-  const player = state.analysisCorrected?.player || state.extraction?.analysis?.player || 'player';
-  const obj = state.analysisCorrected?.importantObject || state.extraction?.analysis?.notableObjects || 'objects';
-
-  if (engine === 'runner') return `“Turn the runway/setting into a moving obstacle course.”`;
-  if (engine === 'fighting') return `“Use the runway/setting as an arena and your image as the fighter.”`;
-  if (engine === 'fps') return `“Turn the location into a first-person defense scenario.”`;
-  if (engine === 'dodge') return `“Weave through obstacles inside the ${environment}.”`;
-  if (engine === 'collect') return `“Explore the ${environment} to gather ${obj}.”`;
-  if (engine === 'rhythm') return `“Match the rhythm as icons float over the ${environment}.”`;
-  if (engine === 'puzzle') return `“Assemble matching puzzle pairs of the ${player}.”`;
-  if (engine === 'openworld') return `“Explore the wide coordinates of the ${environment}.”`;
-  if (engine === 'racing') return `“Steer cars at high speed past airport/setting hazards.”`;
-  if (engine === 'platformer') return `“Leap across platforms hovering above the ${environment}.”`;
-  return `“Interpret the ${environment} into arcade gameplay.”`;
+  const analysis=state.extraction?.analysis||{};
+  const environment=state.analysisCorrected?.environment||analysis.environment||'the uploaded scene';
+  const player=state.analysisCorrected?.player||analysis.player||'the visible player character';
+  const obj=state.analysisCorrected?.importantObject||analysis.notableObjects||'visible landmarks';
+  const shot=state.creationLane==='screenshot';
+  if(shot){
+    const map={
+      runner:`Preserve the screenshot's camera and turn its route into a readable high-speed run.`,
+      fighting:`Preserve the visible combat plane, fighters, HUD and arena composition as the fighting stage.`,
+      fps:`Preserve the screenshot's perspective and rebuild visible targets, cover and HUD as a first-person encounter.`,
+      dodge:`Preserve the play space and convert visible threats into timed dodge patterns.`,
+      collect:`Preserve the scene layout and make visible landmarks/objects drive an exploration-collection loop.`,
+      rhythm:`Preserve the environment and HUD language while turning its visual cues into timed rhythm targets.`,
+      puzzle:`Preserve the screenshot's art language and rebuild its visible objects as the puzzle vocabulary.`,
+      openworld:`Use the screenshot as the anchor district and extend its visual grammar beyond the frame.`,
+      racing:`Preserve the visible route/camera and extend the environment into a raceable course.`,
+      platformer:`Preserve the side-view composition and turn visible ledges/floors into collision-authored platforms.`
+    }; return `“${map[engine]||`Reconstruct ${environment} without replacing its visible DNA.`}”`;
+  }
+  return `“Build the ${engine} mechanics directly from ${environment}, ${player}, and ${obj}.”`;
 }
 
 function getRecommendedEngines() {
@@ -690,39 +720,29 @@ function getRecommendedEngines() {
 }
 
 function generatePolishedPrompt(engine, analysis, userIntent) {
-  const ana = analysis || (state.media.primary ? localImageAnalysis(state.media.primary?.file, state.styleDNA) : null);
-  const player = state.analysisCorrected?.player || ana?.player || 'character';
-  const environment = state.analysisCorrected?.environment || ana?.environment || 'world setting';
-  const importantObject = state.analysisCorrected?.importantObject || ana?.notableObjects || 'objects';
-  const hazards = ana?.possibleHazards || 'obstacles';
-  const collectibles = ana?.possibleCollectibles || 'passports';
-
-  let intent = userIntent ? userIntent.trim() : '';
-  if (intent.endsWith('.')) intent = intent.slice(0, -1);
-
-  if (engine === 'runner') {
-    return `Run across the ${environment} collecting ${collectibles} while avoiding ${hazards}. ${intent ? `Style direction: ${intent}` : ''}`;
-  } else if (engine === 'fighting') {
-    return `Battle a rival beside the ${importantObject} while ${environment} traffic moves around the arena. ${intent ? `Special challenge: ${intent}` : ''}`;
-  } else if (engine === 'fps') {
-    return `Defend the runway at the ${environment} from incoming hazards like ${hazards}. Protect the ${player} and reload to survive. ${intent ? `Objective: ${intent}` : ''}`;
-  } else if (engine === 'dodge') {
-    return `Weave through incoming hazards like ${hazards} falling through the ${environment}, while picking up ${collectibles} for survival. ${intent ? `Pacing: ${intent}` : ''}`;
-  } else if (engine === 'collect') {
-    return `Roam around the ${environment} as the ${player} to gather ${collectibles}. Avoid hazardous spots and ${hazards} to unlock the final portal. ${intent ? `Details: ${intent}` : ''}`;
-  } else if (engine === 'rhythm') {
-    return `Hit the rhythmic beat indicators timed to the music tracks in the ${environment}. The ${player} reacts to combos and misses with stylish visual effects. ${intent ? `Vibe: ${intent}` : ''}`;
-  } else if (engine === 'puzzle') {
-    return `Test your memory and logic by matching tiles themed around ${environment}, featuring details of ${player} and ${importantObject}. ${intent ? `Solve rules: ${intent}` : ''}`;
-  } else if (engine === 'openworld') {
-    return `Explore the wide environment of ${environment} as the ${player}. Speak to ground characters, complete side quests, and uncover secrets near the ${importantObject}. ${intent ? `Storyline: ${intent}` : ''}`;
-  } else if (engine === 'racing') {
-    return `Steer your racing vehicle at high speed along the ${environment}. Dodge traffic carts and obstacles like ${hazards} while collecting booster tokens. ${intent ? `Track: ${intent}` : ''}`;
-  } else if (engine === 'platformer') {
-    return `Run and jump across platforms hovering above the ${environment}. Guide the ${player} to the exit gate while avoiding enemies and collecting ${collectibles}. ${intent ? `Goal: ${intent}` : ''}`;
-  }
-
-  return `Playable experience set in ${environment} as ${player}. ${intent}`;
+  const ana=analysis||state.extraction?.analysis||{};
+  const player=state.analysisCorrected?.player||ana.player||'visible player character';
+  const environment=state.analysisCorrected?.environment||ana.environment||'uploaded world';
+  const importantObject=state.analysisCorrected?.importantObject||ana.notableObjects||'visible landmarks';
+  const hazards=ana.possibleHazards||'visible threats and obstacles';
+  const collectibles=ana.possibleCollectibles||'scene-derived rewards';
+  const intent=(userIntent||'').trim().replace(/\.$/,'');
+  const tail=intent?` User direction: ${intent}.`:'';
+  const shot=state.creationLane==='screenshot';
+  const visualLock=shot?' Preserve the source screenshot camera, layout, player scale, palette, HUD language and major object relationships; infer only missing gameplay information.':'';
+  const templates={
+    runner:`Run through ${environment}, collecting ${collectibles} while avoiding ${hazards}.`,
+    fighting:`Fight rivals inside ${environment}, using the visible combat plane and ${importantObject} as the authored arena.`,
+    fps:`Defend and navigate ${environment} from a first-person view using scene-derived targets, cover and hazards.`,
+    dodge:`Move through ${environment} while reading and avoiding ${hazards}.`,
+    collect:`Explore ${environment} as ${player}, gather ${collectibles}, and use ${importantObject} as progression landmarks.`,
+    rhythm:`Play a rhythm challenge staged inside ${environment}, with the character and HUD reacting to combos and misses.`,
+    puzzle:`Build a tactile puzzle from the visual vocabulary of ${environment}, ${player}, and ${importantObject}.`,
+    openworld:`Use ${environment} as the anchor district, then extend its established visual grammar into explorable connected spaces.`,
+    racing:`Race through a course derived from ${environment}, using scene-authentic obstacles, route markers and speed cues.`,
+    platformer:`Run, jump and traverse a side-scrolling level reconstructed from ${environment}, keeping visible ledges, hazards and landmarks readable.`
+  };
+  return `${templates[engine]||`Create a playable ${engine} experience from ${environment}.`}${visualLock}${tail}`;
 }
 
 function renderStep5(container) {
@@ -1216,7 +1236,14 @@ function renderStep11(container) {
     };
   }
 
-  runBuildPipeline(container, logsEl);
+  runBuildPipeline(container, logsEl).catch(error=>{
+    console.error('Build pipeline failed',error);
+    if(logsEl) logsEl.innerHTML += `\n[BUILD ERROR] ${String(error?.stack||error)}`;
+    const box=container.querySelector('#buildProgressContainer')||container;
+    box.insertAdjacentHTML('beforeend',`<div style="margin-top:18px;padding:18px;border:1px solid #ef5b6a;border-radius:14px;background:#fff4f5;color:#7b2431"><b>Build stopped instead of hanging.</b><br>${String(error?.message||error)}<div style="margin-top:12px"><button class="btn ghost" id="retryBuildBtn">RETRY BUILD</button> <button class="btn ghost" id="editBuildBtn">BACK TO REVIEW</button></div></div>`);
+    box.querySelector('#retryBuildBtn')?.addEventListener('click',()=>goToStep(11));
+    box.querySelector('#editBuildBtn')?.addEventListener('click',()=>goToStep(10));
+  });
 }
 
 async function runBuildPipeline(container, logsEl) {
@@ -1276,7 +1303,10 @@ async function runBuildPipeline(container, logsEl) {
     useSubject: true,
     useEnvironment: true,
     useObjects: true,
-    usePalette: true
+    usePalette: true,
+    reverseForge: state.creationLane === 'screenshot',
+    screenshotGuide: state.screenshotGuide,
+    screenshotAnalysis: state.extraction?.analysis || null
   };
   await new Promise(r => setTimeout(r, 200));
   await completeStep(0);
@@ -1401,6 +1431,9 @@ async function runBuildPipeline(container, logsEl) {
   await advanceStep(6);
   log("Step 7: Applying Quality Gates and fun multiplier variables...");
   const rawManifest = manifestFrom(spec, dna, assets, optionArgs, effectivePrompt);
+  if (state.creationLane === 'screenshot') {
+    rawManifest.reverseForge = { enabled:true, guide:state.screenshotGuide, sourceType:'screenshot', reconstructionPrompt:effectivePrompt, analysis:state.extraction?.analysis||{} };
+  }
   if (productionPack) {
     rawManifest.generatedAnimations = productionPack.animation;
     rawManifest.productionArtProvenance = productionPack.provenance;
@@ -1423,7 +1456,7 @@ async function runBuildPipeline(container, logsEl) {
   const compiled = finishStudioBuild(rawManifest, assets);
   const manifest = compiled.manifest;
   if (state.creationLane === 'screenshot') {
-    manifest.reverseForge = { enabled: true, guide: state.screenshotGuide, sourceType: 'screenshot', reconstructionPrompt: effectivePrompt };
+    manifest.reverseForge = { ...(manifest.reverseForge||{}), enabled:true, guide:state.screenshotGuide, sourceType:'screenshot', reconstructionPrompt:effectivePrompt, analysis:state.extraction?.analysis||{} };
   }
   
   if (state.htmlMode === 'game') {
@@ -1507,27 +1540,51 @@ function inferMediaRole(ex, index) {
   return index === 1 ? 'hazard' : 'collectible';
 }
 
+function withTimeout(promise,ms,message='Operation timed out'){
+  let t;const timeout=new Promise((_,reject)=>{t=setTimeout(()=>reject(new Error(message)),ms)});
+  return Promise.race([promise,timeout]).finally(()=>clearTimeout(t));
+}
+
+async function localScreenshotExtraction(dataUrl,styleDna,file){
+  const analysis=await analyzeScreenshotLocally(dataUrl,styleDna,file);
+  return {ok:true,analysis,assets:{},analysisMode:'browser screenshot DNA (local fallback)'};
+}
+
+async function analyzeScreenshotLocally(dataUrl,styleDna,file){
+  const img=await new Promise((resolve,reject)=>{const i=new Image();i.onload=()=>resolve(i);i.onerror=reject;i.src=dataUrl});
+  const c=document.createElement('canvas');c.width=192;c.height=120;const x=c.getContext('2d',{willReadFrequently:true});x.drawImage(img,0,0,c.width,c.height);
+  const data=x.getImageData(0,0,c.width,c.height).data;let lum=0,sat=0,topDark=0,bottomDark=0;
+  const rowLuma=(yy)=>{let t=0;for(let xx=0;xx<c.width;xx++){const i=(yy*c.width+xx)*4;t+=(data[i]*.2126+data[i+1]*.7152+data[i+2]*.0722)/255}return t/c.width};
+  for(let i=0;i<data.length;i+=4){const r=data[i]/255,g=data[i+1]/255,b=data[i+2]/255;const mx=Math.max(r,g,b),mn=Math.min(r,g,b);lum+=(r*.2126+g*.7152+b*.0722);sat+=mx?((mx-mn)/mx):0}
+  const n=data.length/4;lum/=n;sat/=n;
+  for(let y=0;y<18;y++)topDark+=rowLuma(y);topDark/=18;for(let y=102;y<120;y++)bottomDark+=rowLuma(y);bottomDark/=18;
+  let horizontal=0;for(let y=58;y<108;y++){let row=0;for(let xx=1;xx<c.width;xx++){const i=(y*c.width+xx)*4,j=(y*c.width+xx-1)*4;row+=Math.abs(data[i]-data[j])+Math.abs(data[i+1]-data[j+1])+Math.abs(data[i+2]-data[j+2]);}if(row>horizontal)horizontal=row;}
+  const hudLikely=topDark<.28||bottomDark<.30;
+  const sideViewLikely=horizontal>9000;
+  const palette=(styleDna?.palette||[]).slice(0,5);
+  const darkScene=lum<.45;
+  const player=sideViewLikely?'A prominent foreground character on a side-view gameplay plane':'A prominent foreground playable subject';
+  const environment=`${darkScene?'dark, high-contrast ':'colorful '}arcade gameplay scene with ${sideViewLikely?'a horizontal traversable floor/arena':'a clearly framed play space'}`;
+  const notableObjects=`${hudLikely?'HUD/status bands, ':''}multiple foreground actor/object silhouettes, gameplay floor, layered background structures`;
+  const strongOpportunities=sideViewLikely&&hudLikely?'Fighting / beat-em-up or side-view action':'Platformer / runner / action';
+  return {player,environment,vehicles:'No reliable vehicle detection in browser fallback',notableObjects,dominantColors:palette.join(', ')||'source-derived palette',mood:darkScene?'dramatic arcade':'bright arcade',motionPotential:'High action potential',possibleHazards:'Visible opponents, weapons, obstacles or scene-authored threats',possibleCollectibles:'Scene-derived pickups or score rewards',strongOpportunities,qualityScore:58,qualityLabel:'local screenshot DNA',warnings:['Remote semantic vision is not connected on this static host; this analysis uses actual pixel/composition data and does not invent airport content.'],camera:sideViewLikely?'side-view':'unknown',hud:hudLikely?'HUD detected':'HUD uncertain',artStyle:'retro/arcade screenshot',analysisSource:'local-pixel-dna'};
+}
+
 async function safeAnalyzeVisualSource(dataUrl, prompt) {
-  const isStaticPages = location.hostname.endsWith('github.io');
-  if (isStaticPages) {
-    await new Promise(r => setTimeout(r, 600));
-    return { ok: true, analysis: localImageAnalysis(state.media.primary?.file, state.styleDNA) };
-  }
+  const apiBase=(import.meta.env.VITE_XPLAY_API_BASE_URL||'').replace(/\/$/,'');
+  const endpoint=apiBase?`${apiBase}/api/vision/analyze`:'/api/vision/analyze';
   try {
-    const controller = new AbortController();
-    const id = setTimeout(() => controller.abort(), 3000);
-    const r = await fetch('/api/vision/analyze', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      signal: controller.signal,
-      body: JSON.stringify({ imageDataUrl: dataUrl, prompt, subjectHint: 'person' })
-    });
+    const controller=new AbortController();const id=setTimeout(()=>controller.abort(),5000);
+    const r=await fetch(endpoint,{method:'POST',headers:{'content-type':'application/json'},signal:controller.signal,body:JSON.stringify({imageDataUrl:dataUrl,prompt,subjectHint:state.creationLane==='screenshot'?'game screenshot':'person'})});
     clearTimeout(id);
-    if (!r.ok) throw new Error();
-    return await r.json();
-  } catch (e) {
-    console.warn("Vision API failed or timed out, falling back to local analysis.");
-    return { ok: true, analysis: localImageAnalysis(state.media.primary?.file, state.styleDNA) };
+    if(!r.ok)throw new Error(`Vision HTTP ${r.status}`);
+    const out=await r.json();
+    if(!out?.analysis)throw new Error('Vision returned no analysis');
+    return {...out,analysisMode:'AI semantic vision'};
+  } catch(e) {
+    console.warn('AI Vision unavailable; using screenshot DNA fallback.',e);
+    if(state.creationLane==='screenshot')return await localScreenshotExtraction(dataUrl,state.styleDNA,state.media.primary?.file);
+    return {ok:true,analysis:localImageAnalysis(state.media.primary?.file,state.styleDNA),assets:{},analysisMode:'local photo heuristic'};
   }
 }
 
@@ -1781,7 +1838,22 @@ function launchManifest(m){
  const ov=OVERLAY_LIBRARY.find(x=>x.id===(m.overlay||'none')) || OVERLAY_LIBRARY[0];
  views.runtime.querySelector('#overlayName').textContent=ov.name;
  views.runtime.querySelector('#game-container').dataset.overlay=m.overlay||'none';
- runtime.launch(m);
+ try{
+  runtime.launch(m);
+  setTimeout(()=>{
+    const host=views.runtime.querySelector('#game-container');
+    if(host && !host.querySelector('canvas,iframe')) showRuntimeFailure(new Error('The game renderer did not mount a canvas.'));
+  },2500);
+ }catch(error){
+  console.error('Runtime launch failed',error);
+  showRuntimeFailure(error);
+ }
+}
+
+function showRuntimeFailure(error){
+ const host=views.runtime.querySelector('#game-container');if(!host)return;
+ host.innerHTML=`<div style="height:100%;display:grid;place-items:center;padding:40px;text-align:center;color:#fff;background:#101820"><div><h2>Game renderer stopped</h2><p>${String(error?.message||error||'Unknown runtime error')}</p><button class="btn primary" id="runtimeBackToBuild">BACK TO BUILD</button></div></div>`;
+ host.querySelector('#runtimeBackToBuild')?.addEventListener('click',()=>show('studio'));
 }
 
 function renderExtraction(x){

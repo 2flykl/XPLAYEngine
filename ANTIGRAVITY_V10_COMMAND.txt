@@ -1,0 +1,12 @@
+Unleash the V10 beasts.
+
+Read `.agents/agents.md`, `ALL_AGENT_PROMPTS.md`, and every file in `production_artifacts/` first.
+
+Mission: raise XPLAY from “working prototype” to “convincing arcade platform.” Keep all V9 improvements intact. Then execute the V10 focus:
+1. replace any remaining placeholder / abstract feed and library visuals with gameplay-truthful imagery,
+2. build or simulate a runtime screenshot capture pipeline so cards can be sourced from real or representative gameplay frames,
+3. give each category its own cast identity and stop any silent Flux fallback,
+4. improve card-to-runtime parity,
+5. strengthen showcase PLXs so the site visibly looks closer to indie arcade quality.
+
+Do not slow down with step-by-step approval loops. Create a task graph, execute in parallel, gather browser evidence, and ship a materially improved live stage.

@@ -23,8 +23,33 @@ function fallbacks(engine='runner'){
  };
  return {...common,...(sets[engine]||{})};
 }
+
+async function loadImg(src){return new Promise((resolve,reject)=>{const i=new Image();i.onload=()=>resolve(i);i.onerror=reject;i.src=src;});}
+function cv(w,h,draw){const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');draw(x,c);return c.toDataURL('image/png');}
+function coverDraw(x,img,dx,dy,dw,dh,sx=0,sy=0,sw=img.naturalWidth,sh=img.naturalHeight){x.drawImage(img,sx,sy,sw,sh,dx,dy,dw,dh);}
+async function deriveScreenshotAssets(dataUrl,styleDNA={},spec={},options={},extraction=null){
+ const img=await loadImg(dataUrl);const W=img.naturalWidth,H=img.naturalHeight;
+ const background=cv(960,600,(x)=>{x.imageSmoothingEnabled=false;x.drawImage(img,0,0,W,H,0,0,960,600);});
+ const far=cv(960,600,(x)=>{x.imageSmoothingEnabled=false;x.globalAlpha=.78;x.filter='brightness(.72) saturate(.85)';x.drawImage(img,0,0,W,H,0,0,960,600);x.filter='none';x.fillStyle='rgba(5,12,22,.18)';x.fillRect(0,0,960,600);});
+ const mid=cv(960,600,(x)=>{x.imageSmoothingEnabled=false;x.globalAlpha=.54;x.drawImage(img,0,0,W,H,0,0,960,600);});
+ const near=cv(960,600,(x)=>{x.clearRect(0,0,960,600);x.imageSmoothingEnabled=false;const sy=Math.floor(H*.58),sh=Math.max(1,H-sy);x.globalAlpha=.30;x.drawImage(img,0,sy,W,sh,0,348,960,252);});
+ const actorCrop=(cx,cy,scale=1)=>cv(180,220,(x)=>{x.clearRect(0,0,180,220);const sw=Math.max(1,Math.floor(W*.18*scale)),sh=Math.max(1,Math.floor(H*.48*scale));const sx=Math.max(0,Math.min(W-sw,Math.floor(W*cx-sw/2))),sy=Math.max(0,Math.min(H-sh,Math.floor(H*cy-sh/2)));x.imageSmoothingEnabled=false;x.drawImage(img,sx,sy,sw,sh,10,4,160,212);});
+ const terrain=cv(280,90,(x)=>{const sy=Math.floor(H*.70),sh=Math.max(1,Math.floor(H*.16));x.imageSmoothingEnabled=false;x.drawImage(img,0,sy,W,Math.min(sh,H-sy),0,0,280,90);});
+ const prop=(idx)=>cv(96,96,(x)=>{const cols=[.18,.42,.66,.82],cx=cols[idx%cols.length],cy=.56+(idx%2)*.12,sw=Math.floor(W*.14),sh=Math.floor(H*.20),sx=Math.max(0,Math.min(W-sw,Math.floor(W*cx-sw/2))),sy=Math.max(0,Math.min(H-sh,Math.floor(H*cy-sh/2)));x.imageSmoothingEnabled=false;x.drawImage(img,sx,sy,sw,sh,0,0,96,96);});
+ const player=actorCrop(.50,.61,.92),enemy=actorCrop(.69,.61,.92);
+ const fb=fallbacks(spec.engine||options.selectedEngine||'fighting');
+ return {
+   background,referenceScene:background,player,enemy,platform:terrain,terrain00:terrain,
+   hazard:prop(0),collectible:fb.collectible,npc:prop(1),building:prop(2),note:fb.note,weapon:fb.weapon,crosshair:fb.crosshair,goal:fb.goal||prop(3),
+   sourceProp00:prop(0),sourceProp01:prop(1),sourceProp02:prop(2),sourceProp03:prop(3),
+   parallax:{far,mid,near},
+   extractionMeta:{...(extraction?.analysis||{}),objectUseMode:'reverse-forge source-derived crops',referenceLocked:true}
+ };
+}
+
 function extractedOK(extraction){const a=extraction?.analysis||{};return extraction?.ok && (a.qualityScore||0)>=72;}
 export async function deriveVisualAssets(dataUrl,styleDNA={},spec={},options={},extraction=null){
+ if(options.reverseForge&&dataUrl)return await deriveScreenshotAssets(dataUrl,styleDNA,spec,options,extraction);
  const base=await deriveLocalAssets(dataUrl,styleDNA,spec,{...options,characterSource:'illustrated'});
  const ex=extraction?.assets||{}; const objects=(ex.objects||[]).map(x=>x.image).filter(Boolean); const fb=fallbacks(spec.engine||options.selectedEngine||'runner');
  const useExtracted=options.useObjects!==false && extractedOK(extraction);
