@@ -238,6 +238,8 @@ function renderLibrary(){
  };
 }
 
+function fallbackDNA(source='fallback'){return {palette:['#0d223d','#24c9c5','#eef7f6','#b7ef4b','#ffffff'],brightness:.5,saturation:.5,mood:'balanced',texture:'clean',source};}
+
 function renderStudio(){
   goToStep(state.currentStep);
 }
