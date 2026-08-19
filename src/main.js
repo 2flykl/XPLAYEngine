@@ -16,6 +16,7 @@ import { STYLE_LIBRARY, OVERLAY_LIBRARY, getStyle } from './core/StyleLibrary.js
 import { generateSurpriseIdeas, formatSuggestion } from './services/surprise.js';
 import { applyMakeItBetter } from './services/makeBetter.js';
 import { createStudioPlan, finishStudioBuild } from './core/StudioPipeline.js';
+import { defaultScreenshotGuide, summarizeScreenshotAnalysis, buildScreenshotReconstructionPrompt, SCREENSHOT_PRESERVE_OPTIONS } from './core/ScreenshotReconstructionDirector.js';
 // Calibrate Prompt
 const BASE_URL=import.meta.env.BASE_URL || './';
 const publicUrl=(path='')=>{
@@ -75,6 +76,8 @@ const state={
   style:'', // visual style ID
   htmlContext:'', // raw html
   htmlMode:'', // 'inspiration' or 'game'
+  creationLane:'standard', // 'standard' or 'screenshot'
+  screenshotGuide: defaultScreenshotGuide(),
   lastManifest:null
 };
 Object.defineProperty(state, 'file', {
@@ -326,8 +329,9 @@ function goToStep(stepNum) {
   }
 }
 
-async function processMainImage(file) {
+async function processMainImage(file, lane = state.creationLane || 'standard') {
   const dataUrl = await readDataUrl(file);
+  state.creationLane = lane;
   state.media.primary = {
     file,
     dataUrl,
@@ -339,85 +343,87 @@ async function processMainImage(file) {
 }
 
 function renderStep1(container) {
+  const isScreenshot = state.creationLane === 'screenshot';
   container.innerHTML = `
-    <div style="text-align: center; max-width: 600px; margin: 0 auto;">
+    <div style="text-align: center; max-width: 720px; margin: 0 auto;">
       <div class="softPill">STEP 1</div>
-      <h2 style="font-size: 32px; margin: 12px 0 6px;">Start with your main picture</h2>
-      <p class="muted" style="margin-bottom: 24px;">Give XPLAY the image you want the game to be built around.</p>
-      
-      <div id="mainImageDrop" class="media-drop" style="border: 2px dashed var(--teal); padding: 48px 24px; text-align: center; border-radius: 20px; cursor: pointer; background: var(--mint); transition: all 0.2s;">
-        <div style="font-size: 48px; margin-bottom: 12px;">📸</div>
-        <b style="font-size: 18px; display: block; margin-bottom: 8px;">Drag & drop your main photo here</b>
+      <h2 style="font-size: 32px; margin: 12px 0 6px;">Choose how you want to start</h2>
+      <p class="muted" style="margin-bottom: 24px;">The original XPLAY creator is still here. Screenshot → Game is an additional test lane.</p>
+
+      <div class="creationLaneGrid">
+        <button class="creationLaneCard ${!isScreenshot ? 'activeLane' : ''}" id="standardLaneBtn">
+          <span class="laneIcon">✨</span><b>Original Creator</b><small>Upload a photo, let XPLAY analyze it, then choose game type, feel and style.</small>
+        </button>
+        <button class="creationLaneCard ${isScreenshot ? 'activeLane' : ''}" id="screenshotLaneBtn">
+          <span class="laneIcon">🧬</span><b>Screenshot → Game <em>TEST</em></b><small>Use a game screenshot or visual mockup as a reconstruction target.</small>
+        </button>
+      </div>
+
+      <div class="reverseForgeNotice" ${isScreenshot ? '' : 'hidden'}>
+        <b>XPLAY Reverse Forge</b>
+        <span>The screenshot becomes a visual specification. XPLAY will try to preserve its layout, camera, art language and visible gameplay cues.</span>
+      </div>
+
+      <div id="mainImageDrop" class="media-drop" style="border: 2px dashed var(--teal); padding: 42px 24px; text-align: center; border-radius: 20px; cursor: pointer; background: var(--mint); transition: all 0.2s;">
+        <div style="font-size: 48px; margin-bottom: 12px;">${isScreenshot ? '🕹️' : '📸'}</div>
+        <b style="font-size: 18px; display: block; margin-bottom: 8px;">${isScreenshot ? 'Drop the screenshot you want turned into a game' : 'Drag & drop your main photo here'}</b>
         <span style="color: var(--soft); font-size: 14px; display: block; margin-bottom: 16px;">Supports PNG, JPG, JPEG</span>
-        <button class="btn primary" id="uploadMainBtn" style="pointer-events: auto;">UPLOAD MAIN PICTURE</button>
+        <button class="btn primary" id="uploadMainBtn" style="pointer-events: auto;">${isScreenshot ? 'UPLOAD GAME SCREENSHOT' : 'UPLOAD MAIN PICTURE'}</button>
         <input id="mainImageFile" type="file" accept="image/*" style="display: none;" />
       </div>
-      <div style="text-align: center; margin-top: 20px;">
+      <div style="text-align: center; margin-top: 20px;" ${isScreenshot ? 'hidden' : ''}>
         <button class="btn ghost" id="noPictureBtn">I DON'T HAVE A PICTURE</button>
       </div>
     </div>
   `;
 
+  const standardLaneBtn = container.querySelector('#standardLaneBtn');
+  const screenshotLaneBtn = container.querySelector('#screenshotLaneBtn');
   const dropArea = container.querySelector('#mainImageDrop');
   const fileInput = container.querySelector('#mainImageFile');
   const uploadBtn = container.querySelector('#uploadMainBtn');
   const noPicBtn = container.querySelector('#noPictureBtn');
 
-  if (uploadBtn && fileInput) {
-    uploadBtn.onclick = (e) => {
-      e.stopPropagation();
-      fileInput.click();
-    };
-  }
+  if (standardLaneBtn) standardLaneBtn.onclick = () => { state.creationLane = 'standard'; goToStep(1); };
+  if (screenshotLaneBtn) screenshotLaneBtn.onclick = () => {
+    state.creationLane = 'screenshot';
+    state.screenshotGuide = state.screenshotGuide || defaultScreenshotGuide();
+    goToStep(1);
+  };
 
+  if (uploadBtn && fileInput) uploadBtn.onclick = (e) => { e.stopPropagation(); fileInput.click(); };
   if (dropArea && fileInput) {
     dropArea.onclick = () => fileInput.click();
-    dropArea.ondragover = (e) => {
-      e.preventDefault();
-      dropArea.style.borderColor = 'var(--navy)';
-      dropArea.style.background = '#d8ecea';
-    };
-    dropArea.ondragleave = () => {
-      dropArea.style.borderColor = 'var(--teal)';
-      dropArea.style.background = 'var(--mint)';
-    };
+    dropArea.ondragover = (e) => { e.preventDefault(); dropArea.style.borderColor = 'var(--navy)'; dropArea.style.background = '#d8ecea'; };
+    dropArea.ondragleave = () => { dropArea.style.borderColor = 'var(--teal)'; dropArea.style.background = 'var(--mint)'; };
     dropArea.ondrop = async (e) => {
       e.preventDefault();
-      const files = Array.from(e.dataTransfer.files);
-      if (files.length > 0) {
-        await processMainImage(files[0]);
-      }
+      const files = Array.from(e.dataTransfer.files || []);
+      if (files.length > 0) await processMainImage(files[0], state.creationLane);
     };
   }
-
-  if (fileInput) {
-    fileInput.onchange = async () => {
-      if (fileInput.files.length > 0) {
-        await processMainImage(fileInput.files[0]);
-      }
-    };
-  }
-
-  if (noPicBtn) {
-    noPicBtn.onclick = () => {
-      state.media.primary = null;
-      state.styleDNA = fallbackDNA('no-picture');
-      state.extraction = { ok: false, analysis: null, assets: {} };
-      state.analysisCorrected = null;
-      goToStep(4);
-    };
-  }
+  if (fileInput) fileInput.onchange = async () => {
+    if (fileInput.files.length > 0) await processMainImage(fileInput.files[0], state.creationLane);
+  };
+  if (noPicBtn) noPicBtn.onclick = () => {
+    state.creationLane = 'standard';
+    state.media.primary = null;
+    state.styleDNA = fallbackDNA('no-picture');
+    state.extraction = { ok: false, analysis: null, assets: {} };
+    state.analysisCorrected = null;
+    goToStep(4);
+  };
 }
 
 function renderStep2(container) {
   container.innerHTML = `
     <div style="text-align: center; padding: 40px 0;">
       <div class="softPill">STEP 2</div>
-      <h2 style="font-size: 28px; margin: 16px 0;">XPLAY IS READING YOUR WORLD…</h2>
+      <h2 style="font-size: 28px; margin: 16px 0;">${state.creationLane === 'screenshot' ? 'XPLAY IS REVERSE-ENGINEERING YOUR SCREENSHOT…' : 'XPLAY IS READING YOUR WORLD…'}</h2>
       <div class="loading-bar-container" style="width: 100%; max-width: 400px; height: 6px; background: var(--line); border-radius: 3px; margin: 20px auto; overflow: hidden;">
         <div class="loading-bar-pulse" style="width: 50%; height: 100%; background: var(--teal); border-radius: 3px; animation: pulseLoading 1.5s infinite ease-in-out;"></div>
       </div>
-      <p class="muted">Analyzing characters, environments, and game opportunities from your picture...</p>
+      <p class="muted">${state.creationLane === 'screenshot' ? 'Mapping visible characters, scene geometry, camera, palette, landmarks and gameplay cues...' : 'Analyzing characters, environments, and game opportunities from your picture...'}</p>
     </div>
     <style>
       @keyframes pulseLoading {
@@ -446,12 +452,14 @@ function renderStep2(container) {
 
 function renderStep3(container) {
   const analysis = state.extraction?.analysis || localImageAnalysis(state.media.primary?.file, state.styleDNA);
+  const isScreenshot = state.creationLane === 'screenshot';
+  const guide = state.screenshotGuide || defaultScreenshotGuide();
   
   container.innerHTML = `
     <div style="max-width: 600px; margin: 0 auto;">
       <div class="softPill">STEP 3</div>
-      <h2 style="font-size: 28px; margin: 12px 0 6px;">What XPLAY sees</h2>
-      <p class="muted">Here is what XPLAY understood from your picture.</p>
+      <h2 style="font-size: 28px; margin: 12px 0 6px;">${isScreenshot ? 'What XPLAY will reconstruct' : 'What XPLAY sees'}</h2>
+      <p class="muted">${isScreenshot ? 'Confirm the reconstruction target before the Beast builds from it.' : 'Here is what XPLAY understood from your picture.'}</p>
       
       <div style="background: white; border: 1px solid var(--line); border-radius: 16px; padding: 24px; margin: 20px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
         <h3 style="margin-top: 0; font-size: 18px; border-bottom: 1px solid var(--line); padding-bottom: 10px; color: var(--navy);">XPLAY SEES</h3>
@@ -468,9 +476,46 @@ function renderStep3(container) {
         </div>
       </div>
       
-      <h3 style="font-size: 18px; margin-bottom: 12px;">Did XPLAY understand the picture?</h3>
+      ${isScreenshot ? `
+      <div class="reverseForgePanel">
+        <div class="reverseForgeSummary"><b>AI INTERPRETATION</b><p>${summarizeScreenshotAnalysis(analysis)}</p></div>
+        <label class="fieldLabel">USE SCREENSHOT AS
+          <select id="shotFidelity" class="forgeSelect">
+            <option value="blueprint" ${guide.fidelity==='blueprint'?'selected':''}>Exact visual blueprint</option>
+            <option value="strong" ${guide.fidelity==='strong'?'selected':''}>Strong reference</option>
+            <option value="inspiration" ${guide.fidelity==='inspiration'?'selected':''}>Loose inspiration</option>
+          </select>
+        </label>
+        <div class="fieldLabel" style="margin-top:14px;">PRESERVE FROM SCREENSHOT</div>
+        <div class="preserveChipGrid">
+          ${SCREENSHOT_PRESERVE_OPTIONS.map(([id,label])=>`<label class="preserveChip"><input type="checkbox" data-preserve="${id}" ${guide.preserve.includes(id)?'checked':''}> ${label}</label>`).join('')}
+        </div>
+        <div class="forgeTwoCol">
+          <label class="fieldLabel">CAMERA / VIEWPOINT
+            <select id="shotCamera" class="forgeSelect">
+              ${[['auto','Let AI infer'],['side-view','Side view'],['top-down','Top-down'],['first-person','First-person'],['isometric','Isometric'],['behind-character','Behind character']].map(([v,l])=>`<option value="${v}" ${guide.camera===v?'selected':''}>${l}</option>`).join('')}
+            </select>
+          </label>
+          <label class="fieldLabel">PLAYABLE CHARACTER
+            <select id="shotPlayer" class="forgeSelect">
+              ${[['source','Use character in screenshot'],['uploaded','Use another uploaded character'],['new','Create a new character']].map(([v,l])=>`<option value="${v}" ${guide.playerSource===v?'selected':''}>${l}</option>`).join('')}
+            </select>
+          </label>
+        </div>
+        <label class="fieldLabel">GAME OBJECTIVE <span class="optionalTag">OPTIONAL</span>
+          <input id="shotObjective" class="forgeInput" value="${guide.objective || ''}" placeholder="Example: Sneak past guards and reach the exit." />
+        </label>
+        <label class="fieldLabel">DO NOT CHANGE <span class="optionalTag">OPTIONAL</span>
+          <input id="shotDontChange" class="forgeInput" value="${guide.doNotChange || ''}" placeholder="Example: Keep the skyline, two guards and red sight cones." />
+        </label>
+        <label class="fieldLabel">MOTION / PATROL HINTS <span class="optionalTag">OPTIONAL</span>
+          <input id="shotMotion" class="forgeInput" value="${guide.motionHints || ''}" placeholder="Example: Guards patrol left/right; spotlight sweeps every 4 seconds." />
+        </label>
+      </div>` : ''}
+
+      <h3 style="font-size: 18px; margin-bottom: 12px;">${isScreenshot ? 'Does this reconstruction target look right?' : 'Did XPLAY understand the picture?'}</h3>
       <div class="cardActions">
-        <button class="btn primary" id="confirmAnalysisBtn">YES, KEEP GOING</button>
+        <button class="btn primary" id="confirmAnalysisBtn">${isScreenshot ? 'LOOKS RIGHT — KEEP GOING' : 'YES, KEEP GOING'}</button>
         <button class="btn ghost" id="adjustAnalysisBtn">ADJUST WHAT XPLAY SEES</button>
       </div>
       
@@ -490,12 +535,26 @@ function renderStep3(container) {
     </div>
   `;
 
+  const saveScreenshotGuide = () => {
+    if (!isScreenshot) return;
+    const next = state.screenshotGuide || defaultScreenshotGuide();
+    next.fidelity = container.querySelector('#shotFidelity')?.value || 'blueprint';
+    next.camera = container.querySelector('#shotCamera')?.value || 'auto';
+    next.playerSource = container.querySelector('#shotPlayer')?.value || 'source';
+    next.objective = container.querySelector('#shotObjective')?.value?.trim() || '';
+    next.doNotChange = container.querySelector('#shotDontChange')?.value?.trim() || '';
+    next.motionHints = container.querySelector('#shotMotion')?.value?.trim() || '';
+    next.preserve = [...container.querySelectorAll('[data-preserve]:checked')].map(x=>x.dataset.preserve);
+    next.interpretationConfirmed = true;
+    state.screenshotGuide = next;
+  };
+
   const confirmBtn = container.querySelector('#confirmAnalysisBtn');
   const adjustBtn = container.querySelector('#adjustAnalysisBtn');
   const saveBtn = container.querySelector('#saveCorrectionsBtn');
   const adjForm = container.querySelector('#adjustmentForm');
 
-  if (confirmBtn) confirmBtn.onclick = () => goToStep(4);
+  if (confirmBtn) confirmBtn.onclick = () => { saveScreenshotGuide(); goToStep(4); };
   if (adjustBtn) {
     adjustBtn.onclick = () => {
       if (adjForm) {
@@ -506,6 +565,7 @@ function renderStep3(container) {
   }
   if (saveBtn) {
     saveBtn.onclick = () => {
+      saveScreenshotGuide();
       state.analysisCorrected = {
         player: container.querySelector('#correctPlayer')?.value || analysis.player,
         environment: container.querySelector('#correctEnvironment')?.value || analysis.environment,
@@ -674,7 +734,8 @@ function renderStep5(container) {
     <div style="max-width: 600px; margin: 0 auto;">
       <div class="softPill">STEP 5</div>
       <h2 style="font-size: 28px; margin: 12px 0 6px;">What should happen in your game?</h2>
-      <p class="muted" style="margin-bottom: 20px;">Describe the game idea in plain words. Avoid technical game development jargon.</p>
+      <p class="muted" style="margin-bottom: 20px;">${state.creationLane === 'screenshot' ? 'Tell XPLAY what should happen. The screenshot remains the visual target; this box supplies the missing gameplay intent.' : 'Describe the game idea in plain words. Avoid technical game development jargon.'}</p>
+      ${state.creationLane === 'screenshot' ? `<div class="reverseForgeMini">🧬 <b>Visual lock active:</b> ${state.screenshotGuide?.fidelity === 'blueprint' ? 'Exact visual blueprint' : state.screenshotGuide?.fidelity === 'strong' ? 'Strong reference' : 'Loose inspiration'}</div>` : ''}
       
       <div style="position: relative;">
         <textarea id="promptArea" style="width: 100%; min-height: 160px; padding: 16px; border: 1px solid var(--line); border-radius: 16px; font-size: 15px; line-height: 1.5; outline: none; transition: border-color 0.2s;" placeholder="Describe what the player does...">${state.prompt}</textarea>
@@ -1066,6 +1127,7 @@ function renderStep10(container) {
             <span style="color: var(--soft);">Extra Files:</span>
             <b style="color: var(--navy);">${fileCount} file(s) total</b>
           </div>
+          ${state.creationLane === 'screenshot' ? `<div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f2f6f7; padding-bottom: 8px;"><span style="color: var(--soft);">Creation Method:</span><b style="color: var(--navy);">Screenshot → Game / Reverse Forge</b></div><div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f2f6f7; padding-bottom: 8px;"><span style="color: var(--soft);">Screenshot Fidelity:</span><b style="color: var(--navy);">${state.screenshotGuide?.fidelity || 'blueprint'}</b></div>` : ''}
           <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f2f6f7; padding-bottom: 8px;">
             <span style="color: var(--soft);">HTML Override:</span>
             <b style="color: var(--navy);">${state.htmlMode ? `Enabled (${state.htmlMode === 'game' ? 'Direct play' : 'Inspiration'})` : 'Disabled'}</b>
@@ -1201,6 +1263,10 @@ async function runBuildPipeline(container, logsEl) {
 
   await advanceStep(0);
   log("Step 1: Reading media inputs...");
+  const effectivePrompt = state.creationLane === 'screenshot'
+    ? buildScreenshotReconstructionPrompt(state.prompt, state.screenshotGuide, state.extraction?.analysis || {})
+    : state.prompt;
+  if (state.creationLane === 'screenshot') log("Reverse Forge visual-spec lock enabled. Screenshot constraints will guide scene reconstruction.");
   const optionArgs = {
     mode: state.mode,
     selectedEngine: state.chosenEngine,
@@ -1225,7 +1291,7 @@ async function runBuildPipeline(container, logsEl) {
   }
   let extraction = state.extraction;
   if (!extraction && primaryImgUrl) {
-    extraction = await safeAnalyzeVisualSource(primaryImgUrl, state.prompt);
+    extraction = await safeAnalyzeVisualSource(primaryImgUrl, effectivePrompt);
     state.extraction = extraction;
   }
   log(`Style DNA found brightness: ${dna.brightness}, saturation: ${dna.saturation}, mood: ${dna.mood}`);
@@ -1235,7 +1301,7 @@ async function runBuildPipeline(container, logsEl) {
   await advanceStep(2);
   log("Step 3: Creating visual assets blueprint...");
   const plan = createStudioPlan({
-    prompt: state.prompt,
+    prompt: effectivePrompt,
     selectedEngine: state.chosenEngine,
     styleName: optionArgs.styleName,
     visualAnalysis: extraction?.analysis
@@ -1247,7 +1313,7 @@ async function runBuildPipeline(container, logsEl) {
   await advanceStep(3);
   log("Step 4: Executing director spec for graphics...");
   const spec = await directPLX({
-    prompt: state.prompt,
+    prompt: effectivePrompt,
     imageDataUrl: primaryImgUrl,
     styleDNA: dna,
     visualAnalysis: extraction?.analysis,
@@ -1266,7 +1332,7 @@ async function runBuildPipeline(container, logsEl) {
   let productionPack = null;
   if (spec.engine !== 'html') {
     log("Step 5b: Asking the Production Art Forge for cohesive sprite/tile/background sheets...");
-    productionPack = await forgeProductionArtPack({prompt: state.prompt, engine: spec.engine, style: optionArgs.styleName, imageDataUrl: primaryImgUrl, visualAnalysis: extraction?.analysis});
+    productionPack = await forgeProductionArtPack({prompt: effectivePrompt, engine: spec.engine, style: optionArgs.styleName, imageDataUrl: primaryImgUrl, visualAnalysis: extraction?.analysis});
     if (productionPack?.assets) {
       assets = {...assets, ...productionPack.assets};
       log(`Production Art Forge returned ${Object.keys(productionPack.assets).length} sliced game assets.`);
@@ -1334,7 +1400,7 @@ async function runBuildPipeline(container, logsEl) {
 
   await advanceStep(6);
   log("Step 7: Applying Quality Gates and fun multiplier variables...");
-  const rawManifest = manifestFrom(spec, dna, assets, optionArgs, state.prompt);
+  const rawManifest = manifestFrom(spec, dna, assets, optionArgs, effectivePrompt);
   if (productionPack) {
     rawManifest.generatedAnimations = productionPack.animation;
     rawManifest.productionArtProvenance = productionPack.provenance;
@@ -1356,6 +1422,9 @@ async function runBuildPipeline(container, logsEl) {
   log("Step 8: Assembling final compiled manifest...");
   const compiled = finishStudioBuild(rawManifest, assets);
   const manifest = compiled.manifest;
+  if (state.creationLane === 'screenshot') {
+    manifest.reverseForge = { enabled: true, guide: state.screenshotGuide, sourceType: 'screenshot', reconstructionPrompt: effectivePrompt };
+  }
   
   if (state.htmlMode === 'game') {
     manifest.engine = 'html';
@@ -1614,6 +1683,8 @@ function renderBuildResult(manifest) {
       state.style = '';
       state.htmlContext = '';
       state.htmlMode = '';
+      state.creationLane = 'standard';
+      state.screenshotGuide = defaultScreenshotGuide();
       state.lastManifest = null;
       goToStep(1);
     };
