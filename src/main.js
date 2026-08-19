@@ -22,6 +22,11 @@ const publicUrl=(path='')=>{
   if(/^(data:|blob:|https?:)/.test(path)) return path;
   return `${BASE_URL}${String(path).replace(/^\.\//,'').replace(/^\//,'')}`;
 };
+const previewUrl=(id)=>{
+  try{const cached=localStorage.getItem(`xplay:runtime-preview:${id}`);if(cached)return cached;}catch{}
+  return publicUrl(`plx/${id}/preview.png`);
+};
+
 
 const builtIns=[
  ['frontline','Terminal Zero','fps','First-Person Shooter','First-person runway defense with weapon recoil, depth-rushing enemies, impact FX and a signature wave.'],
@@ -37,16 +42,16 @@ const builtIns=[
 ];
 
 const socialPosts=[
- {engine:'puzzle',title:'Gem Drop',creator:'@davidplays',name:'David',caption:'I turned a color study into a juicy match-3 puzzle. Chain four gems and the whole board starts to cascade.',played:2419,remixes:204,comments:91,cover:'plx/thoughtlink/thumb.svg'},
- {engine:'fps',title:'Terminal Zero',creator:'@novajay',name:'Nova Jay',caption:'A late-night airport photo became a first-person runway defense game.',played:1284,remixes:86,comments:34,cover:'plx/frontline/thumb.svg'},
- {engine:'fighting',title:'After Hours',creator:'@marcusvale',name:'Marcus Vale',caption:'One photo. One rival. One neon rooftop. Settle it in the ring.',played:992,remixes:61,comments:28,cover:'plx/streetclash/thumb.svg'},
- {engine:'runner',title:'Skyline Delivery',creator:'@tianarae',name:'Tiana Rae',caption:'Race the skyline, grab delivery tokens, and survive the rush-hour gaps.',played:1655,remixes:119,comments:46,cover:'plx/skybound/thumb.svg'},
- {engine:'rhythm',title:'Beatline City',creator:'@ayorose',name:'Ayo Rose',caption:'A performance clip became a four-lane neon rhythm stage.',played:2204,remixes:184,comments:71,cover:'plx/beatline/thumb.svg'},
- {engine:'racing',title:'Neon Circuit',creator:'@devonmiles',name:'Devon Miles',caption:'A street photo turned into a midnight boost race.',played:743,remixes:39,comments:18,cover:'plx/neonrace/thumb.svg'},
- {engine:'platformer',title:'Canopy Rush',creator:'@kenzow',name:'Kenzo W.',caption:'A forest photo became a layered platform world full of jumps, routes and hidden rewards.',played:1881,remixes:132,comments:54,cover:'plx/wildjump/thumb.svg'},
- {engine:'collect',title:'Lantern Grove',creator:'@miraeast',name:'Mira East',caption:'A calm photo became a glowing collectible hunt.',played:618,remixes:27,comments:12,cover:'plx/grove/thumb.svg'},
- {engine:'dodge',title:'Rooftop Rush',creator:'@jaylenmade',name:'Jaylen Made',caption:'Dodge drones and catch energy drops above the city.',played:1354,remixes:73,comments:31,cover:'plx/rooftop/thumb.svg'},
- {engine:'openworld',title:'Driftlands',creator:'@samori',name:'Sam Ori',caption:'A single landscape turned into a tiny place worth exploring.',played:836,remixes:42,comments:19,cover:'plx/driftlands/thumb.svg'}
+ {engine:'puzzle',title:'Gem Drop',creator:'@davidplays',name:'David',caption:'I turned a color study into a juicy match-3 puzzle. Chain four gems and the whole board starts to cascade.',played:2419,remixes:204,comments:91,cover:'plx/thoughtlink/preview.png'},
+ {engine:'fps',title:'Terminal Zero',creator:'@novajay',name:'Nova Jay',caption:'A late-night airport photo became a first-person runway defense game.',played:1284,remixes:86,comments:34,cover:'plx/frontline/preview.png'},
+ {engine:'fighting',title:'After Hours',creator:'@marcusvale',name:'Marcus Vale',caption:'One photo. One rival. One neon rooftop. Settle it in the ring.',played:992,remixes:61,comments:28,cover:'plx/streetclash/preview.png'},
+ {engine:'runner',title:'Skyline Delivery',creator:'@tianarae',name:'Tiana Rae',caption:'Race the skyline, grab delivery tokens, and survive the rush-hour gaps.',played:1655,remixes:119,comments:46,cover:'plx/skybound/preview.png'},
+ {engine:'rhythm',title:'Beatline City',creator:'@ayorose',name:'Ayo Rose',caption:'A performance clip became a four-lane neon rhythm stage.',played:2204,remixes:184,comments:71,cover:'plx/beatline/preview.png'},
+ {engine:'racing',title:'Neon Circuit',creator:'@devonmiles',name:'Devon Miles',caption:'A street photo turned into a midnight boost race.',played:743,remixes:39,comments:18,cover:'plx/neonrace/preview.png'},
+ {engine:'platformer',title:'Canopy Rush',creator:'@kenzow',name:'Kenzo W.',caption:'A forest photo became a layered platform world full of jumps, routes and hidden rewards.',played:1881,remixes:132,comments:54,cover:'plx/wildjump/preview.png'},
+ {engine:'collect',title:'Lantern Grove',creator:'@miraeast',name:'Mira East',caption:'A calm photo became a glowing collectible hunt.',played:618,remixes:27,comments:12,cover:'plx/grove/preview.png'},
+ {engine:'dodge',title:'Rooftop Rush',creator:'@jaylenmade',name:'Jaylen Made',caption:'Dodge drones and catch energy drops above the city.',played:1354,remixes:73,comments:31,cover:'plx/rooftop/preview.png'},
+ {engine:'openworld',title:'Driftlands',creator:'@samori',name:'Sam Ori',caption:'A single landscape turned into a tiny place worth exploring.',played:836,remixes:42,comments:19,cover:'plx/driftlands/preview.png'}
 ];
 
 const demoIdForEngine=(engine)=>builtIns.find(x=>x[2]===engine)?.[0]||'skybound';
@@ -143,7 +148,7 @@ function renderFeed(){
      <p>Pictures, songs and ideas become little worlds. No algorithm lecture. No creator tools in your face. If something catches you, play it.</p>
      <div class="heroActions"><button class="btn primary" id="heroCreate">Make a PLX</button><button class="btn ghost" id="heroExplore">Explore the arcade</button></div>
    </div>
-   <div class="heroVisual"><img src="${publicUrl('plx/skybound/thumb.svg')}" alt="Runner gameplay preview"></div>
+   <div class="heroVisual"><img src="${publicUrl('plx/skybound/preview.png')}" alt="Runner gameplay preview"></div>
  </div>
  <div class="feedIntro">
    <div><b>Fresh on XPLAY</b><span>Playable posts from a mock community feed</span></div>
@@ -221,7 +226,7 @@ function renderLibrary(){
  const box=views.library.querySelector('#library');
  builtIns.forEach(([id,title,engine,label,desc])=>box.insertAdjacentHTML('beforeend',`
  <article class="card" data-id="${id}" data-engine="${engine}">
-   <img src="${publicUrl(`plx/${id}/thumb.svg`)}" alt="${title}">
+   <img src="${previewUrl(id)}" alt="${title}">
    <div class="cardbody"><div class="pill">${label}</div><h3>${title}</h3><div class="muted">${desc}</div>
      <div class="cardActions">
        <button class="btn primary demoBtn">Launch Demo</button>
@@ -531,7 +536,7 @@ function renderStep4(container) {
           
           return `
             <div class="card engineCard" data-engine="${engineId}" style="position: relative; border: ${borderStyle}; background: ${bgStyle}; cursor: pointer; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;">
-              <img src="${publicUrl(`plx/${demoIdForEngine(engineId)}/thumb.svg`)}" alt="${title}" style="height: 120px; width: 100%; object-fit: cover;" />
+              <img src="${publicUrl(`plx/${demoIdForEngine(engineId)}/preview.png`)}" alt="${title}" style="height: 120px; width: 100%; object-fit: cover;" />
               <div class="cardbody" style="padding: 14px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
                 <div>
                   <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--muted); margin-bottom: 4px;">${label}</div>
@@ -1692,7 +1697,7 @@ async function renderBackend(){
  const s=await pingSupabase();views.backend.querySelector('#supaHealth').textContent=s.connected?'Connected':'Not configured / schema pending';
 }
 
-async function launchBuiltIn(id){const m=await loadPLX(id);launchManifest(m);}
+async function launchBuiltIn(id){const m=await loadPLX(id);m.__id=id;launchManifest(m);}
 function launchManifest(m){
  show('runtime');
  views.runtime.querySelector('#runtimeTitle').textContent=m.title;

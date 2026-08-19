@@ -14,7 +14,7 @@
   },
   "assets": {
     "images": {
-      "background": "/showcase/platformer/far.svg",
+      "background": "/v6/platformer/far.png",
       "enemy": "/rc-assets/platformer/enemy.png",
       "collectible": "/rc-assets/platformer/collectible.png",
       "platform": "/rc-assets/platformer/platform.png",
@@ -22,9 +22,9 @@
     }
   },
   "parallax": {
-    "far": "/showcase/platformer/far.svg",
-    "mid": "/showcase/platformer/mid.svg",
-    "near": "/showcase/platformer/near.svg"
+    "far": "/v6/platformer/far.png",
+    "mid": "/v6/platformer/mid.png",
+    "near": "/v6/platformer/near.png"
   },
   "scrollProfile": {
     "axis": "x",
@@ -33,5 +33,6 @@
   "releaseCandidateArt": true,
   "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback",
   "characterPolicy": "unique-per-plx engine character; source-derived character overrides fallback",
-  "preview": "thumb.svg"
+  "preview": "preview.png",
+  "productionArt": "v6-runtime-aligned"
 }

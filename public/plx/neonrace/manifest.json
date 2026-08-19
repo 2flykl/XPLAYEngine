@@ -14,7 +14,7 @@
   },
   "assets": {
     "images": {
-      "background": "/showcase/racing/far.svg",
+      "background": "/v6/racing/far.png",
       "enemy": "/rc-assets/racing/enemy.png",
       "collectible": "/rc-assets/racing/collectible.png",
       "platform": "assets/platform.svg",
@@ -23,9 +23,9 @@
     }
   },
   "parallax": {
-    "far": "/showcase/racing/far.svg",
-    "mid": "/showcase/racing/mid.svg",
-    "near": "/showcase/racing/near.svg"
+    "far": "/v6/racing/far.png",
+    "mid": "/v6/racing/mid.png",
+    "near": "/v6/racing/near.png"
   },
   "scrollProfile": {
     "axis": "y",
@@ -34,5 +34,6 @@
   "releaseCandidateArt": true,
   "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback",
   "characterPolicy": "unique-per-plx engine character; source-derived character overrides fallback",
-  "preview": "thumb.svg"
+  "preview": "preview.png",
+  "productionArt": "v6-runtime-aligned"
 }

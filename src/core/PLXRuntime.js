@@ -109,5 +109,15 @@ export class PLXRuntime {
       }
     });
     this.runVisualRepairLoop();
+    // Runtime truth wins: after the scene has settled, capture a real gameplay frame.
+    if(manifest.__id){
+      const capture=setTimeout(()=>{
+        try{
+          const data=this.game?.canvas?.toDataURL?.('image/png',0.92);
+          if(data&&data.length>1000)localStorage.setItem(`xplay:runtime-preview:${manifest.__id}`,data);
+        }catch{}
+      },1800);
+      this._visualRepairTimers.push(capture);
+    }
   }
 }

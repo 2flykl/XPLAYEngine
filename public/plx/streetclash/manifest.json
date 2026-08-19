@@ -14,16 +14,16 @@
   },
   "assets": {
     "images": {
-      "background": "/showcase/fighting/far.svg",
+      "background": "/v6/fighting/far.png",
       "enemy": "/rc-assets/fighting/enemy.png",
       "collectible": "/rc-assets/fighting/collectible.png",
       "platform": "/rc-assets/fighting/platform.png"
     }
   },
   "parallax": {
-    "far": "/showcase/fighting/far.svg",
-    "mid": "/showcase/fighting/mid.svg",
-    "near": "/showcase/fighting/near.svg"
+    "far": "/v6/fighting/far.png",
+    "mid": "/v6/fighting/mid.png",
+    "near": "/v6/fighting/near.png"
   },
   "scrollProfile": {
     "axis": "none",
@@ -32,5 +32,6 @@
   "releaseCandidateArt": true,
   "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback",
   "characterPolicy": "unique-per-plx engine character; source-derived character overrides fallback",
-  "preview": "thumb.svg"
+  "preview": "preview.png",
+  "productionArt": "v6-runtime-aligned"
 }

@@ -14,16 +14,16 @@
   },
   "assets": {
     "images": {
-      "background": "/showcase/dodge/far.svg",
+      "background": "/v6/dodge/far.png",
       "hazard": "/rc-assets/dodge/hazard.png",
       "collectible": "/rc-assets/dodge/collectible.png",
       "platform": "assets/platform.svg"
     }
   },
   "parallax": {
-    "far": "/showcase/dodge/far.svg",
-    "mid": "/showcase/dodge/mid.svg",
-    "near": "/showcase/dodge/near.svg"
+    "far": "/v6/dodge/far.png",
+    "mid": "/v6/dodge/mid.png",
+    "near": "/v6/dodge/near.png"
   },
   "scrollProfile": {
     "axis": "y",
@@ -32,5 +32,6 @@
   "releaseCandidateArt": true,
   "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback",
   "characterPolicy": "unique-per-plx engine character; source-derived character overrides fallback",
-  "preview": "thumb.svg"
+  "preview": "preview.png",
+  "productionArt": "v6-runtime-aligned"
 }

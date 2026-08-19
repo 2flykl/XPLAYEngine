@@ -14,7 +14,7 @@
   },
   "assets": {
     "images": {
-      "background": "/showcase/fps/far.svg",
+      "background": "/v6/fps/far.png",
       "enemy": "/rc-assets/fps/enemy.png",
       "collectible": "/rc-assets/fps/collectible.png",
       "platform": "assets/platform.svg",
@@ -25,9 +25,9 @@
     }
   },
   "parallax": {
-    "far": "/showcase/fps/far.svg",
-    "mid": "/showcase/fps/mid.svg",
-    "near": "/showcase/fps/near.svg"
+    "far": "/v6/fps/far.png",
+    "mid": "/v6/fps/mid.png",
+    "near": "/v6/fps/near.png"
   },
   "scrollProfile": {
     "axis": "none",
@@ -36,5 +36,6 @@
   "releaseCandidateArt": true,
   "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback",
   "characterPolicy": "unique-per-plx engine character; source-derived character overrides fallback",
-  "preview": "thumb.svg"
+  "preview": "preview.png",
+  "productionArt": "v6-runtime-aligned"
 }

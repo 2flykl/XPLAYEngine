@@ -14,7 +14,7 @@
   },
   "assets": {
     "images": {
-      "background": "/showcase/collect/far.svg",
+      "background": "/v6/collect/far.png",
       "hazard": "/rc-assets/collect/hazard.png",
       "collectible": "/rc-assets/collect/collectible.png",
       "platform": "assets/platform.svg",
@@ -22,9 +22,9 @@
     }
   },
   "parallax": {
-    "far": "/showcase/collect/far.svg",
-    "mid": "/showcase/collect/mid.svg",
-    "near": "/showcase/collect/near.svg"
+    "far": "/v6/collect/far.png",
+    "mid": "/v6/collect/mid.png",
+    "near": "/v6/collect/near.png"
   },
   "scrollProfile": {
     "axis": "camera",
@@ -33,5 +33,6 @@
   "releaseCandidateArt": true,
   "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback",
   "characterPolicy": "unique-per-plx engine character; source-derived character overrides fallback",
-  "preview": "thumb.svg"
+  "preview": "preview.png",
+  "productionArt": "v6-runtime-aligned"
 }

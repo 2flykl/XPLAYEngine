@@ -14,7 +14,7 @@
   },
   "assets": {
     "images": {
-      "background": "/showcase/puzzle/far.svg",
+      "background": "/v6/puzzle/far.png",
       "hazard": "assets/hazard.svg",
       "collectible": "assets/collectible.svg",
       "platform": "assets/platform.svg",
@@ -26,9 +26,9 @@
     }
   },
   "parallax": {
-    "far": "/showcase/puzzle/far.svg",
-    "mid": "/showcase/puzzle/mid.svg",
-    "near": "/showcase/puzzle/near.svg"
+    "far": "/v6/puzzle/far.png",
+    "mid": "/v6/puzzle/mid.png",
+    "near": "/v6/puzzle/near.png"
   },
   "scrollProfile": {
     "axis": "none",
@@ -37,5 +37,6 @@
   "releaseCandidateArt": true,
   "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback",
   "characterPolicy": "unique-per-plx engine character; source-derived character overrides fallback",
-  "preview": "thumb.svg"
+  "preview": "preview.png",
+  "productionArt": "v6-runtime-aligned"
 }

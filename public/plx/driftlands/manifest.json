@@ -14,7 +14,7 @@
   },
   "assets": {
     "images": {
-      "background": "/showcase/openworld/far.svg",
+      "background": "/v6/openworld/far.png",
       "enemy": "assets/enemy.svg",
       "collectible": "/rc-assets/openworld/collectible.png",
       "platform": "assets/platform.svg",
@@ -24,9 +24,9 @@
     }
   },
   "parallax": {
-    "far": "/showcase/openworld/far.svg",
-    "mid": "/showcase/openworld/mid.svg",
-    "near": "/showcase/openworld/near.svg"
+    "far": "/v6/openworld/far.png",
+    "mid": "/v6/openworld/mid.png",
+    "near": "/v6/openworld/near.png"
   },
   "scrollProfile": {
     "axis": "camera",
@@ -35,5 +35,6 @@
   "releaseCandidateArt": true,
   "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback",
   "characterPolicy": "unique-per-plx engine character; source-derived character overrides fallback",
-  "preview": "thumb.svg"
+  "preview": "preview.png",
+  "productionArt": "v6-runtime-aligned"
 }

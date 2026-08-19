@@ -14,7 +14,7 @@
   },
   "assets": {
     "images": {
-      "background": "/showcase/runner/far.svg",
+      "background": "/v6/runner/far.png",
       "hazard": "/rc-assets/runner/hazard.png",
       "collectible": "/rc-assets/runner/collectible.png",
       "platform": "assets/platform.svg",
@@ -22,9 +22,9 @@
     }
   },
   "parallax": {
-    "far": "/showcase/runner/far.svg",
-    "mid": "/showcase/runner/mid.svg",
-    "near": "/showcase/runner/near.svg"
+    "far": "/v6/runner/far.png",
+    "mid": "/v6/runner/mid.png",
+    "near": "/v6/runner/near.png"
   },
   "scrollProfile": {
     "axis": "x",
@@ -33,5 +33,6 @@
   "releaseCandidateArt": true,
   "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback",
   "characterPolicy": "unique-per-plx engine character; source-derived character overrides fallback",
-  "preview": "thumb.svg"
+  "preview": "preview.png",
+  "productionArt": "v6-runtime-aligned"
 }
