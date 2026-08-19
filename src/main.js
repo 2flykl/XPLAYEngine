@@ -78,6 +78,7 @@ Object.defineProperty(state, 'dataUrl', {
   set(v) { if(!state.media.primary) state.media.primary = {}; state.media.primary.dataUrl = v; }
 });
 const runtime=new PLXRuntime();
+window.runtime = runtime;
 
 document.querySelector('#app').innerHTML=`
 <div class="app">
