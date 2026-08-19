@@ -1,0 +1,27 @@
+UNLEASH XPLAY V14 — BUILD DNA ORCHESTRATOR.
+
+Do not do another superficial visual pass.
+
+Read `.agents/agents.md`, `ALL_AGENT_PROMPTS.md`, `production_artifacts/`, and `schemas/build-dna.schema.json`.
+
+Integrate the new Build DNA / Beast Orchestrator into the CURRENT create pipeline.
+
+Hard requirements:
+- one unique buildId per generation
+- current source upload is authoritative
+- selected genre is a hard lock
+- high-confidence vision facts cannot be overwritten downstream
+- generated assets are stamped to the current build
+- stale assets are rejected
+- manifests are normalized and preflighted before Phaser
+- true semantic vision uses VITE_XPLAY_API_BASE_URL on GitHub Pages
+- no silent Flux fallback
+- no old airport-test contamination
+- no global error poisoning
+- no black canvas success state
+- generated PLX must mount, accept input, produce challenge/reward feedback, reach completion, and retry
+- browser-playtest the generated PLX and all 10 built-in PLXs
+- render/capture gameplay screenshots and compare them with the source/Build DNA
+- repair failures internally without asking for step-by-step approval
+
+STOP ONLY WHEN THE PIPELINE PRODUCES A SOURCE-AWARE, PLAYABLE, FUN PLX.

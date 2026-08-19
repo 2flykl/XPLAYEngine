@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xplay.local/schemas/build-dna.schema.json",
+  "title": "XPLAY Build DNA",
+  "type": "object",
+  "required": [
+    "version",
+    "buildId",
+    "source",
+    "intent",
+    "vision",
+    "locks",
+    "sceneGraph",
+    "art",
+    "runtime",
+    "fun",
+    "provenance",
+    "qa"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer"
+    },
+    "buildId": {
+      "type": "string",
+      "minLength": 8
+    },
+    "source": {
+      "type": "object"
+    },
+    "intent": {
+      "type": "object"
+    },
+    "vision": {
+      "type": "object"
+    },
+    "locks": {
+      "type": "object"
+    },
+    "sceneGraph": {
+      "type": "object"
+    },
+    "art": {
+      "type": "object"
+    },
+    "runtime": {
+      "type": "object"
+    },
+    "fun": {
+      "type": "object"
+    },
+    "provenance": {
+      "type": "object"
+    },
+    "qa": {
+      "type": "object"
+    }
+  }
+}

@@ -1,27 +1,31 @@
-# XPLAY V11 — Playable Completion Team
+# XPLAY V14 — Beast Orchestrator Charter
 
-## Mission
-V11 is the final stitching pass. The problem is no longer “can XPLAY generate a manifest?” The problem is whether the manifest becomes a **fun, complete, playable game**.
+The final architecture is no longer “agents passing prose to each other.”
+All agents share one structured **Build DNA** object.
 
-Use four final specialist roles:
+## Chain of authority
+VISION -> GAME GRAMMAR -> ART -> ASSEMBLY -> FUN -> QA -> REPAIR
 
-1. **Runtime Integrator** — makes generated manifests actually mount, run, accept controls, and reach win/fail states.
-2. **Game Assembly Director** — ensures scene, assets, collisions, camera, controls, objectives, enemies, hazards, and rewards are wired together.
-3. **Fun Factor Director** — tunes pacing, feedback, combos, near-misses, signature moments, difficulty, and replay value.
-4. **Playtest / Release Critic** — repeatedly plays the generated result and rejects black canvases, dead controls, boring pacing, impossible states, or fake completion.
+Downstream agents are not allowed to overwrite high-confidence upstream facts.
 
-## Definition of Done
-A generated PLX is not complete until:
-- a playable scene mounts;
-- input works;
-- the player can understand the objective within seconds;
-- at least one challenge and one reward occur;
-- there is a win state;
-- there is a fail/recovery state when appropriate;
-- retry works;
-- the game has at least one memorable moment;
-- screenshot/card presentation matches actual play;
-- browser QA proves it.
+Examples:
+- If screenshot analysis + user selection lock Fighting, Runtime cannot reinterpret it as Open World.
+- If source analysis locks three foreground enemies, Art cannot silently replace them with airport props.
+- If the current build has buildId A, an asset from buildId B is stale and should be rejected.
 
-## Critical Rule
-Do not stop at a manifest, asset sheet, or black canvas. Those are intermediate artifacts, not the product.
+## Required methods
+- structured multimodal output
+- game grammar inference
+- source fingerprinting
+- build-specific provenance
+- stale asset rejection
+- manifest preflight
+- runtime startup validation
+- render/capture/compare/repair
+- AI playtest before release
+
+## Product stop condition
+Do not stop when code builds.
+Do not stop when assets exist.
+Do not stop when a canvas mounts.
+Stop when a generated PLX is playable, visually source-aware, fun, and QA-verified.
