@@ -3,4 +3,5 @@ dist
 .git
 server/.env
 .env
+.env.*
 *.zip
