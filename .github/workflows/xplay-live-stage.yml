@@ -37,6 +37,8 @@ jobs:
 
       - name: Build static live stage
         run: npm run build
+        env:
+          VITE_XPLAY_API_BASE_URL: ${{ vars.XPLAY_API_BASE_URL }}
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
