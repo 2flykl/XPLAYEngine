@@ -20,7 +20,6 @@ function stripJsonFence(text=''){
 }
 
 async function geminiRequest({apiKey,model,parts,temperature=0.2}){
-  // This is intentionally the same request style that succeeded in Gemini-Vision-Drop-Test.
   const endpoint=`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
   const r=await fetch(endpoint,{
     method:'POST',
@@ -67,8 +66,11 @@ function frontendAnalysis(raw={},description=''){
 
 export function registerGeminiVisionDropRoutes(app,{apiKey,model='gemini-3.6-flash'}={}){
   app.get('/api/vision/health',(_req,res)=>{
-    if(!apiKey)return res.status(503).json({ok:false,provider:'offline',configured:false,error:'GEMINI_API_KEY is not configured.'});
-    res.json({ok:true,provider:'gemini',model,configured:true,mode:'vision-drop-proven'});
+    const rawEnv=String(process.env.GEMINI_API_KEY||'');
+    const envPresent=Object.prototype.hasOwnProperty.call(process.env,'GEMINI_API_KEY');
+    const diagnostics={envPresent,rawLength:rawEnv.length,trimmedLength:rawEnv.trim().length,revision:process.env.K_REVISION||null,service:process.env.K_SERVICE||null};
+    if(!apiKey)return res.status(503).json({ok:false,provider:'offline',configured:false,error:'GEMINI_API_KEY is not configured.',diagnostics});
+    res.json({ok:true,provider:'gemini',model,configured:true,mode:'vision-drop-proven',diagnostics});
   });
 
   app.post('/api/vision/analyze',async(req,res)=>{
@@ -78,14 +80,12 @@ export function registerGeminiVisionDropRoutes(app,{apiKey,model='gemini-3.6-fla
       if(!imageDataUrl)return res.status(400).json({ok:false,error:'imageDataUrl is required.'});
       const {mimeType,data}=parseDataUrl(imageDataUrl);
 
-      // PASS 1: exact multimodal style proven by the standalone test. No responseSchema.
       const descriptionPrompt=(prompt&&String(prompt).trim())
         ? `Analyze this image carefully for XPLAY. User context: ${String(prompt).trim()}\n\nDescribe the image clearly and specifically. Identify the main subject/player candidate, setting, enemies or other characters, notable objects, visible text/HUD, colors, composition/camera, likely activity/gameplay, and game genre. Do not invent details that are not visible. If something is uncertain, say so.`
         : 'Describe this image clearly and specifically. Identify the main subject/player candidate, setting, enemies or other characters, notable objects, visible text/HUD, colors, composition/camera, likely activity/gameplay, and game genre. Do not invent details that are not visible. If something is uncertain, say so.';
       const description=await geminiRequest({apiKey,model,parts:[{text:descriptionPrompt},{inline_data:{mime_type:mimeType,data}}],temperature:0.2});
 
-      // PASS 2: convert Gemini's own grounded description into the exact fields XPLAY expects.
-      const structurePrompt=`Convert the following already-completed visual description into STRICT JSON only. Do not add facts that are absent from the description. Unknown stays unknown.\n\nAllowed PLX types: ${ALLOWED_ENGINES.join(', ')}. Recommend the top three most compatible PLX types, with confidence 0-100 and evidence-based reasons.\n\nReturn exactly these keys:\n{\n  "camera":"",\n  "scene_type":"",\n  "player":"",\n  "enemies":[],\n  "vehicles":[],\n  "environment":"",\n  "objects":[],\n  "hud":[],\n  "gameplay_signals":[],\n  "dominant_colors":[],\n  "hazards":[],\n  "collectibles":[],\n  "recommended_plx":[{"type":"","confidence":0,"reason":""}],\n  "confidence":{"scene":0,"player":0,"genre":0}\n}\n\nVISUAL DESCRIPTION:\n${description}`;
+      const structurePrompt=`Convert the following already-completed visual description into STRICT JSON only. Do not add facts that are absent from the description. Unknown stays unknown.\n\nAllowed PLX types: ${ALLOWED_ENGINES.join(', ')}. Recommend the top three most compatible PLX types, with confidence 0-100 and evidence-based reasons.\n\nReturn exactly these keys:\n{\n  \"camera\":\"\",\n  \"scene_type\":\"\",\n  \"player\":\"\",\n  \"enemies\":[],\n  \"vehicles\":[],\n  \"environment\":\"\",\n  \"objects\":[],\n  \"hud\":[],\n  \"gameplay_signals\":[],\n  \"dominant_colors\":[],\n  \"hazards\":[],\n  \"collectibles\":[],\n  \"recommended_plx\":[{\"type\":\"\",\"confidence\":0,\"reason\":\"\"}],\n  \"confidence\":{\"scene\":0,\"player\":0,\"genre\":0}\n}\n\nVISUAL DESCRIPTION:\n${description}`;
       const structuredText=await geminiRequest({apiKey,model,parts:[{text:structurePrompt}],temperature:0.05});
       const raw=JSON.parse(stripJsonFence(structuredText));
       const analysis=frontendAnalysis(raw,description);
