@@ -17,6 +17,7 @@ import { generateSurpriseIdeas, formatSuggestion } from './services/surprise.js'
 import { applyMakeItBetter } from './services/makeBetter.js';
 import { createStudioPlan, finishStudioBuild } from './core/StudioPipeline.js';
 import { defaultScreenshotGuide, summarizeScreenshotAnalysis, buildScreenshotReconstructionPrompt, SCREENSHOT_PRESERVE_OPTIONS } from './core/ScreenshotReconstructionDirector.js';
+import { beginBeastBuild, bindManifestToBuild } from './core/BeastOrchestrator.js';
 // Calibrate Prompt
 const BASE_URL=import.meta.env.BASE_URL || './';
 const publicUrl=(path='')=>{
@@ -78,7 +79,8 @@ const state={
   htmlMode:'', // 'inspiration' or 'game'
   creationLane:'standard', // 'standard' or 'screenshot'
   screenshotGuide: defaultScreenshotGuide(),
-  lastManifest:null
+  lastManifest:null,
+  compatiblePLXRecommendations:[]
 };
 Object.defineProperty(state, 'file', {
   get() { return state.media.primary?.file || null; },
@@ -454,6 +456,7 @@ function renderStep2(container) {
         : state.prompt||'';
       const extraction=await safeAnalyzeVisualSource(state.media.primary.dataUrl,analysisPrompt);
       state.extraction=extraction;
+      state.compatiblePLXRecommendations=getDetailedRecommendations(extraction?.analysis||{});
       state.analysisCorrected=null;
       if(status) status.innerHTML=`✓ Analysis complete · ${extraction.analysisMode||'visual analysis'}`;
       setTimeout(()=>goToStep(3),180);
@@ -490,7 +493,7 @@ function renderStep3(container) {
           <li>✨ <b>Opportunities:</b> <span>${analysis.strongOpportunities}</span></li>
         </ul>
         <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 12.5px; color: var(--teal); font-style: italic;">
-          🐾 XPLAY sees: "Wow, I can't wait to adapt to the ${analysis.environment}! It looks like a great spot."
+          ${analysis.analysisSource==='gemini-semantic'?'✓ Semantic AI Vision is providing source-grounded analysis.':'⚠ Semantic AI Vision is unavailable; unknown details will not be invented.'}
         </div>
       </div>
       
@@ -608,7 +611,8 @@ function renderStep4(container) {
     <div style="max-width: 800px; margin: 0 auto;">
       <div class="softPill">STEP 4</div>
       <h2 style="font-size: 28px; margin: 12px 0 6px;">What kind of game do you want to make?</h2>
-      <p class="muted" style="margin-bottom: 24px;">Select the gameplay foundation for your PLX experience.</p>
+      <p class="muted" style="margin-bottom: 14px;">XPLAY recommends compatible PLX types from the current analysis. <b>You choose the final type, and that choice is locked.</b></p>
+      ${state.compatiblePLXRecommendations?.length ? `<div style="background:#f5fbfb;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:18px;"><b>BEST FITS FROM THIS SCREENSHOT</b>${state.compatiblePLXRecommendations.map((r,i)=>`<div style="margin-top:8px;font-size:13px;"><b>${i+1}. ${r.engine.toUpperCase()} — ${Math.round(r.confidence)}%</b><div class="muted">${r.reason}</div></div>`).join('')}</div>` : ''}
       
       <div class="grid" style="grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;" id="engineCardsGrid">
         ${builtIns.map(([id, title, engineId, label, desc]) => {
@@ -674,75 +678,87 @@ function renderStep4(container) {
 
 function getCustomEngineSentence(engine) {
   const analysis=state.extraction?.analysis||{};
-  const environment=state.analysisCorrected?.environment||analysis.environment||'the uploaded scene';
-  const player=state.analysisCorrected?.player||analysis.player||'the visible player character';
-  const obj=state.analysisCorrected?.importantObject||analysis.notableObjects||'visible landmarks';
+  const environment=state.analysisCorrected?.environment||analysis.environment||'the current uploaded scene';
   const shot=state.creationLane==='screenshot';
   if(shot){
     const map={
-      runner:`Preserve the screenshot's camera and turn its route into a readable high-speed run.`,
-      fighting:`Preserve the visible combat plane, fighters, HUD and arena composition as the fighting stage.`,
+      runner:`Preserve the screenshot's route/camera and build a readable high-speed run only if running is compatible with the visible scene.`,
+      fighting:`Preserve the visible combat plane, fighters, HUD and arena composition as a fighting / beat-em-up stage.`,
       fps:`Preserve the screenshot's perspective and rebuild visible targets, cover and HUD as a first-person encounter.`,
       dodge:`Preserve the play space and convert visible threats into timed dodge patterns.`,
-      collect:`Preserve the scene layout and make visible landmarks/objects drive an exploration-collection loop.`,
-      rhythm:`Preserve the environment and HUD language while turning its visual cues into timed rhythm targets.`,
-      puzzle:`Preserve the screenshot's art language and rebuild its visible objects as the puzzle vocabulary.`,
-      openworld:`Use the screenshot as the anchor district and extend its visual grammar beyond the frame.`,
-      racing:`Preserve the visible route/camera and extend the environment into a raceable course.`,
-      platformer:`Preserve the side-view composition and turn visible ledges/floors into collision-authored platforms.`
+      collect:`Preserve the scene layout and make visible landmarks/objects drive a collection loop.`,
+      rhythm:`Preserve the environment and HUD language while turning visual/audio cues into timed rhythm targets.`,
+      puzzle:`Preserve the screenshot's art language and rebuild visible objects as puzzle vocabulary.`,
+      openworld:`Only use Open World when the user selects it or semantic vision strongly supports free-roam/quest play. Extend only the CURRENT screenshot's observed environment.`,
+      racing:`Preserve the visible route/camera and extend the environment into a raceable course only when vehicle/racing evidence exists.`,
+      platformer:`Preserve side-view composition and turn visible ledges/floors into collision-authored platforms.`
     }; return `“${map[engine]||`Reconstruct ${environment} without replacing its visible DNA.`}”`;
   }
-  return `“Build the ${engine} mechanics directly from ${environment}, ${player}, and ${obj}.”`;
+  return `“Build ${engine} mechanics from the CURRENT upload and the user's intent.”`;
 }
 
-function getRecommendedEngines() {
-  const analysis = state.extraction?.analysis || (state.media.primary ? localImageAnalysis(state.media.primary?.file, state.styleDNA) : null);
-  if (!analysis) return ['runner', 'fps', 'fighting'];
-  const opportunities = String(analysis.strongOpportunities || '').toLowerCase();
-  const list = [];
-  if (opportunities.includes('runner')) list.push('runner');
-  if (opportunities.includes('dodge')) list.push('dodge');
-  if (opportunities.includes('collect')) list.push('collect');
-  if (opportunities.includes('rhythm')) list.push('rhythm');
-  if (opportunities.includes('puzzle')) list.push('puzzle');
-  if (opportunities.includes('fps')) list.push('fps');
-  if (opportunities.includes('fight') || opportunities.includes('combat')) list.push('fighting');
-  if (opportunities.includes('open world')) list.push('openworld');
-  if (opportunities.includes('race') || opportunities.includes('racing')) list.push('racing');
-  if (opportunities.includes('platform')) list.push('platformer');
+function normalizeEngineId(v=''){
+  const raw=String(v).toLowerCase().replace(/[^a-z0-9]/g,'');
+  const map={firstpersonshooter:'fps',shooter:'fps',beatemup:'fighting',brawler:'fighting',fighter:'fighting',platform:'platformer',race:'racing'};
+  const out=map[raw]||raw;
+  return builtIns.some(x=>x[2]===out)?out:'';
+}
 
-  const defaults = ['runner', 'fps', 'fighting', 'platformer', 'dodge', 'collect'];
-  for (const d of defaults) {
-    if (list.length >= 3) break;
-    if (!list.includes(d)) list.push(d);
-  }
-  return list.slice(0, 3);
+function getDetailedRecommendations(analysis=state.extraction?.analysis||{}) {
+  const ai=(analysis.recommended_plx||analysis.recommendedPLX||[]).map(r=>({
+    engine:normalizeEngineId(r.type||r.engine),
+    confidence:Math.max(0,Math.min(100,Number(r.confidence)||0)),
+    reason:String(r.reason||'AI visual compatibility')
+  })).filter(r=>r.engine).sort((a,b)=>b.confidence-a.confidence);
+  if(ai.length)return ai.slice(0,3);
+
+  const text=[analysis.strongOpportunities,analysis.gameplaySignals,analysis.camera,analysis.hud,state.prompt].flat().filter(Boolean).join(' ').toLowerCase();
+  const score={runner:0,dodge:0,collect:0,rhythm:0,puzzle:0,fps:0,fighting:0,openworld:0,racing:0,platformer:0};
+  const add=(e,re,n)=>{if(re.test(text))score[e]+=n};
+  add('fighting',/fight|combat|karate|martial|punch|kick|brawler|beat.?em.?up|rival|enemy/,60);
+  add('fighting',/side.?view|arena|health bar|ko/,20);
+  add('platformer',/platform|ledge|jump|side.?view|side.?scroll/,45);
+  add('fps',/first.?person|crosshair|ammo|reload|weapon/,70);
+  add('racing',/race|car|vehicle|track|lap|steer/,65);
+  add('openworld',/open world|free roam|quest|npc|sandbox/,60);
+  add('runner',/runner|run|sprint|chase/,50);
+  add('dodge',/dodge|avoid|survive|projectile/,50);
+  add('collect',/collect|relic|pickup|gather/,50);
+  add('rhythm',/rhythm|beat|music|note|timing/,60);
+  add('puzzle',/puzzle|grid|tile|match.?3|solve/,60);
+  return Object.entries(score).sort((a,b)=>b[1]-a[1]).filter(([,v])=>v>0).slice(0,3).map(([engine,v])=>({engine,confidence:Math.min(92,Math.max(40,v)),reason:'Structural/source cues support this PLX type.'}));
+}
+
+function getRecommendedEngines(){
+  const recs=getDetailedRecommendations();
+  state.compatiblePLXRecommendations=recs;
+  return recs.map(r=>r.engine);
 }
 
 function generatePolishedPrompt(engine, analysis, userIntent) {
   const ana=analysis||state.extraction?.analysis||{};
-  const player=state.analysisCorrected?.player||ana.player||'visible player character';
-  const environment=state.analysisCorrected?.environment||ana.environment||'uploaded world';
+  const player=state.analysisCorrected?.player||ana.player||'current uploaded player/subject';
+  const environment=state.analysisCorrected?.environment||ana.environment||'current uploaded world';
   const importantObject=state.analysisCorrected?.importantObject||ana.notableObjects||'visible landmarks';
-  const hazards=ana.possibleHazards||'visible threats and obstacles';
-  const collectibles=ana.possibleCollectibles||'scene-derived rewards';
+  const hazards=ana.possibleHazards||'source-supported threats';
+  const collectibles=ana.possibleCollectibles||'source-supported rewards';
   const intent=(userIntent||'').trim().replace(/\.$/,'');
   const tail=intent?` User direction: ${intent}.`:'';
   const shot=state.creationLane==='screenshot';
-  const visualLock=shot?' Preserve the source screenshot camera, layout, player scale, palette, HUD language and major object relationships; infer only missing gameplay information.':'';
+  const visualLock=shot?' Preserve the CURRENT screenshot camera, layout, player scale, palette, HUD language and major object relationships. Unknown facts remain unknown.':' Preserve the CURRENT upload as source truth.';
   const templates={
     runner:`Run through ${environment}, collecting ${collectibles} while avoiding ${hazards}.`,
-    fighting:`Fight rivals inside ${environment}, using the visible combat plane and ${importantObject} as the authored arena.`,
-    fps:`Defend and navigate ${environment} from a first-person view using scene-derived targets, cover and hazards.`,
+    fighting:`Fight visible rivals in ${environment} as ${player}, using the source combat plane and ${importantObject}; support beat-em-up progression when multiple enemies are visible.`,
+    fps:`Defend and navigate ${environment} from a first-person view using source-derived targets, cover and hazards.`,
     dodge:`Move through ${environment} while reading and avoiding ${hazards}.`,
     collect:`Explore ${environment} as ${player}, gather ${collectibles}, and use ${importantObject} as progression landmarks.`,
-    rhythm:`Play a rhythm challenge staged inside ${environment}, with the character and HUD reacting to combos and misses.`,
+    rhythm:`Play a rhythm challenge staged inside ${environment}, with character/HUD reacting to combos and misses.`,
     puzzle:`Build a tactile puzzle from the visual vocabulary of ${environment}, ${player}, and ${importantObject}.`,
-    openworld:`Use ${environment} as the anchor district, then extend its established visual grammar into explorable connected spaces.`,
-    racing:`Race through a course derived from ${environment}, using scene-authentic obstacles, route markers and speed cues.`,
+    openworld:`Explore the CURRENT uploaded environment as a free-roam space. Do not invent a generic district/city/airport.`,
+    racing:`Race through a course derived from ${environment}, using source-authentic route markers and speed cues.`,
     platformer:`Run, jump and traverse a side-scrolling level reconstructed from ${environment}, keeping visible ledges, hazards and landmarks readable.`
   };
-  return `${templates[engine]||`Create a playable ${engine} experience from ${environment}.`}${visualLock}${tail}`;
+  return `${templates[engine]||`Create a playable ${engine} experience from the current upload.`}${visualLock}${tail}`;
 }
 
 function renderStep5(container) {
@@ -1430,7 +1446,11 @@ async function runBuildPipeline(container, logsEl) {
 
   await advanceStep(6);
   log("Step 7: Applying Quality Gates and fun multiplier variables...");
-  const rawManifest = manifestFrom(spec, dna, assets, optionArgs, effectivePrompt);
+  let rawManifest = manifestFrom(spec, dna, assets, optionArgs, effectivePrompt);
+  // User-selected PLX type is a hard contract for every downstream Beast.
+  if (state.chosenEngine) { rawManifest.engine=state.chosenEngine; rawManifest.engineAuthority='user-selected'; spec.engine=state.chosenEngine; }
+  const buildDNA=beginBeastBuild({sourceDataUrl:primaryImgUrl,sourceFileName:state.media.primary?.file?.name||'',prompt:state.prompt,engine:state.chosenEngine||spec.engine,feel:state.feel,style:state.style,analysis:state.extraction?.analysis||{},screenshotGuide:state.creationLane==='screenshot'?state.screenshotGuide:null});
+  rawManifest=bindManifestToBuild(rawManifest,buildDNA,assets);
   if (state.creationLane === 'screenshot') {
     rawManifest.reverseForge = { enabled:true, guide:state.screenshotGuide, sourceType:'screenshot', reconstructionPrompt:effectivePrompt, analysis:state.extraction?.analysis||{} };
   }
@@ -1455,6 +1475,7 @@ async function runBuildPipeline(container, logsEl) {
   log("Step 8: Assembling final compiled manifest...");
   const compiled = finishStudioBuild(rawManifest, assets);
   const manifest = compiled.manifest;
+  if (state.chosenEngine && manifest.engine!=='html') { manifest.engine=state.chosenEngine; manifest.engineAuthority='user-selected'; if(manifest.buildDNA){manifest.buildDNA.intent.engine=state.chosenEngine; manifest.buildDNA.runtime.engine=state.chosenEngine;} }
   if (state.creationLane === 'screenshot') {
     manifest.reverseForge = { ...(manifest.reverseForge||{}), enabled:true, guide:state.screenshotGuide, sourceType:'screenshot', reconstructionPrompt:effectivePrompt, analysis:state.extraction?.analysis||{} };
   }
@@ -1583,77 +1604,29 @@ async function safeAnalyzeVisualSource(dataUrl, prompt) {
     return {...out,analysisMode:'AI semantic vision'};
   } catch(e) {
     console.warn('AI Vision unavailable; using screenshot DNA fallback.',e);
-    if(state.creationLane==='screenshot')return await localScreenshotExtraction(dataUrl,state.styleDNA,state.media.primary?.file);
-    return {ok:true,analysis:localImageAnalysis(state.media.primary?.file,state.styleDNA),assets:{},analysisMode:'local photo heuristic'};
+    return {ok:false,analysis:localImageAnalysis(state.media.primary?.file,state.styleDNA),assets:{},analysisMode:'Semantic AI Vision unavailable',error:e.message};
   }
 }
 
 function localImageAnalysis(file, styleDna) {
-  const name = (file?.name || '').toLowerCase();
-  let player = 'A person standing in the center';
-  let environment = 'An outdoor urban space';
-  let vehicles = 'None detected';
-  let notableObjects = 'Street elements';
-  let dominantColors = (styleDna?.palette || []).slice(0, 3).join(', ');
-  let mood = styleDna?.mood || 'balanced';
-  let motionPotential = 'Moderate pacing';
-  let possibleHazards = 'Obstacles and debris';
-  let possibleCollectibles = 'Glowing orbs or tokens';
-  let strongOpportunities = 'Runner or Dodge action';
-
-  if (name.includes('airport') || name.includes('plane') || name.includes('runway') || name.includes('flight') || name.includes('jet') || name.includes('terminal')) {
-    player = 'A traveler or ground crew member';
-    environment = 'Airport runway and airfield';
-    vehicles = 'Private aircraft and luggage carts';
-    notableObjects = 'Luggage bags and airport traffic cones';
-    motionPotential = 'High speed scrolling along the runway';
-    possibleHazards = 'Stray luggage, service vehicles, and crossing aircraft';
-    possibleCollectibles = 'Passports, boarding passes, and golden tickets';
-    strongOpportunities = 'Runner, FPS, or Fighting games';
-  } else if (name.includes('car') || name.includes('race') || name.includes('road') || name.includes('vehicle')) {
-    player = 'A sleek race car driver';
-    environment = 'Highway or racing circuit';
-    vehicles = 'Fast sports cars and traffic';
-    notableObjects = 'Traffic barriers and speed boosters';
-    motionPotential = 'High speed steering and lane changes';
-    possibleHazards = 'Traffic blocks and road hazards';
-    possibleCollectibles = 'Fuel canisters and turbo coins';
-    strongOpportunities = 'Racing or Dodge games';
-  } else if (name.includes('fight') || name.includes('rival') || name.includes('clash')) {
-    player = 'A martial arts competitor';
-    environment = 'Rooftop arena or street background';
-    vehicles = 'None';
-    notableObjects = 'Breakable crates and platforms';
-    motionPotential = 'Dynamic side-to-side movement and jumping';
-    possibleHazards = 'Enemy attacks and falling objects';
-    possibleCollectibles = 'Health packs and power-up tokens';
-    strongOpportunities = 'Fighting or Platformer games';
-  } else if (name.includes('person') || name.includes('character') || name.includes('hero') || name.includes('me') || name.includes('photo')) {
-    player = 'A stylish modern protagonist';
-    environment = 'A detailed street setting';
-    vehicles = 'City traffic';
-    notableObjects = 'Urban street elements';
-    motionPotential = 'Acrobatic jumping and dodging';
-    possibleHazards = 'Incoming street obstacles';
-    possibleCollectibles = 'Sparkling coins and gear items';
-    strongOpportunities = 'Runner, Platformer, or Rhythm games';
-  }
-
   return {
-    player,
-    environment,
-    vehicles,
-    notableObjects,
-    dominantColors,
-    mood,
-    motionPotential,
-    possibleHazards,
-    possibleCollectibles,
-    strongOpportunities
+    player:'Semantic AI Vision unavailable',
+    environment:'Semantic AI Vision unavailable',
+    vehicles:'Semantic AI Vision unavailable',
+    notableObjects:'Semantic AI Vision unavailable',
+    dominantColors:(styleDna?.palette||[]).slice(0,3).join(', ')||'source-derived palette',
+    mood:styleDna?.mood||'unknown',
+    motionPotential:'Semantic AI Vision unavailable',
+    possibleHazards:'Use only source-supported or user-requested hazards',
+    possibleCollectibles:'Use only source-supported rewards',
+    strongOpportunities:'Genre not semantically confirmed',
+    recommended_plx:[],qualityScore:0,qualityLabel:'semantic-vision-unavailable',analysisSource:'local-nonsemantic'
   };
 }
 
 function renderBuildResult(manifest) {
+  const visionMode=state.extraction?.analysisMode||state.extraction?.analysis?.qualityLabel||'Unknown';
+  const buildId=manifest.buildId||manifest.buildDNA?.buildId||'not recorded';
   views.studio.innerHTML = `
     <div class="top">
       <div>
@@ -1668,6 +1641,10 @@ function renderBuildResult(manifest) {
         <h3>Build Summary</h3>
         <p><strong>Description:</strong> ${manifest.description || 'No description provided'}</p>
         <p><strong>Engine:</strong> ${manifest.engine}</p>
+        <p><strong>Engine Authority:</strong> ${manifest.engineAuthority || (state.chosenEngine ? 'user-selected' : 'manifest')}</p>
+        <p><strong>Vision Mode:</strong> ${visionMode}</p>
+        <p><strong>Current Source:</strong> ${state.media.primary?.file?.name || 'prompt-only'}</p>
+        <p><strong>Build ID:</strong> ${buildId}</p>
         <p><strong>Pacing (Feel):</strong> ${manifest.feel || 'Standard'}</p>
         
         <div class="assetPreview" style="margin-top: 18px;">
@@ -1772,7 +1749,7 @@ function readOptions(){
     useEnvironment: true,
     useObjects: true,
     usePalette: true,
-    airportHint: /airport|plane|jet|runway|flight|boarding/.test((state.prompt || '').toLowerCase())
+    airportHint: false
   };
 }
 

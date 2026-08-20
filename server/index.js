@@ -1,7 +1,15 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import express from 'express';
 import cors from 'cors';
 import OpenAI from 'openai';
+
+const __filename=fileURLToPath(import.meta.url);
+const __dirname=path.dirname(__filename);
+// Load server/.env first, then project-root .env as a fallback. This works even when Node is launched from the repo root.
+dotenv.config({path:path.join(__dirname,'.env')});
+dotenv.config({path:path.resolve(__dirname,'..','.env'),override:false});
 
 const app=express();
 app.use(cors());
@@ -9,13 +17,109 @@ app.use(express.json({limit:'28mb'}));
 const port=Number(process.env.PORT||8787);
 const visionUrl=process.env.VISION_SERVICE_URL||'http://127.0.0.1:8790';
 const client=process.env.OPENAI_API_KEY?new OpenAI({apiKey:process.env.OPENAI_API_KEY}):null;
+const geminiKey=String(process.env.GEMINI_API_KEY||'').trim();
+const geminiModel=String(process.env.GEMINI_VISION_MODEL||'gemini-2.5-flash').trim();
 
-async function visionFetch(path,opts={}){const r=await fetch(`${visionUrl}${path}`,opts);if(!r.ok)throw new Error(`Vision service ${r.status}`);return await r.json();}
+async function visionFetch(pathname,opts={}){const r=await fetch(`${visionUrl}${pathname}`,opts);if(!r.ok)throw new Error(`Vision service ${r.status}`);return await r.json();}
 
-app.get('/api/health',async(_req,res)=>{let vision=false,provider='offline';try{const v=await visionFetch('/health');vision=!!v.ok;provider=v.provider||'python';}catch{}res.json({ok:true,aiConfigured:Boolean(client&&process.env.OPENAI_MODEL),imageModelConfigured:Boolean(client&&process.env.OPENAI_IMAGE_MODEL),visionConfigured:vision,visionProvider:provider});});
-app.get('/api/vision/health',async(_req,res)=>{try{res.json(await visionFetch('/health'));}catch(error){res.status(503).json({ok:false,provider:'offline',error:error.message});}});
-app.post('/api/vision/analyze',async(req,res)=>{try{const body=JSON.stringify(req.body||{});res.json(await visionFetch('/analyze',{method:'POST',headers:{'content-type':'application/json'},body}));}catch(error){res.status(503).json({ok:false,error:`Visual Intelligence service unavailable: ${error.message}`});}});
+const VISION_SCHEMA={
+ type:'OBJECT',
+ properties:{
+  camera:{type:'STRING'},
+  scene_type:{type:'STRING'},
+  player:{type:'STRING'},
+  enemies:{type:'ARRAY',items:{type:'STRING'}},
+  environment:{type:'STRING'},
+  objects:{type:'ARRAY',items:{type:'STRING'}},
+  hud:{type:'ARRAY',items:{type:'STRING'}},
+  gameplay_signals:{type:'ARRAY',items:{type:'STRING'}},
+  dominant_colors:{type:'ARRAY',items:{type:'STRING'}},
+  hazards:{type:'ARRAY',items:{type:'STRING'}},
+  collectibles:{type:'ARRAY',items:{type:'STRING'}},
+  recommended_plx:{type:'ARRAY',items:{
+    type:'OBJECT',properties:{type:{type:'STRING'},confidence:{type:'NUMBER'},reason:{type:'STRING'}},required:['type','confidence','reason']
+  }},
+  confidence:{type:'OBJECT',properties:{scene:{type:'NUMBER'},player:{type:'NUMBER'},genre:{type:'NUMBER'}}}
+ },
+ required:['camera','scene_type','player','enemies','environment','objects','hud','gameplay_signals','recommended_plx']
+};
 
+function parseDataUrl(dataUrl=''){
+ const match=String(dataUrl).match(/^data:([^;]+);base64,(.+)$/s);
+ if(!match)throw new Error('Expected a base64 image data URL');
+ return {mimeType:match[1]||'image/png',data:match[2]};
+}
+
+function normalizeEngine(v=''){
+ const raw=String(v).toLowerCase().replace(/[^a-z0-9]/g,'');
+ const map={firstpersonshooter:'fps',shooter:'fps',beatemup:'fighting',brawler:'fighting',fighter:'fighting',openworld:'openworld',platform:'platformer',platforming:'platformer',race:'racing'};
+ const out=map[raw]||raw;
+ return ['runner','dodge','collect','rhythm','puzzle','fps','fighting','openworld','racing','platformer'].includes(out)?out:'';
+}
+
+function toFrontendAnalysis(raw={}){
+ const recs=(Array.isArray(raw.recommended_plx)?raw.recommended_plx:[])
+  .map(r=>({type:normalizeEngine(r?.type),confidence:Math.max(0,Math.min(100,Number(r?.confidence)||0)),reason:String(r?.reason||'')}))
+  .filter(r=>r.type)
+  .sort((a,b)=>b.confidence-a.confidence)
+  .slice(0,3);
+ return {
+  camera:String(raw.camera||'unknown'),
+  sceneType:String(raw.scene_type||'unknown'),
+  player:String(raw.player||'Semantic identity not confirmed'),
+  enemies:Array.isArray(raw.enemies)?raw.enemies:[],
+  environment:String(raw.environment||'Semantic environment not confirmed'),
+  vehicles:'No reliable vehicle identification unless listed in visible objects',
+  notableObjects:(Array.isArray(raw.objects)?raw.objects:[]).join(', ')||'No semantic object list returned',
+  objects:Array.isArray(raw.objects)?raw.objects:[],
+  hud:Array.isArray(raw.hud)?raw.hud:[],
+  dominantColors:(Array.isArray(raw.dominant_colors)?raw.dominant_colors:[]).join(', ')||'source-derived palette',
+  gameplaySignals:Array.isArray(raw.gameplay_signals)?raw.gameplay_signals:[],
+  strongOpportunities:recs.length?recs.map(r=>`${r.type} ${Math.round(r.confidence)}%`).join(', '):(Array.isArray(raw.gameplay_signals)?raw.gameplay_signals.join(', '):'Genre not semantically confirmed'),
+  possibleHazards:(Array.isArray(raw.hazards)?raw.hazards:[]).join(', ')||'Use only source-supported hazards',
+  possibleCollectibles:(Array.isArray(raw.collectibles)?raw.collectibles:[]).join(', ')||'Use only source-supported rewards',
+  recommended_plx:recs,
+  confidence:raw.confidence||{},
+  qualityScore:Number(raw?.confidence?.scene||raw?.confidence?.genre||85),
+  qualityLabel:'Gemini semantic vision',
+  analysisSource:'gemini-semantic'
+ };
+}
+
+async function geminiAnalyze({imageDataUrl,prompt='',subjectHint='game screenshot'}={}){
+ if(!geminiKey)throw new Error('GEMINI_API_KEY is not configured.');
+ const {mimeType,data}=parseDataUrl(imageDataUrl);
+ const instruction=`You are XPLAY Visual Intelligence. Analyze the CURRENT uploaded image as a potential playable-game source. Be literal and source-grounded. Never invent generic city, street, airport, runway, district, vehicle, character, HUD, enemy, or object content that is not visibly supported. If uncertain, use \"unknown\" or an empty array. Identify camera/viewpoint, scene type, visible playable subject, visible enemies/opponents, environment, objects, HUD, gameplay signals, colors, hazards, and collectibles. Recommend the three most compatible XPLAY engines from ONLY: runner,dodge,collect,rhythm,puzzle,fps,fighting,openworld,racing,platformer. Give each recommendation confidence 0-100 and a short evidence-based reason. User/context prompt: ${prompt||'(none)'}. Subject hint: ${subjectHint}.`;
+ const url=`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(geminiModel)}:generateContent`;
+ const r=await fetch(url,{method:'POST',headers:{'content-type':'application/json','x-goog-api-key':geminiKey},body:JSON.stringify({
+  contents:[{role:'user',parts:[{inlineData:{mimeType,data}},{text:instruction}]}],
+  generationConfig:{responseMimeType:'application/json',responseSchema:VISION_SCHEMA,temperature:0.1}
+ })});
+ const body=await r.json().catch(()=>({}));
+ if(!r.ok)throw new Error(body?.error?.message||`Gemini HTTP ${r.status}`);
+ const text=body?.candidates?.[0]?.content?.parts?.map(p=>p.text||'').join('').trim();
+ if(!text)throw new Error('Gemini returned no structured analysis');
+ let raw;try{raw=JSON.parse(text);}catch{throw new Error('Gemini returned invalid JSON');}
+ return {ok:true,provider:'gemini',model:geminiModel,analysis:toFrontendAnalysis(raw),rawAnalysis:raw,assets:{}};
+}
+
+app.get('/api/health',async(_req,res)=>{
+ let pythonVision=false,pythonProvider='offline';
+ try{const v=await visionFetch('/health');pythonVision=!!v.ok;pythonProvider=v.provider||'python';}catch{}
+ res.json({ok:true,aiConfigured:Boolean(client&&process.env.OPENAI_MODEL),imageModelConfigured:Boolean(client&&process.env.OPENAI_IMAGE_MODEL),visionConfigured:Boolean(geminiKey)||pythonVision,visionProvider:geminiKey?'gemini':pythonProvider,geminiModel:geminiKey?geminiModel:null});
+});
+app.get('/api/vision/health',(_req,res)=>{
+ if(!geminiKey)return res.status(503).json({ok:false,provider:'offline',error:'GEMINI_API_KEY is not configured.'});
+ res.json({ok:true,provider:'gemini',model:geminiModel,configured:true});
+});
+app.post('/api/vision/analyze',async(req,res)=>{
+ try{
+  if(geminiKey)return res.json(await geminiAnalyze(req.body||{}));
+  // Optional legacy Python vision service fallback; if unavailable, report truthfully instead of inventing semantics.
+  try{const body=JSON.stringify(req.body||{});return res.json(await visionFetch('/analyze',{method:'POST',headers:{'content-type':'application/json'},body}));}
+  catch{ return res.status(503).json({ok:false,provider:'offline',error:'Semantic AI Vision unavailable.',analysis:{player:'Semantic AI Vision unavailable',environment:'Semantic AI Vision unavailable',notableObjects:'Semantic AI Vision unavailable',strongOpportunities:'Genre not semantically confirmed',recommended_plx:[]},assets:{}}); }
+ }catch(error){console.error('gemini vision',error);res.status(502).json({ok:false,provider:'gemini',model:geminiModel,error:error.message,analysis:{player:'Semantic AI Vision unavailable',environment:'Semantic AI Vision unavailable',notableObjects:'Semantic AI Vision unavailable',strongOpportunities:'Genre not semantically confirmed',recommended_plx:[]},assets:{}});}
+});
 
 const CALIBRATION_PROFILES={
  runner:{camera:'side-scrolling / on-rails forward movement',loop:'continuous forward movement, jumping/sliding/dodging and escalating hazards',scroll:'world moves left as the player advances right'},
@@ -24,12 +128,12 @@ const CALIBRATION_PROFILES={
  rhythm:{camera:'front-facing rhythm arcade view',loop:'incoming beat cues descend to timing zones',scroll:'rhythm field moves downward with notes'},
  puzzle:{camera:'fixed puzzle board',loop:'manipulate themed pieces to solve a clear visual challenge',scroll:'static board with animated feedback'},
  fps:{camera:'first-person arcade shooter',loop:'aim, fire, reload and clear waves of themed targets',scroll:'no arbitrary auto-scroll; target/camera motion supplies action'},
- fighting:{camera:'side-view 1v1 fighter',loop:'move, jump, attack, block and defeat the rival',scroll:'stable arena; camera follows fighter spacing'},
+ fighting:{camera:'side-view fighting / beat-em-up',loop:'move, jump, attack, block and defeat visible rivals',scroll:'stable arena or authored side-scroll based on source/user intent'},
  openworld:{camera:'free-roam exploration',loop:'travel, interact, collect and discover events',scroll:'camera follows the player through the world'},
  racing:{camera:'behind/top-down arcade racing',loop:'steer, dodge traffic, collect boosts and finish',scroll:'road and scenery move downward toward the player'},
  platformer:{camera:'side-scrolling platformer',loop:'run, jump, climb, avoid enemies and reach the goal',scroll:'world moves left as player advances right'}
 };
-function inferCalibrationEngine(prompt=''){const p=String(prompt).toLowerCase();const tests=[['fps',/fps|first person|shooter|shoot|target/],['fighting',/fight|fighting|boxing|duel|versus|1v1/],['racing',/race|racing|drive|driving|vehicle|car/],['rhythm',/rhythm|dance|beat|music|tempo/],['puzzle',/puzzle|match|memory|solve|sequence/],['openworld',/open world|free roam|sandbox|quest/],['platformer',/platform|jump across|side scroll/],['dodge',/dodge|avoid|falling|escape/],['collect',/collect|gather|find|hunt|relic/]];for(const [e,r] of tests)if(r.test(p))return e;return 'runner';}
+function inferCalibrationEngine(prompt=''){const p=String(prompt).toLowerCase();const tests=[['fighting',/karate|martial|fight|fighting|beat.?em.?up|brawler|punch|kick|duel|versus|1v1/],['fps',/fps|first person|shooter|shoot|target/],['racing',/race|racing|drive|driving|vehicle|car/],['rhythm',/rhythm|dance|beat|music|tempo/],['puzzle',/puzzle|match|memory|solve|sequence/],['openworld',/open world|free roam|sandbox|quest/],['platformer',/platform|jump across|side scroll/],['dodge',/dodge|avoid|falling|escape/],['collect',/collect|gather|find|hunt|relic/]];for(const [e,r] of tests)if(r.test(p))return e;return 'runner';}
 function localCalibration({prompt='',engine='',style='premium arcade',sourceSummary=''}){
  engine=engine||inferCalibrationEngine(prompt);const p=CALIBRATION_PROFILES[engine]||CALIBRATION_PROFILES.runner;const idea=String(prompt||'').trim().replace(/\s+/g,' ');
  return `Create a polished ${style} ${String(engine).toUpperCase()} PLX from the uploaded media.\n\nCORE IDEA\n${idea}\n\nGAMEPLAY\n- Camera: ${p.camera}.\n- Core loop: ${p.loop}.\n- World motion: ${p.scroll}.\n- First meaningful interaction within 3–5 seconds; escalate difficulty and end with a satisfying finish.\n\nSOURCE MEDIA\n- Separate the primary subject from large background objects before creating the player.\n- Use the upload as visual DNA, not as a flat full-screen background.\n- Use clean extracted objects only when masks are strong; otherwise substitute polished themed game assets.\n${sourceSummary?`- Source analysis: ${sourceSummary}.\n`:''}\nART DIRECTION\n- Build far, mid, near and gameplay layers with movement appropriate to this engine.\n- Preserve recognizable source colors/motifs but unify them into finished arcade art.\n- Use clean silhouettes, transparent edges, lighting, particles, impact feedback and premium HUD treatment.\n- Never use black squares, plain rectangles or debug geometry as visible final gameplay assets.\n\nQUALITY BAR\nThe game should look like a finished arcade mini-game, not a prototype or an image pasted behind moving shapes.`;
@@ -46,13 +150,17 @@ app.post('/api/calibrate-prompt',async(req,res)=>{
 
 app.post('/api/direct',async(req,res)=>{
  try{
-  if(!client||!process.env.OPENAI_MODEL)return res.status(503).json({ok:false,mode:'local',error:'AI Director not configured'});
-  const {prompt,imageDataUrl,styleDNA,visualAnalysis,options}=req.body||{};
-  const content=[{type:'input_text',text:`You are the XPLAY PLX Creative Director. Design a premium arcade-quality playable experience from an image and prompt. Return ONLY JSON with keys: title,engine,template,camera,objective,playerRole,environment,collectibles,hazards,artDirection,duration,difficulty,assetPrompts,scenePlan. engine must be one of runner,dodge,collect,rhythm,puzzle,fps,fighting,openworld,racing,platformer. Use visual analysis to keep the primary subject distinct from major background objects. Prefer generated/stylized game art over simply pasting the source photograph as a backdrop. User prompt: ${prompt||''}\nStyle DNA: ${JSON.stringify(styleDNA||{})}\nVisual analysis: ${JSON.stringify(visualAnalysis||{})}\nOptions: ${JSON.stringify(options||{})}`}];
+  const {prompt='',imageDataUrl,styleDNA,visualAnalysis,options={}}=req.body||{};
+  const selected=normalizeEngine(options.selectedEngine||'');
+  if(!client||!process.env.OPENAI_MODEL){
+    return res.status(503).json({ok:false,mode:'local',error:'AI Director not configured'});
+  }
+  const content=[{type:'input_text',text:`You are the XPLAY PLX Creative Director. Return ONLY JSON with keys: title,engine,template,camera,objective,playerRole,environment,collectibles,hazards,artDirection,duration,difficulty,assetPrompts,scenePlan. engine must be one of runner,dodge,collect,rhythm,puzzle,fps,fighting,openworld,racing,platformer. HARD RULE: if Selected engine is present, output exactly that engine and do not reinterpret it. Selected engine: ${selected||'(none)'}. Preserve the CURRENT visual analysis; never invent old prototype/airport content. User prompt: ${prompt}\nStyle DNA: ${JSON.stringify(styleDNA||{})}\nVisual analysis: ${JSON.stringify(visualAnalysis||{})}\nOptions: ${JSON.stringify(options||{})}`}];
   if(imageDataUrl)content.push({type:'input_image',image_url:imageDataUrl});
   const response=await client.responses.create({model:process.env.OPENAI_MODEL,input:[{role:'user',content}]});
   const cleaned=(response.output_text||'{}').replace(/^```json/i,'').replace(/^```/,'').replace(/```$/,'').trim();
-  res.json({ok:true,mode:'ai',spec:JSON.parse(cleaned)});
+  const spec=JSON.parse(cleaned);if(selected)spec.engine=selected;
+  res.json({ok:true,mode:'ai',spec});
  }catch(error){console.error(error);res.status(500).json({ok:false,error:error.message});}
 });
 
@@ -60,7 +168,6 @@ app.post('/api/generate-asset',async(req,res)=>{
  try{if(!client||!process.env.OPENAI_IMAGE_MODEL)return res.status(503).json({ok:false,error:'Image generation not configured'});const {prompt,size='1024x1024'}=req.body||{};const result=await client.images.generate({model:process.env.OPENAI_IMAGE_MODEL,prompt,size});const item=result.data?.[0];res.json({ok:true,image:item?.b64_json?`data:image/png;base64,${item.b64_json}`:item?.url});}
  catch(error){res.status(500).json({ok:false,error:error.message});}
 });
-
 
 app.post('/api/forge-art-pack',async(req,res)=>{
  try{
@@ -78,15 +185,9 @@ app.post('/api/forge-art-pack',async(req,res)=>{
    props:`${bible} ${repair} World concept: ${theme}. Create a STRICT 4x4 transparent-background prop sheet, one isolated gameplay prop per cell, equal scale and clean silhouette. Make sixteen visually distinct environment-specific props with strong material detail and readable shape. No text labels.`,
    actors:`${bible} ${repair} World concept: ${theme}. Create a STRICT 4x4 transparent-background gameplay actor sheet: four hazard families, four enemy/target families, four collectible/reward objects, and four signature/FX objects. One object per cell, equal game-ready scale, strong silhouettes, no labels.`
   };
-  const sourceInput=imageDataUrl?.startsWith('data:')?imageDataUrl:null;
-  async function gen(text,size='1024x1024'){
-    // Generation instead of edit is intentional for coherent sheets; source analysis is already encoded in the brief.
-    const result=await client.images.generate({model:process.env.OPENAI_IMAGE_MODEL,prompt:text,size});const item=result.data?.[0];return item?.b64_json?`data:image/png;base64,${item.b64_json}`:item?.url;
-  }
-  const [background,player,tiles,props,actors]=await Promise.all([
-    gen(prompts.background,process.env.OPENAI_WIDE_IMAGE_SIZE||'1536x1024'),gen(prompts.player),gen(prompts.tiles),gen(prompts.props),gen(prompts.actors)
-  ]);
-  res.json({ok:true,background,sheets:{player,tiles,props,actors},regenerationPass,provenance:{mode:'ai-batch-world-forge-v4',engine,style,sourceUsed:Boolean(sourceInput),model:process.env.OPENAI_IMAGE_MODEL,characterBible:Boolean(characterBible),regenerationPass,repairFeedback:repairFeedback||null}});
+  async function gen(text,size='1024x1024'){const result=await client.images.generate({model:process.env.OPENAI_IMAGE_MODEL,prompt:text,size});const item=result.data?.[0];return item?.b64_json?`data:image/png;base64,${item.b64_json}`:item?.url;}
+  const [background,player,tiles,props,actors]=await Promise.all([gen(prompts.background,process.env.OPENAI_WIDE_IMAGE_SIZE||'1536x1024'),gen(prompts.player),gen(prompts.tiles),gen(prompts.props),gen(prompts.actors)]);
+  res.json({ok:true,background,sheets:{player,tiles,props,actors},regenerationPass,provenance:{mode:'ai-batch-world-forge-v4',engine,style,sourceUsed:Boolean(imageDataUrl),model:process.env.OPENAI_IMAGE_MODEL,characterBible:Boolean(characterBible),regenerationPass,repairFeedback:repairFeedback||null}});
  }catch(error){console.error('forge-art-pack',error);res.status(500).json({ok:false,error:error.message});}
 });
 
@@ -102,4 +203,4 @@ app.post('/api/remaster-asset',async(req,res)=>{
  }catch(error){console.error(error);res.status(500).json({ok:false,error:error.message});}
 });
 
-app.listen(port,()=>{console.log(`XPLAY API server: http://localhost:${port}`);console.log(`Visual Intelligence target: ${visionUrl}`);if(!process.env.OPENAI_API_KEY)console.log('AI/Art: LOCAL FALLBACK (add OPENAI_API_KEY for semantic direction + remaster)');});
+app.listen(port,()=>{console.log(`XPLAY API server: http://localhost:${port}`);console.log(`Gemini Vision: ${geminiKey?`READY (${geminiModel})`:'OFFLINE (add GEMINI_API_KEY to server/.env)'}`);console.log(`Legacy Visual Intelligence target: ${visionUrl}`);if(!process.env.OPENAI_API_KEY)console.log('AI/Art: LOCAL FALLBACK (add OPENAI_API_KEY for semantic direction + remaster)');});

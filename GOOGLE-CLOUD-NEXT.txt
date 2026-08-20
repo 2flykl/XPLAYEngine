@@ -1,0 +1,18 @@
+XPLAY GOOGLE CLOUD NEXT
+
+1. Local test first:
+   - Keep your real key only in server/.env:
+     GEMINI_API_KEY=<your key>
+   - From repo root: npm run dev:api
+   - Test: http://localhost:8787/api/vision/health
+
+2. Cloud Run after local Gemini analysis works:
+   - Deploy this repo Dockerfile as the XPLAY API service.
+   - Set GEMINI_API_KEY as a Cloud Run secret/environment variable.
+   - Optional: GEMINI_VISION_MODEL=gemini-2.5-flash
+
+3. GitHub Pages:
+   - Add repository Actions variable XPLAY_API_BASE_URL = your Cloud Run HTTPS URL.
+   - The workflow now exposes it to Vite as VITE_XPLAY_API_BASE_URL.
+
+4. Cloud Storage comes AFTER Cloud Run + Vision are proven.
