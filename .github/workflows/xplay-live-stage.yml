@@ -31,7 +31,6 @@ jobs:
           rm -rf node_modules
           npm install --no-audit --no-fund
 
-
       - name: Release-candidate verification
         run: npm run verify:rc
 
@@ -39,8 +38,6 @@ jobs:
         env:
           VITE_XPLAY_API_BASE_URL: ${{ vars.XPLAY_API_BASE_URL }}
         run: npm run build
-        env:
-          VITE_XPLAY_API_BASE_URL: ${{ vars.XPLAY_API_BASE_URL }}
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
