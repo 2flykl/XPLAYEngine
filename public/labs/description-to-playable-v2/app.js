@@ -139,6 +139,7 @@ function parseEntities(text, player, genre) {
   if (/knife/i.test(text)) out.push(entity('enemy_knife','Knife Punk','enemy','left',.17,.67,{weapon:'knife'}));
   if (/bandana/i.test(text)) out.push(entity('enemy_bandana','Bandana Rival','enemy','center-right',.58,.67,{weapon:'fists'}));
   if (/far-right|muscular|bruiser|multiple enemies|rivals/i.test(text)) out.push(entity('enemy_bruiser','Dock Bruiser','enemy','far-right',.78,.67,{weapon:'fists'}));
+  if (/multiple enemies|visible rivals|support beat-em-up progression/i.test(text) && !out.some(e=>e.id==='enemy_bandana')) out.push(entity('enemy_bandana','Bandana Rival','enemy','center-right',.58,.67,{weapon:'fists'}));
   if (genre==='fighting' && out.filter(x=>x.type==='enemy').length===0) {
     out.push(entity('enemy_1','Enemy 1','enemy','right',.66,.67,{weapon:'unknown',provenance:'genre-inference'}));
   }
@@ -274,8 +275,8 @@ function buildBlueprint(title,genre,scene) {
       ai:genre==='fighting'?{behavior:'approach player, enter attack range, strike, recover'}:{behavior:'genre-default'}
     })),
     controls:genre==='fighting'?['left','right','up','down','attack']:['left','right','action'],
-    combat:genre==='fighting'?{attackRange:0.075,playerAttackDamage:1,enemyHP:3,contactDamage:.18,hitReaction:true}:null,
-    world:{width:960,height:540,walkLaneTop:.56,walkLaneBottom:.76,layers:scene.layers,landmarks:scene.landmarks.map(x=>x.id)},
+    combat:genre==='fighting'?{attackRange:0.075,playerAttackDamage:1,enemyHP:4,contactDamage:.10,passiveHealthDrainPerSecond:.10,targetEncounterSeconds:15,hitReaction:true}:null,
+    world:{width:2200,height:540,viewportWidth:960,scrolling:true,walkLaneTop:.56,walkLaneBottom:.76,layers:scene.layers,landmarks:scene.landmarks.map(x=>x.id)},
     progression:genre==='fighting'?[
       'Spawn player and all source-supported visible rivals.',
       'Preserve the side-view combat plane.',
@@ -388,21 +389,21 @@ function startGame(packet) {
   const canvas=els.canvas,ctx=canvas.getContext('2d'),sg=packet.canonicalSceneGraph,bp=packet.gameplayBlueprint;
   const playerEntity=sg.entities.find(x=>x.type==='player');
   game={
-    over:false,win:false,tick:0,flash:0,
-    player:{x:(playerEntity.position.x||.34)*960,y:(playerEntity.position.y||.68)*540,w:34,h:62,speed:3.3,hp:10,facing:1,attackCooldown:0,attackTimer:0},
-    enemies:bp.enemies.map((e,i)=>({...e,x:(e.position.x||(.62+i*.1))*960,y:(e.position.y||.68)*540,w:34,h:58,hp:e.hp||3,alive:true,hurt:0,speed:1+i*.08}))
+    over:false,win:false,tick:0,flash:0,elapsedMs:0,targetDurationMs:15000,lastTs:performance.now(),cameraX:0,worldWidth:2200,healthDrainPerSecond:.10,
+    player:{x:(playerEntity.position.x||.34)*960,y:(playerEntity.position.y||.68)*540,w:34,h:62,speed:1.65,hp:10,facing:1,attackCooldown:0,attackTimer:0},
+    enemies:bp.enemies.map((e,i)=>({...e,x:700+i*520,y:(e.position.y||.68)*540,w:34,h:58,hp:(e.hp||3)+1,alive:true,hurt:0,speed:.48+i*.04}))
   };
   els.proto.innerHTML=`<b>${esc(packet.meta.title)}</b><br>Readiness: ${packet.qa.readiness}%<br>Enemies: ${game.enemies.length}<br>Status: active`;
   requestAnimationFrame(loop);
-  function loop(){if(!game)return;updateGame();drawGame(ctx,packet);requestAnimationFrame(loop)}
+  function loop(ts){if(!game)return;const dt=Math.min(50,Math.max(0,ts-game.lastTs));game.lastTs=ts;updateGame(dt);drawGame(ctx,packet);requestAnimationFrame(loop)}
 }
 
-function updateGame() {
+function updateGame(dt=16.7) {
   if(!game||game.over)return;
-  game.tick++; const p=game.player;
+  game.tick++; game.elapsedMs+=dt; const p=game.player; if(!game.over){p.hp=Math.max(0,p.hp-game.healthDrainPerSecond*(dt/1000));}
   if(keys['arrowleft']||keys['a']){p.x-=p.speed;p.facing=-1} if(keys['arrowright']||keys['d']){p.x+=p.speed;p.facing=1}
   if(keys['arrowup']||keys['w'])p.y-=p.speed*.7; if(keys['arrowdown']||keys['s'])p.y+=p.speed*.7;
-  p.x=clamp(p.x,42,918); p.y=clamp(p.y,305,405);
+  p.x=clamp(p.x,42,game.worldWidth-42); p.y=clamp(p.y,305,405); game.cameraX=clamp(p.x-340,0,game.worldWidth-960);
   if(p.attackCooldown>0)p.attackCooldown--; if(p.attackTimer>0)p.attackTimer--;
   if(keys[' ']&&p.attackCooldown<=0){
     p.attackCooldown=24;p.attackTimer=10;game.flash=7;
@@ -415,13 +416,22 @@ function updateGame() {
   });
   if(game.flash>0)game.flash--;
   if(p.hp<=0){game.over=true;game.win=false;els.proto.innerHTML='<b>Player defeated.</b><br>Press R to retry.'}
-  if(game.enemies.every(e=>!e.alive)){game.over=true;game.win=true;els.proto.innerHTML='<b>Stage clear.</b><br>Press R to retry.'}
+  if(game.enemies.every(e=>!e.alive) && game.elapsedMs < game.targetDurationMs){
+    const base=game.cameraX+1050;
+    game.enemies.push(
+      {id:'reinforcement_1',label:'Reinforcement',weapon:'fists',x:base,y:365,w:34,h:58,hp:4,alive:true,hurt:0,speed:.52},
+      {id:'reinforcement_2',label:'Reinforcement',weapon:'fists',x:base+260,y:385,w:34,h:58,hp:4,alive:true,hurt:0,speed:.56}
+    );
+  }
+  if(game.elapsedMs>=game.targetDurationMs && game.enemies.every(e=>!e.alive)){game.over=true;game.win=true;els.proto.innerHTML='<b>Stage clear.</b><br>15-second combat test completed. Press R to retry.'}
 }
 
 function drawGame(ctx,packet) {
   const sg=packet.canonicalSceneGraph,w=960,h=540;
   ctx.clearRect(0,0,w,h);
-  const g=ctx.createLinearGradient(0,0,0,h);g.addColorStop(0,'#071126');g.addColorStop(.45,'#16244e');g.addColorStop(1,'#2f2530');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+  ctx.save();
+  ctx.translate(-game.cameraX,0);
+  const g=ctx.createLinearGradient(0,0,0,h);g.addColorStop(0,'#071126');g.addColorStop(.45,'#16244e');g.addColorStop(1,'#2f2530');ctx.fillStyle=g;ctx.fillRect(game.cameraX,0,w,h);
   ctx.fillStyle='#dedfff';ctx.beginPath();ctx.arc(620,86,20,0,Math.PI*2);ctx.fill();
   skyline(ctx);
   // building
@@ -437,10 +447,18 @@ function drawGame(ctx,packet) {
   // ladder
   ctx.strokeStyle='#aaa';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(780,166);ctx.lineTo(780,306);ctx.moveTo(800,166);ctx.lineTo(800,306);for(let y=176;y<304;y+=16){ctx.moveTo(780,y);ctx.lineTo(800,y)}ctx.stroke();
   // floor
-  ctx.fillStyle='#47414a';ctx.fillRect(0,310,w,h-310);for(let x=0;x<w;x+=56){ctx.strokeStyle='#5b5560';ctx.beginPath();ctx.moveTo(x,370);ctx.lineTo(x+56,362);ctx.stroke()}
-  for(let x=0;x<w;x+=28){ctx.fillStyle=x%56===0?'#d0a52c':'#202124';ctx.beginPath();ctx.moveTo(x,514);ctx.lineTo(x+20,514);ctx.lineTo(x+28,540);ctx.lineTo(x+8,540);ctx.closePath();ctx.fill()}
+  ctx.fillStyle='#47414a';ctx.fillRect(0,310,game.worldWidth,h-310);for(let x=0;x<game.worldWidth;x+=56){ctx.strokeStyle='#5b5560';ctx.beginPath();ctx.moveTo(x,370);ctx.lineTo(x+56,362);ctx.stroke()}
+  for(let x=0;x<game.worldWidth;x+=28){ctx.fillStyle=x%56===0?'#d0a52c':'#202124';ctx.beginPath();ctx.moveTo(x,514);ctx.lineTo(x+20,514);ctx.lineTo(x+28,540);ctx.lineTo(x+8,540);ctx.closePath();ctx.fill()}
   barrel(ctx,890,346,'#74381f');
+  // extended dockyard section for scrolling test
+  ctx.fillStyle='#633522';ctx.fillRect(1080,175,280,132);ctx.fillStyle='#9b5130';for(let x=1102;x<1350;x+=30)ctx.fillRect(x,175,4,132);
+  ctx.fillStyle='#b98349';ctx.font='bold 28px Arial';ctx.fillText('ZENITH',1130,238);
+  ctx.strokeStyle='#76818a';ctx.lineWidth=2;ctx.strokeRect(1395,190,310,112);
+  for(let x=1395;x<1705;x+=16){ctx.beginPath();ctx.moveTo(x,190);ctx.lineTo(x+16,302);ctx.stroke();ctx.beginPath();ctx.moveTo(x+16,190);ctx.lineTo(x,302);ctx.stroke()}
+  barrel(ctx,1460,280,'#5b7f3b');barrel(ctx,1500,280,'#5b7f3b');barrel(ctx,1840,345,'#74381f');
+  ctx.fillStyle='#53331f';ctx.fillRect(1780,120,270,210);ctx.fillStyle='#d7c23c';ctx.fillRect(1870,210,54,46);ctx.fillStyle='#28220f';ctx.font='bold 12px Arial';ctx.fillText('DANGER',1868,270);
   drawPlayer(ctx,game.player);game.enemies.forEach((e,i)=>drawEnemy(ctx,e,i));
+  ctx.restore();
   hud(ctx,packet);
   if(game.flash>0){ctx.fillStyle=`rgba(255,236,170,${game.flash*.04})`;ctx.fillRect(0,0,w,h)}
   if(game.over){ctx.fillStyle='rgba(0,0,0,.58)';ctx.fillRect(0,0,w,h);ctx.fillStyle='#fff';ctx.textAlign='center';ctx.font='bold 42px Arial';ctx.fillText(game.win?'STAGE CLEAR':'YOU LOSE',480,280);ctx.font='bold 18px Arial';ctx.fillText('Press R to retry',480,318);ctx.textAlign='left'}
@@ -459,9 +477,9 @@ function drawEnemy(ctx,e,i) {
 }
 
 function hud(ctx,packet) {
-  ctx.fillStyle='#020305';ctx.fillRect(0,0,960,66);ctx.fillRect(0,508,960,32);ctx.fillStyle='#f1cc38';ctx.font='bold 18px Arial';ctx.fillText((packet.canonicalSceneGraph.entities.find(x=>x.type==='player')?.name||'PLAYER').toUpperCase(),74,24);ctx.fillStyle='#fff';ctx.fillText('0124500',170,24);ctx.fillText('×3',304,24);ctx.fillStyle='#f59a23';ctx.font='bold 44px Arial';ctx.fillText(String(Math.max(0,74-Math.floor(game.tick/90))).padStart(2,'0'),466,46);ctx.fillStyle='#92b7ff';ctx.font='bold 20px Arial';ctx.fillText('PRESS START',730,24);
+  ctx.fillStyle='#020305';ctx.fillRect(0,0,960,66);ctx.fillRect(0,508,960,32);ctx.fillStyle='#f1cc38';ctx.font='bold 18px Arial';ctx.fillText((packet.canonicalSceneGraph.entities.find(x=>x.type==='player')?.name||'PLAYER').toUpperCase(),74,24);ctx.fillStyle='#fff';ctx.fillText('0124500',170,24);ctx.fillText('×3',304,24);ctx.fillStyle='#f59a23';ctx.font='bold 44px Arial';ctx.fillText(String(Math.max(0,15-Math.floor(game.elapsedMs/1000))).padStart(2,'0'),466,46);ctx.fillStyle='#92b7ff';ctx.font='bold 20px Arial';ctx.fillText('PRESS START',730,24);
   ctx.fillStyle='#314462';ctx.fillRect(14,12,42,42);ctx.fillStyle='#d6c04a';ctx.fillRect(76,32,126,10);ctx.fillStyle='#2da8e2';ctx.fillRect(76,32,126*(game.player.hp/10),10);ctx.strokeStyle='#fff';ctx.strokeRect(76,32,126,10);
-  ctx.fillStyle='#d5d9e2';ctx.font='bold 17px Arial';ctx.fillText('STAGE 3-1',420,530);
+  ctx.fillStyle='#d5d9e2';ctx.font='bold 17px Arial';ctx.fillText('STAGE 3-1',400,530);ctx.font='bold 12px Arial';ctx.fillText('SURVIVE / CLEAR 15s',515,530);
   game.enemies.slice(0,2).forEach((e,i)=>{const x=i?700:126,label=i?'BANDANA':'KNIFE';ctx.fillStyle='#fff';ctx.fillText(label,x-22,529);ctx.fillStyle='#c22828';ctx.fillRect(x+52,517,108,8);ctx.fillStyle='#f2bf38';ctx.fillRect(x+52,517,108*Math.max(0,e.hp)/3,8)})
 }
 
