@@ -1,12 +1,10 @@
-import { registerBeastPipelineRoutes } from './beastPipeline.js';
-import { registerGeminiVisionDropRoutes } from './geminiVisionDrop.js';
+﻿import { registerGeminiVisionDropRoutes } from './geminiVisionDrop.js';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import express from 'express';
 import cors from 'cors';
 import OpenAI from 'openai';
-import { registerPlayableTranslationRoutes } from './playableTranslation.js';
 
 const __filename=fileURLToPath(import.meta.url);
 const __dirname=path.dirname(__filename);
@@ -101,8 +99,6 @@ app.get('/api/health',async(_req,res)=>{
  res.json({ok:true,aiConfigured:Boolean(client&&process.env.OPENAI_MODEL),imageModelConfigured:Boolean(client&&process.env.OPENAI_IMAGE_MODEL),visionConfigured:Boolean(geminiKey)||pythonVision,visionProvider:geminiKey?'gemini':pythonProvider,geminiModel:geminiKey?geminiModel:null});
 });
 registerGeminiVisionDropRoutes(app,{apiKey:geminiKey,model:geminiModel});
-registerPlayableTranslationRoutes(app,{apiKey:geminiKey,model:geminiModel});
-registerBeastPipelineRoutes(app,{apiKey:geminiKey,model:geminiModel});
 
 const CALIBRATION_PROFILES={
  runner:{camera:'side-scrolling / on-rails forward movement',loop:'continuous forward movement, jumping/sliding/dodging and escalating hazards',scroll:'world moves left as the player advances right'},

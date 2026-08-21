@@ -424,121 +424,185 @@ function renderStep1(container) {
 }
 
 function renderStep2(container) {
+  const isScreenshot = state.creationLane === 'screenshot';
   const fileName = state.media.primary?.file?.name || 'uploaded image';
-  const imageData = state.media.primary?.dataUrl || '';
   container.innerHTML = `
-    <div style="text-align:center;max-width:760px;margin:0 auto;">
-      <div class="softPill">GEMINI VISION</div>
-      <h2 style="font-size:30px;margin:14px 0 8px;">Let XPLAY look at this image</h2>
-      <p class="muted">This sends the exact uploaded image to Gemini multimodal vision. XPLAY will not invent a semantic substitute if Gemini is unavailable.</p>
-      <div style="margin:22px auto;max-width:680px;border:1px solid var(--line);border-radius:18px;padding:14px;background:#fff;box-shadow:var(--shadow);">
-        <img src="${imageData}" alt="${fileName}" style="width:100%;max-height:390px;object-fit:contain;border-radius:12px;background:#07131e;" />
-        <div style="display:flex;justify-content:space-between;gap:10px;margin-top:10px;font-size:12px;color:var(--soft);"><span>${fileName}</span><span id="visionState">READY</span></div>
+    <div style="text-align:center;max-width:720px;margin:0 auto;">
+      <div class="softPill">STEP 2</div>
+      <h2 style="font-size:30px;margin:14px 0 8px;">${isScreenshot ? 'Analyze the screenshot before we build' : 'Analyze your picture'}</h2>
+      <p class="muted">${isScreenshot ? 'XPLAY will inspect visual DNA, camera structure, HUD zones, scene composition and likely game grammar. Nothing is inferred until you press Analyze.' : 'XPLAY will inspect the uploaded picture and identify useful game ingredients.'}</p>
+      <div style="margin:22px auto;max-width:620px;border:1px solid var(--line);border-radius:18px;padding:14px;background:#fff;box-shadow:var(--shadow);">
+        <img src="${state.media.primary?.dataUrl || ''}" alt="${fileName}" style="width:100%;max-height:360px;object-fit:contain;border-radius:12px;background:#07131e;" />
+        <div style="display:flex;justify-content:space-between;gap:10px;margin-top:10px;font-size:12px;color:var(--soft);"><span>${fileName}</span><span>${isScreenshot ? 'REVERSE FORGE SOURCE' : 'PRIMARY SOURCE'}</span></div>
       </div>
-      <div id="analysisStatus" class="reverseForgeMini" style="margin:14px auto;max-width:680px;text-align:left;">Ready for live Gemini image analysis.</div>
-      <button class="btn primary" id="runAnalysisBtn" style="padding:14px 24px;min-width:260px;">ANALYZE IMAGE WITH GEMINI</button>
+      <div id="analysisStatus" class="reverseForgeMini" style="margin:14px auto;max-width:620px;text-align:left;">${isScreenshot ? '🧬 Ready. Press Analyze Screenshot to start a fresh read of this exact image.' : 'Ready to analyze.'}</div>
+      <button class="btn primary" id="runAnalysisBtn" style="padding:14px 24px;min-width:240px;">${isScreenshot ? '🧬 ANALYZE SCREENSHOT' : 'ANALYZE PICTURE'}</button>
       <button class="btn ghost" id="replaceImageBtn" style="padding:14px 20px;margin-left:8px;">CHOOSE ANOTHER IMAGE</button>
     </div>`;
 
   const analyzeBtn=container.querySelector('#runAnalysisBtn');
   const replaceBtn=container.querySelector('#replaceImageBtn');
   const status=container.querySelector('#analysisStatus');
-  const visionState=container.querySelector('#visionState');
-  replaceBtn.onclick=()=>goToStep(1);
-  analyzeBtn.onclick=async()=>{
+  if(replaceBtn) replaceBtn.onclick=()=>goToStep(1);
+  if(analyzeBtn) analyzeBtn.onclick=async()=>{
     analyzeBtn.disabled=true;
-    analyzeBtn.textContent='GEMINI IS ANALYZING…';
-    visionState.textContent='ANALYZING';
-    status.innerHTML='⟳ Reading the actual pixels, characters, scene, objects, HUD, camera, colors and gameplay cues…';
+    analyzeBtn.textContent='ANALYZING…';
+    if(status) status.innerHTML='⟳ Extracting color DNA, composition, scene bands and gameplay cues…';
     try{
-      try{ state.styleDNA=await withTimeout(analyzeImageStyle(imageData),8000,'Style analysis timed out'); }
-      catch{ state.styleDNA=fallbackDNA('style-only'); }
-      const prompt='Describe this exact image in detail. Identify the main subject/player candidate, all visible characters or opponents, environment, important objects and props, readable text/HUD, camera/composition, visible action/gameplay cues, art style, colors, and likely game genre. Be specific and do not invent anything that is not visible.';
-      const extraction=await safeAnalyzeVisualSource(imageData,prompt);
-      if(!extraction?.ok || !extraction?.analysis) throw new Error(extraction?.error||'Gemini returned no analysis');
+      const dna=await withTimeout(analyzeImageStyle(state.media.primary.dataUrl),5000,'Style analysis timed out');
+      state.styleDNA=dna;
+      const analysisPrompt=isScreenshot
+        ? 'Analyze this as a GAMEPLAY SCREENSHOT. Identify likely game genre, camera/viewpoint, player candidates, number/type of visible opponents, HUD, traversable play space, hazards/weapons, environment, art style, palette, and apparent objective. Do not assume airport/runway content unless visibly present.'
+        : state.prompt||'';
+      const extraction=await safeAnalyzeVisualSource(state.media.primary.dataUrl,analysisPrompt);
       state.extraction=extraction;
-      state.compatiblePLXRecommendations=getDetailedRecommendations(extraction.analysis);
+      state.compatiblePLXRecommendations=getDetailedRecommendations(extraction?.analysis||{});
       state.analysisCorrected=null;
-      visionState.textContent='GEMINI CONNECTED';
-      status.innerHTML='✓ Gemini completed a source-grounded visual analysis.';
-      setTimeout(()=>goToStep(3),220);
+      if(status) status.innerHTML=`✓ Analysis complete · ${extraction.analysisMode||'visual analysis'}`;
+      setTimeout(()=>goToStep(3),180);
     }catch(e){
       console.error(e);
-      state.extraction={ok:false,analysis:null,assets:{},analysisMode:'Gemini Vision error',error:e.message};
-      visionState.textContent='VISION ERROR';
-      status.innerHTML=`<b>Gemini analysis did not complete.</b><br>${String(e.message||e)}<br><br>No semantic fallback was substituted. Fix the live Vision connection, then retry.`;
-      analyzeBtn.disabled=false;
-      analyzeBtn.textContent='RETRY GEMINI ANALYSIS';
+      state.styleDNA=state.styleDNA||fallbackDNA('analysis-fallback');
+      state.extraction=await localScreenshotExtraction(state.media.primary.dataUrl,state.styleDNA,state.media.primary?.file);
+      if(status) status.innerHTML='⚠ Remote vision was unavailable. XPLAY created a local screenshot-DNA analysis instead of inventing unrelated objects.';
+      analyzeBtn.disabled=false;analyzeBtn.textContent=isScreenshot?'🧬 ANALYZE SCREENSHOT':'ANALYZE PICTURE';
+      setTimeout(()=>goToStep(3),450);
     }
   };
 }
 
-
-
 function renderStep3(container) {
-  const analysis = state.extraction?.analysis;
-  if(!analysis){
-    container.innerHTML=`<div style="max-width:680px;margin:0 auto;"><div class="softPill">VISION REQUIRED</div><h2>Gemini has not analyzed this image yet</h2><p class="muted">Return to the previous step and run the live visual analysis.</p><button class="btn primary" id="backToVision">BACK TO GEMINI VISION</button></div>`;
-    container.querySelector('#backToVision').onclick=()=>goToStep(2);
-    return;
-  }
-  const desc=state.extraction?.description||analysis.fullDescription||analysis.description||'';
-  const source=String(analysis.analysisSource||'');
-  const isGemini=state.extraction?.provider==='gemini'||source.includes('gemini');
-  const list=(v)=>Array.isArray(v)?v.join(' · '):(v||'None confidently identified');
-  const escape=(v)=>String(v||'').replace(/"/g,'&quot;');
-
+  const analysis = state.extraction?.analysis || localImageAnalysis(state.media.primary?.file, state.styleDNA);
+  const isScreenshot = state.creationLane === 'screenshot';
+  const guide = state.screenshotGuide || defaultScreenshotGuide();
+  
   container.innerHTML = `
-    <div style="max-width:820px;margin:0 auto;">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
-        <div><div class="softPill">VISION REPORT</div><h2 style="font-size:30px;margin:12px 0 6px;">What Gemini sees</h2><p class="muted">This is the visual truth XPLAY will carry forward.</p></div>
-        <span style="padding:7px 10px;border-radius:999px;font-size:11px;font-weight:800;background:${isGemini?'#dff8ee':'#ffeaea'};color:${isGemini?'#137a55':'#a52d2d'};">${isGemini?'GEMINI CONNECTED':'VISION NOT VERIFIED'}</span>
+    <div style="max-width: 600px; margin: 0 auto;">
+      <div class="softPill">STEP 3</div>
+      <h2 style="font-size: 28px; margin: 12px 0 6px;">${isScreenshot ? 'What XPLAY will reconstruct' : 'What XPLAY sees'}</h2>
+      <p class="muted">${isScreenshot ? 'Confirm the reconstruction target before the Beast builds from it.' : 'Here is what XPLAY understood from your picture.'}</p>
+      
+      <div style="background: white; border: 1px solid var(--line); border-radius: 16px; padding: 24px; margin: 20px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+        <h3 style="margin-top: 0; font-size: 18px; border-bottom: 1px solid var(--line); padding-bottom: 10px; color: var(--navy);">XPLAY SEES</h3>
+        <ul style="list-style: none; padding: 0; margin: 0; font-size: 15px; display: grid; gap: 12px; line-height: 1.5;">
+          <li>👤 <b>Player Candidate:</b> <span>${analysis.player}</span></li>
+          <li>🌄 <b>Environment:</b> <span>${analysis.environment}</span></li>
+          <li>🚗 <b>Vehicles:</b> <span>${analysis.vehicles}</span></li>
+          <li>📦 <b>Notable Objects:</b> <span>${analysis.notableObjects}</span></li>
+          <li>🎨 <b>Dominant Colors:</b> <span>${analysis.dominantColors}</span></li>
+          <li>✨ <b>Opportunities:</b> <span>${analysis.strongOpportunities}</span></li>
+        </ul>
+        <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 12.5px; color: var(--teal); font-style: italic;">
+          ${analysis.analysisSource==='gemini-semantic'?'✓ Semantic AI Vision is providing source-grounded analysis.':'⚠ Semantic AI Vision is unavailable; unknown details will not be invented.'}
+        </div>
       </div>
-      ${desc?`<div style="background:#0d223d;color:#fff;border-radius:18px;padding:20px;margin:18px 0;"><b>DETAILED IMAGE DESCRIPTION</b><p style="line-height:1.6;color:#dce8ee;white-space:pre-wrap;">${desc}</p></div>`:''}
-      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;">
-        <div class="card"><b>👤 Main subject / player</b><p>${analysis.player||'unknown'}</p></div>
-        <div class="card"><b>🌄 Environment</b><p>${analysis.environment||'unknown'}</p></div>
-        <div class="card"><b>🎥 Camera / scene</b><p>${analysis.camera||analysis.sceneType||'unknown'}</p></div>
-        <div class="card"><b>🥊 Characters / opponents</b><p>${list(analysis.enemies)}</p></div>
-        <div class="card"><b>📦 Objects / props</b><p>${analysis.notableObjects||list(analysis.objects)}</p></div>
-        <div class="card"><b>🖥 HUD / readable UI</b><p>${list(analysis.hud)}</p></div>
-        <div class="card"><b>🎮 Gameplay signals</b><p>${list(analysis.gameplaySignals)}</p></div>
-        <div class="card"><b>🎨 Dominant colors</b><p>${analysis.dominantColors||'unknown'}</p></div>
-      </div>
-      <div style="margin-top:18px;padding:16px;border:1px solid var(--line);border-radius:16px;background:#f5fbfb;">
-        <b>Likely game fits</b><p>${analysis.strongOpportunities||'No recommendation returned'}</p>
-      </div>
-      <div class="cardActions" style="margin-top:18px;">
-        <button class="btn primary" id="confirmAnalysisBtn" ${isGemini?'':'disabled'}>USE THIS VISION REPORT</button>
-        <button class="btn ghost" id="reanalyzeShotBtn">ANALYZE AGAIN</button>
-        <button class="btn ghost" id="adjustAnalysisBtn">CORRECT DETAILS</button>
-      </div>
-      <div id="adjustmentForm" style="display:none;margin-top:20px;border-top:1px solid var(--line);padding-top:18px;">
-        <label class="fieldLabel">MAIN SUBJECT<input id="correctPlayer" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;margin-top:6px;" value="${escape(analysis.player)}"></label>
-        <label class="fieldLabel" style="display:block;margin-top:12px;">ENVIRONMENT<input id="correctEnvironment" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;margin-top:6px;" value="${escape(analysis.environment)}"></label>
-        <label class="fieldLabel" style="display:block;margin-top:12px;">IMPORTANT OBJECTS<input id="correctObject" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;margin-top:6px;" value="${escape(analysis.notableObjects)}"></label>
-        <button class="btn primary" id="saveCorrectionsBtn" style="margin-top:14px;">SAVE CORRECTIONS</button>
-      </div>
-    </div>`;
+      
+      ${isScreenshot ? `
+      <div class="reverseForgePanel">
+        <div class="reverseForgeSummary"><b>AI INTERPRETATION</b><p>${summarizeScreenshotAnalysis(analysis)}</p></div>
+        <label class="fieldLabel">USE SCREENSHOT AS
+          <select id="shotFidelity" class="forgeSelect">
+            <option value="blueprint" ${guide.fidelity==='blueprint'?'selected':''}>Exact visual blueprint</option>
+            <option value="strong" ${guide.fidelity==='strong'?'selected':''}>Strong reference</option>
+            <option value="inspiration" ${guide.fidelity==='inspiration'?'selected':''}>Loose inspiration</option>
+          </select>
+        </label>
+        <div class="fieldLabel" style="margin-top:14px;">PRESERVE FROM SCREENSHOT</div>
+        <div class="preserveChipGrid">
+          ${SCREENSHOT_PRESERVE_OPTIONS.map(([id,label])=>`<label class="preserveChip"><input type="checkbox" data-preserve="${id}" ${guide.preserve.includes(id)?'checked':''}> ${label}</label>`).join('')}
+        </div>
+        <div class="forgeTwoCol">
+          <label class="fieldLabel">CAMERA / VIEWPOINT
+            <select id="shotCamera" class="forgeSelect">
+              ${[['auto','Let AI infer'],['side-view','Side view'],['top-down','Top-down'],['first-person','First-person'],['isometric','Isometric'],['behind-character','Behind character']].map(([v,l])=>`<option value="${v}" ${guide.camera===v?'selected':''}>${l}</option>`).join('')}
+            </select>
+          </label>
+          <label class="fieldLabel">PLAYABLE CHARACTER
+            <select id="shotPlayer" class="forgeSelect">
+              ${[['source','Use character in screenshot'],['uploaded','Use another uploaded character'],['new','Create a new character']].map(([v,l])=>`<option value="${v}" ${guide.playerSource===v?'selected':''}>${l}</option>`).join('')}
+            </select>
+          </label>
+        </div>
+        <label class="fieldLabel">GAME OBJECTIVE <span class="optionalTag">OPTIONAL</span>
+          <input id="shotObjective" class="forgeInput" value="${guide.objective || ''}" placeholder="Example: Sneak past guards and reach the exit." />
+        </label>
+        <label class="fieldLabel">DO NOT CHANGE <span class="optionalTag">OPTIONAL</span>
+          <input id="shotDontChange" class="forgeInput" value="${guide.doNotChange || ''}" placeholder="Example: Keep the skyline, two guards and red sight cones." />
+        </label>
+        <label class="fieldLabel">MOTION / PATROL HINTS <span class="optionalTag">OPTIONAL</span>
+          <input id="shotMotion" class="forgeInput" value="${guide.motionHints || ''}" placeholder="Example: Guards patrol left/right; spotlight sweeps every 4 seconds." />
+        </label>
+      </div>` : ''}
 
-  container.querySelector('#confirmAnalysisBtn').onclick=()=>goToStep(4);
-  container.querySelector('#reanalyzeShotBtn').onclick=()=>goToStep(2);
-  const form=container.querySelector('#adjustmentForm');
-  container.querySelector('#adjustAnalysisBtn').onclick=()=>{form.style.display=form.style.display==='none'?'block':'none';};
-  container.querySelector('#saveCorrectionsBtn').onclick=()=>{
-    const corrected={
-      player:container.querySelector('#correctPlayer').value.trim()||analysis.player,
-      environment:container.querySelector('#correctEnvironment').value.trim()||analysis.environment,
-      notableObjects:container.querySelector('#correctObject').value.trim()||analysis.notableObjects,
-      analysisSource:'user-corrected-from-gemini'
-    };
-    state.analysisCorrected={player:corrected.player,environment:corrected.environment,importantObject:corrected.notableObjects};
-    state.extraction.analysis={...analysis,...corrected};
-    goToStep(3);
+      <h3 style="font-size: 18px; margin-bottom: 12px;">${isScreenshot ? 'Does this reconstruction target look right?' : 'Did XPLAY understand the picture?'}</h3>
+      <div class="cardActions">
+        <button class="btn primary" id="confirmAnalysisBtn">${isScreenshot ? 'LOOKS RIGHT — KEEP GOING' : 'YES, KEEP GOING'}</button>
+        <button class="btn ghost" id="adjustAnalysisBtn">ADJUST WHAT XPLAY SEES</button>
+        ${isScreenshot ? '<button class="btn ghost" id="reanalyzeShotBtn">RE-ANALYZE SCREENSHOT</button>' : ''}
+      </div>
+      
+      <div id="adjustmentForm" style="display: none; margin-top: 24px; border-top: 1px solid var(--line); padding-top: 20px;">
+        <h3 style="font-size: 18px; margin-bottom: 16px;">Adjust settings</h3>
+        <label class="fieldLabel">PLAYER CANDIDATE
+          <input type="text" id="correctPlayer" style="width:100%; padding:12px; border:1px solid var(--line); border-radius:12px; margin-top:6px; font-size: 14px;" value="${analysis.player}" />
+        </label>
+        <label class="fieldLabel" style="margin-top:14px; display:block;">ENVIRONMENT
+          <input type="text" id="correctEnvironment" style="width:100%; padding:12px; border:1px solid var(--line); border-radius:12px; margin-top:6px; font-size: 14px;" value="${analysis.environment}" />
+        </label>
+        <label class="fieldLabel" style="margin-top:14px; display:block;">IMPORTANT OBJECTS
+          <input type="text" id="correctObject" style="width:100%; padding:12px; border:1px solid var(--line); border-radius:12px; margin-top:6px; font-size: 14px;" value="${analysis.notableObjects}" />
+        </label>
+        <button class="btn primary" id="saveCorrectionsBtn" style="margin-top: 18px; width: 100%;">SAVE CORRECTIONS & KEEP GOING</button>
+      </div>
+    </div>
+  `;
+
+  const saveScreenshotGuide = () => {
+    if (!isScreenshot) return;
+    const next = state.screenshotGuide || defaultScreenshotGuide();
+    next.fidelity = container.querySelector('#shotFidelity')?.value || 'blueprint';
+    next.camera = container.querySelector('#shotCamera')?.value || 'auto';
+    next.playerSource = container.querySelector('#shotPlayer')?.value || 'source';
+    next.objective = container.querySelector('#shotObjective')?.value?.trim() || '';
+    next.doNotChange = container.querySelector('#shotDontChange')?.value?.trim() || '';
+    next.motionHints = container.querySelector('#shotMotion')?.value?.trim() || '';
+    next.preserve = [...container.querySelectorAll('[data-preserve]:checked')].map(x=>x.dataset.preserve);
+    next.interpretationConfirmed = true;
+    state.screenshotGuide = next;
   };
+
+  const confirmBtn = container.querySelector('#confirmAnalysisBtn');
+  const adjustBtn = container.querySelector('#adjustAnalysisBtn');
+  const saveBtn = container.querySelector('#saveCorrectionsBtn');
+  const reanalyzeBtn = container.querySelector('#reanalyzeShotBtn');
+  const adjForm = container.querySelector('#adjustmentForm');
+
+  if (confirmBtn) confirmBtn.onclick = () => { saveScreenshotGuide(); goToStep(4); };
+  if (adjustBtn) {
+    adjustBtn.onclick = () => {
+      if (adjForm) {
+        adjForm.style.display = adjForm.style.display === 'none' ? 'block' : 'none';
+        adjForm.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+  }
+  if (saveBtn) {
+    saveBtn.onclick = () => {
+      saveScreenshotGuide();
+      const corrected={
+        player: container.querySelector('#correctPlayer')?.value?.trim() || analysis.player,
+        environment: container.querySelector('#correctEnvironment')?.value?.trim() || analysis.environment,
+        notableObjects: container.querySelector('#correctObject')?.value?.trim() || analysis.notableObjects
+      };
+      state.analysisCorrected = { player:corrected.player, environment:corrected.environment, importantObject:corrected.notableObjects };
+      state.extraction ||= {ok:true,assets:{}};
+      state.extraction.analysis={...(state.extraction.analysis||analysis),...corrected,analysisSource:'user-corrected'};
+      state.extraction.analysisMode='User-corrected screenshot analysis';
+      goToStep(3);
+    };
+  }
+  if(reanalyzeBtn) reanalyzeBtn.onclick=()=>goToStep(2);
 }
-
-
 
 function renderStep4(container) {
   const recommended = getRecommendedEngines();
@@ -1528,17 +1592,21 @@ async function analyzeScreenshotLocally(dataUrl,styleDna,file){
 }
 
 async function safeAnalyzeVisualSource(dataUrl, prompt) {
-  try{
-    const out=await withTimeout(analyzeVisualSource(dataUrl,prompt),60000,'Gemini Vision timed out after 60 seconds');
-    if(!out?.ok || !out?.analysis) throw new Error(out?.error||'Gemini returned no analysis');
-    return {...out,analysisMode:out.mode==='vision-drop-proven'?'Gemini Vision Drop Proven':'Gemini multimodal vision'};
-  }catch(e){
-    console.warn('Gemini Vision failed; no semantic fallback substituted.',e);
-    return {ok:false,analysis:null,assets:{},analysisMode:'Gemini Vision unavailable',error:e.message};
+  const apiBase=(import.meta.env.VITE_XPLAY_API_BASE_URL||'').replace(/\/$/,'');
+  const endpoint=apiBase?`${apiBase}/api/vision/analyze`:'/api/vision/analyze';
+  try {
+    const controller=new AbortController();const id=setTimeout(()=>controller.abort(),5000);
+    const r=await fetch(endpoint,{method:'POST',headers:{'content-type':'application/json'},signal:controller.signal,body:JSON.stringify({imageDataUrl:dataUrl,prompt,subjectHint:state.creationLane==='screenshot'?'game screenshot':'person'})});
+    clearTimeout(id);
+    if(!r.ok)throw new Error(`Vision HTTP ${r.status}`);
+    const out=await r.json();
+    if(!out?.analysis)throw new Error('Vision returned no analysis');
+    return {...out,analysisMode:'AI semantic vision'};
+  } catch(e) {
+    console.warn('AI Vision unavailable; using screenshot DNA fallback.',e);
+    return {ok:false,analysis:localImageAnalysis(state.media.primary?.file,state.styleDNA),assets:{},analysisMode:'Semantic AI Vision unavailable',error:e.message};
   }
 }
-
-
 
 function localImageAnalysis(file, styleDna) {
   return {
@@ -1586,6 +1654,24 @@ function renderBuildResult(manifest) {
               [HTML GAME CODE INJECTED]
             </div>
           ` : `
+            <div class="reverseForgeMini" style="margin: 0 0 12px 0;">
+              <b>Asset Manifest Gate</b><br/>
+              Approved: ${(manifest.assetManifest?.approvedKeys || []).length} · Rejected: ${(manifest.assetManifest?.rejected || []).length} · Reverse Lock: ${manifest.assetManifest?.reverseLocked ? 'ON' : 'OFF'}
+            </div>
+            ${(manifest.assets?.reference && Object.keys(manifest.assets.reference).length) ? `
+              <div style="margin-bottom:12px;">
+                <div class="pill" style="margin-bottom:8px;">CURRENT BUILD REFERENCES</div>
+                <div class="thumbGrid">
+                  ${Object.entries(manifest.assets.reference || {}).filter(([k,v]) => v).map(([k,v]) => `
+                    <figure>
+                      <img src="${v}" alt="${k}" />
+                      <figcaption>${k}</figcaption>
+                    </figure>
+                  `).join('')}
+                </div>
+              </div>
+            ` : ''}
+            <div class="pill" style="margin-bottom:8px;">APPROVED RUNTIME ASSETS</div>
             <div class="thumbGrid">
               ${Object.entries(manifest.assets?.images || {}).filter(([k,v]) => v).map(([k,v]) => `
                 <figure>

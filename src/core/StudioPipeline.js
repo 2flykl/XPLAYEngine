@@ -7,6 +7,7 @@ import { assemblePlayableManifest, validatePlayableManifest } from './PlayableMa
 import { directFunFactor } from './FunFactorDirector.js';
 import { preflightManifest } from './ManifestPreflight.js';
 import { finalizeBuildDNA } from './BeastOrchestrator.js';
+import { assembleApprovedAssetManifest } from './AssetManifestBeast.js';
 
 export function createStudioPlan(args={}){ return buildProductionBlueprint(args); }
 
@@ -93,7 +94,7 @@ export function finishStudioBuild(manifest,assets={}){
     ? finalImages.enemy
     : (finalImages[forged.meta.enemyKeys[0]]||assets.enemy||forged.assets.enemy00);
 
-  manifest.assets.images=sanitizeAssetMap(finalImages);
+  const runtimeFallbacks=sanitizeAssetMap(finalImages);
 
   manifest.parallax=reverse
     ? sanitizeAssetMap(assets.parallax||{
@@ -111,8 +112,31 @@ export function finishStudioBuild(manifest,assets={}){
     forged.meta.productionArt='reverse-forge-source-derived';
     forged.meta.referenceLocked=true;
     forged.meta.ambientSystems=['source-frame-parallax','camera-preserving-overlay','runtime-feedback'];
+    forged.meta.propKeys=[];
+    forged.meta.terrainKeys=[];
     manifest.worldKit=forged.meta;
   }
+
+  const approvedAssetManifest=assembleApprovedAssetManifest({
+    manifest,
+    sourceAssets:assets,
+    fallbackAssets:runtimeFallbacks,
+    provenance:manifest.assetProvenance||{},
+    buildId:manifest.buildId
+  });
+
+  manifest.assets.images=approvedAssetManifest.images;
+  manifest.assets.reference=approvedAssetManifest.referenceAssets;
+  manifest.assetManifest={
+    engine:approvedAssetManifest.engine,
+    buildId:approvedAssetManifest.buildId,
+    approvedKeys:approvedAssetManifest.approvedKeys,
+    rejected:approvedAssetManifest.rejected,
+    missingRequired:approvedAssetManifest.missingRequired,
+    reverseLocked:approvedAssetManifest.reverseLocked,
+    audit:approvedAssetManifest.audit,
+    provenance:approvedAssetManifest.provenance
+  };
 
   const fallbacks={
     ...combined,

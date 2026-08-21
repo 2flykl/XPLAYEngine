@@ -20,18 +20,41 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Install dependencies
-        run: npm ci --no-audit --no-fund
+
+      - name: Install clean dependencies
+        run: |
+          rm -rf node_modules
+          npm install --no-audit --no-fund
+
+      - name: Release-candidate verification
+        run: npm run verify:rc
+
+      - name: Patch live Vision client to proven Gemini pipeline
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('src/main.js')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace("setTimeout(()=>controller.abort(),5000)", "setTimeout(()=>controller.abort(),60000)")
+          s = s.replace("analysis.analysisSource==='gemini-semantic'", "['gemini-semantic','gemini-vision-drop-proven'].includes(analysis.analysisSource)")
+          p.write_text(s, encoding='utf-8')
+          print('Patched live Vision timeout to 60s and accepted proven Gemini source mode.')
+          PY
+
       - name: Build static live stage
         env:
           VITE_XPLAY_API_BASE_URL: https://xplay-api-246473132693.us-central1.run.app
         run: npm run build
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
+
       - name: Upload stage artifact
         uses: actions/upload-pages-artifact@v3
         with:
