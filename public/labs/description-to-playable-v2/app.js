@@ -42,7 +42,7 @@ els.build.onclick = () => {
     return;
   }
   startGame(currentPacket);
-  setStatus('Graybox built from V2 packet.');
+  setStatus(`Graybox built with ${currentPacket.gameplayBlueprint.engine} runtime.`);
 };
 els.download.onclick = () => {
   if (!currentPacket) currentPacket = interpret();
@@ -285,15 +285,43 @@ function buildBlueprint(title,genre,scene) {
       id:e.id,label:e.label,weapon:e.weapon,position:e.position,hp:3,
       ai:genre==='fighting'?{behavior:'approach player, enter attack range, strike, recover'}:{behavior:'genre-default'}
     })),
-    controls:genre==='fighting'?['left','right','up','down','attack']:['left','right','action'],
-    combat:genre==='fighting'?{attackRange:0.075,playerAttackDamage:1,enemyHP:4,contactDamage:.10,passiveHealthDrainPerSecond:.10,targetEncounterSeconds:15,hitReaction:true}:null,
-    world:{width:2200,height:540,viewportWidth:960,scrolling:true,walkLaneTop:.56,walkLaneBottom:.76,layers:scene.layers,landmarks:scene.landmarks.map(x=>x.id)},
+    controls:genre==='fighting'?['left','right','up','down','attack']:
+      genre==='platformer'?['left','right','jump']:
+      genre==='runner'?['lane_up','lane_down','jump']:
+      genre==='dodge'?['left','right','up','down']:['left','right','action'],
+    combat:genre==='fighting'?{attackRange:0.075,playerAttackDamage:1,enemyHP:4,contactDamage:.10,passiveHealthDrainPerSecond:.07,targetEncounterSeconds:15,hitReaction:true}:null,
+    world:{
+      width:genre==='runner'?3200:genre==='fighting'||genre==='platformer'?2600:960,
+      height:540,viewportWidth:960,scrolling:['fighting','platformer','runner'].includes(genre),
+      walkLaneTop:.56,walkLaneBottom:.76,layers:scene.layers,landmarks:scene.landmarks.map(x=>x.id)
+    },
+    runtimeProfile:
+      genre==='platformer'?{gravity:.42,jumpVelocity:-8.5,goal:'collect key item and reach exit'}:
+      genre==='runner'?{autoScroll:true,startSpeed:2.1,targetSpeed:4.4,targetSeconds:15,laneCount:3}:
+      genre==='dodge'?{arena:'top-down',targetSeconds:15,health:10,gradualPressure:true,healthPickups:true}:
+      genre==='fighting'?{targetSeconds:15,cameraDeadZone:true,waves:true}:null,
     progression:genre==='fighting'?[
       'Spawn player and all source-supported visible rivals.',
       'Preserve the side-view combat plane.',
       'Enemies approach from source-indicated regions.',
       'Player attacks reduce enemy HP.',
       'Encounter clears when all enemies are defeated.'
+    ]:genre==='platformer'?[
+      'Spawn player on first visible platform.',
+      'Use vertical platform hierarchy from source.',
+      'Collect source-supported objective item.',
+      'Reach far-right exit.'
+    ]:genre==='runner'?[
+      'Auto-advance through the route.',
+      'Ramp speed gradually.',
+      'Use lanes and jumpable hazards.',
+      'Collect checkpoint rings.',
+      'Reach finish after extended scroll.'
+    ]:genre==='dodge'?[
+      'Keep player inside the top-down arena.',
+      'Spawn hazards gradually.',
+      'Allow health recovery pickups.',
+      'Survive for 15 seconds.'
     ]:['Establish a minimal playable loop from the description.'],
     provenance:{positions:'text inference until spatial vision is connected',mechanics:'genre interpretation'}
   };
@@ -361,6 +389,7 @@ function runQA(source,scene,blueprint,workOrders,genres) {
   if(expectedEnemyCount) push(enemies.length>=expectedEnemyCount,`Expected about ${expectedEnemyCount} visible enemies; parsed ${enemies.length}.`,'warn');
   else push(enemies.length>0||scene.genre!=='fighting',`Enemy entities parsed: ${enemies.length}.`,'warn');
   push(blueprint.objective && blueprint.objective.length>8,'Objective exists.','bad');
+  push(['fighting','platformer','runner','dodge'].includes(scene.genre),`Dedicated runtime available for ${scene.genre}.`,'warn');
   push(workOrders.orders.some(x=>x.category==='character'),'Player asset work order exists.','bad');
   push(workOrders.orders.filter(x=>x.category==='enemy').length===enemies.length,'Enemy asset work orders match enemy entity count.','warn');
   push(!workOrders.orders.some(x=>/signatureJet|crosshair|terrain00/i.test(x.id)),'No known legacy asset names in work orders.','bad');
@@ -396,20 +425,161 @@ function renderJson() {
   els.json.textContent=JSON.stringify(value,null,2);
 }
 
+
 function startGame(packet) {
-  const canvas=els.canvas,ctx=canvas.getContext('2d'),sg=packet.canonicalSceneGraph,bp=packet.gameplayBlueprint;
+  const engine=packet.gameplayBlueprint.engine;
+  if(engine==='platformer') return startPlatformer(packet);
+  if(engine==='runner') return startRunner(packet);
+  if(engine==='dodge') return startDodge(packet);
+  return startFighting(packet);
+}
+
+function beginLoop(packet, drawFn, updateFn){
+  const canvas=els.canvas,ctx=canvas.getContext('2d');
+  function loop(ts){
+    if(!game)return;
+    const dt=Math.min(50,Math.max(0,ts-game.lastTs));
+    game.lastTs=ts;
+    updateFn(dt,packet);
+    drawFn(ctx,packet);
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+}
+
+function startFighting(packet) {
+  const sg=packet.canonicalSceneGraph,bp=packet.gameplayBlueprint;
   const playerEntity=sg.entities.find(x=>x.type==='player');
   game={
-    over:false,win:false,tick:0,flash:0,elapsedMs:0,targetDurationMs:15000,lastTs:performance.now(),cameraX:0,worldWidth:2600,healthDrainPerSecond:.07,healthPickupTaken:false,invulnMs:0,wave:1,reinforcementTriggered:false,zone2Triggered:false,bossTriggered:false,metrics:{attacks:0,hits:0,enemiesDefeated:0,damageTaken:0,maxScroll:0,wavesCompleted:0,firstKillMs:null,firstScrollMs:null,startedAt:performance.now()},
+    mode:'fighting',over:false,win:false,tick:0,flash:0,elapsedMs:0,targetDurationMs:15000,lastTs:performance.now(),
+    cameraX:0,worldWidth:2600,healthDrainPerSecond:.07,healthPickupTaken:false,invulnMs:0,wave:1,
+    reinforcementTriggered:false,zone2Triggered:false,bossTriggered:false,
+    metrics:{attacks:0,hits:0,enemiesDefeated:0,damageTaken:0,maxScroll:0,wavesCompleted:0,firstKillMs:null,firstScrollMs:null,startedAt:performance.now()},
     player:{x:(playerEntity.position.x||.34)*960,y:(playerEntity.position.y||.68)*540,w:34,h:62,speed:1.65,hp:10,facing:1,attackCooldown:0,attackTimer:0},
     enemies:bp.enemies.map((e,i)=>{
-      const archetype = i===0 ? {role:'knife',speed:.58,maxHp:3,damage:.32} : i===1 ? {role:'balanced',speed:.46,maxHp:4,damage:.38} : {role:'bruiser',speed:.34,maxHp:6,damage:.52};
+      const archetype=i===0?{role:'knife',speed:.58,maxHp:3,damage:.32}:i===1?{role:'balanced',speed:.46,maxHp:4,damage:.38}:{role:'bruiser',speed:.34,maxHp:6,damage:.52};
       return {...e,x:720+i*420,y:(e.position.y||.68)*540,w:34,h:58,hp:archetype.maxHp,maxHp:archetype.maxHp,alive:true,hurt:0,speed:archetype.speed,damage:archetype.damage,role:archetype.role,attackCd:0};
     })
   };
-  els.proto.innerHTML=`<b>${esc(packet.meta.title)}</b><br>Readiness: ${packet.qa.readiness}%<br>Enemies: ${game.enemies.length}<br>Status: active`;
-  requestAnimationFrame(loop);
-  function loop(ts){if(!game)return;const dt=Math.min(50,Math.max(0,ts-game.lastTs));game.lastTs=ts;updateGame(dt);drawGame(ctx,packet);requestAnimationFrame(loop)}
+  els.proto.innerHTML=`<b>${esc(packet.meta.title)}</b><br>Runtime: Fighting / Beat 'em Up<br>Goal: 15-second scrolling combat test`;
+  beginLoop(packet,drawGame,updateGame);
+}
+
+function startPlatformer(packet){
+  game={
+    mode:'platformer',over:false,win:false,lastTs:performance.now(),elapsedMs:0,cameraX:0,worldWidth:2600,
+    player:{x:170,y:330,w:30,h:54,vx:0,vy:0,speed:2.6,jump:-8.5,onGround:false},
+    platforms:[
+      {x:0,y:420,w:520,h:120},{x:610,y:365,w:250,h:175},{x:960,y:310,w:300,h:230},
+      {x:1370,y:380,w:300,h:160},{x:1790,y:330,w:260,h:210},{x:2150,y:400,w:450,h:140}
+    ],
+    shard:{x:1100,y:265,taken:false},exit:{x:2440,y:350,w:55,h:70}
+  };
+  els.proto.innerHTML=`<b>${esc(packet.meta.title)}</b><br>Runtime: Platformer<br>Goal: collect the shard and reach EXIT.`;
+  beginLoop(packet,drawPlatformer,updatePlatformer);
+}
+
+function updatePlatformer(dt){
+  const p=game.player, f=dt/16.7;
+  p.vx=0;
+  if(keys['arrowleft']||keys['a'])p.vx=-p.speed;
+  if(keys['arrowright']||keys['d'])p.vx=p.speed;
+  if((keys[' ']||keys['arrowup']||keys['w'])&&p.onGround){p.vy=p.jump;p.onGround=false}
+  p.vy+=0.42*f;
+  p.x+=p.vx*f;p.y+=p.vy*f;
+  p.onGround=false;
+  for(const pl of game.platforms){
+    if(p.x+p.w/2>pl.x&&p.x-p.w/2<pl.x+pl.w&&p.y+p.h/2>=pl.y&&p.y+p.h/2<=pl.y+18&&p.vy>=0){
+      p.y=pl.y-p.h/2;p.vy=0;p.onGround=true;
+    }
+  }
+  if(p.y>580){p.x=170;p.y=330;p.vy=0}
+  if(!game.shard.taken&&Math.abs(p.x-game.shard.x)<32&&Math.abs(p.y-game.shard.y)<45)game.shard.taken=true;
+  if(game.shard.taken&&p.x>game.exit.x-30){game.over=true;game.win=true;els.proto.innerHTML='<b>Platformer clear.</b><br>Shard collected and EXIT reached. Press R to retry.'}
+  game.cameraX=clamp(p.x-360,0,game.worldWidth-960);
+}
+
+function drawPlatformer(ctx,packet){
+  ctx.clearRect(0,0,960,540);
+  const grad=ctx.createLinearGradient(0,0,0,540);grad.addColorStop(0,'#1c2042');grad.addColorStop(1,'#693b61');ctx.fillStyle=grad;ctx.fillRect(0,0,960,540);
+  ctx.save();ctx.translate(-game.cameraX,0);
+  for(let i=0;i<20;i++){ctx.fillStyle=i%2?'#203857':'#162b46';ctx.fillRect(i*150,110+(i%4)*25,95,310)}
+  game.platforms.forEach(pl=>{ctx.fillStyle='#45515c';ctx.fillRect(pl.x,pl.y,pl.w,pl.h);ctx.fillStyle='#79858d';ctx.fillRect(pl.x,pl.y,pl.w,10)});
+  if(!game.shard.taken){ctx.fillStyle='#42c7ff';ctx.beginPath();ctx.moveTo(game.shard.x,game.shard.y-18);ctx.lineTo(game.shard.x+13,game.shard.y);ctx.lineTo(game.shard.x,game.shard.y+18);ctx.lineTo(game.shard.x-13,game.shard.y);ctx.closePath();ctx.fill()}
+  ctx.fillStyle='#fff6b8';ctx.fillRect(game.exit.x,game.exit.y,game.exit.w,game.exit.h);ctx.fillStyle='#242943';ctx.font='bold 16px Arial';ctx.fillText('EXIT',game.exit.x+7,game.exit.y+38);
+  ctx.fillStyle='#f4c44f';ctx.fillRect(game.player.x-14,game.player.y-27,28,54);ctx.fillStyle='#1f2433';ctx.beginPath();ctx.arc(game.player.x,game.player.y-38,13,0,Math.PI*2);ctx.fill();
+  ctx.restore();
+  ctx.fillStyle='#fff';ctx.font='bold 16px Arial';ctx.fillText(`Shard: ${game.shard.taken?'YES':'NO'} · Scroll ${Math.round(game.cameraX)}px`,18,26);
+}
+
+function startRunner(packet){
+  game={
+    mode:'runner',over:false,win:false,lastTs:performance.now(),elapsedMs:0,cameraX:0,worldWidth:3200,speed:2.1,targetSpeed:4.4,
+    player:{x:220,y:360,lane:1,vy:0,jumping:false},lanes:[330,370,410],
+    hazards:[{x:820,lane:1},{x:1320,lane:0},{x:1850,lane:2},{x:2380,lane:1}],
+    rings:[{x:680,lane:0,taken:false},{x:1540,lane:2,taken:false},{x:2240,lane:1,taken:false}],finishX:3000
+  };
+  els.proto.innerHTML=`<b>${esc(packet.meta.title)}</b><br>Runtime: Runner<br>Goal: survive 15s+, collect rings, reach finish.`;
+  beginLoop(packet,drawRunner,updateRunner);
+}
+
+function updateRunner(dt){
+  const f=dt/16.7;
+  game.elapsedMs+=dt;game.speed=Math.min(game.targetSpeed,game.speed+.0008*dt);
+  if((keys['arrowup']||keys['w'])&&game.player.lane>0){game.player.lane--;keys['arrowup']=keys['w']=false}
+  if((keys['arrowdown']||keys['s'])&&game.player.lane<2){game.player.lane++;keys['arrowdown']=keys['s']=false}
+  if((keys[' ']||keys['arrowright'])&&!game.player.jumping){game.player.vy=-7;game.player.jumping=true}
+  game.player.vy+=.36*f;game.player.y+=game.player.vy*f;
+  const ground=game.lanes[game.player.lane];if(game.player.y>=ground){game.player.y=ground;game.player.vy=0;game.player.jumping=false}
+  game.cameraX+=game.speed*f;
+  for(const r of game.rings)if(!r.taken&&Math.abs((r.x-game.cameraX)-game.player.x)<35&&r.lane===game.player.lane)r.taken=true;
+  for(const h of game.hazards)if(Math.abs((h.x-game.cameraX)-game.player.x)<30&&h.lane===game.player.lane&&!game.player.jumping){game.speed=Math.max(1.7,game.speed-1.2);h.x=-9999}
+  if(game.cameraX+game.player.x>=game.finishX){game.over=true;game.win=true;els.proto.innerHTML=`<b>Runner clear.</b><br>${(game.elapsedMs/1000).toFixed(1)}s · Rings ${game.rings.filter(r=>r.taken).length}/3. Press R to retry.`}
+}
+
+function drawRunner(ctx,packet){
+  ctx.clearRect(0,0,960,540);const g=ctx.createLinearGradient(0,0,0,540);g.addColorStop(0,'#f3a76b');g.addColorStop(.45,'#96c9d5');g.addColorStop(1,'#35546b');ctx.fillStyle=g;ctx.fillRect(0,0,960,540);
+  ctx.save();ctx.translate(-game.cameraX,0);
+  ctx.fillStyle='#293a44';ctx.fillRect(0,300,3200,180);
+  game.lanes.forEach(y=>{ctx.strokeStyle='#d7d7c6';ctx.setLineDash([20,18]);ctx.beginPath();ctx.moveTo(0,y+20);ctx.lineTo(3200,y+20);ctx.stroke();ctx.setLineDash([])});
+  game.hazards.forEach(h=>{if(h.x<0)return;ctx.fillStyle='#e67132';ctx.fillRect(h.x-18,game.lanes[h.lane]-16,36,32)});
+  game.rings.forEach(r=>{if(r.taken)return;ctx.strokeStyle='#ffd34f';ctx.lineWidth=5;ctx.beginPath();ctx.arc(r.x,game.lanes[r.lane]-20,18,0,Math.PI*2);ctx.stroke()});
+  ctx.fillStyle='#e7f4f6';ctx.fillRect(game.finishX,260,12,220);ctx.font='bold 18px Arial';ctx.fillStyle='#fff';ctx.fillText('FINISH',game.finishX-28,250);
+  ctx.restore();
+  ctx.fillStyle='#1b5672';ctx.fillRect(game.player.x-18,game.player.y-28,36,28);ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(game.player.x,game.player.y-38,11,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#fff';ctx.font='bold 16px Arial';ctx.fillText(`Speed ${game.speed.toFixed(1)} · Rings ${game.rings.filter(r=>r.taken).length}/3 · ${(game.elapsedMs/1000).toFixed(1)}s`,18,26);
+}
+
+function startDodge(packet){
+  game={
+    mode:'dodge',over:false,win:false,lastTs:performance.now(),elapsedMs:0,targetMs:15000,spawnMs:0,
+    player:{x:480,y:285,hp:10,speed:2.4,invuln:0},orbs:[],pickups:[{x:390,y:270,taken:false},{x:540,y:310,taken:false},{x:470,y:390,taken:false}]
+  };
+  els.proto.innerHTML=`<b>${esc(packet.meta.title)}</b><br>Runtime: Dodge<br>Goal: survive 15 seconds.`;
+  beginLoop(packet,drawDodge,updateDodge);
+}
+
+function updateDodge(dt){
+  game.elapsedMs+=dt;game.spawnMs-=dt;const p=game.player,f=dt/16.7;if(p.invuln>0)p.invuln-=dt;
+  if(keys['arrowleft']||keys['a'])p.x-=p.speed*f;if(keys['arrowright']||keys['d'])p.x+=p.speed*f;if(keys['arrowup']||keys['w'])p.y-=p.speed*f;if(keys['arrowdown']||keys['s'])p.y+=p.speed*f;
+  p.x=clamp(p.x,110,850);p.y=clamp(p.y,115,445);
+  if(game.spawnMs<=0){game.spawnMs=Math.max(300,900-game.elapsedMs*.025);const fromTop=Math.random()<.5;game.orbs.push({x:fromTop?120+Math.random()*720:880,y:fromTop?90:110+Math.random()*330,vx:fromTop?0:-1.2-Math.random()*.8,vy:fromTop?1.1+Math.random()*.8:0})}
+  game.orbs.forEach(o=>{o.x+=o.vx*f;o.y+=o.vy*f;if(Math.hypot(o.x-p.x,o.y-p.y)<24&&p.invuln<=0){p.hp=Math.max(0,p.hp-.75);p.invuln=500;o.x=-100}});
+  game.orbs=game.orbs.filter(o=>o.x>-50&&o.x<1010&&o.y<590);
+  game.pickups.forEach(pk=>{if(!pk.taken&&Math.hypot(pk.x-p.x,pk.y-p.y)<28){pk.taken=true;p.hp=Math.min(10,p.hp+2)}});
+  if(p.hp<=0){game.over=true;game.win=false;els.proto.innerHTML='<b>Dodge failed.</b><br>Health depleted. Press R to retry.'}
+  if(game.elapsedMs>=game.targetMs&&p.hp>0){game.over=true;game.win=true;els.proto.innerHTML=`<b>Dodge clear.</b><br>Survived ${(game.elapsedMs/1000).toFixed(1)}s with ${p.hp.toFixed(1)} HP. Press R to retry.`}
+}
+
+function drawDodge(ctx,packet){
+  ctx.clearRect(0,0,960,540);ctx.fillStyle='#161331';ctx.fillRect(0,0,960,540);ctx.fillStyle='#25204b';ctx.fillRect(90,90,780,380);
+  ctx.strokeStyle='#4b3c86';ctx.lineWidth=2;for(let x=110;x<860;x+=50){ctx.beginPath();ctx.moveTo(x,100);ctx.lineTo(x,460);ctx.stroke()}for(let y=110;y<460;y+=50){ctx.beginPath();ctx.moveTo(100,y);ctx.lineTo(860,y);ctx.stroke()}
+  [[120,120],[840,120],[120,440],[840,440]].forEach(([x,y])=>{ctx.fillStyle='#2c2b35';ctx.fillRect(x-28,y-28,56,56);ctx.fillStyle='#8c4bff';ctx.beginPath();ctx.arc(x,y,14,0,Math.PI*2);ctx.fill()});
+  ctx.strokeStyle='#4ff1a1';ctx.lineWidth=4;ctx.beginPath();ctx.arc(230,300,55,0,Math.PI*2);ctx.stroke();
+  game.pickups.forEach(pk=>{if(pk.taken)return;ctx.fillStyle='#48e57d';ctx.beginPath();ctx.arc(pk.x,pk.y,11,0,Math.PI*2);ctx.fill()});
+  game.orbs.forEach(o=>{ctx.fillStyle='#e84058';ctx.beginPath();ctx.arc(o.x,o.y,12,0,Math.PI*2);ctx.fill()});
+  ctx.fillStyle='#a75be8';ctx.fillRect(game.player.x-15,game.player.y-20,30,40);ctx.fillStyle='#f0c847';ctx.beginPath();ctx.arc(game.player.x,game.player.y-27,10,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#fff';ctx.font='bold 16px Arial';ctx.fillText(`HP ${game.player.hp.toFixed(1)} · ${(game.elapsedMs/1000).toFixed(1)} / 15.0s · Pickups ${game.pickups.filter(p=>p.taken).length}/3`,18,26);
 }
 
 function updateGame(dt=16.7) {
