@@ -1,6 +1,6 @@
 {
-  "title": "Frontline Echo \u00b7 Flux Edition",
-  "description": "Flux-powered First-person target shooter PLX.",
+  "title": "Terminal Zero",
+  "description": "First-person target shooter PLX.",
   "engine": "fps",
   "duration": 45,
   "objective": {
@@ -14,8 +14,7 @@
   },
   "assets": {
     "images": {
-      "background": "/flux-pack/runtime/backgrounds/city_rooftop.png",
-      "player": "/flux-pack/15_PLX_FPS/frames/idle_aim/idle_aim_000.png",
+      "background": "/v6/fps/far.png",
       "enemy": "/rc-assets/fps/enemy.png",
       "collectible": "/rc-assets/fps/collectible.png",
       "platform": "assets/platform.svg",
@@ -25,21 +24,18 @@
       "hazard": "/rc-assets/fps/hazard.png"
     }
   },
-  "fluxEdition": true,
-  "fluxPack": {
-    "folder": "15_PLX_FPS",
-    "defaultAnimation": "idle_aim",
-    "speculativeFrames": 300
-  },
   "parallax": {
-    "far": "/flux-pack/20_ENVIRONMENTS/city_rooftop/far.png",
-    "mid": "/flux-pack/20_ENVIRONMENTS/city_rooftop/mid.png",
-    "near": "/flux-pack/20_ENVIRONMENTS/city_rooftop/near.png"
+    "far": "/v6/fps/far.png",
+    "mid": "/v6/fps/mid.png",
+    "near": "/v6/fps/near.png"
   },
   "scrollProfile": {
     "axis": "none",
     "direction": "static"
   },
   "releaseCandidateArt": true,
-  "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback"
+  "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback",
+  "characterPolicy": "unique-per-plx engine character; source-derived character overrides fallback",
+  "preview": "preview.png",
+  "productionArt": "v6-runtime-aligned"
 }

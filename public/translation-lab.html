@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>XPLAY Translation Lab</title>
+<style>
+:root{font-family:Inter,system-ui,Arial;background:#f4f8f8;color:#10243a}body{margin:0}.wrap{max-width:1050px;margin:auto;padding:32px 20px 60px}
+h1{font-size:34px;margin:8px 0}.lead{color:#627283;line-height:1.5}.pill{display:inline-block;background:#dff6f2;color:#087d77;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.card{background:white;border:1px solid #dbe5e6;border-radius:18px;padding:18px}
+label{display:grid;gap:8px;font-size:12px;font-weight:900;margin:14px 0}textarea,input,select{padding:12px;border:1px solid #cfdadb;border-radius:12px;font:inherit;box-sizing:border-box;width:100%}
+textarea{min-height:260px;line-height:1.45}.btn{padding:13px 18px;border:0;border-radius:12px;font-weight:900;cursor:pointer}.primary{background:#19b9b1;color:white}.ghost{background:white;border:1px solid #cfdadb}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}.status{padding:13px 15px;background:#e7f7f5;border-radius:12px}.status.bad{background:#ffe9e9;color:#9b2f2f}
+pre{white-space:pre-wrap;word-break:break-word;background:#0e1b29;color:#dce9ef;border-radius:14px;padding:14px;font-size:12px;max-height:480px;overflow:auto}
+#preview{width:100%;max-height:360px;object-fit:contain;background:#08131e;border-radius:12px}
+.resultGrid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:16px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body><div class="wrap">
+<div class="pill">XPLAY • ANALYSIS → PLAYABLE PACKETS</div>
+<h1>Turn Vision analysis into a build contract</h1>
+<p class="lead">Paste the detailed Gemini Vision description. Optionally attach the same source image. XPLAY then runs the Game Interpreter Beast, Asset Manifest Beast, and Builder Packet Compiler in sequence.</p>
+
+<div class="grid">
+  <div class="card">
+    <label>DETAILED VISION ANALYSIS<textarea id="analysis" placeholder="Paste the detailed Vision analysis here..."></textarea></label>
+    <label>SOURCE IMAGE (recommended)<input id="imageFile" type="file" accept="image/*"></label>
+    <div id="previewWrap" hidden><img id="preview"></div>
+  </div>
+  <div class="card">
+    <label>LOCK GAME TYPE
+      <select id="engine">
+        <option value="">Let Interpreter recommend</option>
+        <option value="fighting">Fighting / Beat-em-up</option>
+        <option value="fps">First-Person Shooter</option>
+        <option value="platformer">Platformer</option>
+        <option value="runner">Runner</option>
+        <option value="dodge">Dodge</option>
+        <option value="collect">Collect</option>
+        <option value="rhythm">Rhythm</option>
+        <option value="puzzle">Puzzle</option>
+        <option value="openworld">Open World</option>
+        <option value="racing">Racing</option>
+      </select>
+    </label>
+    <label>USER GAMEPLAY INTENT<input id="intent" placeholder="Example: Control Alex and fight through waves of enemies."></label>
+    <label>MUST KEEP<input id="mustKeep" placeholder="Example: white gi, afro, industrial night dock, 3 enemy archetypes, retro HUD"></label>
+    <div class="actions">
+      <button class="btn primary" id="runBtn">RUN TRANSLATION PIPELINE</button>
+      <button class="btn ghost" id="downloadBtn">DOWNLOAD PACKET</button>
+    </div>
+    <div class="status" id="status">Ready.</div>
+  </div>
+</div>
+
+<div id="results" hidden class="resultGrid">
+  <div class="card"><h2>1. Game Interpreter Packet</h2><pre id="interpreter"></pre></div>
+  <div class="card"><h2>2. Asset Manifest Packet</h2><pre id="assets"></pre></div>
+  <div class="card"><h2>3. Builder Packet</h2><pre id="builder"></pre></div>
+</div>
+</div>
+<script type="module" src="./translation-lab.js"></script>
+</body>
+</html>

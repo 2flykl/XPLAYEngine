@@ -1,10 +1,20 @@
 [
   {
+    "engine": "puzzle",
+    "title": "Gem Drop",
+    "creator": "@davidplays",
+    "caption": "I turned a color study into a juicy match-3 puzzle. Chain four gems and the whole board starts to cascade.",
+    "cover": "./plx/thoughtlink/preview.png",
+    "played": 2419,
+    "remixes": 204,
+    "comments": 91
+  },
+  {
     "engine": "fps",
     "title": "Terminal Zero",
     "creator": "@novajay",
-    "caption": "A late-night airport photo became a first-person survival run.",
-    "cover": "./social/posts/fps.jpg",
+    "caption": "A late-night airport photo became a first-person runway defense game.",
+    "cover": "./plx/frontline/preview.png",
     "played": 1284,
     "remixes": 86,
     "comments": 34
@@ -14,7 +24,7 @@
     "title": "After Hours",
     "creator": "@marcusvale",
     "caption": "One photo. One rival. One neon rooftop. Settle it in the ring.",
-    "cover": "./social/posts/fighting.jpg",
+    "cover": "./plx/streetclash/preview.png",
     "played": 992,
     "remixes": 61,
     "comments": 28
@@ -23,18 +33,18 @@
     "engine": "runner",
     "title": "Skyline Delivery",
     "creator": "@tianarae",
-    "caption": "Get the package across the city before anyone sees Flux.",
-    "cover": "./social/posts/runner.jpg",
+    "caption": "Race the skyline, grab delivery tokens, and survive the rush-hour gaps.",
+    "cover": "./plx/skybound/preview.png",
     "played": 1655,
     "remixes": 119,
     "comments": 46
   },
   {
     "engine": "rhythm",
-    "title": "Color Chase",
+    "title": "Beatline City",
     "creator": "@ayorose",
-    "caption": "Stay camouflaged by matching the world on beat.",
-    "cover": "./social/posts/rhythm.jpg",
+    "caption": "A performance clip became a four-lane neon rhythm stage.",
+    "cover": "./plx/beatline/preview.png",
     "played": 2204,
     "remixes": 184,
     "comments": 71
@@ -44,7 +54,7 @@
     "title": "Neon Circuit",
     "creator": "@devonmiles",
     "caption": "A street photo turned into a midnight boost race.",
-    "cover": "./social/posts/racing.jpg",
+    "cover": "./plx/neonrace/preview.png",
     "played": 743,
     "remixes": 39,
     "comments": 18
@@ -53,8 +63,8 @@
     "engine": "platformer",
     "title": "Canopy Rush",
     "creator": "@kenzow",
-    "caption": "Tongue swing, wall cling, disappear, repeat.",
-    "cover": "./social/posts/platformer.jpg",
+    "caption": "A forest photo became a layered platform world full of jumps, routes and hidden rewards.",
+    "cover": "./plx/wildjump/preview.png",
     "played": 1881,
     "remixes": 132,
     "comments": 54
@@ -64,7 +74,7 @@
     "title": "Lantern Grove",
     "creator": "@miraeast",
     "caption": "A calm photo became a glowing collectible hunt.",
-    "cover": "./social/posts/collect.jpg",
+    "cover": "./plx/grove/preview.png",
     "played": 618,
     "remixes": 27,
     "comments": 12
@@ -74,29 +84,19 @@
     "title": "Rooftop Rush",
     "creator": "@jaylenmade",
     "caption": "Dodge drones and catch energy drops above the city.",
-    "cover": "./social/posts/dodge.jpg",
+    "cover": "./plx/rooftop/preview.png",
     "played": 1354,
     "remixes": 73,
     "comments": 31
   },
   {
-    "engine": "open_world",
+    "engine": "openworld",
     "title": "Driftlands",
     "creator": "@samori",
     "caption": "A single landscape turned into a tiny place worth exploring.",
-    "cover": "./social/posts/open_world.jpg",
+    "cover": "./plx/driftlands/preview.png",
     "played": 836,
     "remixes": 42,
     "comments": 19
-  },
-  {
-    "engine": "puzzle",
-    "title": "Thought Link",
-    "creator": "@nialane",
-    "caption": "Memory, color, and camouflage folded into one playable puzzle.",
-    "cover": "./social/posts/puzzle.jpg",
-    "played": 1109,
-    "remixes": 56,
-    "comments": 24
   }
 ]

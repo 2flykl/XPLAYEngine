@@ -1,7 +1,7 @@
 {
   "engine": "runner",
-  "title": "Skybound Dash \u00b7 Flux Edition",
-  "description": "Flux-powered A manifest-driven cinematic runner PLX.",
+  "title": "Skyline Delivery",
+  "description": "A manifest-driven cinematic runner PLX.",
   "duration": 45,
   "objective": {
     "label": "Reach the finish"
@@ -14,29 +14,25 @@
   },
   "assets": {
     "images": {
-      "background": "/flux-pack/runtime/backgrounds/spectrum.png",
-      "player": "/flux-pack/10_PLX_RUNNER/frames/idle/idle_000.png",
+      "background": "/v6/runner/far.png",
       "hazard": "/rc-assets/runner/hazard.png",
       "collectible": "/rc-assets/runner/collectible.png",
       "platform": "assets/platform.svg",
       "goal": "/rc-assets/runner/goal.png"
     }
   },
-  "fluxEdition": true,
-  "fluxPack": {
-    "folder": "10_PLX_RUNNER",
-    "defaultAnimation": "idle",
-    "speculativeFrames": 300
-  },
   "parallax": {
-    "far": "/flux-pack/20_ENVIRONMENTS/spectrum/far.png",
-    "mid": "/flux-pack/20_ENVIRONMENTS/spectrum/mid.png",
-    "near": "/flux-pack/20_ENVIRONMENTS/spectrum/near.png"
+    "far": "/v6/runner/far.png",
+    "mid": "/v6/runner/mid.png",
+    "near": "/v6/runner/near.png"
   },
   "scrollProfile": {
     "axis": "x",
     "direction": "left"
   },
   "releaseCandidateArt": true,
-  "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback"
+  "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback",
+  "characterPolicy": "unique-per-plx engine character; source-derived character overrides fallback",
+  "preview": "preview.png",
+  "productionArt": "v6-runtime-aligned"
 }

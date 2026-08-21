@@ -1,6 +1,6 @@
 {
-  "title": "Driftlands \u00b7 Flux Edition",
-  "description": "Flux-powered Quest-driven open-world exploration PLX.",
+  "title": "Driftlands",
+  "description": "Quest-driven open-world exploration PLX.",
   "engine": "openworld",
   "duration": 90,
   "objective": {
@@ -14,8 +14,7 @@
   },
   "assets": {
     "images": {
-      "background": "/flux-pack/runtime/backgrounds/airport.png",
-      "player": "/flux-pack/17_PLX_OPEN_WORLD/frames/idle/idle_000.png",
+      "background": "/v6/openworld/far.png",
       "enemy": "assets/enemy.svg",
       "collectible": "/rc-assets/openworld/collectible.png",
       "platform": "assets/platform.svg",
@@ -24,21 +23,18 @@
       "goal": "/rc-assets/openworld/goal.png"
     }
   },
-  "fluxEdition": true,
-  "fluxPack": {
-    "folder": "17_PLX_OPEN_WORLD",
-    "defaultAnimation": "idle",
-    "speculativeFrames": 300
-  },
   "parallax": {
-    "far": "/flux-pack/20_ENVIRONMENTS/airport/far.png",
-    "mid": "/flux-pack/20_ENVIRONMENTS/airport/mid.png",
-    "near": "/flux-pack/20_ENVIRONMENTS/airport/near.png"
+    "far": "/v6/openworld/far.png",
+    "mid": "/v6/openworld/mid.png",
+    "near": "/v6/openworld/near.png"
   },
   "scrollProfile": {
     "axis": "camera",
     "direction": "free"
   },
   "releaseCandidateArt": true,
-  "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback"
+  "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback",
+  "characterPolicy": "unique-per-plx engine character; source-derived character overrides fallback",
+  "preview": "preview.png",
+  "productionArt": "v6-runtime-aligned"
 }

@@ -1,6 +1,6 @@
 {
-  "title": "Wild Jump \u00b7 Flux Edition",
-  "description": "Flux-powered Free-movement side-scrolling platformer PLX.",
+  "title": "Canopy Rush",
+  "description": "Free-movement side-scrolling platformer PLX.",
   "engine": "platformer",
   "duration": 75,
   "objective": {
@@ -14,29 +14,25 @@
   },
   "assets": {
     "images": {
-      "background": "/flux-pack/runtime/backgrounds/neon_jungle.png",
-      "player": "/flux-pack/19_PLX_PLATFORMER/frames/idle/idle_000.png",
+      "background": "/v6/platformer/far.png",
       "enemy": "/rc-assets/platformer/enemy.png",
       "collectible": "/rc-assets/platformer/collectible.png",
       "platform": "/rc-assets/platformer/platform.png",
       "goal": "/rc-assets/platformer/goal.png"
     }
   },
-  "fluxEdition": true,
-  "fluxPack": {
-    "folder": "19_PLX_PLATFORMER",
-    "defaultAnimation": "idle",
-    "speculativeFrames": 300
-  },
   "parallax": {
-    "far": "/flux-pack/20_ENVIRONMENTS/neon_jungle/far.png",
-    "mid": "/flux-pack/20_ENVIRONMENTS/neon_jungle/mid.png",
-    "near": "/flux-pack/20_ENVIRONMENTS/neon_jungle/near.png"
+    "far": "/v6/platformer/far.png",
+    "mid": "/v6/platformer/mid.png",
+    "near": "/v6/platformer/near.png"
   },
   "scrollProfile": {
     "axis": "x",
     "direction": "left"
   },
   "releaseCandidateArt": true,
-  "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback"
+  "fallbackArtPolicy": "category-native illustrated assets; no geometric placeholder fallback",
+  "characterPolicy": "unique-per-plx engine character; source-derived character overrides fallback",
+  "preview": "preview.png",
+  "productionArt": "v6-runtime-aligned"
 }

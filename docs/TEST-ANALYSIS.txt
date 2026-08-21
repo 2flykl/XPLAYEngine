@@ -1,0 +1,8 @@
+Here is a detailed breakdown of the image:
+
+Main Subject: Alex, a dark-skinned male martial artist with a black afro, white gi, black belt and wrist wraps, striking an opponent.
+Enemies: a red-bandana fighter being hit, a pink-mohawk knife fighter, and a muscular blue-bandana bruiser.
+Environment: industrial city dockyard alley at night with brick building, chain-link fence, shipping container, barrels, hazard stripes, moon and skyline.
+HUD: ALEX portrait/name/score/lives/health, TIME 74, PRESS START, KNIFE health, STAGE 3-1, BANDANA health.
+Camera/Genre: side-scrolling orthographic 2D beat-em-up with shallow vertical depth.
+Style: retro 16/32-bit arcade pixel art.
