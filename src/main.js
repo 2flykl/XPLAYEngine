@@ -448,7 +448,7 @@ function renderStep2(container) {
   if(analyzeBtn) analyzeBtn.onclick=async()=>{
     analyzeBtn.disabled=true;
     analyzeBtn.textContent='ANALYZING…';
-    if(status) status.innerHTML='⟳ Extracting color DNA, composition, scene bands and gameplay cues…';
+    if(status) status.innerHTML='⟳ Gemini Vision is analyzing this exact image. Automatic retry + model failover are active…';
     try{
       const dna=await withTimeout(analyzeImageStyle(state.media.primary.dataUrl),5000,'Style analysis timed out');
       state.styleDNA=dna;
@@ -464,9 +464,17 @@ function renderStep2(container) {
     }catch(e){
       console.error(e);
       state.styleDNA=state.styleDNA||fallbackDNA('analysis-fallback');
+      analyzeBtn.disabled=false;analyzeBtn.textContent=isScreenshot?'🧬 RETRY GEMINI ANALYSIS':'RETRY ANALYSIS';
+      if(isScreenshot){
+        const busy=e?.retryable||e?.status===503||e?.code==='VISION_PROVIDER_BUSY';
+        const models=e?.details?.modelsTried?.join(' → ');
+        if(status) status.innerHTML=busy
+          ? `⚠ <b>Google Vision is temporarily busy.</b><br>XPLAY already retried with exponential backoff and attempted model failover${models?` (${models})`:''}. No semantic substitute was invented. Press Retry when ready.`
+          : `⚠ <b>Vision analysis did not complete.</b><br>${e?.message||'Unknown Vision error'}. No semantic substitute was invented.`;
+        return;
+      }
       state.extraction=await localScreenshotExtraction(state.media.primary.dataUrl,state.styleDNA,state.media.primary?.file);
-      if(status) status.innerHTML='⚠ Remote vision was unavailable. XPLAY created a local screenshot-DNA analysis instead of inventing unrelated objects.';
-      analyzeBtn.disabled=false;analyzeBtn.textContent=isScreenshot?'🧬 ANALYZE SCREENSHOT':'ANALYZE PICTURE';
+      if(status) status.innerHTML='⚠ Remote vision was unavailable. XPLAY created a local non-semantic image analysis.';
       setTimeout(()=>goToStep(3),450);
     }
   };
@@ -1624,17 +1632,20 @@ async function analyzeScreenshotLocally(dataUrl,styleDna,file){
 async function safeAnalyzeVisualSource(dataUrl, prompt) {
   const apiBase=(import.meta.env.VITE_XPLAY_API_BASE_URL||'').replace(/\/$/,'');
   const endpoint=apiBase?`${apiBase}/api/vision/analyze`:'/api/vision/analyze';
+  const controller=new AbortController();
+  const id=setTimeout(()=>controller.abort(),110000);
   try {
-    const controller=new AbortController();const id=setTimeout(()=>controller.abort(),5000);
     const r=await fetch(endpoint,{method:'POST',headers:{'content-type':'application/json'},signal:controller.signal,body:JSON.stringify({imageDataUrl:dataUrl,prompt,subjectHint:state.creationLane==='screenshot'?'game screenshot':'person'})});
-    clearTimeout(id);
-    if(!r.ok)throw new Error(`Vision HTTP ${r.status}`);
-    const out=await r.json();
+    const out=await r.json().catch(()=>({}));
+    if(!r.ok){
+      const e=new Error(out?.error||`Vision HTTP ${r.status}`);
+      e.status=r.status;e.code=out?.code||'';e.retryable=!!out?.retryable;e.details=out?.details||null;
+      throw e;
+    }
     if(!out?.analysis)throw new Error('Vision returned no analysis');
-    return {...out,analysisMode:'AI semantic vision'};
-  } catch(e) {
-    console.warn('AI Vision unavailable; using screenshot DNA fallback.',e);
-    return {ok:false,analysis:localImageAnalysis(state.media.primary?.file,state.styleDNA),assets:{},analysisMode:'Semantic AI Vision unavailable',error:e.message};
+    return {...out,analysisMode:out.mode||'AI semantic vision'};
+  } finally {
+    clearTimeout(id);
   }
 }
 

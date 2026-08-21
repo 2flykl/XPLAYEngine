@@ -1,3 +1,5 @@
+import { resilientGeminiText, modelCascade } from './geminiResilience.js';
+
 const ALLOWED_ENGINES=['runner','dodge','collect','rhythm','puzzle','fps','fighting','openworld','racing','platformer'];
 
 function parseDataUrl(dataUrl=''){
@@ -47,14 +49,11 @@ function dedupeEntities(list=[]){
   }
   return out;
 }
-async function geminiJSON({apiKey,model,parts,temperature=.05}){
-  const endpoint=`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
-  const r=await fetch(endpoint,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({contents:[{role:'user',parts}],generationConfig:{temperature}})});
-  const raw=await r.text();if(!r.ok)throw new Error(`Gemini HTTP ${r.status}: ${raw.slice(0,1200)}`);
-  const body=JSON.parse(raw);const text=body?.candidates?.[0]?.content?.parts?.map(p=>p.text||'').join('').trim();
-  if(!text)throw new Error('Gemini returned no spatial result.');
-  return JSON.parse(stripFence(text));
+async function geminiJSON({apiKey,model,parts,temperature=.05,label='spatial-vision'}){
+  const result=await resilientGeminiText({apiKey,primaryModel:model,parts,temperature,label});
+  return {json:JSON.parse(stripFence(result.text)),modelUsed:result.modelUsed,attempts:result.attempts};
 }
+
 function scenePrompt({analysis='',selectedEngine='',userIntent='',tileMode=false}={}){
   return `You are XPLAY Spatial Vision, a source-grounded computer-vision stage for game reconstruction.
 ${tileMode?'This request includes the full source image followed by overlapping detail tiles. Use the full image for global coordinates and tiles only to improve recognition.':''}
@@ -122,7 +121,7 @@ function manifestFromSceneGraph(sceneGraph={},analysis=''){
 }
 
 export function registerSpatialVisionRoutes(app,{apiKey,model='gemini-3.6-flash'}={}){
-  app.get('/api/vision/spatial/health',(_req,res)=>res.status(apiKey?200:503).json({ok:!!apiKey,provider:apiKey?'gemini':'offline',model,mode:'spatial-scene-graph-v1'}));
+  app.get('/api/vision/spatial/health',(_req,res)=>res.status(apiKey?200:503).json({ok:!!apiKey,provider:apiKey?'gemini':'offline',model,mode:'spatial-resilient-v2',modelCascade:modelCascade(model)}));
   app.post('/api/vision/spatial',async(req,res)=>{
     try{
       if(!apiKey)return res.status(503).json({ok:false,error:'GEMINI_API_KEY is not configured.'});
@@ -133,10 +132,11 @@ export function registerSpatialVisionRoutes(app,{apiKey,model='gemini-3.6-flash'
       for(const t of (Array.isArray(detailTiles)?detailTiles:[]).slice(0,6)){
         try{const p=parseDataUrl(t?.dataUrl||'');parts.push({text:`Detail tile ${t?.id||''}. Tile bounds in original normalized coordinates: ${JSON.stringify(t?.bounds||[])}. Use this only to improve recognition; return all final coordinates in the original full-image coordinate system.`},{inline_data:{mime_type:p.mimeType,data:p.data}});}catch{}
       }
-      const raw=await geminiJSON({apiKey,model,parts,temperature:.05});
+      const spatialResult=await geminiJSON({apiKey,model,parts,temperature:.05,label:'spatial-scene-graph'});
+      const raw=spatialResult.json;
       const sceneGraph=makeSceneGraph(raw);
       const assetManifest=manifestFromSceneGraph(sceneGraph,analysis);
-      res.json({ok:true,provider:'gemini',model,mode:'spatial-scene-graph-v1',sceneGraph,assetManifest,raw});
-    }catch(e){console.error('[Spatial Vision]',e);res.status(502).json({ok:false,error:e?.message||String(e)});}
+      res.json({ok:true,provider:'gemini',model:spatialResult.modelUsed||model,requestedModel:model,mode:'spatial-resilient-v2',sceneGraph,assetManifest,raw,resilience:{attempts:spatialResult.attempts,modelCascade:modelCascade(model)}});
+    }catch(e){console.error('[Spatial Vision]',e);const status=e?.status===503||e?.retryable?503:502;res.status(status).json({ok:false,code:e?.retryable?'VISION_PROVIDER_BUSY':'SPATIAL_VISION_ERROR',retryable:!!e?.retryable,error:e?.message||String(e),details:e?.details||null});}
   });
 }

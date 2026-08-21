@@ -1,3 +1,5 @@
+import { resilientGeminiText, modelCascade } from './geminiResilience.js';
+
 // Proven XPLAY Gemini multimodal path, adapted directly from the working Gemini Vision Drop Test.
 
 const ALLOWED_ENGINES=['runner','dodge','collect','rhythm','puzzle','fps','fighting','openworld','racing','platformer'];
@@ -19,20 +21,10 @@ function stripJsonFence(text=''){
   return String(text).trim().replace(/^```json\s*/i,'').replace(/^```\s*/,'').replace(/```\s*$/,'').trim();
 }
 
-async function geminiRequest({apiKey,model,parts,temperature=0.2}){
-  const endpoint=`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
-  const r=await fetch(endpoint,{
-    method:'POST',
-    headers:{'content-type':'application/json'},
-    body:JSON.stringify({contents:[{role:'user',parts}],generationConfig:{temperature}})
-  });
-  const raw=await r.text();
-  if(!r.ok)throw new Error(`Gemini HTTP ${r.status}: ${raw.slice(0,1200)}`);
-  const parsed=JSON.parse(raw);
-  const text=parsed?.candidates?.[0]?.content?.parts?.map(p=>p.text||'').join('').trim();
-  if(!text)throw new Error('Gemini returned no text.');
-  return text;
+async function geminiRequest({apiKey,model,parts,temperature=0.2,label='vision'}){
+  return resilientGeminiText({apiKey,primaryModel:model,parts,temperature,label});
 }
+
 
 function frontendAnalysis(raw={},description=''){
   const recs=(Array.isArray(raw.recommended_plx)?raw.recommended_plx:[])
@@ -70,7 +62,7 @@ export function registerGeminiVisionDropRoutes(app,{apiKey,model='gemini-3.6-fla
     const envPresent=Object.prototype.hasOwnProperty.call(process.env,'GEMINI_API_KEY');
     const diagnostics={envPresent,rawLength:rawEnv.length,trimmedLength:rawEnv.trim().length,revision:process.env.K_REVISION||null,service:process.env.K_SERVICE||null};
     if(!apiKey)return res.status(503).json({ok:false,provider:'offline',configured:false,error:'GEMINI_API_KEY is not configured.',diagnostics});
-    res.json({ok:true,provider:'gemini',model,configured:true,mode:'vision-drop-proven',diagnostics});
+    res.json({ok:true,provider:'gemini',model,configured:true,mode:'vision-resilient-v2',modelCascade:modelCascade(model),diagnostics});
   });
 
   app.post('/api/vision/analyze',async(req,res)=>{
@@ -83,16 +75,19 @@ export function registerGeminiVisionDropRoutes(app,{apiKey,model='gemini-3.6-fla
       const descriptionPrompt=(prompt&&String(prompt).trim())
         ? `Analyze this image carefully for XPLAY. User context: ${String(prompt).trim()}\n\nDescribe the image clearly and specifically. Identify the main subject/player candidate, setting, enemies or other characters, notable objects, visible text/HUD, colors, composition/camera, likely activity/gameplay, and game genre. Do not invent details that are not visible. If something is uncertain, say so.`
         : 'Describe this image clearly and specifically. Identify the main subject/player candidate, setting, enemies or other characters, notable objects, visible text/HUD, colors, composition/camera, likely activity/gameplay, and game genre. Do not invent details that are not visible. If something is uncertain, say so.';
-      const description=await geminiRequest({apiKey,model,parts:[{text:descriptionPrompt},{inline_data:{mime_type:mimeType,data}}],temperature:0.2});
+      const descriptionResult=await geminiRequest({apiKey,model,parts:[{text:descriptionPrompt},{inline_data:{mime_type:mimeType,data}}],temperature:0.2,label:'literal-vision'});
+      const description=descriptionResult.text;
 
       const structurePrompt=`Convert the following already-completed visual description into STRICT JSON only. Do not add facts that are absent from the description. Unknown stays unknown.\n\nAllowed PLX types: ${ALLOWED_ENGINES.join(', ')}. Recommend the top three most compatible PLX types, with confidence 0-100 and evidence-based reasons.\n\nReturn exactly these keys:\n{\n  \"camera\":\"\",\n  \"scene_type\":\"\",\n  \"player\":\"\",\n  \"enemies\":[],\n  \"vehicles\":[],\n  \"environment\":\"\",\n  \"objects\":[],\n  \"hud\":[],\n  \"gameplay_signals\":[],\n  \"dominant_colors\":[],\n  \"hazards\":[],\n  \"collectibles\":[],\n  \"recommended_plx\":[{\"type\":\"\",\"confidence\":0,\"reason\":\"\"}],\n  \"confidence\":{\"scene\":0,\"player\":0,\"genre\":0}\n}\n\nVISUAL DESCRIPTION:\n${description}`;
-      const structuredText=await geminiRequest({apiKey,model,parts:[{text:structurePrompt}],temperature:0.05});
+      const structuredResult=await geminiRequest({apiKey,model:descriptionResult.modelUsed||model,parts:[{text:structurePrompt}],temperature:0.05,label:'vision-structure'});
+      const structuredText=structuredResult.text;
       const raw=JSON.parse(stripJsonFence(structuredText));
       const analysis=frontendAnalysis(raw,description);
-      res.json({ok:true,provider:'gemini',model,mode:'vision-drop-proven',description,analysis,rawAnalysis:raw,assets:{}});
+      res.json({ok:true,provider:'gemini',model:structuredResult.modelUsed||descriptionResult.modelUsed||model,requestedModel:model,mode:'vision-resilient-v2',description,analysis,rawAnalysis:raw,assets:{},resilience:{descriptionAttempts:descriptionResult.attempts,structureAttempts:structuredResult.attempts,modelCascade:modelCascade(model)}});
     }catch(e){
       console.error('[Gemini Vision Drop Proven]',e);
-      res.status(502).json({ok:false,provider:'gemini',model,error:e?.message||String(e)});
+      const status=e?.status===503||e?.retryable?503:502;
+      res.status(status).json({ok:false,provider:'gemini',model,code:e?.retryable?'VISION_PROVIDER_BUSY':'VISION_ERROR',retryable:!!e?.retryable,error:e?.message||String(e),details:e?.details||null});
     }
   });
 }
