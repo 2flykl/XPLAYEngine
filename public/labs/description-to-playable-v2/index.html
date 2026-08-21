@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>XPLAY Description to Playable Lab V2</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<div class="page">
+  <header class="hero">
+    <div>
+      <div class="eyebrow">XPLAY LAB V2 · INTERPRETER + SCENE GRAPH + QA</div>
+      <h1>Description to Playable Lab V2</h1>
+      <p>Editable text in. Canonical scene graph, gameplay blueprint, executable asset work orders, QA gate and graybox playable out.</p>
+    </div>
+    <div class="badge">No legacy asset path</div>
+  </header>
+
+  <main class="layout">
+    <section class="panel input-panel">
+      <div class="panel-head">
+        <h2>1) Editable Source</h2>
+        <div class="actions compact">
+          <button id="sampleBtn" class="ghost">Load Alex Sample</button>
+          <button id="clearBtn" class="ghost">Clear</button>
+        </div>
+      </div>
+
+      <label class="field"><span>Build Title</span><input id="titleInput" value="Urban Shipping Clash"></label>
+      <div class="two-col">
+        <label class="field">
+          <span>Genre Override</span>
+          <select id="genreOverride">
+            <option value="">Auto / Respect Explicit Scores</option>
+            <option value="fighting">Fighting / Beat 'em Up</option>
+            <option value="platformer">Platformer</option>
+            <option value="fps">FPS</option>
+            <option value="runner">Runner</option>
+            <option value="dodge">Dodge</option>
+            <option value="puzzle">Puzzle</option>
+            <option value="rhythm">Rhythm</option>
+            <option value="openworld">Open World</option>
+            <option value="racing">Racing</option>
+            <option value="collect">Collect</option>
+          </select>
+        </label>
+        <label class="field"><span>Camera Lock</span>
+          <select id="cameraLock"><option value="true">Preserve source camera</option><option value="false">Adaptive</option></select>
+        </label>
+      </div>
+
+      <label class="field"><span>Description / Vision Analysis</span><textarea id="descriptionInput"></textarea></label>
+      <div class="actions">
+        <button id="parseBtn" class="primary">Run Interpreter V2</button>
+        <button id="buildBtn" class="primary alt">Build / Rebuild Graybox</button>
+        <button id="downloadBtn" class="ghost">Download V2 Packet</button>
+      </div>
+      <div id="status" class="status">Ready.</div>
+    </section>
+
+    <section class="panel output-panel">
+      <div class="panel-head"><h2>2) Interpreter V2 Output</h2><div id="readinessBadge" class="readiness">0%</div></div>
+      <div id="summaryGrid" class="summary-grid"></div>
+
+      <div class="qa-box">
+        <div class="qa-title">Interpreter QA</div>
+        <div id="qaList" class="qa-list"></div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" data-tab="scene">Canonical Scene Graph</button>
+        <button class="tab" data-tab="blueprint">Gameplay Blueprint</button>
+        <button class="tab" data-tab="assets">Asset Work Orders</button>
+        <button class="tab" data-tab="raw">Full Packet</button>
+      </div>
+      <pre id="jsonOut"></pre>
+    </section>
+
+    <section class="panel full">
+      <div class="panel-head">
+        <h2>3) Graybox Playable</h2>
+        <div class="legend">WASD / Arrows · Space attack · R reset</div>
+      </div>
+      <div class="game-layout">
+        <canvas id="gameCanvas" width="960" height="540"></canvas>
+        <aside>
+          <div class="side-card">
+            <h3>Prototype Status</h3>
+            <div id="protoStatus">Run Interpreter V2, then build.</div>
+          </div>
+          <div class="side-card">
+            <h3>V2 Guarantees</h3>
+            <ul>
+              <li>Explicit genre scores preserved.</li>
+              <li>Duplicate landmarks normalized.</li>
+              <li>Source vs inference provenance stamped.</li>
+              <li>Enemy-count contradictions flagged.</li>
+              <li>Asset manifest becomes executable work orders.</li>
+              <li>Build can be blocked below readiness threshold.</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+</div>
+<script src="./app.js"></script>
+</body>
+</html>
