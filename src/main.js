@@ -78,6 +78,7 @@ const state={
   htmlContext:'', // raw html
   htmlMode:'', // 'inspiration' or 'game'
   creationLane:'standard', // 'standard' or 'screenshot'
+  spatialVision:null,
   screenshotGuide: defaultScreenshotGuide(),
   lastManifest:null,
   compatiblePLXRecommendations:[]
@@ -493,7 +494,7 @@ function renderStep3(container) {
           <li>✨ <b>Opportunities:</b> <span>${analysis.strongOpportunities}</span></li>
         </ul>
         <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 12.5px; color: var(--teal); font-style: italic;">
-          ${analysis.analysisSource==='gemini-semantic'?'✓ Semantic AI Vision is providing source-grounded analysis.':'⚠ Semantic AI Vision is unavailable; unknown details will not be invented.'}
+          ${String(analysis.analysisSource||'').startsWith('gemini-')?'✓ Gemini Vision is providing source-grounded analysis.':'⚠ Semantic AI Vision is unavailable; unknown details will not be invented.'}
         </div>
       </div>
       
@@ -538,7 +539,7 @@ function renderStep3(container) {
       <div class="cardActions">
         <button class="btn primary" id="confirmAnalysisBtn">${isScreenshot ? 'LOOKS RIGHT — KEEP GOING' : 'YES, KEEP GOING'}</button>
         <button class="btn ghost" id="adjustAnalysisBtn">ADJUST WHAT XPLAY SEES</button>
-        ${isScreenshot ? '<button class="btn ghost" id="reanalyzeShotBtn">RE-ANALYZE SCREENSHOT</button>' : ''}
+        ${isScreenshot ? '<button class="btn ghost" id="reanalyzeShotBtn">RE-ANALYZE SCREENSHOT</button><button class="btn ghost" id="openSpatialVisionBtn">OPEN SPATIAL VISION LAB</button>' : ''}
       </div>
       
       <div id="adjustmentForm" style="display: none; margin-top: 24px; border-top: 1px solid var(--line); padding-top: 20px;">
@@ -575,6 +576,7 @@ function renderStep3(container) {
   const adjustBtn = container.querySelector('#adjustAnalysisBtn');
   const saveBtn = container.querySelector('#saveCorrectionsBtn');
   const reanalyzeBtn = container.querySelector('#reanalyzeShotBtn');
+  const spatialBtn = container.querySelector('#openSpatialVisionBtn');
   const adjForm = container.querySelector('#adjustmentForm');
 
   if (confirmBtn) confirmBtn.onclick = () => { saveScreenshotGuide(); goToStep(4); };
@@ -602,6 +604,19 @@ function renderStep3(container) {
     };
   }
   if(reanalyzeBtn) reanalyzeBtn.onclick=()=>goToStep(2);
+  if(spatialBtn) spatialBtn.onclick=()=>{
+    saveScreenshotGuide();
+    const transfer={
+      imageDataUrl:state.media.primary?.dataUrl||'',
+      analysis:state.extraction?.description||state.extraction?.analysis?.fullDescription||JSON.stringify(state.extraction?.analysis||{},null,2),
+      selectedEngine:state.chosenEngine||'',
+      userIntent:state.prompt||'',
+      sourceFileName:state.media.primary?.file?.name||''
+    };
+    try{localStorage.setItem('xplay:spatial-transfer',JSON.stringify(transfer));}
+    catch(e){console.warn('Spatial transfer storage failed',e);}
+    window.open(publicUrl('vision-spatial-lab.html'),'_blank','noopener');
+  };
 }
 
 function renderStep4(container) {
@@ -1306,6 +1321,16 @@ async function runBuildPipeline(container, logsEl) {
 
   await advanceStep(0);
   log("Step 1: Reading media inputs...");
+  if(state.creationLane==='screenshot') {
+    try {
+      const stored=JSON.parse(localStorage.getItem('xplay:spatial-result')||'null');
+      const currentName=state.media.primary?.file?.name||'';
+      if(stored && (!stored.sourceFileName || stored.sourceFileName===currentName)) {
+        state.spatialVision=stored;
+        log(`Spatial Vision packet loaded: ${stored.sceneGraph?.entities?.length||0} mapped entities.`);
+      }
+    } catch(e) { console.warn('Spatial packet could not be loaded',e); }
+  }
   const effectivePrompt = state.creationLane === 'screenshot'
     ? buildScreenshotReconstructionPrompt(state.prompt, state.screenshotGuide, state.extraction?.analysis || {})
     : state.prompt;
@@ -1322,7 +1347,9 @@ async function runBuildPipeline(container, logsEl) {
     usePalette: true,
     reverseForge: state.creationLane === 'screenshot',
     screenshotGuide: state.screenshotGuide,
-    screenshotAnalysis: state.extraction?.analysis || null
+    screenshotAnalysis: state.extraction?.analysis || null,
+    spatialSceneGraph: state.spatialVision?.sceneGraph || null,
+    spatialAssetManifest: state.spatialVision?.assetManifest || null
   };
   await new Promise(r => setTimeout(r, 200));
   await completeStep(0);
@@ -1453,6 +1480,9 @@ async function runBuildPipeline(container, logsEl) {
   rawManifest=bindManifestToBuild(rawManifest,buildDNA,assets);
   if (state.creationLane === 'screenshot') {
     rawManifest.reverseForge = { enabled:true, guide:state.screenshotGuide, sourceType:'screenshot', reconstructionPrompt:effectivePrompt, analysis:state.extraction?.analysis||{} };
+    if(state.spatialVision){
+      rawManifest.spatialVision={sceneGraph:state.spatialVision.sceneGraph||null,assetManifest:state.spatialVision.assetManifest||null,createdAt:state.spatialVision.createdAt||null};
+    }
   }
   if (productionPack) {
     rawManifest.generatedAnimations = productionPack.animation;

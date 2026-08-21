@@ -1,4 +1,5 @@
-﻿import { registerGeminiVisionDropRoutes } from './geminiVisionDrop.js';
+import { registerGeminiVisionDropRoutes } from './geminiVisionDrop.js';
+import { registerSpatialVisionRoutes } from './spatialVision.js';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -15,18 +16,9 @@ const app=express();
 app.use(cors());
 app.use(express.json({limit:'28mb'}));
 const port=Number(process.env.PORT||8787);
-const visionUrl=process.env.VISION_SERVICE_URL||'http://127.0.0.1:8790';
 const client=process.env.OPENAI_API_KEY?new OpenAI({apiKey:process.env.OPENAI_API_KEY}):null;
 const geminiKey=String(process.env.GEMINI_API_KEY||'').trim();
 const geminiModel=String(process.env.GEMINI_VISION_MODEL||'gemini-3.6-flash').trim();
-
-async function visionFetch(pathname,opts={}){const r=await fetch(`${visionUrl}${pathname}`,opts);if(!r.ok)throw new Error(`Vision service ${r.status}`);return await r.json();}
-
-function parseDataUrl(dataUrl=''){
- const match=String(dataUrl).match(/^data:([^;]+);base64,(.+)$/s);
- if(!match)throw new Error('Expected a base64 image data URL');
- return {mimeType:match[1]||'image/png',data:match[2]};
-}
 
 function normalizeEngine(v=''){
  const raw=String(v).toLowerCase().replace(/[^a-z0-9]/g,'');
@@ -35,70 +27,11 @@ function normalizeEngine(v=''){
  return ['runner','dodge','collect','rhythm','puzzle','fps','fighting','openworld','racing','platformer'].includes(out)?out:'';
 }
 
-function toFrontendAnalysis(raw={}){
- const recs=(Array.isArray(raw.recommended_plx)?raw.recommended_plx:[])
-  .map(r=>({type:normalizeEngine(r?.type),confidence:Math.max(0,Math.min(100,Number(r?.confidence)||0)),reason:String(r?.reason||'')}))
-  .filter(r=>r.type)
-  .sort((a,b)=>b.confidence-a.confidence)
-  .slice(0,3);
- return {
-  camera:String(raw.camera||'unknown'),
-  sceneType:String(raw.scene_type||raw.sceneType||'unknown'),
-  player:String(raw.player||'Semantic identity not confirmed'),
-  enemies:Array.isArray(raw.enemies)?raw.enemies:[],
-  environment:String(raw.environment||'Semantic environment not confirmed'),
-  vehicles:Array.isArray(raw.vehicles)?raw.vehicles.join(', '):String(raw.vehicles||'None confidently identified'),
-  notableObjects:(Array.isArray(raw.objects)?raw.objects:[]).join(', ')||String(raw.notable_objects||'No semantic object list returned'),
-  objects:Array.isArray(raw.objects)?raw.objects:[],
-  hud:Array.isArray(raw.hud)?raw.hud:[],
-  dominantColors:(Array.isArray(raw.dominant_colors)?raw.dominant_colors:[]).join(', ')||String(raw.dominant_colors||'source-derived palette'),
-  gameplaySignals:Array.isArray(raw.gameplay_signals)?raw.gameplay_signals:[],
-  strongOpportunities:recs.length?recs.map(r=>`${r.type} ${Math.round(r.confidence)}%`).join(', '):(Array.isArray(raw.gameplay_signals)?raw.gameplay_signals.join(', '):'Genre not semantically confirmed'),
-  possibleHazards:(Array.isArray(raw.hazards)?raw.hazards:[]).join(', ')||'Use only source-supported hazards',
-  possibleCollectibles:(Array.isArray(raw.collectibles)?raw.collectibles:[]).join(', ')||'Use only source-supported rewards',
-  recommended_plx:recs,
-  confidence:raw.confidence||{},
-  qualityScore:Number(raw?.confidence?.scene||raw?.confidence?.genre||90),
-  qualityLabel:'Gemini multimodal vision',
-  analysisSource:'gemini-semantic',
-  description:String(raw.overview||raw.description||'')
- };
-}
-
-function cleanGeminiJson(text=''){
- return String(text).trim().replace(/^```json\s*/i,'').replace(/^```\s*/,'').replace(/```\s*$/,'').trim();
-}
-
-async function geminiAnalyze({imageDataUrl,prompt='',subjectHint='game screenshot'}={}){
- if(!geminiKey)throw new Error('GEMINI_API_KEY is not configured.');
- const {mimeType,data}=parseDataUrl(imageDataUrl);
- const instruction=`Analyze this image with the same literal visual-understanding depth as a strong multimodal image describer. Do not invent details. Return ONLY valid JSON, with no markdown fences, using exactly these keys: overview, camera, scene_type, player, enemies, environment, vehicles, objects, hud, gameplay_signals, dominant_colors, hazards, collectibles, recommended_plx, confidence.\n\nRequirements:\n- overview: a detailed but concise visual description of the image.\n- player: specific visible player/primary-subject description.\n- enemies: array of visible opponents or hostile characters.\n- environment: specific setting/background description.\n- vehicles: array of visible vehicles; empty if none.\n- objects: array of notable visible objects/props/signs.\n- hud: array of visible HUD/interface elements and readable text.\n- gameplay_signals: array of visible gameplay/action cues.\n- dominant_colors: array of major colors/palette descriptions.\n- hazards and collectibles: arrays; empty when not visible.\n- recommended_plx: exactly three objects with keys type, confidence, reason. type must be one of runner,dodge,collect,rhythm,puzzle,fps,fighting,openworld,racing,platformer. confidence is 0-100. Base recommendations on visible evidence only.\n- confidence: object with numeric scene, player, genre fields from 0-100.\n\nBe source-grounded. If uncertain, say unknown or use an empty array. Never insert generic city, street, airport, runway, district, character, enemy, vehicle, object or HUD content that is not visible. User/context prompt: ${prompt||'(none)'}. Subject hint: ${subjectHint}.`;
- const url=`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(geminiModel)}:generateContent?key=${encodeURIComponent(geminiKey)}`;
- const r=await fetch(url,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({
-  contents:[{role:'user',parts:[{text:instruction},{inline_data:{mime_type:mimeType,data}}]}],
-  generationConfig:{temperature:0.2}
- })});
- const rawBody=await r.text();
- if(!r.ok)throw new Error(`Gemini HTTP ${r.status}: ${rawBody.slice(0,900)}`);
- let body;try{body=JSON.parse(rawBody);}catch{throw new Error('Gemini returned an unreadable API response');}
- const text=body?.candidates?.[0]?.content?.parts?.map(p=>p.text||'').join('').trim();
- if(!text)throw new Error('Gemini returned no visual analysis');
- let raw;
- try{raw=JSON.parse(cleanGeminiJson(text));}
- catch{
-   return {ok:true,provider:'gemini',model:geminiModel,analysis:{
-     camera:'unknown',sceneType:'unknown',player:'See Gemini visual description',enemies:[],environment:'See Gemini visual description',vehicles:'None confidently identified',notableObjects:text,objects:[],hud:[],dominantColors:'source-derived palette',gameplaySignals:[],strongOpportunities:'Review Gemini description before selecting game type',possibleHazards:'Use only source-supported hazards',possibleCollectibles:'Use only source-supported rewards',recommended_plx:[],confidence:{},qualityScore:80,qualityLabel:'Gemini multimodal vision',analysisSource:'gemini-semantic',description:text
-   },rawAnalysis:{overview:text},description:text,assets:{}};
- }
- return {ok:true,provider:'gemini',model:geminiModel,analysis:toFrontendAnalysis(raw),rawAnalysis:raw,description:String(raw.overview||''),assets:{}};
-}
-
-app.get('/api/health',async(_req,res)=>{
- let pythonVision=false,pythonProvider='offline';
- try{const v=await visionFetch('/health');pythonVision=!!v.ok;pythonProvider=v.provider||'python';}catch{}
- res.json({ok:true,aiConfigured:Boolean(client&&process.env.OPENAI_MODEL),imageModelConfigured:Boolean(client&&process.env.OPENAI_IMAGE_MODEL),visionConfigured:Boolean(geminiKey)||pythonVision,visionProvider:geminiKey?'gemini':pythonProvider,geminiModel:geminiKey?geminiModel:null});
+app.get('/api/health',(_req,res)=>{
+ res.json({ok:true,aiConfigured:Boolean(client&&process.env.OPENAI_MODEL),imageModelConfigured:Boolean(client&&process.env.OPENAI_IMAGE_MODEL),visionConfigured:Boolean(geminiKey),visionProvider:geminiKey?'gemini':'offline',geminiModel:geminiKey?geminiModel:null,spatialVision:Boolean(geminiKey)});
 });
 registerGeminiVisionDropRoutes(app,{apiKey:geminiKey,model:geminiModel});
+registerSpatialVisionRoutes(app,{apiKey:geminiKey,model:geminiModel});
 
 const CALIBRATION_PROFILES={
  runner:{camera:'side-scrolling / on-rails forward movement',loop:'continuous forward movement, jumping/sliding/dodging and escalating hazards',scroll:'world moves left as the player advances right'},
@@ -180,4 +113,4 @@ app.post('/api/remaster-asset',async(req,res)=>{
  }catch(error){console.error(error);res.status(500).json({ok:false,error:error.message});}
 });
 
-app.listen(port,()=>{console.log(`XPLAY API server: http://localhost:${port}`);console.log(`Gemini Vision: ${geminiKey?`READY (${geminiModel})`:'OFFLINE (add GEMINI_API_KEY to server/.env)'}`);console.log(`Legacy Visual Intelligence target: ${visionUrl}`);if(!process.env.OPENAI_API_KEY)console.log('AI/Art: LOCAL FALLBACK (add OPENAI_API_KEY for semantic direction + remaster)');});
+app.listen(port,()=>{console.log(`XPLAY API server: http://localhost:${port}`);console.log(`Gemini Vision: ${geminiKey?`READY (${geminiModel})`:'OFFLINE (add GEMINI_API_KEY to server/.env)'}`);console.log(`Spatial Vision: ${geminiKey?'READY':'OFFLINE'}`);if(!process.env.OPENAI_API_KEY)console.log('AI/Art: LOCAL FALLBACK (add OPENAI_API_KEY for semantic direction + remaster)');});
