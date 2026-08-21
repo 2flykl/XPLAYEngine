@@ -1,0 +1,72 @@
+{
+  "_note": "Illustrative example only \u2014 actual lab output is generated from the uploaded image.",
+  "vision": {
+    "description": "A side-view arcade combat screenshot with a martial-arts player, several opponents, a nighttime industrial environment, foreground props and combat HUD."
+  },
+  "interpreter": {
+    "game_identity": {
+      "engine": "fighting",
+      "subgenre": "side-view beat-em-up"
+    },
+    "camera": {
+      "view": "side-view",
+      "behavior": "follow horizontal encounter progression"
+    },
+    "game_loop": {
+      "moment_to_moment": [
+        "move",
+        "attack",
+        "avoid attacks",
+        "defeat nearby opponents"
+      ],
+      "progression": "clear encounter, advance through the stage"
+    }
+  },
+  "assetManifest": {
+    "production_strategy": {
+      "summary": "Rebuild characters as clean transparent sprite sheets, segment source props where useful, extend the industrial environment, and synthesize only animation states required by the locked fighting model."
+    },
+    "assets": [
+      {
+        "name": "player fighter",
+        "strategy": "rebuild",
+        "tool_route": [
+          "segmentation",
+          "pose",
+          "sprite-synthesis",
+          "matting",
+          "consistency-qa"
+        ]
+      },
+      {
+        "name": "enemy family",
+        "strategy": "rebuild",
+        "tool_route": [
+          "segmentation",
+          "sprite-synthesis",
+          "matting",
+          "consistency-qa"
+        ]
+      },
+      {
+        "name": "industrial world layers",
+        "strategy": "extend",
+        "tool_route": [
+          "depth",
+          "world-extension",
+          "tileset",
+          "consistency-qa"
+        ]
+      },
+      {
+        "name": "visible HUD",
+        "strategy": "rebuild",
+        "tool_route": [
+          "ocr",
+          "fx-ui",
+          "consistency-qa"
+        ]
+      }
+    ]
+  }
+}
