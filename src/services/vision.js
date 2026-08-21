@@ -1,41 +1,28 @@
 import { apiUrl } from '../core/ApiBase.js';
 
-function offline(error='Semantic AI Vision unavailable.'){
-  return {
-    ok:false,
-    provider:'offline',
-    error,
-    analysis:{
-      player:'Semantic AI Vision unavailable',
-      environment:'Semantic AI Vision unavailable',
-      vehicles:'Semantic AI Vision unavailable',
-      notableObjects:'Semantic AI Vision unavailable',
-      dominantColors:'',
-      strongOpportunities:'Genre not semantically confirmed',
-      recommended_plx:[],
-      qualityScore:0,
-      qualityLabel:'offline'
-    }
-  };
-}
-
 export async function analyzeVisualSource(imageDataUrl,prompt=''){
   const endpoint=apiUrl('/api/vision/analyze');
-  if(!endpoint)return offline('No XPLAY API endpoint configured.');
+  if(!endpoint) throw new Error('No XPLAY Vision API endpoint is configured.');
+  const controller=new AbortController();
+  const timeout=setTimeout(()=>controller.abort(),60000);
   try{
     const r=await fetch(endpoint,{
       method:'POST',
       headers:{'content-type':'application/json'},
+      signal:controller.signal,
       body:JSON.stringify({imageDataUrl,prompt})
     });
     const text=await r.text();
-    let out={};
+    let out;
     try{out=JSON.parse(text);}catch{throw new Error(`Vision returned non-JSON: ${text.slice(0,240)}`);}
-    if(!r.ok||!out?.ok)throw new Error(out?.detail||out?.error||`Vision HTTP ${r.status}`);
+    if(!r.ok||!out?.ok) throw new Error(out?.detail||out?.error||`Vision HTTP ${r.status}`);
+    if(!out?.analysis) throw new Error('Gemini returned no structured analysis.');
     return out;
   }catch(e){
-    console.error('[XPLAY Vision]',e);
-    return offline(e?.message||String(e));
+    if(e?.name==='AbortError') throw new Error('Gemini Vision timed out after 60 seconds.');
+    throw e;
+  }finally{
+    clearTimeout(timeout);
   }
 }
 
