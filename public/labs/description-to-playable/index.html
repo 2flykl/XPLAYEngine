@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XPLAY · Description to Playable Lab</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div>
+        <div class="eyebrow">XPLAY LAB · TEXT → PLAYABLE</div>
+        <h1>Description to Playable Lab</h1>
+        <p>
+          Clean isolated test lane. Start from a text description, interpret the scene,
+          generate a gameplay blueprint, build an asset manifest, and spin up a graybox playable.
+        </p>
+      </div>
+      <div class="hero-badge">Separate from old Reverse Forge page</div>
+    </header>
+
+    <main class="layout">
+      <section class="panel input-panel">
+        <div class="panel-head">
+          <h2>1) Input Description</h2>
+          <div class="actions small-actions">
+            <button id="loadSampleBtn" class="ghost">Load Sample</button>
+            <button id="clearBtn" class="ghost">Clear</button>
+          </div>
+        </div>
+
+        <label class="field">
+          <span>Build Title</span>
+          <input id="titleInput" type="text" value="Urban Shipping Clash" />
+        </label>
+
+        <div class="two-col">
+          <label class="field">
+            <span>Genre Override</span>
+            <select id="genreOverride">
+              <option value="">Auto Detect</option>
+              <option value="fighting">Fighting / Beat 'em Up</option>
+              <option value="platformer">Platformer</option>
+              <option value="fps">FPS</option>
+              <option value="runner">Runner</option>
+              <option value="dodge">Dodge</option>
+              <option value="puzzle">Puzzle</option>
+              <option value="rhythm">Rhythm</option>
+              <option value="openworld">Open World</option>
+              <option value="racing">Racing</option>
+              <option value="collect">Collect</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Preserve Screenshot Camera</span>
+            <select id="preserveCamera">
+              <option value="true" selected>Yes</option>
+              <option value="false">No</option>
+            </select>
+          </label>
+        </div>
+
+        <label class="field">
+          <span>Description / Vision Analysis</span>
+          <textarea id="descriptionInput"></textarea>
+        </label>
+
+        <div class="actions">
+          <button id="parseBtn" class="primary">Parse Description</button>
+          <button id="buildBtn" class="primary alt">Build / Rebuild Prototype</button>
+          <button id="downloadBtn" class="ghost">Download Packet JSON</button>
+        </div>
+
+        <div id="statusBar" class="status">Ready.</div>
+      </section>
+
+      <section class="panel output-panel">
+        <div class="panel-head">
+          <h2>2) Interpreter Output</h2>
+        </div>
+        <div class="summary-grid" id="summaryGrid"></div>
+
+        <div class="json-grid">
+          <article>
+            <h3>Scene Packet</h3>
+            <pre id="sceneJson"></pre>
+          </article>
+          <article>
+            <h3>Gameplay Blueprint</h3>
+            <pre id="blueprintJson"></pre>
+          </article>
+          <article>
+            <h3>Asset Manifest</h3>
+            <pre id="manifestJson"></pre>
+          </article>
+          <article>
+            <h3>Recommendations</h3>
+            <div id="recommendations" class="recommendations"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel full-width">
+        <div class="panel-head">
+          <h2>3) Graybox Playable Prototype</h2>
+          <div class="legend">Controls: Arrow keys / WASD · Space = attack · R = reset</div>
+        </div>
+        <div class="prototype-wrap">
+          <canvas id="gameCanvas" width="960" height="540"></canvas>
+          <div class="prototype-side">
+            <div class="proto-card">
+              <h3>Prototype Status</h3>
+              <div id="protoStatus">Build the prototype to begin.</div>
+            </div>
+            <div class="proto-card">
+              <h3>What this proves</h3>
+              <ul>
+                <li>Text can become a structured scene plan.</li>
+                <li>Scene plan can become a gameplay blueprint.</li>
+                <li>Blueprint can drive a playable graybox.</li>
+                <li>Old stale asset pages are no longer in the loop.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="./app.js"></script>
+</body>
+</html>
