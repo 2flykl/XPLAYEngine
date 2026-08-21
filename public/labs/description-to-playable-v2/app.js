@@ -1,4 +1,10 @@
 const SAMPLE = "**Description:** [XPLAY REVERSE FORGE \u2014 SCREENSHOT TO GAME] The uploaded screenshot is a VISUAL SPECIFICATION, not merely inspiration. EXACT VISUAL BLUEPRINT: preserve the visible composition and spatial relationships as closely as technically possible. PRESERVE: layout, artStyle, camera, palette, levelStructure. Reconstruct visible player scale, camera framing, object relationships, spatial hierarchy, palette, environment grammar, apparent gameplay cues, and major landmarks. Infer only information that is not observable in the screenshot. Any inferred content must extend the screenshot\u2019s established visual and gameplay grammar rather than replace it. I see Alex, a Black male character with a prominent afro wearing a white martial arts gi with a black belt and wrist wraps, fighting barefoot; executing an open-palm strike to the right inside Urban shipping dockyard or industrial facility at night featuring a reddish-brown shipping container labeled 'ZENITH INDUSTRIES', yellow 'DANGER' sign, metal ladder, green toxic/chemical barrels behind chain-link fence ('CAUTION KEEP OUT'), brick building entrance ('SECURITY LEVEL 3', room 'B7'), dark night sky with full moon, glowing blue/purple skyline with skyscrapers and industrial cranes, concrete floor with yellow-and-black hazard stripes, drain grates, and rivets. Important visible elements include Shipping container, Yellow 'DANGER' sign, Metal ladder, Green toxic/chemical barrels, Chain-link fence, Caution sign, Exterior lamp, Rusty brown oil drum, Combat knife. The strongest playable cues suggest fighting 95%, platformer 60%, dodge 45%. I will treat the screenshot as a visual specification and preserve its visible composition unless you tell me otherwise. PLAYER IDENTITY: source USER GAMEPLAY INTENT: Fight visible rivals in Urban shipping dockyard or industrial facility at night featuring a reddish-brown shipping container labeled 'ZENITH INDUSTRIES', yellow 'DANGER' sign, metal ladder, green toxic/chemical barrels behind chain-link fence ('CAUTION KEEP OUT'), brick building entrance ('SECURITY LEVEL 3', room 'B7'), dark night sky with full moon, glowing blue/purple skyline with skyscrapers and industrial cranes, concrete floor with yellow-and-black hazard stripes, drain grates, and rivets as Alex, a Black male character with a prominent afro wearing a white martial arts gi with a black belt and wrist wraps, fighting barefoot; executing an open-palm strike to the right, using the source combat plane and Shipping container, Yellow 'DANGER' sign, Metal ladder, Green toxic/chemical barrels, Chain-link fence, Caution sign, Exterior lamp, Rusty brown oil drum, Combat knife; support beat-em-up progression when multiple enemies are visible. Preserve the CURRENT screenshot camera, layout, player scale, palette, HUD language and major object relationships. Unknown facts remain unknown.";
+
+const TEST_PRESETS = {
+  "platformer": "**Description:** [XPLAY VISION \u2014 SCREENSHOT TO GAME] The screenshot is a VISUAL SPECIFICATION. Preserve visible composition, camera, palette, player scale, level structure, and object relationships. I see Nova, a Black female rooftop courier wearing a yellow windbreaker, black cargo pants, red sneakers, and a compact backpack, captured mid-jump from a concrete rooftop ledge toward a suspended maintenance platform. The scene is a rainy neon city at dusk with wet reflective rooftops, ventilation fans, antennas, scaffold towers, glowing billboards, a distant elevated train, and narrow gaps between buildings. Important visible elements include three rooftop platforms at different heights, a red warning light, a hanging cable, an AC unit, a collectible blue data shard, a broken railing, and a lit EXIT doorway on the far-right roof. The strongest playable cues suggest platformer 96%, runner 54%, dodge 38%. PLAYER IDENTITY: Nova. USER GAMEPLAY INTENT: Control Nova in a precision side-view platformer. Run and jump across the visible rooftops, collect the blue data shard, avoid falling into gaps, use the hanging cable as a traversal assist if supported, and reach the EXIT doorway. Preserve the current side-view camera, rooftop spacing, vertical platform hierarchy, rainy neon palette, and major landmarks. Unknown facts remain unknown.",
+  "runner": "**Description:** [XPLAY VISION \u2014 SCREENSHOT TO GAME] The screenshot is a VISUAL SPECIFICATION. Preserve visible composition, camera, palette, subject scale, track spacing, and major environmental landmarks. I see Malik, a Black male cyclist wearing a silver helmet, teal racing jersey, black cycling shorts, and white shoes, riding fast from left to right on a riverside elevated bike path at sunrise. The path curves through a modern city with glass towers, trees, orange safety barriers, lane markers, street lamps, and a river visible below. Important visible elements include a broken lane section ahead, three floating yellow checkpoint rings, a low maintenance barrier, a puddle reflecting the skyline, and a finish gantry far in the distance. The strongest playable cues suggest runner 94%, racing 68%, dodge 51%. PLAYER IDENTITY: Malik. USER GAMEPLAY INTENT: Build a forward-scrolling speed runner where Malik automatically advances and the player changes lanes, jumps hazards, and passes through checkpoint rings. The camera should scroll continuously to the right, the run should last at least 15 seconds, speed should ramp gradually rather than starting fast, and the finish gantry should be reachable. Preserve the riverside path geometry, sunrise palette, rider scale, and major obstacle spacing. Unknown facts remain unknown.",
+  "dodge": "**Description:** [XPLAY VISION \u2014 SCREENSHOT TO GAME] The screenshot is a VISUAL SPECIFICATION. Preserve visible composition, top-down camera, palette, player scale, arena boundaries, and object relationships. I see Imani, a Black female DJ wearing a purple jacket, black jeans, gold headphones, and white sneakers standing in the center of a neon dance-floor plaza viewed from above. Four speaker towers occupy the corners, glowing floor panels form a square grid, and animated light beams cross the plaza. Red drone orbs are entering from the north and east edges while green energy pickups appear near the center lanes. Important visible elements include the four speaker towers, grid floor, two red drone groups, three green energy pickups, a DJ booth at the south edge, and a glowing circular safe zone near the west side. The strongest playable cues suggest dodge 97%, collect 63%, rhythm 47%. PLAYER IDENTITY: Imani. USER GAMEPLAY INTENT: Control Imani in a top-down survival dodge game. Move freely within the visible plaza, avoid red drone orbs, collect green energy pickups to recover health, and survive for at least 15 seconds. Enemy pressure should increase gradually, player health should deplete slowly from collisions rather than instantly, and the arena should remain readable. Preserve the top-down camera, square arena, neon purple/blue palette, speaker positions, and safe-zone placement. Unknown facts remain unknown."
+};
 const $ = s => document.querySelector(s);
 const els = {
   title: $('#titleInput'), genre: $('#genreOverride'), camera: $('#cameraLock'), text: $('#descriptionInput'),
@@ -19,6 +25,11 @@ window.addEventListener('keydown', e => {
   if (e.key.toLowerCase() === 'r' && currentPacket) startGame(currentPacket);
 });
 window.addEventListener('keyup', e => keys[e.key.toLowerCase()] = false);
+
+
+document.getElementById('presetPlatformerBtn')?.addEventListener('click',()=>{els.title.value='Neon Rooftop Relay';els.genre.value='';els.text.value=TEST_PRESETS.platformer;setStatus('Platformer stress prompt loaded.');});
+document.getElementById('presetRunnerBtn')?.addEventListener('click',()=>{els.title.value='Riverside Velocity';els.genre.value='';els.text.value=TEST_PRESETS.runner;setStatus('Runner stress prompt loaded.');});
+document.getElementById('presetDodgeBtn')?.addEventListener('click',()=>{els.title.value='Neon Plaza Survival';els.genre.value='';els.text.value=TEST_PRESETS.dodge;setStatus('Dodge stress prompt loaded.');});
 
 els.sample.onclick = () => { els.title.value='Urban Shipping Clash'; els.genre.value=''; els.text.value=SAMPLE; setStatus('Sample loaded.'); };
 els.clear.onclick = () => { els.title.value=''; els.genre.value=''; els.text.value=''; setStatus('Cleared. Paste a different description and run V2 again.'); };
@@ -389,9 +400,12 @@ function startGame(packet) {
   const canvas=els.canvas,ctx=canvas.getContext('2d'),sg=packet.canonicalSceneGraph,bp=packet.gameplayBlueprint;
   const playerEntity=sg.entities.find(x=>x.type==='player');
   game={
-    over:false,win:false,tick:0,flash:0,elapsedMs:0,targetDurationMs:15000,lastTs:performance.now(),cameraX:0,worldWidth:2200,healthDrainPerSecond:.10,
+    over:false,win:false,tick:0,flash:0,elapsedMs:0,targetDurationMs:15000,lastTs:performance.now(),cameraX:0,worldWidth:2600,healthDrainPerSecond:.07,healthPickupTaken:false,invulnMs:0,wave:1,reinforcementTriggered:false,zone2Triggered:false,bossTriggered:false,metrics:{attacks:0,hits:0,enemiesDefeated:0,damageTaken:0,maxScroll:0,wavesCompleted:0,firstKillMs:null,firstScrollMs:null,startedAt:performance.now()},
     player:{x:(playerEntity.position.x||.34)*960,y:(playerEntity.position.y||.68)*540,w:34,h:62,speed:1.65,hp:10,facing:1,attackCooldown:0,attackTimer:0},
-    enemies:bp.enemies.map((e,i)=>({...e,x:700+i*520,y:(e.position.y||.68)*540,w:34,h:58,hp:(e.hp||3)+1,alive:true,hurt:0,speed:.48+i*.04}))
+    enemies:bp.enemies.map((e,i)=>{
+      const archetype = i===0 ? {role:'knife',speed:.58,maxHp:3,damage:.32} : i===1 ? {role:'balanced',speed:.46,maxHp:4,damage:.38} : {role:'bruiser',speed:.34,maxHp:6,damage:.52};
+      return {...e,x:720+i*420,y:(e.position.y||.68)*540,w:34,h:58,hp:archetype.maxHp,maxHp:archetype.maxHp,alive:true,hurt:0,speed:archetype.speed,damage:archetype.damage,role:archetype.role,attackCd:0};
+    })
   };
   els.proto.innerHTML=`<b>${esc(packet.meta.title)}</b><br>Readiness: ${packet.qa.readiness}%<br>Enemies: ${game.enemies.length}<br>Status: active`;
   requestAnimationFrame(loop);
@@ -400,30 +414,100 @@ function startGame(packet) {
 
 function updateGame(dt=16.7) {
   if(!game||game.over)return;
-  game.tick++; game.elapsedMs+=dt; const p=game.player; if(!game.over){p.hp=Math.max(0,p.hp-game.healthDrainPerSecond*(dt/1000));}
+  game.tick++; game.elapsedMs+=dt; const p=game.player; if(game.invulnMs>0)game.invulnMs-=dt; if(!game.over){p.hp=Math.max(0,p.hp-game.healthDrainPerSecond*(dt/1000));}
   if(keys['arrowleft']||keys['a']){p.x-=p.speed;p.facing=-1} if(keys['arrowright']||keys['d']){p.x+=p.speed;p.facing=1}
   if(keys['arrowup']||keys['w'])p.y-=p.speed*.7; if(keys['arrowdown']||keys['s'])p.y+=p.speed*.7;
-  p.x=clamp(p.x,42,game.worldWidth-42); p.y=clamp(p.y,305,405); game.cameraX=clamp(p.x-340,0,game.worldWidth-960);
+  p.x=clamp(p.x,42,game.worldWidth-42); p.y=clamp(p.y,305,405);
+  const screenX=p.x-game.cameraX, deadLeft=340, deadRight=620;
+  if(screenX>deadRight)game.cameraX=clamp(p.x-deadRight,0,game.worldWidth-960);
+  else if(screenX<deadLeft)game.cameraX=clamp(p.x-deadLeft,0,game.worldWidth-960);
+  game.metrics.maxScroll=Math.max(game.metrics.maxScroll,game.cameraX);
+  if(game.cameraX>20&&game.metrics.firstScrollMs===null)game.metrics.firstScrollMs=game.elapsedMs;
+  if(!game.healthPickupTaken && Math.abs(p.x-1529)<32 && Math.abs(p.y-367)<50){
+    game.healthPickupTaken=true;p.hp=Math.min(10,p.hp+2.2);
+  }
   if(p.attackCooldown>0)p.attackCooldown--; if(p.attackTimer>0)p.attackTimer--;
   if(keys[' ']&&p.attackCooldown<=0){
-    p.attackCooldown=24;p.attackTimer=10;game.flash=7;
-    game.enemies.forEach(e=>{if(!e.alive)return;const dx=e.x-p.x,dy=Math.abs(e.y-p.y),face=p.facing>0?dx>0:dx<0;if(Math.abs(dx)<78&&dy<48&&face){e.hp--;e.hurt=10;e.x+=p.facing*24;if(e.hp<=0)e.alive=false}});
+    p.attackCooldown=28;p.attackTimer=10;game.flash=7;game.metrics.attacks++;
+    game.enemies.forEach(e=>{if(!e.alive)return;const dx=e.x-p.x,dy=Math.abs(e.y-p.y),face=p.facing>0?dx>0:dx<0;if(Math.abs(dx)<78&&dy<48&&face){
+      e.hp--; e.hurt=14; e.x+=p.facing*28; game.metrics.hits++;
+      if(e.hp<=0){
+        e.alive=false; game.metrics.enemiesDefeated++;
+        if(game.metrics.firstKillMs===null) game.metrics.firstKillMs=game.elapsedMs;
+      }
+    }});
   }
   game.enemies.forEach(e=>{
-    if(!e.alive)return;if(e.hurt>0){e.hurt--;return}
-    const dx=p.x-e.x,dy=p.y-e.y;if(Math.abs(dx)>42)e.x+=Math.sign(dx)*e.speed;if(Math.abs(dy)>8)e.y+=Math.sign(dy)*e.speed*.45;
-    if(Math.abs(dx)<34&&Math.abs(dy)<42&&game.tick%18===0)p.hp=Math.max(0,p.hp-.35);
+    if(!e.alive)return;
+    if(e.hurt>0){e.hurt--;return}
+    if(e.attackCd>0)e.attackCd-=dt;
+    const dx=p.x-e.x,dy=p.y-e.y;
+    if(Math.abs(dx)>48)e.x+=Math.sign(dx)*e.speed*(dt/16.7);
+    if(Math.abs(dy)>10)e.y+=Math.sign(dy)*e.speed*.42*(dt/16.7);
+    if(Math.abs(dx)<38&&Math.abs(dy)<42&&e.attackCd<=0&&game.invulnMs<=0){
+      const dmg=e.damage||.35;
+      p.hp=Math.max(0,p.hp-dmg);
+      game.metrics.damageTaken+=dmg;
+      game.invulnMs=430;
+      e.attackCd=700;
+      p.x+=Math.sign(dx)*-20;
+    }
   });
   if(game.flash>0)game.flash--;
-  if(p.hp<=0){game.over=true;game.win=false;els.proto.innerHTML='<b>Player defeated.</b><br>Press R to retry.'}
-  if(game.enemies.every(e=>!e.alive) && game.elapsedMs < game.targetDurationMs){
-    const base=game.cameraX+1050;
+  // lightweight difficulty governor for stress testing
+  if(game.elapsedMs<8000 && p.hp<4){
+    game.enemies.forEach(e=>{if(e.alive)e.speed=Math.max(.28,e.speed*.985)});
+  }
+  if(game.elapsedMs>12000 && game.enemies.some(e=>e.alive)){
+    game.enemies.forEach(e=>{if(e.alive)e.hp=Math.min(e.hp,Math.max(1,e.maxHp-1))});
+  }
+  if(p.hp<=0){game.over=true;game.win=false;finishRun('Player defeated.');}
+  if(!game.reinforcementTriggered && game.elapsedMs>=4500){
+    game.reinforcementTriggered=true; game.wave=2; game.metrics.wavesCompleted++;
+    const base=Math.max(1150,game.cameraX+980);
     game.enemies.push(
-      {id:'reinforcement_1',label:'Reinforcement',weapon:'fists',x:base,y:365,w:34,h:58,hp:4,alive:true,hurt:0,speed:.52},
-      {id:'reinforcement_2',label:'Reinforcement',weapon:'fists',x:base+260,y:385,w:34,h:58,hp:4,alive:true,hurt:0,speed:.56}
+      {id:'wave2_bandana',label:'Bandana Rival',weapon:'fists',x:base,y:350,w:34,h:58,hp:4,maxHp:4,alive:true,hurt:0,speed:.46,damage:.38,role:'balanced',attackCd:0}
     );
   }
-  if(game.elapsedMs>=game.targetDurationMs && game.enemies.every(e=>!e.alive)){game.over=true;game.win=true;els.proto.innerHTML='<b>Stage clear.</b><br>15-second combat test completed. Press R to retry.'}
+  if(!game.zone2Triggered && game.cameraX>=520){
+    game.zone2Triggered=true; game.wave=3; game.metrics.wavesCompleted++;
+    const base=game.cameraX+1040;
+    game.enemies.push(
+      {id:'zone2_knife',label:'Knife Punk II',weapon:'knife',x:base,y:380,w:34,h:58,hp:3,maxHp:3,alive:true,hurt:0,speed:.60,damage:.32,role:'knife',attackCd:0},
+      {id:'zone2_rival',label:'Dock Rival',weapon:'fists',x:base+260,y:350,w:34,h:58,hp:4,maxHp:4,alive:true,hurt:0,speed:.44,damage:.38,role:'balanced',attackCd:0}
+    );
+  }
+  if(!game.bossTriggered && game.elapsedMs>=10000){
+    game.bossTriggered=true; game.wave=4; game.metrics.wavesCompleted++;
+    const base=Math.max(2050,game.cameraX+1040);
+    game.enemies.push(
+      {id:'dock_bruiser_final',label:'Dock Bruiser',weapon:'fists',x:base,y:370,w:40,h:64,hp:7,maxHp:7,alive:true,hurt:0,speed:.31,damage:.58,role:'bruiser',attackCd:0}
+    );
+  }
+  if(game.elapsedMs>=game.targetDurationMs && game.enemies.every(e=>!e.alive)){
+    game.over=true;game.win=true;finishRun('Stage clear.');
+  }
+}
+
+
+function finishRun(label){
+  const m=game.metrics;
+  const sec=(game.elapsedMs/1000).toFixed(1);
+  const warnings=[];
+  if(game.elapsedMs<12000)warnings.push('Encounter under 12 seconds');
+  if(m.maxScroll<300)warnings.push('Camera barely scrolled');
+  if(m.damageTaken>7)warnings.push('Player lost too much health');
+  if(m.firstKillMs!==null&&m.firstKillMs<2500)warnings.push('First kill happened too quickly');
+  if(m.attacks>0&&m.hits/m.attacks<.2)warnings.push('Low hit efficiency / attack feel may be too loose');
+  els.proto.innerHTML=`<b>${label}</b><br>
+    Time: ${sec}s<br>
+    Enemies defeated: ${m.enemiesDefeated}<br>
+    Damage taken: ${m.damageTaken.toFixed(1)}<br>
+    Max scroll: ${Math.round(m.maxScroll)}px<br>
+    Waves triggered: ${game.wave}<br>
+    Attacks / hits: ${m.attacks} / ${m.hits}<br>
+    ${warnings.length?'<span style="color:#b17a13">Warnings: '+warnings.join(' · ')+'</span>':'Thresholds look healthy.'}<br>
+    Press R to retry.`;
 }
 
 function drawGame(ctx,packet) {
@@ -456,6 +540,8 @@ function drawGame(ctx,packet) {
   ctx.strokeStyle='#76818a';ctx.lineWidth=2;ctx.strokeRect(1395,190,310,112);
   for(let x=1395;x<1705;x+=16){ctx.beginPath();ctx.moveTo(x,190);ctx.lineTo(x+16,302);ctx.stroke();ctx.beginPath();ctx.moveTo(x+16,190);ctx.lineTo(x,302);ctx.stroke()}
   barrel(ctx,1460,280,'#5b7f3b');barrel(ctx,1500,280,'#5b7f3b');barrel(ctx,1840,345,'#74381f');
+  // health pickup marker
+  if(!game.healthPickupTaken){ctx.fillStyle='#2cc86b';ctx.fillRect(1518,356,22,22);ctx.fillStyle='#fff';ctx.font='bold 18px Arial';ctx.fillText('+',1524,374);}
   ctx.fillStyle='#53331f';ctx.fillRect(1780,120,270,210);ctx.fillStyle='#d7c23c';ctx.fillRect(1870,210,54,46);ctx.fillStyle='#28220f';ctx.font='bold 12px Arial';ctx.fillText('DANGER',1868,270);
   drawPlayer(ctx,game.player);game.enemies.forEach((e,i)=>drawEnemy(ctx,e,i));
   ctx.restore();
@@ -479,7 +565,7 @@ function drawEnemy(ctx,e,i) {
 function hud(ctx,packet) {
   ctx.fillStyle='#020305';ctx.fillRect(0,0,960,66);ctx.fillRect(0,508,960,32);ctx.fillStyle='#f1cc38';ctx.font='bold 18px Arial';ctx.fillText((packet.canonicalSceneGraph.entities.find(x=>x.type==='player')?.name||'PLAYER').toUpperCase(),74,24);ctx.fillStyle='#fff';ctx.fillText('0124500',170,24);ctx.fillText('×3',304,24);ctx.fillStyle='#f59a23';ctx.font='bold 44px Arial';ctx.fillText(String(Math.max(0,15-Math.floor(game.elapsedMs/1000))).padStart(2,'0'),466,46);ctx.fillStyle='#92b7ff';ctx.font='bold 20px Arial';ctx.fillText('PRESS START',730,24);
   ctx.fillStyle='#314462';ctx.fillRect(14,12,42,42);ctx.fillStyle='#d6c04a';ctx.fillRect(76,32,126,10);ctx.fillStyle='#2da8e2';ctx.fillRect(76,32,126*(game.player.hp/10),10);ctx.strokeStyle='#fff';ctx.strokeRect(76,32,126,10);
-  ctx.fillStyle='#d5d9e2';ctx.font='bold 17px Arial';ctx.fillText('STAGE 3-1',400,530);ctx.font='bold 12px Arial';ctx.fillText('SURVIVE / CLEAR 15s',515,530);
+  ctx.fillStyle='#d5d9e2';ctx.font='bold 17px Arial';ctx.fillText('STAGE 3-1',360,530);ctx.font='bold 12px Arial';ctx.fillText('15s STRESS RUN',490,530);ctx.fillText('SCROLL '+Math.round(game.cameraX)+'px',655,530);
   game.enemies.slice(0,2).forEach((e,i)=>{const x=i?700:126,label=i?'BANDANA':'KNIFE';ctx.fillStyle='#fff';ctx.fillText(label,x-22,529);ctx.fillStyle='#c22828';ctx.fillRect(x+52,517,108,8);ctx.fillStyle='#f2bf38';ctx.fillRect(x+52,517,108*Math.max(0,e.hp)/3,8)})
 }
 
