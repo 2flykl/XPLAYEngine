@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XPLAY Visual Upgrade Triptych Lab</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div>
+        <div class="eyebrow">XPLAY · VISUAL UPGRADE TRIPTYCH LAB</div>
+        <h1>One build, three visual eras</h1>
+        <p>
+          Start from an editable vision-style description, build a playable graybox runtime, then reinterpret the same game in
+          <strong>64-bit</strong>, <strong>PlayStation 2</strong>, and <strong>modern PC</strong> visual styles. Gameplay logic stays locked;
+          only the presentation layer changes.
+        </p>
+      </div>
+      <div class="status-pill" id="statusPill">Triptych mode: ready</div>
+    </header>
+
+    <main class="grid">
+      <section class="card left">
+        <div class="card-head">
+          <h2>1) Input + Build</h2>
+          <div class="legend">Fresh standalone test lab</div>
+        </div>
+
+        <div class="row three">
+          <button class="ghost" data-preset="alex">Load Alex</button>
+          <button class="ghost" data-preset="nova">Load Nova</button>
+          <button class="ghost" data-preset="malik">Load Malik</button>
+        </div>
+
+        <label class="field"><span>Build Title</span><input id="titleInput" value="Urban Shipping Clash" /></label>
+
+        <div class="row two">
+          <label class="field"><span>Genre Override</span>
+            <select id="genreSelect">
+              <option value="">Auto-detect</option>
+              <option value="fighting">Fighting</option>
+              <option value="platformer">Platformer</option>
+              <option value="runner">Runner</option>
+            </select>
+          </label>
+          <label class="field"><span>Preset</span><input id="presetName" readonly value="alex" /></label>
+        </div>
+
+        <label class="field"><span>Vision-style Description (editable)</span><textarea id="descriptionInput"></textarea></label>
+
+        <div class="row wrap">
+          <button class="primary" id="parseBtn">Parse Text</button>
+          <button class="primary alt" id="buildBtn">Build Runtime</button>
+          <button class="ghost" id="triptychBtn">Generate 3 Style Outputs</button>
+          <button class="ghost" id="exportBtn">Export Triptych Packet</button>
+        </div>
+
+        <div id="statusBox" class="status-box">Ready.</div>
+      </section>
+
+      <section class="card center">
+        <div class="card-head">
+          <h2>2) Locked Gameplay Runtime</h2>
+          <div class="legend">A/D or ←/→ · W/↑/Space attack or jump · R reset</div>
+        </div>
+        <canvas id="gameCanvas" width="960" height="540"></canvas>
+        <div class="runtime-footer">
+          <div class="small-card"><div class="small-title">Packet</div><div id="packetSummary">No packet built yet.</div></div>
+          <div class="small-card"><div class="small-title">Threshold Check</div><div id="thresholdSummary">Not tested.</div></div>
+        </div>
+        <div class="small-card mt12">
+          <div class="small-title">Master reinterpretation instruction</div>
+          <pre id="masterPromptOut"></pre>
+        </div>
+      </section>
+
+      <section class="card right">
+        <div class="card-head">
+          <h2>3) Style Triptych</h2>
+          <div class="legend">Same game · 3 visual eras</div>
+        </div>
+
+        <img id="referenceImage" class="reference" alt="reference scene" />
+
+        <div class="triptych-grid">
+          <article class="style-card">
+            <div class="style-head">
+              <h3>64-bit</h3>
+              <span>Late-90s console reinterpretation</span>
+            </div>
+            <img id="preview64" class="style-preview" alt="64-bit preview" />
+            <pre id="prompt64"></pre>
+          </article>
+
+          <article class="style-card">
+            <div class="style-head">
+              <h3>PlayStation 2</h3>
+              <span>Early 2000s 3D action reinterpretation</span>
+            </div>
+            <img id="previewPS2" class="style-preview" alt="PS2 preview" />
+            <pre id="promptPS2"></pre>
+          </article>
+
+          <article class="style-card">
+            <div class="style-head">
+              <h3>Modern PC</h3>
+              <span>Contemporary high-fidelity reinterpretation</span>
+            </div>
+            <img id="previewPC" class="style-preview" alt="Modern PC preview" />
+            <pre id="promptPC"></pre>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="./app.js"></script>
+</body>
+</html>
