@@ -1,0 +1,55 @@
+{
+  "01_FIGHTING_ALEX_DOCKYARD": {
+    "engine": "fighting",
+    "camera": "2d-side-view",
+    "runtime_must_keep": [
+      "scrolling combat",
+      "shallow depth lane",
+      "15s+ encounter",
+      "3 enemy roles"
+    ],
+    "visual_identity": [
+      "Alex",
+      "white gi",
+      "afro",
+      "industrial dockyard",
+      "ZENITH INDUSTRIES"
+    ]
+  },
+  "02_PLATFORMER_NOVA_ROOFTOP": {
+    "engine": "platformer",
+    "camera": "2d-side-view",
+    "runtime_must_keep": [
+      "jump physics",
+      "platform collision",
+      "collect data shard",
+      "reach EXIT"
+    ],
+    "visual_identity": [
+      "Nova",
+      "yellow windbreaker",
+      "rainy neon rooftops",
+      "data shard",
+      "EXIT door"
+    ]
+  },
+  "03_RUNNER_MALIK_RIVERSIDE": {
+    "engine": "runner",
+    "camera": "side-view auto-scroll",
+    "runtime_must_keep": [
+      "auto-scroll",
+      "lane changes",
+      "jump hazards",
+      "checkpoint rings",
+      "15s+ run",
+      "finish gantry"
+    ],
+    "visual_identity": [
+      "Malik",
+      "teal cycling jersey",
+      "riverside path",
+      "sunrise",
+      "checkpoint rings"
+    ]
+  }
+}

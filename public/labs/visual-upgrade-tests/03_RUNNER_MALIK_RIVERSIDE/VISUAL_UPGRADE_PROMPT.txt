@@ -1,0 +1,29 @@
+[XPLAY V3 VISUAL UPGRADE — RUNNER]
+INPUTS:
+1. Use REFERENCE_IMAGE_MALIK.png as the visual truth.
+2. Use SOURCE_VISION_DESCRIPTION.txt as the already-completed Vision output.
+3. Use the already-working Runner runtime/blueprint. Do NOT convert it into Fighting or free-roam Racing.
+
+MISSION:
+Replace graybox visual placeholders with production-ready runner assets while preserving auto-scroll, lanes, speed ramp, jump hazards, checkpoint rings, and finish logic.
+
+HARD LOCKS:
+- Malik remains a Black male cyclist in silver helmet, teal jersey, black cycling shorts, white shoes.
+- Camera remains side-view auto-scrolling.
+- Keep sunrise oranges/teals/sky blues, river/city context, lane markings, barriers and wet reflections.
+- Checkpoint rings remain clear gameplay targets.
+- Broken path and maintenance barriers remain readable hazards.
+- Finish gantry must remain visible and reachable.
+- No beat-em-up enemies, combat HUD, crosshair, or generic road/airport legacy art.
+- Do not change lane geometry or collision logic to fit art.
+
+PRODUCTION:
+- Malik cycling sprite/animation set: ride, pedal push, jump, apex, land, hit/recover, finish.
+- Bike-path tiles: dry/wet asphalt, broken section, lane markings, puddles, curb edges.
+- Props: orange barriers, cones, lamps, trees, finish gantry.
+- Collectible/checkpoint ring animation.
+- Background layers: river, trees, skyline, sunrise depth, subtle parallax.
+- Motion accents should sell speed without reducing hazard readability.
+
+SUCCESS:
+The proven runner runtime keeps its mechanics but visually reads as the supplied riverside cycling scene.

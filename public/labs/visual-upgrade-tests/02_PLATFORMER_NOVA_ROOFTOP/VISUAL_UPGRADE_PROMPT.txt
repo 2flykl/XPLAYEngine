@@ -1,0 +1,27 @@
+[XPLAY V3 VISUAL UPGRADE — PLATFORMER]
+INPUTS:
+1. Use REFERENCE_IMAGE_NOVA.png as the visual truth.
+2. Use SOURCE_VISION_DESCRIPTION.txt as the already-completed Vision output.
+3. Use the already-working Platformer runtime/blueprint. Do NOT convert it into Fighting.
+
+MISSION:
+Replace graybox visual placeholders with production-ready platformer assets while preserving platform spacing, jump logic, scrolling, collectible logic, and EXIT goal.
+
+HARD LOCKS:
+- Nova remains a Black female rooftop courier in yellow windbreaker, black cargo pants, red sneakers, compact backpack.
+- Keep side-view 2.5D rooftop composition, rainy dusk setting, neon blues/purples/pinks and wet reflections.
+- Platforms must remain readable as traversable surfaces.
+- Keep the blue data shard and far-right EXIT doorway visually distinct.
+- No fighting health bars, melee enemies, beat-em-up walk lane, jet/crosshair, or airport assets.
+- Do not change platform collision geometry to fit the art; art must fit the proven collision geometry.
+
+PRODUCTION:
+- Nova sprite sheet: idle, run, jump, apex, fall, land, climb/vault, hurt/fall.
+- Rooftop tiles: roof caps, ledges, ventilation units, scaffolds, broken railing.
+- Background layers: rainy skyline, elevated train, billboards, atmospheric depth.
+- Interactive assets: hanging cable, blue data shard, EXIT doorway.
+- Rain/reflection FX that do not obscure collision readability.
+- Consistency QA for Nova scale, platform silhouette, and palette.
+
+SUCCESS:
+The same working platformer graybox becomes a visually coherent rainy-neon rooftop game with no Fighting-runtime contamination.

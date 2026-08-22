@@ -1,0 +1,28 @@
+[XPLAY V3 VISUAL UPGRADE — FIGHTING]
+INPUTS:
+1. Use the supplied Alex screenshot/reference image as the visual truth.
+2. Use SOURCE_VISION_DESCRIPTION.txt as the already-completed Vision output.
+3. Use the already-working Fighting runtime/blueprint. Do NOT redesign gameplay.
+
+MISSION:
+Replace graybox visual placeholders with production-ready assets while preserving the proven gameplay and camera.
+
+HARD LOCKS:
+- Alex remains a Black male martial artist with afro, white gi, black belt, wrist wraps, barefoot.
+- Side-view beat-em-up camera and shallow depth movement stay intact.
+- Preserve the ZENITH INDUSTRIES container, B7 security building, fence, toxic barrels, ladder, warning signs, oil drum, full moon/skyline, hazard-strip floor.
+- Preserve three enemy roles: knife punk, bandana rival, heavy dock bruiser.
+- No jet, crosshair, generic road tile, airport/runway asset, or unrelated legacy placeholder may appear.
+- No asset may alter collision, controls, pacing, wave logic, or scrolling behavior.
+
+PRODUCTION:
+- Rebuild Alex as a consistent transparent sprite sheet: idle, walk, open-palm, punch, kick, hurt, fall, victory.
+- Rebuild each enemy with idle, walk, attack, hurt, fall.
+- Extend the industrial dockyard into layered scrolling background/midground/foreground art.
+- Build repeatable ground tiles matching the screenshot floor.
+- Produce clean props and signage as transparent assets where appropriate.
+- Synthesize hit sparks/impact FX in matching art style.
+- Run consistency QA before injection.
+
+SUCCESS:
+The game should play exactly like the proven graybox but visually resemble the supplied screenshot instead of a placeholder prototype.

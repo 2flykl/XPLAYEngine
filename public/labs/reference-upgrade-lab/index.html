@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>XPLAY Reference Upgrade Lab</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<div class="page">
+  <header class="hero">
+    <div>
+      <div class="eyebrow">XPLAY LAB · REFERENCE-DRIVEN VISUAL RECONSTRUCTION TEST</div>
+      <h1>Reference Upgrade Lab</h1>
+      <p>Upload the real screenshot, keep or edit the parsed description, auto-crop reference regions, extend the stage, and build a playable runtime to test the next XPLAY threshold.</p>
+    </div>
+    <div class="badge">No stale asset board</div>
+  </header>
+
+  <main class="layout">
+    <section class="panel input-panel">
+      <div class="panel-head">
+        <h2>1) Inputs</h2>
+        <div class="actions compact">
+          <button id="sampleBtn" class="ghost">Load Alex Sample</button>
+          <button id="clearBtn" class="ghost">Clear</button>
+        </div>
+      </div>
+
+      <label class="field"><span>Build Title</span><input id="titleInput" value="Urban Shipping Clash Upgrade"></label>
+      <label class="field"><span>Reference Screenshot (optional but recommended)</span><input id="imageInput" type="file" accept="image/*"></label>
+      <div class="toggles">
+        <label><input type="checkbox" id="useRefCrops" checked> Use reference crops as sprite proxies</label>
+        <label><input type="checkbox" id="extendScene" checked> Extend / outpaint stage left and right</label>
+      </div>
+      <div class="preview-shell">
+        <img id="imagePreview" alt="Reference preview">
+        <div id="previewEmpty" class="preview-empty">No screenshot loaded yet.</div>
+      </div>
+
+      <label class="field"><span>Parsed Description / Vision Output</span><textarea id="descriptionInput"></textarea></label>
+      <div class="actions">
+        <button id="parseBtn" class="primary">Parse Description</button>
+        <button id="buildBtn" class="primary alt">Build Playable Upgrade</button>
+      </div>
+      <div id="status" class="status">Ready.</div>
+    </section>
+
+    <section class="panel output-panel">
+      <div class="panel-head"><h2>2) Build Packet</h2><div id="readinessBadge" class="readiness">0%</div></div>
+      <div id="summaryGrid" class="summary-grid"></div>
+      <div class="tabs">
+        <button class="tab active" data-tab="blueprint">Scene Blueprint</button>
+        <button class="tab" data-tab="crops">Reference Crops</button>
+        <button class="tab" data-tab="raw">Raw Packet</button>
+      </div>
+      <div id="tab-blueprint" class="tab-panel active"><pre id="blueprintOut"></pre></div>
+      <div id="tab-crops" class="tab-panel"><div id="cropGrid" class="crop-grid"></div></div>
+      <div id="tab-raw" class="tab-panel"><pre id="rawOut"></pre></div>
+    </section>
+
+    <section class="panel full">
+      <div class="panel-head">
+        <h2>3) Playable Reference Runtime</h2>
+        <div class="legend">WASD / Arrows move · Space attack · R reset · 15s+ scroll test</div>
+      </div>
+      <div class="game-layout">
+        <canvas id="gameCanvas" width="960" height="540"></canvas>
+        <aside>
+          <div class="side-card">
+            <h3>Runtime Status</h3>
+            <div id="runtimeStatus">Parse and build to start the lab.</div>
+          </div>
+          <div class="side-card">
+            <h3>This lab proves</h3>
+            <ul>
+              <li>Real screenshot can drive a live stage.</li>
+              <li>Reference crops can become lightweight live sprites.</li>
+              <li>Scene can extend beyond the source frame.</li>
+              <li>Scrolling and combat pacing can be stress-tested before full sprite-sheet reconstruction.</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+</div>
+<script src="./app.js"></script>
+</body>
+</html>

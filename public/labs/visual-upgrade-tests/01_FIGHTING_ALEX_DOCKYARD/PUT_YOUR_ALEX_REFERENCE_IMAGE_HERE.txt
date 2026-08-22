@@ -1,0 +1,3 @@
+Place your Alex screenshot/reference image in this folder before running the visual-upgrade test.
+Suggested filename: REFERENCE_IMAGE_ALEX.png
+Do not call Gemini Vision for this test; SOURCE_VISION_DESCRIPTION.txt is the simulated completed Vision output.

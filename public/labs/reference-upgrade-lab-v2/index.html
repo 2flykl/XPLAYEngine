@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>XPLAY Reference Upgrade Lab V2</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<div class="page">
+  <header class="hero">
+    <div>
+      <div class="eyebrow">XPLAY · REFERENCE UPGRADE LAB V2</div>
+      <h1>Extract · Clean · Extend · Play</h1>
+      <p>Use the actual reference screenshot as visual truth, isolate game assets, remove actors/HUD from the stage plate, extend the environment, and play the reconstructed scene without changing the proven combat loop.</p>
+    </div>
+    <div class="hero-actions">
+      <button id="loadSampleBtn" class="ghost">Load Included Alex Reference</button>
+      <span class="badge">Fresh isolated pipeline</span>
+    </div>
+  </header>
+
+  <main class="stack">
+    <section class="panel">
+      <div class="panel-head">
+        <h2>1. Source</h2>
+        <div id="sourceStatus" class="status-pill">No source loaded</div>
+      </div>
+      <div class="source-grid">
+        <div>
+          <label class="field">
+            <span>Reference screenshot</span>
+            <input id="imageInput" type="file" accept="image/*">
+          </label>
+          <div class="source-preview">
+            <img id="sourcePreview" alt="Source screenshot">
+            <div id="sourceEmpty" class="empty">Upload the screenshot or load the included Alex reference.</div>
+          </div>
+        </div>
+        <div>
+          <label class="field">
+            <span>Vision-style description (editable)</span>
+            <textarea id="descriptionInput"></textarea>
+          </label>
+          <div class="actions">
+            <button id="parseBtn" class="primary">Parse Description</button>
+            <button id="autoExtractBtn" class="primary alt">Auto Extract Reference Regions</button>
+          </div>
+          <div id="parseSummary" class="mini-summary"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>2. Extract</h2>
+        <div class="legend">Auto cutout + manual erase / restore brush</div>
+      </div>
+      <div class="extract-layout">
+        <div class="extract-list" id="extractList"></div>
+        <div class="mask-editor">
+          <div class="editor-toolbar">
+            <select id="assetSelect"></select>
+            <button id="autoCutoutBtn" class="ghost">Auto Cutout</button>
+            <button id="eraseModeBtn" class="ghost active">Erase</button>
+            <button id="restoreModeBtn" class="ghost">Restore</button>
+            <label class="brush-label">Brush <input id="brushSize" type="range" min="8" max="90" value="32"></label>
+            <button id="resetMaskBtn" class="ghost">Reset Mask</button>
+          </div>
+          <canvas id="maskCanvas" width="640" height="360"></canvas>
+          <div class="hint">Drag over the crop to erase background or restore subject pixels. This creates a transparent live sprite proxy.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>3. Clean + Extend</h2>
+        <div class="actions compact">
+          <button id="buildCleanBtn" class="primary">Build Clean Stage Plate</button>
+          <button id="extendBtn" class="primary alt">Extend Stage</button>
+        </div>
+      </div>
+      <div class="compare-grid">
+        <article>
+          <h3>Clean Plate</h3>
+          <canvas id="cleanCanvas" width="960" height="540"></canvas>
+        </article>
+        <article>
+          <h3>Extended World Preview</h3>
+          <canvas id="extendCanvas" width="960" height="540"></canvas>
+        </article>
+      </div>
+      <div class="checks" id="cleanChecks"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>4. Play</h2>
+        <div class="actions compact">
+          <button id="buildPlayBtn" class="primary">Build Playable Reconstruction</button>
+          <button id="togglePlateBtn" class="ghost">Toggle Reference Plate Overlay</button>
+        </div>
+      </div>
+      <div class="play-grid">
+        <canvas id="gameCanvas" width="960" height="540"></canvas>
+        <aside>
+          <div class="side-card">
+            <h3>Controls</h3>
+            <p>WASD / arrows move<br>Space attacks<br>R resets</p>
+          </div>
+          <div class="side-card">
+            <h3>Runtime test</h3>
+            <div id="runtimeStatus">Build the playable reconstruction to begin.</div>
+          </div>
+          <div class="side-card">
+            <h3>What V2 is testing</h3>
+            <ul>
+              <li>Transparent character proxies instead of rectangular crops</li>
+              <li>HUD removed from the world plate</li>
+              <li>Actors removed from the background plate</li>
+              <li>Left/right scene extension</li>
+              <li>Scrolling combat lasting roughly 15–20 seconds</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+</div>
+<script src="./app.js"></script>
+</body>
+</html>
