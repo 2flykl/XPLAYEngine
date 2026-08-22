@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>XPLAY Screenshot Decompose Lab</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<div class="page">
+  <header class="hero">
+    <div>
+      <div class="eyebrow">XPLAY · SCREENSHOT DECOMPOSE LAB</div>
+      <h1>Extract · Inpaint · Extend · Overlay · Play</h1>
+      <p>Turn one flat screenshot into a layered playable test. This lab cuts out characters into transparent proxies, repairs the world plate behind them, extends the scene for scrolling, and then overlays the live assets back on top for runtime play.</p>
+    </div>
+    <div class="hero-actions">
+      <button id="loadSampleBtn" class="ghost">Load Included Sample Screenshot</button>
+      <span class="badge">Fresh isolated execution path</span>
+    </div>
+  </header>
+
+  <main class="stack">
+    <section class="panel">
+      <div class="panel-head">
+        <h2>1. Source + Packet</h2>
+        <div id="sourceStatus" class="status-pill">No source loaded</div>
+      </div>
+      <div class="source-grid">
+        <div>
+          <label class="field">
+            <span>Reference screenshot</span>
+            <input id="imageInput" type="file" accept="image/*">
+          </label>
+          <div class="source-preview">
+            <img id="sourcePreview" alt="Source screenshot">
+            <div id="sourceEmpty" class="empty">Upload a screenshot or load the included sample.</div>
+          </div>
+        </div>
+        <div>
+          <label class="field">
+            <span>Vision-style description / packet (editable)</span>
+            <textarea id="descriptionInput"></textarea>
+          </label>
+          <div class="actions">
+            <button id="parseBtn" class="primary">Parse Description</button>
+            <button id="autoExtractBtn" class="primary alt">Auto Extract Reference Regions</button>
+          </div>
+          <div id="parseSummary" class="mini-summary"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>2. Extract Transparent Assets</h2>
+        <div class="legend">Auto cutout + manual erase / restore brush</div>
+      </div>
+      <div class="extract-layout">
+        <div class="extract-list" id="extractList"></div>
+        <div class="mask-editor">
+          <div class="editor-toolbar">
+            <select id="assetSelect"></select>
+            <button id="autoCutoutBtn" class="ghost">Auto Cutout</button>
+            <button id="eraseModeBtn" class="ghost active">Erase</button>
+            <button id="restoreModeBtn" class="ghost">Restore</button>
+            <label class="brush-label">Brush <input id="brushSize" type="range" min="8" max="90" value="32"></label>
+            <button id="resetMaskBtn" class="ghost">Reset Mask</button>
+          </div>
+          <canvas id="maskCanvas" width="640" height="360"></canvas>
+          <div class="hint">Create transparent sprites here. These are live runtime actors and props, not baked into the cleaned background plate.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>3. Inpaint + Extend Stage Plate</h2>
+        <div class="actions compact">
+          <button id="buildCleanBtn" class="primary">Build Clean Stage Plate</button>
+          <button id="extendBtn" class="primary alt">Extend Stage</button>
+        </div>
+      </div>
+      <div class="compare-grid">
+        <article>
+          <h3>Clean Plate (actors / HUD removed)</h3>
+          <canvas id="cleanCanvas" width="960" height="540"></canvas>
+        </article>
+        <article>
+          <h3>Extended World Preview</h3>
+          <canvas id="extendCanvas" width="960" height="540"></canvas>
+        </article>
+      </div>
+      <div class="checks" id="cleanChecks"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>4. Overlay + Play</h2>
+        <div class="actions compact">
+          <button id="buildPlayBtn" class="primary">Build Playable Reconstruction</button>
+          <button id="togglePlateBtn" class="ghost">Toggle Reference Plate Overlay</button>
+        </div>
+      </div>
+      <div class="play-grid">
+        <canvas id="gameCanvas" width="960" height="540"></canvas>
+        <aside>
+          <div class="side-card">
+            <h3>Controls</h3>
+            <p>WASD / arrows move<br>Space attacks<br>R resets</p>
+          </div>
+          <div class="side-card">
+            <h3>Runtime test</h3>
+            <div id="runtimeStatus">Build the playable reconstruction to begin.</div>
+          </div>
+          <div class="side-card">
+            <h3>What this lab proves</h3>
+            <ul>
+              <li>One screenshot can be decomposed into layers</li>
+              <li>Transparent actors can be separated from the world</li>
+              <li>The stage plate can be repaired behind removed actors</li>
+              <li>The world can be extended for side-scrolling runtime</li>
+              <li>The repaired plate + transparent actors can become a playable prototype</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+</div>
+<script src="./app.js"></script>
+</body>
+</html>
