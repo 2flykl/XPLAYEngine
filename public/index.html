@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XPLAY OpenAI Vision Test Lab</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div class="pill">OPENAI VISION TEST LAB</div>
+      <h1>XPLAY OpenAI Vision Connection Test</h1>
+      <p>Upload one screenshot, hit analyze, and verify that OpenAI returns a clean XPLAY scene packet.</p>
+    </header>
+
+    <section class="grid two">
+      <div class="card">
+        <h2>1) Input</h2>
+        <label class="field">
+          <span>Upload image</span>
+          <input id="imageInput" type="file" accept="image/png,image/jpeg,image/webp" />
+        </label>
+
+        <label class="field">
+          <span>Optional context / instructions</span>
+          <textarea id="contextInput" rows="10" placeholder="Example: Treat this as a screenshot from a beat-em-up game. Preserve visible landmarks and gameplay cues."></textarea>
+        </label>
+
+        <div class="actions">
+          <button id="healthBtn" class="secondary">Check Health</button>
+          <button id="analyzeBtn">Run OpenAI Vision</button>
+        </div>
+
+        <div id="status" class="status">Ready.</div>
+      </div>
+
+      <div class="card">
+        <h2>2) Preview</h2>
+        <div class="preview-shell">
+          <img id="previewImage" alt="Preview" />
+          <div id="previewEmpty" class="preview-empty">No image loaded yet.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid two">
+      <div class="card">
+        <h2>3) Parsed Packet</h2>
+        <pre id="jsonOutput">{}</pre>
+      </div>
+      <div class="card">
+        <h2>4) Human Summary</h2>
+        <div id="summaryOutput" class="summary">No results yet.</div>
+        <h3>Raw Model Text</h3>
+        <pre id="rawOutput"></pre>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>5) What to check</h2>
+      <ul>
+        <li>OpenAI health reports <strong>configured: true</strong>.</li>
+        <li>The packet comes back as valid JSON.</li>
+        <li>The screenshot is interpreted as the correct genre and scene.</li>
+        <li>The output is useful enough to hand off to the next XPLAY build phase.</li>
+      </ul>
+    </section>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

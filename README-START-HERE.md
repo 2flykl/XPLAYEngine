@@ -1,79 +1,68 @@
-# XPLAY — Analysis to Playable Packets
+# XPLAY OpenAI Vision Test Lab
 
-This pack adds the translation layer that was missing between **Vision** and **game construction**.
+## What this is
+A clean standalone test lab for your new OpenAI connection.
 
-## New pipeline
+It does **one job**:
+1. Upload a screenshot.
+2. Send it to OpenAI Vision.
+3. Return a structured XPLAY-ready JSON scene packet.
 
-Vision Analysis
-→ Game Interpreter Beast
-→ Asset Manifest Beast
-→ Builder Packet Compiler
+---
 
-The pack does **not** fake sprite generation or world extension. It creates the structured contracts those specialist production beasts need.
+## Folder structure
+- `package.json`
+- `.env.example`
+- `server/server.js`
+- `public/index.html`
+- `public/styles.css`
+- `public/app.js`
+- `OPEN-ME.html`
 
-## Install
+---
 
-Extract this ZIP and copy the contents into the root of your current `XPLAYEngine` repository.
+## Setup
+1. Extract the zip.
+2. Open the extracted folder in your project space or desktop.
+3. Create a `.env` file from `.env.example`.
+4. Paste your real OpenAI API key.
 
-Then run:
-
-```powershell
-node .\APPLY-PLAYABLE-TRANSLATION.mjs
-npm run build
+Example `.env`:
+```env
+OPENAI_API_KEY=sk-your-real-key-here
+OPENAI_VISION_MODEL=gpt-4.1-mini
+PORT=8788
 ```
 
-For local testing, start your normal XPLAY dev/server setup and open:
+5. Run:
+```bash
+npm install
+npm run dev
+```
 
-`http://localhost:5173/translation-lab.html`
+6. Open:
+```text
+http://localhost:8788
+```
 
-If your Express API runs on port 8787, the lab uses it automatically.
+---
 
-On GitHub Pages, the lab uses:
+## What success looks like
+- `/api/vision/health` says `configured: true`
+- The uploaded screenshot returns valid JSON
+- The packet includes the right player, enemies, landmarks, genre, palette, and camera
 
-`https://xplay-api-246473132693.us-central1.run.app`
+---
 
-## What to test
+## Recommended first test
+Use your Alex shipping dock screenshot.
 
-1. Paste the detailed Gemini Vision analysis.
-2. Attach the same source image when possible.
-3. Optionally lock the game type.
-4. Add gameplay intent and "must keep" constraints.
-5. Press **RUN TRANSLATION PIPELINE**.
-6. Inspect:
-   - Game Interpreter Packet
-   - Asset Manifest Packet
-   - Builder Packet
-7. Download the complete JSON packet.
+Optional context:
+```text
+Treat this as a screenshot from a side-scrolling beat-em-up. Preserve visible landmarks, characters, gameplay cues, and HUD details. Return a grounded XPLAY packet.
+```
 
-## Hard rules built into this pack
+---
 
-- User-selected engine outranks AI recommendation.
-- Vision analysis/image are source truth.
-- Unknown stays unknown.
-- No unrelated legacy assets.
-- Asset Manifest must classify every asset as:
-  - EXTRACT
-  - REBUILD
-  - EXTEND
-  - SYNTHESIZE
-- Asset Manifest routes jobs to advanced methods such as:
-  - segmentation
-  - alpha matting
-  - OCR
-  - monocular depth
-  - pose estimation
-  - sprite synthesis
-  - animation completion
-  - tileset generation
-  - world extension/outpainting
-  - image-to-video motion reference
-  - UI reconstruction
-  - FX generation
-  - collision-mask extraction
-  - consistency QA
-- Builder packet may reference only assets in the manifest.
-- Builder should fail closed when required assets are missing.
-
-## Important
-
-This ZIP contains no API keys and no `.env` file. It uses the same `GEMINI_API_KEY` and `GEMINI_VISION_MODEL` already configured for XPLAY.
+## Important note
+This is intentionally isolated so you can test OpenAI Vision **without disturbing the rest of XPLAY yet**.
