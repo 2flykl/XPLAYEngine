@@ -1,0 +1,11 @@
+body{margin:0;font-family:Arial,sans-serif;background:#eef5f4;color:#17324d}header{padding:24px 28px;background:#f7fbfb;border-bottom:1px solid #c9dde0}
+.eyebrow{font-size:12px;font-weight:900;letter-spacing:.14em;color:#0b817a}h1{margin:6px 0 8px;font-size:40px}header p{margin:0;color:#5f7786}
+.shell{display:grid;grid-template-columns:360px 1fr;gap:16px;padding:16px}aside,.card{background:#fff;border:1px solid #c9dde0;border-radius:18px;padding:16px}
+aside{position:sticky;top:12px;align-self:start;max-height:calc(100vh - 24px);overflow:auto}label{display:block;font-weight:700;font-size:13px;margin:10px 0}
+input,select,button{font:inherit}input[type=file],input[type=text],select{width:100%;padding:9px;border:1px solid #c9dde0;border-radius:10px;margin-top:5px}
+button{padding:9px 10px;border:1px solid #c9dde0;background:#f7fbfb;border-radius:10px;font-weight:800;cursor:pointer}.grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.note{font-size:12px;line-height:1.45;color:#627987}.twocol{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+#stage{position:relative;overflow:auto;background:#111;min-height:520px;border-radius:14px}#stage canvas{position:absolute;left:0;top:0}#overlay{cursor:crosshair}
+.card canvas{max-width:100%;height:auto}.checker{min-height:350px;display:flex;align-items:center;justify-content:center;background-color:#fff;background-image:linear-gradient(45deg,#e8edf2 25%,transparent 25%),linear-gradient(-45deg,#e8edf2 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#e8edf2 75%),linear-gradient(-45deg,transparent 75%,#e8edf2 75%);background-size:22px 22px;background-position:0 0,0 11px,11px -11px,-11px 0}.black{min-height:350px;background:#111;display:flex;align-items:center;justify-content:center}
+#qaOut{min-height:300px;background:#f7fbfb;border-radius:12px;padding:14px;line-height:1.55}.metric{display:flex;justify-content:space-between;border-bottom:1px solid #e2eeee;padding:8px 0}
+@media(max-width:1000px){.shell{grid-template-columns:1fr}aside{position:static;max-height:none}.twocol{grid-template-columns:1fr}}
