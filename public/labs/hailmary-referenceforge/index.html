@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>XPLAY Hail Mary ReferenceForge Lab</title><link rel="stylesheet" href="styles.css"></head>
+<body>
+  <div class="header">
+    <span class="kicker">Hail Mary Final Lab</span>
+    <h1>XPLAY ReferenceForge Runtime</h1>
+    <p>One standalone lab that goes farther: <b>Reference Intake → Extraction → Transparent Proxy Sprites → Clean Plate → World Extension → Playable Beat-em-up</b>.</p>
+  </div>
+  <div class="wrap">
+    <div class="card grid-2">
+      <div>
+        <span class="kicker">1 · Input</span>
+        <label>Upload Screenshot</label>
+        <input id="fileInput" type="file" accept="image/*">
+        <div class="btns">
+          <button id="useSampleBtn" class="btn">Use Included Sample Screenshot</button>
+          <button id="runBtn" class="btn primary">Run Golden Path</button>
+          <button id="playBtn" class="btn dark">Play Runtime</button>
+          <button id="resetBtn" class="btn">Reset Runtime</button>
+        </div>
+        <label>Parsed Description / Prompt</label>
+        <textarea id="descriptionBox"></textarea>
+        <label>Build Packet JSON</label>
+        <textarea id="packetBox"></textarea>
+        <div class="small">This lab only uses the current screenshot + current text packet. No legacy assets are pulled in.</div>
+      </div>
+      <div>
+        <span class="kicker">2 · Current Source</span>
+        <div class="preview"><img id="sourcePreview" alt="source screenshot preview"></div>
+        <p class="small" id="sourceMeta">No source loaded yet.</p>
+        <div class="warning">If the full site keeps freezing, use this lab first. It is isolated and intentionally limited to the new pathway only.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="kicker">3 · Pipeline Status</span>
+      <div class="status">
+        <div class="pill"><b>Reference</b><span id="statusReference">idle</span></div>
+        <div class="pill"><b>Extraction</b><span id="statusExtraction">idle</span></div>
+        <div class="pill"><b>Cutouts</b><span id="statusCutouts">idle</span></div>
+        <div class="pill"><b>Extension</b><span id="statusExtension">idle</span></div>
+        <div class="pill"><b>Runtime</b><span id="statusRuntime">idle</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="kicker">4 · Extracted Regions</span>
+      <div id="cropGrid" class="crop-grid"></div>
+    </div>
+
+    <div class="card grid-2">
+      <div>
+        <span class="kicker">5 · Clean Plate / Inpaint Proxy</span>
+        <div class="preview"><canvas id="plateCanvas" width="720" height="405"></canvas></div>
+        <p class="small">Characters are removed from the stage crop and replaced with nearby world strips. This is a lightweight inpaint proxy intended for testing scene decomposition.</p>
+      </div>
+      <div>
+        <span class="kicker">6 · Extended World</span>
+        <div class="preview"><canvas id="worldCanvas" width="720" height="405"></canvas></div>
+        <p class="small">The lab extends the dockyard laterally, preserves the landmark grammar, and avoids old unrelated assets.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="kicker">7 · Generated Proxy Assets</span>
+      <div id="assetGrid" class="asset-grid"></div>
+    </div>
+
+    <div class="card runtime-wrap">
+      <div class="canvas-shell">
+        <span class="kicker">8 · Playable Runtime</span>
+        <canvas id="runtimeCanvas" width="1100" height="560"></canvas>
+      </div>
+      <div class="runtime-info">
+        <div class="box"><h3>Controls</h3><div>Move: <code class="inline">WASD</code> or <code class="inline">Arrow keys</code><br>Attack: <code class="inline">Space</code><br>Reset: <code class="inline">R</code></div></div>
+        <div class="box"><h3>What this lab is testing</h3><ul><li>Can one screenshot drive a richer playable?</li><li>Can extracted cutouts become proxy animated sprites?</li><li>Can the stage be cleaned and extended?</li><li>Can the runtime stay free of stale legacy assets?</li></ul></div>
+        <div class="box"><h3>Build Summary</h3><div id="buildSummary" class="small">Nothing built yet.</div></div>
+      </div>
+    </div>
+  </div>
+<script src="app.js"></script>
+</body></html>

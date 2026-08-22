@@ -1,0 +1,38 @@
+{
+  "title": "Urban Shipping Clash",
+  "genreLock": "fighting",
+  "camera": "2D side-view beat-em-up",
+  "artStyle": "retro 16/32-bit arcade",
+  "player": {
+    "id": "player_alex",
+    "name": "Alex",
+    "identity": "Black male martial artist",
+    "action": "open-palm strike to the right"
+  },
+  "enemies": [
+    {"id": "enemy_knife", "name": "Knife Punk", "region": "left"},
+    {"id": "enemy_bandana", "name": "Bandana Rival", "region": "center-right"},
+    {"id": "enemy_bruiser", "name": "Dock Bruiser", "region": "far-right"}
+  ],
+  "landmarks": [
+    "ZENITH INDUSTRIES container",
+    "B7 security building",
+    "chain-link fence",
+    "green toxic barrels",
+    "metal ladder",
+    "DANGER sign",
+    "hazard-striped floor",
+    "night skyline/moon"
+  ],
+  "world": {"width": 2600, "targetSeconds": 22, "scrolling": true},
+  "locks": {
+    "genre": true,
+    "noLegacyAssets": true,
+    "unknownStaysUnknown": true,
+    "noRepeatedHud": true,
+    "noMirroredCharacters": true
+  },
+  "buildId": "hailmary_rf_001",
+  "sourceHash": "reference-image-only",
+  "userIntent": "User controls Alex, an African American martial artist, fighting visible rivals in a side-scrolling industrial dockyard brawler. Preserve the screenshot camera, scale, palette, HUD language, composition, and major landmarks."
+}
