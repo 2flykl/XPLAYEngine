@@ -44,7 +44,21 @@ function trimCanvas(src){
 function cropFromImage(img,rect){
   const c=createCanvas(rect.w,rect.h); c.getContext('2d').drawImage(img,rect.x,rect.y,rect.w,rect.h,0,0,rect.w,rect.h); return c;
 }
-function loadText(url){ return fetch(url).then(r=>r.text()); }
+const DEFAULT_DESCRIPTION = `[XPLAY HAIL MARY — REFERENCE SCREENSHOT TO PLAYABLE LAB] Treat the uploaded screenshot as the source truth. Use only the current screenshot and the current packet. Do not pull legacy site assets. Extract the visible player Alex, visible rivals, the HUD strip, and major landmark props. Create transparent proxy sprites, a clean stage plate, an extended side-scrolling dockyard world, and a playable runtime. Preserve the visible camera, palette, scale, UI language, and landmark hierarchy. Major landmarks: ZENITH INDUSTRIES container, B7 security building, caution fence, green toxic barrels, metal ladder, DANGER sign, hazard-striped ground, skyline and moon. If exact animation frames do not exist, create proxy motion by reusing extracted reference cutouts as sprite bases. Prioritize testability over perfection.`;
+const DEFAULT_PACKET = {
+  title:'Urban Shipping Clash', genreLock:'fighting', camera:'2D side-view beat-em-up', artStyle:'retro 16/32-bit arcade',
+  player:{id:'player_alex',name:'Alex',identity:'Black male martial artist',action:'open-palm strike to the right'},
+  enemies:[
+    {id:'enemy_knife',name:'Knife Punk',region:'left'},
+    {id:'enemy_bandana',name:'Bandana Rival',region:'center-right'},
+    {id:'enemy_bruiser',name:'Dock Bruiser',region:'far-right'}
+  ],
+  landmarks:['ZENITH INDUSTRIES container','B7 security building','chain-link fence','green toxic barrels','metal ladder','DANGER sign','hazard-striped floor','night skyline/moon'],
+  world:{width:2600,targetSeconds:22,scrolling:true},
+  locks:{genre:true,noLegacyAssets:true,unknownStaysUnknown:true,noRepeatedHud:true,noMirroredCharacters:true},
+  buildId:'hailmary_rf_001', sourceHash:'reference-image-only',
+  userIntent:'User controls Alex, an African American martial artist, fighting visible rivals in a side-scrolling industrial dockyard brawler. Preserve the screenshot camera, scale, palette, HUD language, composition, and major landmarks.'
+};
 function loadImage(url){ return new Promise((resolve,reject)=>{ const img=new Image(); img.onload=()=>resolve(img); img.onerror=reject; img.src=url; }); }
 function sampleDominantColors(canvas,count=6){
   const ctx=canvas.getContext('2d'); const {width:w,height:h}=canvas; const data=ctx.getImageData(0,0,w,h).data; const bins=new Map();
@@ -149,7 +163,7 @@ async function previewAssets(){ assetGrid.innerHTML='';
   }
 }
 function parsePacket(){ try{return JSON.parse(packetBox.value);}catch(e){ alert('Packet JSON is invalid.'); throw e; } }
-async function loadDefaults(){ descriptionBox.value=await loadText('assets/default_description.txt'); packetBox.value=await loadText('assets/default_packet.json'); }
+function loadDefaults(){ descriptionBox.value=DEFAULT_DESCRIPTION; packetBox.value=JSON.stringify(DEFAULT_PACKET,null,2); }
 async function useSample(){ const img=await loadImage('assets/urban_shipping_reference.png'); setSource(img,'urban_shipping_reference.png'); }
 function setSource(img,name){ state.image=img; state.sourceName=name; sourcePreview.src=img.src; sourceMeta.textContent=`${name} · ${img.naturalWidth||img.width}×${img.naturalHeight||img.height}`; setStatus('Reference','loaded'); }
 async function handleFile(file){ const url=URL.createObjectURL(file); const img=await loadImage(url); setSource(img,file.name); }
@@ -243,5 +257,6 @@ $('#playBtn').addEventListener('click',startGame);
 $('#resetBtn').addEventListener('click',resetGame);
 window.addEventListener('keydown',e=>{ if(state.game){ state.game.keys[e.key]=true; if(e.key==='r'||e.key==='R') resetGame(); if(e.key===' ') e.preventDefault(); }});
 window.addEventListener('keyup',e=>{ if(state.game) state.game.keys[e.key]=false; });
-Promise.all([loadDefaults(), useSample()]).then(()=>{ setStatus('Reference','sample ready'); renderRuntime(); });
+loadDefaults();
+useSample().then(()=>{ setStatus('Reference','sample ready'); renderRuntime(); }).catch(err=>{ console.error(err); setStatus('Reference','sample image failed'); });
 })();
