@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>XPLAY Golden Path V2 — Real Cutout + Inpaint</title>
+<link rel="stylesheet" href="./styles.css">
+<script async src="https://cdn.jsdelivr.net/npm/@techstark/opencv-js@4.10.0-release.1/dist/opencv.js"></script>
+</head>
+<body>
+<div class="shell">
+<header class="hero">
+  <div>
+    <div class="kicker">XPLAY GOLDEN PATH V2</div>
+    <h1>Real Cutout · Inpaint · Overlay · Play</h1>
+    <p>This version replaces the old oval heuristic with an in-browser neural background-removal model, uses the extracted alpha masks to inpaint the actor holes, then overlays the transparent actors back into the playable brawler.</p>
+  </div>
+  <div class="hero-actions">
+    <button id="loadSample" class="secondary">Load Alex Sample</button>
+    <button id="freshBuild" class="danger">Fresh Build</button>
+  </div>
+</header>
+
+<section class="statusbar">
+  <div><span>Build</span><strong id="buildId">—</strong></div>
+  <div><span>Cutout engine</span><strong id="cutoutEngine">loading…</strong></div>
+  <div><span>Inpaint engine</span><strong id="inpaintEngine">loading…</strong></div>
+  <div><span>Genre lock</span><strong>FIGHTING / BRAWLER</strong></div>
+</section>
+
+<main class="grid">
+<section class="card span2">
+  <div class="cardhead"><h2>1. Source</h2><div class="pill">visual truth</div></div>
+  <div class="sourcegrid">
+    <div>
+      <label class="field">Upload screenshot<input id="imageInput" type="file" accept="image/*"></label>
+      <div class="preview"><img id="sourceImg"><div id="sourceEmpty">Load the Alex sample or upload a screenshot.</div></div>
+    </div>
+    <div>
+      <label class="field">Gameplay intent<textarea id="intent">User controls Alex, an African American martial artist, fighting visible rivals in a side-scrolling industrial dockyard brawler. Preserve the screenshot's camera, scale, palette, HUD language, composition, and major landmarks.</textarea></label>
+      <div class="row">
+        <button id="freezePacket" class="primary">Freeze Golden Packet</button>
+        <button id="buildManifest" class="secondary">Build Manifest</button>
+      </div>
+      <pre id="packetOut" class="jsonout"></pre>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="cardhead"><h2>2. Scene Graph</h2><div class="pill">frozen boxes</div></div>
+  <canvas id="sceneCanvas" width="640" height="360"></canvas>
+</section>
+
+<section class="card">
+  <div class="cardhead"><h2>3. Manifest</h2><div class="pill">no legacy assets</div></div>
+  <div id="manifestList" class="manifestlist"></div>
+</section>
+
+<section class="card span2">
+  <div class="cardhead"><h2>4. Neural Cutout Beast</h2><div class="pill">IMG.LY / ONNX in browser</div></div>
+  <div class="row">
+    <button id="runCutouts" class="primary">Run Real AI Cutouts</button>
+    <span id="cutoutStatus" class="inlineStatus">First run downloads the model and can take longer.</span>
+  </div>
+  <div id="cutoutGrid" class="cutouts"></div>
+</section>
+
+<section class="card">
+  <div class="cardhead"><h2>5. Inpaint Beast</h2><div class="pill">OpenCV Telea mask repair</div></div>
+  <canvas id="cleanCanvas" width="640" height="360"></canvas>
+  <div class="row"><button id="runInpaint" class="primary">Inpaint Actor Holes</button></div>
+</section>
+
+<section class="card">
+  <div class="cardhead"><h2>6. Extended World</h2><div class="pill">environment only</div></div>
+  <canvas id="extendCanvas" width="640" height="360"></canvas>
+  <div class="row"><button id="runExtend" class="primary">Build Scrollable Stage</button></div>
+</section>
+
+<section class="card span2">
+  <div class="cardhead"><h2>7. Overlay + Play</h2><div class="pill">22-second golden-path test</div></div>
+  <div class="row">
+    <button id="runPlayable" class="primary">Build Playable Brawler</button>
+    <button id="toggleRef" class="secondary">Toggle Reference Overlay</button>
+    <span class="inlineStatus">A/D move · W/S depth · Space attack · R reset</span>
+  </div>
+  <canvas id="gameCanvas" width="960" height="540"></canvas>
+</section>
+
+<section class="card span2">
+  <div class="cardhead"><h2>8. Audit</h2><div class="pill">golden path guardrails</div></div>
+  <div id="audit" class="audit"></div>
+</section>
+</main>
+</div>
+<script type="module" src="./app.js"></script>
+</body>
+</html>
