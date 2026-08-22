@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>XPLAY Golden Path — Screenshot to Brawler</title>
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<div class="shell">
+<header class="hero">
+  <div>
+    <div class="kicker">XPLAY GOLDEN PATH</div>
+    <h1>Screenshot → Playable Brawler</h1>
+    <p>One locked vertical slice. No legacy assets. No genre drift. Analyze, freeze, extract, repair, extend, overlay, play.</p>
+  </div>
+  <div class="hero-actions">
+    <button id="loadSample" class="secondary">Load Alex Sample</button>
+    <button id="resetBuild" class="danger">Fresh Build</button>
+  </div>
+</header>
+
+<section class="statusbar">
+  <div><span>Build</span><strong id="buildId">—</strong></div>
+  <div><span>Source hash</span><strong id="sourceHash">—</strong></div>
+  <div><span>Genre lock</span><strong>FIGHTING / BRAWLER</strong></div>
+  <div><span>API</span><strong id="apiStatus">checking…</strong></div>
+</section>
+
+<main class="grid">
+<section class="card span2">
+  <div class="cardhead"><h2>1. Source Truth</h2><div class="pill">Screenshot is the visual specification</div></div>
+  <div class="sourcegrid">
+    <div>
+      <label class="field">Upload screenshot<input id="imageInput" type="file" accept="image/*"></label>
+      <div class="preview"><img id="sourceImg"><div id="emptySource">Load the included Alex screenshot or upload a new one.</div></div>
+    </div>
+    <div>
+      <label class="field">Gameplay intent<textarea id="intent">User controls Alex, an African American martial artist, fighting visible rivals in a side-scrolling industrial dockyard brawler. Preserve the screenshot's camera, scale, palette, HUD language, composition, and major landmarks.</textarea></label>
+      <div class="row">
+        <button id="analyze" class="primary">Analyze + Freeze Packet</button>
+        <button id="manifest" class="secondary">Build Asset Manifest</button>
+      </div>
+      <pre id="packetOut" class="jsonout"></pre>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="cardhead"><h2>2. Scene Graph</h2><div class="pill">coarse-to-fine</div></div>
+  <canvas id="sceneCanvas" width="640" height="360"></canvas>
+  <div class="small">HUD, actors, combat plane, landmarks, depth layers, and boxes freeze before asset work starts.</div>
+</section>
+
+<section class="card">
+  <div class="cardhead"><h2>3. Asset Manifest</h2><div class="pill">manifest-gated only</div></div>
+  <div id="manifestList" class="manifestlist"></div>
+  <button id="exportManifest" class="secondary wide">Export Manifest JSON</button>
+</section>
+
+<section class="card span2">
+  <div class="cardhead"><h2>4. Extract Beast</h2><div class="pill">transparent actors</div></div>
+  <div class="row">
+    <button id="runExtract" class="primary">Run Advanced Extraction</button>
+    <button id="useLocalMasks" class="secondary">Use Local Fallback Masks</button>
+    <span id="extractStatus" class="inlineStatus">waiting</span>
+  </div>
+  <div id="cutouts" class="cutouts"></div>
+</section>
+
+<section class="card">
+  <div class="cardhead"><h2>5. Plate Repair Beast</h2><div class="pill">inpaint actor holes</div></div>
+  <canvas id="cleanCanvas" width="640" height="360"></canvas>
+  <div class="row"><button id="runClean" class="primary">Repair Background Plate</button></div>
+</section>
+
+<section class="card">
+  <div class="cardhead"><h2>6. Extension Beast</h2><div class="pill">scrollable world</div></div>
+  <canvas id="extendCanvas" width="640" height="360"></canvas>
+  <div class="row"><button id="runExtend" class="primary">Extend Left + Right</button></div>
+</section>
+
+<section class="card span2">
+  <div class="cardhead"><h2>7. Runtime Composer</h2><div class="pill">15–30 sec golden-path test</div></div>
+  <div class="row">
+    <button id="buildPlay" class="primary">Build Playable Brawler</button>
+    <button id="toggleReference" class="secondary">Toggle Reference Overlay</button>
+    <span class="inlineStatus">A/D or ←/→ move · W/S depth · Space attack · R reset</span>
+  </div>
+  <canvas id="gameCanvas" width="960" height="540"></canvas>
+</section>
+
+<section class="card span2">
+  <div class="cardhead"><h2>8. Guardrail Audit</h2><div class="pill">tamed beast</div></div>
+  <div id="audit" class="audit"></div>
+</section>
+</main>
+</div>
+<script src="./app.js"></script>
+</body>
+</html>
