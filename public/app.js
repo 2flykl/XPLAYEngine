@@ -1,75 +1,24 @@
-const imageInput = document.getElementById('imageInput');
-const contextInput = document.getElementById('contextInput');
-const previewImage = document.getElementById('previewImage');
-const previewEmpty = document.getElementById('previewEmpty');
-const statusEl = document.getElementById('status');
-const jsonOutput = document.getElementById('jsonOutput');
-const rawOutput = document.getElementById('rawOutput');
-const summaryOutput = document.getElementById('summaryOutput');
-const healthBtn = document.getElementById('healthBtn');
-const analyzeBtn = document.getElementById('analyzeBtn');
-
-function setStatus(text, isError = false) {
-  statusEl.textContent = text;
-  statusEl.style.color = isError ? '#9f1239' : '#517086';
-  statusEl.style.borderColor = isError ? '#f5c2cf' : '#d9efee';
-  statusEl.style.background = isError ? '#fff1f4' : '#f5fbfb';
-}
-
-imageInput.addEventListener('change', () => {
-  const file = imageInput.files?.[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = () => {
-    previewImage.src = reader.result;
-    previewImage.style.display = 'block';
-    previewEmpty.style.display = 'none';
-  };
-  reader.readAsDataURL(file);
-});
-
-healthBtn.addEventListener('click', async () => {
-  try {
-    setStatus('Checking OpenAI health...');
-    const res = await fetch('/api/vision/health');
-    const data = await res.json();
-    jsonOutput.textContent = JSON.stringify(data, null, 2);
-    rawOutput.textContent = '';
-    summaryOutput.textContent = data.configured
-      ? `OpenAI is connected. Model: ${data.model}.` 
-      : 'OpenAI is not configured yet.';
-    setStatus(data.configured ? 'Health check passed.' : 'Health check says OpenAI is not configured.', !data.configured);
-  } catch (error) {
-    setStatus(error.message || 'Health check failed.', true);
-  }
-});
-
-analyzeBtn.addEventListener('click', async () => {
-  const file = imageInput.files?.[0];
-  if (!file) {
-    setStatus('Please upload an image first.', true);
-    return;
-  }
-  try {
-    setStatus('Sending image to OpenAI Vision...');
-    const form = new FormData();
-    form.append('image', file);
-    form.append('context', contextInput.value || '');
-    const res = await fetch('/api/vision/analyze', { method: 'POST', body: form });
-    const data = await res.json();
-    if (!res.ok || !data.ok) {
-      jsonOutput.textContent = JSON.stringify(data, null, 2);
-      rawOutput.textContent = data.rawText || '';
-      summaryOutput.textContent = data.error || 'OpenAI analysis failed.';
-      setStatus(data.error || 'OpenAI analysis failed.', true);
-      return;
-    }
-
-    jsonOutput.textContent = JSON.stringify(data.packet, null, 2);
-    rawOutput.textContent = data.rawText || '';
-    summaryOutput.textContent = data.packet.summary || data.packet.buildPrompt || 'Analysis complete.';
-    setStatus(`Vision completed successfully with ${data.model}.`);
-  } catch (error) {
-    setStatus(error.message || 'Analyze failed.', true);
-  }
-});
+const $=s=>document.querySelector(s);const els={file:$('#file'),sample:$('#sample'),analyze:$('#analyze'),interpret:$('#interpret'),build:$('#build'),reset:$('#reset'),health:$('#health'),vision:$('#visionOut'),interp:$('#interpOut'),src:$('#sourcePreview'),stageImg:$('#stageImg'),playerImg:$('#playerImg'),enemyImg:$('#enemyImg'),stagePrompt:$('#stagePrompt'),playerPrompt:$('#playerPrompt'),enemyPrompt:$('#enemyPrompt'),visionStatus:$('#visionStatus'),interpStatus:$('#interpStatus'),stageStatus:$('#stageStatus'),spriteStatus:$('#spriteStatus'),game:$('#game')};
+let packet=null,interp=null,sampleBlob=null,sourceFile=null,assets={stage:null,player:null,enemies:null},rt=null,keys={},raf=0;
+async function loadSample(){const r=await fetch('assets/alex-source.png');sampleBlob=await r.blob();sourceFile=new File([sampleBlob],'alex-source.png',{type:sampleBlob.type||'image/png'});els.src.src=URL.createObjectURL(sourceFile)}
+loadSample();
+els.file.onchange=()=>{const f=els.file.files?.[0];if(f){sourceFile=f;els.src.src=URL.createObjectURL(f)}};els.sample.onclick=loadSample;
+els.health.onclick=async()=>{try{const j=await (await fetch('/api/health')).json();alert(JSON.stringify(j,null,2))}catch(e){alert(e.message)}};
+els.analyze.onclick=async()=>{try{const f=sourceFile||els.file.files?.[0];if(!f)return alert('Choose a screenshot.');els.visionStatus.textContent='analyzing…';const fd=new FormData();fd.append('image',f);fd.append('context',$('#context').value);const r=await fetch('/api/vision/analyze',{method:'POST',body:fd});const j=await r.json();if(!r.ok||!j.ok)throw new Error(j.error||'Vision failed');packet=j.packet;els.vision.textContent=JSON.stringify(packet,null,2);els.visionStatus.textContent='LOCKED';}catch(e){els.visionStatus.textContent='error';alert(e.message)}};
+els.interpret.onclick=()=>{if(!packet)return alert('Analyze + lock first.');interp=interpretPacket(packet);els.interp.textContent=JSON.stringify(interp,null,2);els.interpStatus.textContent='built';};
+function interpretPacket(p){const beat=(p.genreCandidates||[]).some(g=>String(g.type).toLowerCase().includes('beat'))||String(p.primaryGenre).toLowerCase()==='fighting';return{buildId:'forge64_'+Date.now().toString(36),runtimeGenre:beat?'beat-em-up':p.primaryGenre,sourceTruth:{title:p.title,summary:p.summary,camera:p.camera,landmarks:p.landmarks,palette:p.palette,hud:p.hud},player:{id:'alex',name:p.player?.name||'Alex',health:100,lives:3,speed:170,attackDamage:24,identity:p.player?.identity,appearance:p.player?.appearance||[]},enemies:(p.enemies||[]).map((e,i)=>({id:'enemy_'+i,name:e.name,type:e.weapon&&e.weapon!=='Unarmed'?'armed_melee':'melee',weapon:e.weapon||'Unarmed',maxHealth:i===2?70:50,health:i===2?70:50,spawnX:[270,980,1380][i]||1700,spawnY:[392,390,388][i]||390})),world:{width:p.world?.width||2800,targetSeconds:p.world?.targetSeconds||20,scrolling:true,camera:'side_scroll'},winCondition:'defeat_all_enemies',assetContract:{stage:'environment_only_landscape',player:'4x2_transparent_sheet',enemies:'4x3_transparent_atlas',noLegacyAssets:true,noGenericPlaceholders:true}}}
+async function forge(kind){if(!packet)return alert('Lock the OpenAI Vision packet first.');const f=sourceFile;if(!f)return alert('Reference screenshot missing.');const map={stage:[els.stageImg,els.stagePrompt,els.stageStatus],player:[els.playerImg,els.playerPrompt,els.spriteStatus],enemies:[els.enemyImg,els.enemyPrompt,els.spriteStatus]};const [img,pre,status]=map[kind];status.textContent='generating…';const fd=new FormData();fd.append('image',f);fd.append('packet',JSON.stringify(packet));try{const r=await fetch('/api/assets/forge64/'+kind,{method:'POST',body:fd});const j=await r.json();if(!r.ok||!j.ok)throw new Error(j.error||'Generation failed');img.src=j.image;pre.textContent=j.prompt;assets[kind]=j.image;status.textContent='ready';}catch(e){status.textContent='error';alert(e.message)}}
+$('#forgeStage').onclick=()=>forge('stage');$('#forgePlayer').onclick=()=>forge('player');$('#forgeEnemies').onclick=()=>forge('enemies');
+els.build.onclick=async()=>{if(!interp){if(!packet)return alert('Analyze and interpret first.');interp=interpretPacket(packet);els.interp.textContent=JSON.stringify(interp,null,2)}if(!assets.stage||!assets.player||!assets.enemies)return alert('Generate the stage, Alex sheet, and enemy atlas first.');const [stage,player,enemies]=await Promise.all([loadImg(assets.stage),loadImg(assets.player),loadImg(assets.enemies)]);rt=createRuntime(interp,{stage,player,enemies});start();};els.reset.onclick=()=>{if(rt){rt=createRuntime(interp,rt.images);start()}};
+function loadImg(src){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=src})}
+function createRuntime(i,images){return{images,time:i.world.targetSeconds,camera:0,done:false,win:false,player:{x:520,y:400,hp:100,max:100,dir:1,cd:0,hurt:0,anim:0},enemies:i.enemies.map((e,idx)=>({...e,alive:true,cd:0,hurt:0,row:idx,anim:0}))}}
+addEventListener('keydown',e=>{keys[e.key.toLowerCase()]=true;if(e.key===' ')e.preventDefault();if(e.key.toLowerCase()==='r'&&rt){rt=createRuntime(interp,rt.images)}});addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
+function start(){cancelAnimationFrame(raf);let last=performance.now();const loop=n=>{const dt=Math.min(.033,(n-last)/1000);last=n;update(dt);draw();raf=requestAnimationFrame(loop)};raf=requestAnimationFrame(loop)}
+function update(dt){if(!rt||rt.done)return;const p=rt.player;rt.time=Math.max(0,rt.time-dt);p.cd=Math.max(0,p.cd-dt);p.hurt=Math.max(0,p.hurt-dt);let vx=0,vy=0;if(keys.a||keys.arrowleft)vx=-1;if(keys.d||keys.arrowright)vx=1;if(keys.w||keys.arrowup)vy=-1;if(keys.s||keys.arrowdown)vy=1;if(vx)p.dir=Math.sign(vx);p.x=clamp(p.x+vx*interp.player.speed*dt,50,interp.world.width-60);p.y=clamp(p.y+vy*90*dt,345,430);p.anim+=dt*(vx?7:2);if(keys[' ']&&p.cd<=0){p.cd=.38;rt.enemies.forEach(e=>{if(!e.alive)return;const dx=e.spawnX-p.x;if(Math.abs(dx)<125&&Math.abs(e.spawnY-p.y)<60&&Math.sign(dx||1)===p.dir){e.health-=interp.player.attackDamage;e.hurt=.2;e.spawnX+=p.dir*24;if(e.health<=0)e.alive=false}})}rt.enemies.forEach((e,idx)=>{if(!e.alive)return;e.anim+=dt*4;e.cd=Math.max(0,e.cd-dt);e.hurt=Math.max(0,e.hurt-dt);const dx=p.x-e.spawnX,dy=p.y-e.spawnY;if(Math.abs(dx)>75)e.spawnX+=Math.sign(dx)*(50+idx*4)*dt;if(Math.abs(dy)>8)e.spawnY+=Math.sign(dy)*30*dt;if(Math.abs(dx)<65&&Math.abs(dy)<45&&e.cd<=0&&p.hurt<=0){p.hp-=e.type==='armed_melee'?12:8;p.hurt=.55;e.cd=.9}});rt.camera=clamp(p.x-320,0,interp.world.width-960);if(rt.enemies.every(e=>!e.alive)){rt.done=true;rt.win=true}if(p.hp<=0||rt.time<=0){rt.done=true;rt.win=rt.enemies.every(e=>!e.alive)}}
+function draw(){const c=els.game,x=c.getContext('2d');x.clearRect(0,0,960,540);if(!rt){x.fillStyle='#07111d';x.fillRect(0,0,960,540);x.fillStyle='#9fb4c6';x.font='700 24px Arial';x.fillText('Generate assets, then build the runtime.',260,270);return}drawStage(x);x.save();x.translate(-rt.camera,0);rt.enemies.forEach((e,i)=>drawEnemy(x,e,i));drawPlayer(x,rt.player);x.restore();drawHUD(x);if(rt.done){x.fillStyle='rgba(0,0,0,.55)';x.fillRect(0,0,960,540);x.fillStyle='#fff';x.font='900 56px Arial';x.textAlign='center';x.fillText(rt.win?'STAGE CLEAR':'FAILED',480,270);x.font='900 22px Arial';x.fillText('Press R to retry',480,310);x.textAlign='left'}}
+function drawStage(x){const img=rt.images.stage;const scale=440/img.height;const dw=img.width*scale;for(let px=-((rt.camera*.18)%dw);px<960+dw;px+=dw)x.drawImage(img,px,68,dw,440);x.fillStyle='rgba(10,9,16,.18)';x.fillRect(0,430,960,110)}
+function drawPlayer(x,p){const img=rt.images.player,cols=4,rows=2,fw=img.width/cols,fh=img.height/rows;let col=Math.floor(p.anim)%4,row=0;if(p.cd>.18){row=1;col=p.cd>.28?0:1}else if(p.hurt>0){row=1;col=2}const h=145,w=fw/fh*h;x.save();if(p.dir<0){x.translate(p.x+w/2,0);x.scale(-1,1);x.drawImage(img,col*fw,row*fh,fw,fh,-w/2,p.y-h,w,h)}else{x.drawImage(img,col*fw,row*fh,fw,fh,p.x-w/2,p.y-h,w,h)}x.restore()}
+function drawEnemy(x,e,i){if(!e.alive)return;const img=rt.images.enemies,cols=4,rows=3,fw=img.width/cols,fh=img.height/rows;let col=Math.floor(e.anim)%2,row=Math.min(2,e.row);if(e.hurt>0)col=3;const h=142,w=fw/fh*h;x.drawImage(img,col*fw,row*fh,fw,fh,e.spawnX-w/2,e.spawnY-h,w,h);x.fillStyle='#111';x.fillRect(e.spawnX-34,e.spawnY-h-12,68,6);x.fillStyle='#e34242';x.fillRect(e.spawnX-34,e.spawnY-h-12,68*clamp(e.health/e.maxHealth,0,1),6)}
+function drawHUD(x){x.fillStyle='#02060b';x.fillRect(0,0,960,68);x.fillStyle='#fff';x.font='900 20px Arial';x.fillText(interp.player.name.toUpperCase(),70,25);x.fillStyle='#f6b632';x.fillText('0124500',188,25);x.fillStyle='#fff';x.fillText('×3',365,25);x.fillStyle='#ffb12b';x.font='900 56px Arial';x.fillText(String(Math.ceil(rt.time)).padStart(2,'0'),500,51);x.fillStyle='#dce8ff';x.font='900 22px Arial';x.fillText('PRESS START',740,30);x.fillStyle='#18283e';x.fillRect(70,34,210,14);x.fillStyle='#e4c44a';x.fillRect(70,34,210*(rt.player.hp/rt.player.max),14);x.fillStyle='#000';x.fillRect(0,500,960,40);x.fillStyle='#d7dde6';x.font='900 20px Arial';if(rt.enemies[0])x.fillText(rt.enemies[0].name.toUpperCase(),55,526);x.fillText('STAGE 3-1',410,526);if(rt.enemies[1])x.fillText(rt.enemies[1].name.toUpperCase(),665,526)}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+draw();

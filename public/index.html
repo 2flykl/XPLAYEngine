@@ -1,73 +1,12 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>XPLAY OpenAI Vision Test Lab</title>
-  <link rel="stylesheet" href="./styles.css" />
-</head>
-<body>
-  <div class="wrap">
-    <header class="hero">
-      <div class="pill">OPENAI VISION TEST LAB</div>
-      <h1>XPLAY OpenAI Vision Connection Test</h1>
-      <p>Upload one screenshot, hit analyze, and verify that OpenAI returns a clean XPLAY scene packet.</p>
-    </header>
-
-    <section class="grid two">
-      <div class="card">
-        <h2>1) Input</h2>
-        <label class="field">
-          <span>Upload image</span>
-          <input id="imageInput" type="file" accept="image/png,image/jpeg,image/webp" />
-        </label>
-
-        <label class="field">
-          <span>Optional context / instructions</span>
-          <textarea id="contextInput" rows="10" placeholder="Example: Treat this as a screenshot from a beat-em-up game. Preserve visible landmarks and gameplay cues."></textarea>
-        </label>
-
-        <div class="actions">
-          <button id="healthBtn" class="secondary">Check Health</button>
-          <button id="analyzeBtn">Run OpenAI Vision</button>
-        </div>
-
-        <div id="status" class="status">Ready.</div>
-      </div>
-
-      <div class="card">
-        <h2>2) Preview</h2>
-        <div class="preview-shell">
-          <img id="previewImage" alt="Preview" />
-          <div id="previewEmpty" class="preview-empty">No image loaded yet.</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="grid two">
-      <div class="card">
-        <h2>3) Parsed Packet</h2>
-        <pre id="jsonOutput">{}</pre>
-      </div>
-      <div class="card">
-        <h2>4) Human Summary</h2>
-        <div id="summaryOutput" class="summary">No results yet.</div>
-        <h3>Raw Model Text</h3>
-        <pre id="rawOutput"></pre>
-      </div>
-    </section>
-
-    <section class="card">
-      <h2>5) What to check</h2>
-      <ul>
-        <li>OpenAI health reports <strong>configured: true</strong>.</li>
-        <li>The packet comes back as valid JSON.</li>
-        <li>The screenshot is interpreted as the correct genre and scene.</li>
-        <li>The output is useful enough to hand off to the next XPLAY build phase.</li>
-      </ul>
-    </section>
-  </div>
-
-  <script src="./app.js"></script>
-</body>
-</html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>XPLAY OpenAI 64-bit Asset Forge</title><link rel="stylesheet" href="styles.css"></head>
+<body><div class="wrap">
+<header><div class="pill">XPLAY · OPENAI 64-BIT ASSET FORGE</div><h1>Vision Truth → Interpreter → Generated Assets → Playable</h1><p>This is the step we were stuck at: replace graybox art with generated 64-bit game assets while preserving the locked OpenAI Vision packet.</p></header>
+<section class="statusbar"><div><span>Vision</span><b id="visionStatus">not locked</b></div><div><span>Interpreter</span><b id="interpStatus">not built</b></div><div><span>Stage art</span><b id="stageStatus">not generated</b></div><div><span>Sprites</span><b id="spriteStatus">not generated</b></div></section>
+<main class="grid">
+<section class="card span2"><div class="head"><h2>1. Lock OpenAI Vision Truth</h2><button id="health">Check API</button></div><div class="twocol"><div><input id="file" type="file" accept="image/*"><textarea id="context">Treat this screenshot as the source of truth for a side-scrolling beat-em-up. Preserve visible player identity, enemy identities, landmarks, camera, HUD language, and gameplay cues. Unknown facts remain unknown.</textarea><div class="actions"><button id="sample">Use Alex Sample</button><button class="primary" id="analyze">Analyze + Lock Packet</button><button id="interpret">Build Interpreter Beast</button></div></div><div class="preview"><img id="sourcePreview" src="assets/alex-source.png"></div></div><pre id="visionOut">{}</pre></section>
+<section class="card"><h2>2. Interpreter Beast</h2><pre id="interpOut">{}</pre></section>
+<section class="card"><h2>3. 64-bit Visual Target</h2><img class="target" src="assets/64bit-visual-target.png"><p class="small">Target only. The runtime below should use generated assets, not this flattened screenshot.</p></section>
+<section class="card span2"><div class="head"><h2>4. OpenAI Asset Forge</h2><div class="small">Each button is one image-generation call. Generate only what you need.</div></div><div class="forgegrid"><article><h3>Environment Plate</h3><button class="primary" id="forgeStage">Generate 64-bit Stage</button><div class="checker"><img id="stageImg"></div><pre id="stagePrompt"></pre></article><article><h3>Alex Sprite Sheet</h3><button class="primary" id="forgePlayer">Generate Alex 4×2 Sheet</button><div class="checker"><img id="playerImg"></div><pre id="playerPrompt"></pre></article><article><h3>Enemy Sprite Atlas</h3><button class="primary" id="forgeEnemies">Generate Enemies 4×3 Atlas</button><div class="checker"><img id="enemyImg"></div><pre id="enemyPrompt"></pre></article></div></section>
+<section class="card span2"><div class="head"><h2>5. Playable 64-bit Runtime</h2><div class="actions"><button class="primary" id="build">Build With Generated Assets</button><button id="reset">Reset</button></div></div><p class="small">A/D or ←/→ move · W/S depth · Space attack · R reset. Runtime crops the generated sheets into animation cells.</p><canvas id="game" width="960" height="540"></canvas></section>
+</main></div><script src="app.js"></script></body></html>
