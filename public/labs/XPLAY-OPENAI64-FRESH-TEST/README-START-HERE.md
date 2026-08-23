@@ -1,56 +1,85 @@
-# XPLAY OPENAI64 FRESH TEST
+# XPLAY Gameplay Polish Dual-Style Lab
 
-This lab was rebuilt from zero after repeated issues with old test code.
+## What this pack does
+This is a fresh lab focused on **polished gameplay** after the successful breakthrough:
 
-## It does NOT replace your XPLAY homepage
-Run it as a separate server. It uses port **8792**, not 8788.
+1. **Lock OpenAI Vision truth from a screenshot**
+2. **Build the Interpreter Beast**
+3. **Generate asset sets in two separate styles**
+   - 64-bit arcade brawler
+   - Modern day computer graphics brawler
+4. **Build a playable runtime** with:
+   - horizontal scene scrolling
+   - environment extension / repeated world segments
+   - predictive camera follow
+   - clearer player/enemy state changes
+   - attack animation state when pressing Space
+   - better spacing / combat feel than the earlier test
 
-## What is different
-- Fresh server and frontend; no reused Asset Forge code.
-- Uses `openai.responses.parse()` + `zodTextFormat()` for the Vision packet. There is no `JSON.parse()` of free-form model prose.
-- Accepts only real image MIME types on both browser and server.
-- Uses GPT Image 2's image edit API for reference-guided 64-bit generation.
-- Uses your locked OpenAI packet as the source for the deterministic Interpreter Beast.
-- Provides three deliberate asset calls: stage, Alex sheet, enemy atlas.
-- Playable runtime can consume the generated stage and sprite grids.
-- Uses port 8792 so stale 8788 servers cannot masquerade as this test.
+## Folder structure
+- `server.js` — backend / OpenAI bridge
+- `public/index.html` — main lab page
+- `public/app.js` — front-end workflow + runtime
+- `public/styles.css` — UI styles
+- `public/assets/alex-source.png` — included sample screenshot
+- `START-POLISH-LAB.bat` — quick start on Windows
+- `.env.example` — sample environment file
 
-## Install location I recommend
-Inside your repo:
+## Before you start
+Make sure you have:
+- Node.js installed
+- An OpenAI API key in a `.env` file
 
-`C:\Users\2flyk\Documents\GitHub\XPLAY\XPLAYEngine\labs\openai64-fresh-test`
+Create a `.env` file in this folder with at least:
 
-The server automatically looks for your existing key at:
+```env
+OPENAI_API_KEY=your_real_openai_api_key_here
+OPENAI_VISION_MODEL=gpt-4.1-mini
+OPENAI_IMAGE_MODEL=gpt-image-1
+PORT=8796
+```
 
-`XPLAYEngine\server\.env`
-
-If you instead extract the lab somewhere else, copy `.env.example` to `.env` and paste your API key there.
-
-## Start
+## Start it
+### Easy way
 Double-click:
+- `START-POLISH-LAB.bat`
 
-`START-FRESH-TEST.bat`
+### Manual way
+Open terminal in this folder and run:
 
-Or PowerShell:
-
-```powershell
-cd "C:\Users\2flyk\Documents\GitHub\XPLAY\XPLAYEngine\labs\openai64-fresh-test"
+```bash
 npm install
 node server.js
 ```
 
-Open:
+Then open:
 
-`http://localhost:8792`
+```text
+http://localhost:8796
+```
 
-## Test order
-1. Health — verify `configured: true` and `version: fresh-v1`.
-2. Use Included Alex Screenshot (or upload your own).
-3. Analyze + Lock Packet.
-4. Build Interpreter Beast.
-5. Generate Alex Sheet first.
-6. If Alex is acceptable, generate 64-bit Stage.
-7. Generate Enemy Atlas.
-8. Build 64-bit Playable.
+## Recommended workflow
+1. Click **Use Alex Sample** or upload your own screenshot.
+2. Add optional context.
+3. Click **Analyze + Lock Packet**.
+4. Click **Build Interpreter Beast**.
+5. In the **64-bit Arcade Test** section, generate:
+   - stage
+   - player sheet
+   - enemy atlas
+   - playable runtime
+6. In the **Modern PC Test** section, do the same.
+7. Compare gameplay and presentation.
 
-Each Asset Forge button is a separate image-generation/edit call.
+## What changed vs the earlier runtime
+- Attack now has its **own state** instead of still looking like walk/idle.
+- Camera uses **predictive follow**.
+- The world includes an **extended environment** so scrolling is stress-tested.
+- Runtime spawns enemies with more spacing.
+- Basic enemy attack pacing is staggered.
+- Separate dual-style tests are included in one lab.
+
+## Notes
+- This is still a test lab, not the whole XPLAY site.
+- This runs locally and does **not** overwrite your live XPLAY system.
+- The environment extension is partly procedural so the scroll test can be verified even when the source screenshot only shows one screen-width.
