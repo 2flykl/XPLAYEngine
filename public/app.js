@@ -1,13 +1,33 @@
+async function fetchJSON(url, options){
+  const r = await fetch(url, options);
+  const text = await r.text();
+  const ct = r.headers.get('content-type') || '';
+  if (!ct.includes('application/json')) {
+    const preview = text.slice(0, 180).replace(/\s+/g,' ');
+    throw new Error(
+      `Expected JSON from ${url}, but the server returned ${r.status} ${ct || 'non-JSON'}: ${preview}. ` +
+      `This usually means you are still running the OLD server/server.js without the Asset Forge routes.`
+    );
+  }
+  let j;
+  try { j = JSON.parse(text); }
+  catch {
+    throw new Error(`Invalid JSON returned by ${url}: ${text.slice(0,180)}`);
+  }
+  if (!r.ok || !j.ok) throw new Error(j.error || `Request failed (${r.status})`);
+  return j;
+}
+
 const $=s=>document.querySelector(s);const els={file:$('#file'),sample:$('#sample'),analyze:$('#analyze'),interpret:$('#interpret'),build:$('#build'),reset:$('#reset'),health:$('#health'),vision:$('#visionOut'),interp:$('#interpOut'),src:$('#sourcePreview'),stageImg:$('#stageImg'),playerImg:$('#playerImg'),enemyImg:$('#enemyImg'),stagePrompt:$('#stagePrompt'),playerPrompt:$('#playerPrompt'),enemyPrompt:$('#enemyPrompt'),visionStatus:$('#visionStatus'),interpStatus:$('#interpStatus'),stageStatus:$('#stageStatus'),spriteStatus:$('#spriteStatus'),game:$('#game')};
 let packet=null,interp=null,sampleBlob=null,sourceFile=null,assets={stage:null,player:null,enemies:null},rt=null,keys={},raf=0;
 async function loadSample(){const r=await fetch('assets/alex-source.png');sampleBlob=await r.blob();sourceFile=new File([sampleBlob],'alex-source.png',{type:sampleBlob.type||'image/png'});els.src.src=URL.createObjectURL(sourceFile)}
 loadSample();
 els.file.onchange=()=>{const f=els.file.files?.[0];if(f){sourceFile=f;els.src.src=URL.createObjectURL(f)}};els.sample.onclick=loadSample;
-els.health.onclick=async()=>{try{const j=await (await fetch('/api/health')).json();alert(JSON.stringify(j,null,2))}catch(e){alert(e.message)}};
-els.analyze.onclick=async()=>{try{const f=sourceFile||els.file.files?.[0];if(!f)return alert('Choose a screenshot.');els.visionStatus.textContent='analyzing…';const fd=new FormData();fd.append('image',f);fd.append('context',$('#context').value);const r=await fetch('/api/vision/analyze',{method:'POST',body:fd});const j=await r.json();if(!r.ok||!j.ok)throw new Error(j.error||'Vision failed');packet=j.packet;els.vision.textContent=JSON.stringify(packet,null,2);els.visionStatus.textContent='LOCKED';}catch(e){els.visionStatus.textContent='error';alert(e.message)}};
+els.health.onclick=async()=>{try{const j=await fetchJSON('/api/health');const a=await fetchJSON('/api/assets/health');alert(JSON.stringify({vision:j,assetForge:a},null,2))}catch(e){alert(e.message)}};
+els.analyze.onclick=async()=>{try{const f=sourceFile||els.file.files?.[0];if(!f)return alert('Choose a screenshot.');els.visionStatus.textContent='analyzing…';const fd=new FormData();fd.append('image',f);fd.append('context',$('#context').value);const j=await fetchJSON('/api/vision/analyze',{method:'POST',body:fd});packet=j.packet;els.vision.textContent=JSON.stringify(packet,null,2);els.visionStatus.textContent='LOCKED';}catch(e){els.visionStatus.textContent='error';alert(e.message)}};
 els.interpret.onclick=()=>{if(!packet)return alert('Analyze + lock first.');interp=interpretPacket(packet);els.interp.textContent=JSON.stringify(interp,null,2);els.interpStatus.textContent='built';};
 function interpretPacket(p){const beat=(p.genreCandidates||[]).some(g=>String(g.type).toLowerCase().includes('beat'))||String(p.primaryGenre).toLowerCase()==='fighting';return{buildId:'forge64_'+Date.now().toString(36),runtimeGenre:beat?'beat-em-up':p.primaryGenre,sourceTruth:{title:p.title,summary:p.summary,camera:p.camera,landmarks:p.landmarks,palette:p.palette,hud:p.hud},player:{id:'alex',name:p.player?.name||'Alex',health:100,lives:3,speed:170,attackDamage:24,identity:p.player?.identity,appearance:p.player?.appearance||[]},enemies:(p.enemies||[]).map((e,i)=>({id:'enemy_'+i,name:e.name,type:e.weapon&&e.weapon!=='Unarmed'?'armed_melee':'melee',weapon:e.weapon||'Unarmed',maxHealth:i===2?70:50,health:i===2?70:50,spawnX:[270,980,1380][i]||1700,spawnY:[392,390,388][i]||390})),world:{width:p.world?.width||2800,targetSeconds:p.world?.targetSeconds||20,scrolling:true,camera:'side_scroll'},winCondition:'defeat_all_enemies',assetContract:{stage:'environment_only_landscape',player:'4x2_transparent_sheet',enemies:'4x3_transparent_atlas',noLegacyAssets:true,noGenericPlaceholders:true}}}
-async function forge(kind){if(!packet)return alert('Lock the OpenAI Vision packet first.');const f=sourceFile;if(!f)return alert('Reference screenshot missing.');const map={stage:[els.stageImg,els.stagePrompt,els.stageStatus],player:[els.playerImg,els.playerPrompt,els.spriteStatus],enemies:[els.enemyImg,els.enemyPrompt,els.spriteStatus]};const [img,pre,status]=map[kind];status.textContent='generating…';const fd=new FormData();fd.append('image',f);fd.append('packet',JSON.stringify(packet));try{const r=await fetch('/api/assets/forge64/'+kind,{method:'POST',body:fd});const j=await r.json();if(!r.ok||!j.ok)throw new Error(j.error||'Generation failed');img.src=j.image;pre.textContent=j.prompt;assets[kind]=j.image;status.textContent='ready';}catch(e){status.textContent='error';alert(e.message)}}
+async function forge(kind){if(!packet)return alert('Lock the OpenAI Vision packet first.');const f=sourceFile;if(!f)return alert('Reference screenshot missing.');const map={stage:[els.stageImg,els.stagePrompt,els.stageStatus],player:[els.playerImg,els.playerPrompt,els.spriteStatus],enemies:[els.enemyImg,els.enemyPrompt,els.spriteStatus]};const [img,pre,status]=map[kind];status.textContent='generating…';const fd=new FormData();fd.append('image',f);fd.append('packet',JSON.stringify(packet));try{const j=await fetchJSON('/api/assets/forge64/'+kind,{method:'POST',body:fd});img.src=j.image;pre.textContent=j.prompt;assets[kind]=j.image;status.textContent='ready';}catch(e){status.textContent='error';alert(e.message)}}
 $('#forgeStage').onclick=()=>forge('stage');$('#forgePlayer').onclick=()=>forge('player');$('#forgeEnemies').onclick=()=>forge('enemies');
 els.build.onclick=async()=>{if(!interp){if(!packet)return alert('Analyze and interpret first.');interp=interpretPacket(packet);els.interp.textContent=JSON.stringify(interp,null,2)}if(!assets.stage||!assets.player||!assets.enemies)return alert('Generate the stage, Alex sheet, and enemy atlas first.');const [stage,player,enemies]=await Promise.all([loadImg(assets.stage),loadImg(assets.player),loadImg(assets.enemies)]);rt=createRuntime(interp,{stage,player,enemies});start();};els.reset.onclick=()=>{if(rt){rt=createRuntime(interp,rt.images);start()}};
 function loadImg(src){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=src})}

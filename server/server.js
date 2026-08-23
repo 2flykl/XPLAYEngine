@@ -28,12 +28,119 @@ function strip(s) {
 
 const VISION_PROMPT = `Return ONLY valid JSON. Analyze the image as an XPLAY game screenshot and freeze the visible truth. Do not drift to another preset or genre. Required fields: title, primaryGenre, genreCandidates, player, enemies, landmarks, palette, camera, gameplay, world, hud, summary, buildPrompt. For a side-view multi-enemy beat-em-up, primaryGenre must be fighting and genreCandidates should include beat-em-up. Preserve visible player identity, enemy roles, scene landmarks, camera, HUD hierarchy, and gameplay cues. Unknown stays unknown. Do not replace visible facts with generic city/street/rooftop content.`;
 
+
+const VISION_SCHEMA = {
+  type: 'object',
+  additionalProperties: false,
+  required: [
+    'title','primaryGenre','genreCandidates','player','enemies','landmarks',
+    'palette','camera','gameplay','world','hud','summary','buildPrompt'
+  ],
+  properties: {
+    title: { type: 'string' },
+    primaryGenre: { type: 'string' },
+    genreCandidates: {
+      type: 'array',
+      items: {
+        type: 'object',
+        additionalProperties: false,
+        required: ['type','score','source'],
+        properties: {
+          type: { type: 'string' },
+          score: { type: 'number' },
+          source: { type: 'string' }
+        }
+      }
+    },
+    player: {
+      type: 'object',
+      additionalProperties: false,
+      required: ['name','identity','appearance','action'],
+      properties: {
+        name: { type: 'string' },
+        identity: { type: 'string' },
+        appearance: { type: 'array', items: { type: 'string' } },
+        action: { type: 'string' }
+      }
+    },
+    enemies: {
+      type: 'array',
+      items: {
+        type: 'object',
+        additionalProperties: false,
+        required: ['name','weapon','region'],
+        properties: {
+          name: { type: 'string' },
+          weapon: { type: 'string' },
+          region: { type: 'string' }
+        }
+      }
+    },
+    landmarks: { type: 'array', items: { type: 'string' } },
+    palette: { type: 'array', items: { type: 'string' } },
+    camera: {
+      type: 'object',
+      additionalProperties: false,
+      required: ['type','preserveComposition','extendForScroll'],
+      properties: {
+        type: { type: 'string' },
+        preserveComposition: { type: 'boolean' },
+        extendForScroll: { type: 'boolean' }
+      }
+    },
+    gameplay: {
+      type: 'object',
+      additionalProperties: false,
+      required: ['intention','cues','stageTime','tests'],
+      properties: {
+        intention: { type: 'string' },
+        cues: {
+          type: 'array',
+          items: {
+            type: 'object',
+            additionalProperties: false,
+            required: ['type','score','source'],
+            properties: {
+              type: { type: 'string' },
+              score: { type: 'number' },
+              source: { type: 'string' }
+            }
+          }
+        },
+        stageTime: { type: 'number' },
+        tests: { type: 'array', items: { type: 'string' } }
+      }
+    },
+    world: {
+      type: 'object',
+      additionalProperties: false,
+      required: ['width','targetSeconds','scrolling'],
+      properties: {
+        width: { type: 'number' },
+        targetSeconds: { type: 'number' },
+        scrolling: { type: 'boolean' }
+      }
+    },
+    hud: {
+      type: 'object',
+      additionalProperties: false,
+      required: ['present','elements'],
+      properties: {
+        present: { type: 'boolean' },
+        elements: { type: 'array', items: { type: 'string' } }
+      }
+    },
+    summary: { type: 'string' },
+    buildPrompt: { type: 'string' }
+  }
+};
+
 app.get('/api/health', (_q, res) => res.json({
   ok: !!process.env.OPENAI_API_KEY,
   configured: !!process.env.OPENAI_API_KEY,
   visionModel: process.env.OPENAI_VISION_MODEL || 'gpt-4.1-mini',
   imageModel: process.env.OPENAI_IMAGE_MODEL || 'gpt-image-2',
-  mode: 'vision-lock-interpreter-64bit-asset-forge'
+  mode: 'vision-lock-interpreter-64bit-asset-forge-structured-v3'
 }));
 
 app.post('/api/vision/analyze', upload.single('image'), async (req, res) => {
@@ -41,26 +148,112 @@ app.post('/api/vision/analyze', upload.single('image'), async (req, res) => {
     const c = client();
     if (!c) return res.status(400).json({ ok: false, error: 'OPENAI_API_KEY is not configured.' });
     if (!req.file) return res.status(400).json({ ok: false, error: 'No image uploaded.' });
+
     const model = process.env.OPENAI_VISION_MODEL || 'gpt-4.1-mini';
     const dataUrl = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
-    const r = await c.responses.create({
-      model,
-      input: [
-        { role: 'system', content: [{ type: 'input_text', text: VISION_PROMPT }] },
-        { role: 'user', content: [
-          { type: 'input_text', text: req.body.context || 'Analyze and lock this screenshot as the source of truth for a playable conversion.' },
-          { type: 'input_image', image_url: dataUrl }
-        ] }
-      ],
-      max_output_tokens: 1800
-    });
+    const input = [
+      { role: 'system', content: [{ type: 'input_text', text: VISION_PROMPT }] },
+      { role: 'user', content: [
+        { type: 'input_text', text: req.body.context || 'Analyze and lock this screenshot as the source of truth for a playable conversion.' },
+        { type: 'input_image', image_url: dataUrl }
+      ] }
+    ];
+
+    let r;
+    let structured = true;
+
+    try {
+      r = await c.responses.create({
+        model,
+        input,
+        text: {
+          format: {
+            type: 'json_schema',
+            name: 'xplay_scene_packet',
+            description: 'A locked XPLAY scene packet derived only from the uploaded screenshot.',
+            strict: true,
+            schema: VISION_SCHEMA
+          }
+        },
+        max_output_tokens: 2200
+      });
+    } catch (schemaError) {
+      // Compatibility fallback: still force valid JSON even if strict schema
+      // is unavailable for a particular model/account configuration.
+      structured = false;
+      r = await c.responses.create({
+        model,
+        input,
+        text: { format: { type: 'json_object' } },
+        max_output_tokens: 2200
+      });
+    }
+
     const raw = strip(outText(r));
     let packet;
-    try { packet = JSON.parse(raw); }
-    catch { return res.status(502).json({ ok: false, error: 'Invalid JSON from vision model', raw }); }
-    res.json({ ok: true, packet, raw, model });
+
+    try {
+      packet = JSON.parse(raw);
+    } catch (parseError) {
+      // One repair attempt. Send only the bad text back and ask the model to
+      // normalize it into the same strict packet schema.
+      const repair = await c.responses.create({
+        model,
+        input: [
+          {
+            role: 'system',
+            content: [{ type: 'input_text', text: 'Repair the supplied malformed XPLAY packet. Preserve the information. Do not add new scene facts.' }]
+          },
+          {
+            role: 'user',
+            content: [{ type: 'input_text', text: raw }]
+          }
+        ],
+        text: {
+          format: {
+            type: 'json_schema',
+            name: 'xplay_scene_packet_repair',
+            strict: true,
+            schema: VISION_SCHEMA
+          }
+        },
+        max_output_tokens: 2200
+      });
+
+      const repairedRaw = strip(outText(repair));
+      try {
+        packet = JSON.parse(repairedRaw);
+        return res.json({
+          ok: true,
+          packet,
+          raw: repairedRaw,
+          model,
+          structuredOutput: true,
+          repaired: true
+        });
+      } catch {
+        return res.status(502).json({
+          ok: false,
+          error: 'Vision packet could not be normalized into valid JSON.',
+          raw,
+          model
+        });
+      }
+    }
+
+    return res.json({
+      ok: true,
+      packet,
+      raw,
+      model,
+      structuredOutput: structured,
+      repaired: false
+    });
   } catch (e) {
-    res.status(e.status || 500).json({ ok: false, error: e.message || String(e) });
+    return res.status(e.status || 500).json({
+      ok: false,
+      error: e.message || String(e)
+    });
   }
 });
 

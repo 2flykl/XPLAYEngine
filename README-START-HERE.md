@@ -1,3 +1,27 @@
+# V2 HOTFIX — IMPORTANT
+
+The `Unexpected token '<' ... is not valid JSON` error means the browser called an Asset Forge API route but the running Node server returned an HTML 404 page instead.
+
+That happens when the browser is using the new Asset Forge frontend while PowerShell is still running the older OpenAI Vision-only `server/server.js`.
+
+## Fix
+1. Stop the running server with `Ctrl + C`.
+2. Replace BOTH:
+   - `server/server.js`
+   - `public/app.js`
+   with the files from this V2 hotfix.
+3. Keep your existing `server/.env` with `OPENAI_API_KEY`.
+4. From the XPLAYEngine root run:
+   `node server/server.js`
+5. Open:
+   `http://localhost:8788`
+6. Click Health. It should now show both:
+   - `/api/health`
+   - `/api/assets/health`
+7. Then generate **Alex 4×2 Sheet first**.
+
+The hotfix also detects HTML/404 responses and tells you clearly if an old server is still running.
+
 # XPLAY OpenAI Vision → Interpreter → 64-bit Asset Forge Lab
 
 This lab attacks the exact step that previously stalled: **getting from a correct OpenAI Vision packet to a playable scene that actually uses generated 64-bit art instead of graybox geometry.**
