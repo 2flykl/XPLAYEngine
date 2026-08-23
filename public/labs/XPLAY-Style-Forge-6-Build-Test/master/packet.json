@@ -1,0 +1,124 @@
+{
+  "title": "Unknown \u2014 Stage 3-1",
+  "primaryGenre": "fighting",
+  "genreCandidates": [
+    {
+      "type": "side-scrolling beat-em-up / fighting",
+      "score": 0.99,
+      "source": "vision"
+    },
+    {
+      "type": "arcade action",
+      "score": 0.94,
+      "source": "vision"
+    }
+  ],
+  "player": {
+    "name": "Alex",
+    "identity": "Black male martial artist",
+    "appearance": [
+      "large black afro",
+      "white sleeveless martial-arts gi",
+      "black belt",
+      "bare feet"
+    ],
+    "action": "Standing near center-left and landing a right-handed punch on the red-bandanna enemy."
+  },
+  "enemies": [
+    {
+      "name": "Knife",
+      "weapon": "knife",
+      "region": "Left side, facing Alex in a fighting stance."
+    },
+    {
+      "name": "Bandanna (red)",
+      "weapon": "none visible",
+      "region": "Center-right, recoiling from Alex's punch."
+    },
+    {
+      "name": "Bandanna (blue)",
+      "weapon": "none visible",
+      "region": "Far right, approaching with raised fists."
+    }
+  ],
+  "landmarks": [
+    "Nighttime industrial rooftop or loading yard",
+    "Illuminated city skyline and moon",
+    "B7 wall sign",
+    "Security Level 3 door",
+    "Chain-link fence with CAUTION / KEEP OUT sign",
+    "Green industrial barrels",
+    "Rust-red ZENITH INDUSTRIES container",
+    "DANGER electrical sign",
+    "Metal ladder, pipes, stairs, and elevated catwalk",
+    "Hazard-striped pavement",
+    "Large foreground barrel at the lower-right edge"
+  ],
+  "palette": [
+    "black",
+    "midnight blue",
+    "rust red",
+    "brick brown",
+    "steel gray",
+    "amber yellow",
+    "electric blue",
+    "olive green",
+    "white"
+  ],
+  "camera": {
+    "type": "Side-on 2D pixel-art brawler camera with a wide view of the combat lane",
+    "preserveComposition": true,
+    "extendForScroll": true
+  },
+  "gameplay": {
+    "intention": "Move horizontally through the industrial stage, fight multiple enemies at close range, avoid the knife wielder, and defeat the current group before advancing.",
+    "cues": [
+      {
+        "type": "Three simultaneous enemies surrounding one player indicate multi-enemy beat-em-up combat.",
+        "score": 0.99,
+        "source": "vision"
+      },
+      {
+        "type": "Alex's impact flash and the red-bandanna enemy's recoil show active melee hit detection.",
+        "score": 0.99,
+        "source": "vision"
+      }
+    ],
+    "stageTime": 74,
+    "tests": [
+      "Spawn Alex near center-left with exactly three visible enemies.",
+      "Alex's punch must create a bright impact flash and make the struck enemy recoil.",
+      "Keep player and enemies grounded on the same side-on combat lane with limited vertical depth movement.",
+      "Allow horizontal camera scrolling while preserving the screenshot's side-on scale and composition."
+    ]
+  },
+  "world": {
+    "width": 2800,
+    "targetSeconds": 20,
+    "scrolling": true
+  },
+  "hud": {
+    "present": true,
+    "elements": [
+      "Alex portrait and name ALEX",
+      "score 0124500",
+      "yellow player health bar",
+      "blue secondary meter",
+      "life count x3",
+      "TIME 74",
+      "PRESS START",
+      "KNIFE portrait, label, and health bar",
+      "BANDANNA portrait, label, and health bar",
+      "STAGE 3-1"
+    ]
+  },
+  "summary": "A pixel-art side-scrolling beat-em-up scene shows Alex, a Black martial artist in a white gi, punching a red-bandanna fighter while a knife-wielding mohawk enemy threatens from the left and a blue-bandanna brawler closes in from the right. The fight occurs in a detailed Zenith Industries rooftop/loading yard at night beneath a moonlit city skyline.",
+  "buildPrompt": "Build a playable side-scrolling beat-em-up based directly on this scene. Preserve Alex, the three visible enemies, Zenith Industries environment, HUD language, side-on camera, and combat gameplay.",
+  "locks": {
+    "visionTruthLocked": true,
+    "noLegacyAssets": true,
+    "unknownStaysUnknown": true,
+    "preserveComposition": true,
+    "genreLocked": true
+  }
+}

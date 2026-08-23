@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>XPLAY Style Forge — 6 Build Test</title>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+<div class="shell">
+<header class="hero">
+<div class="pill">XPLAY · MASTER CHECKPOINT → SIX STYLE BUILDS</div>
+<h1>Style Forge 6-Build Test</h1>
+<p>Uses the same saved Alex PNGs, locked packet and interpreter blueprint. Vision is not called again. 64-bit uses the master checkpoint for free; other styles generate once and are cached locally.</p>
+<div class="top-actions"><button id="health">Check API</button><button id="checkpoint">Load Master Checkpoint</button><button id="cacheState">Refresh Cache</button></div>
+</header>
+
+<section class="panel">
+<h2>Master Checkpoint</h2>
+<div class="checkpoint-grid">
+<div><h3>Stage</h3><img src="/master/stage.png" class="masterImg"/></div>
+<div><h3>Alex Sheet</h3><img src="/master/alex-sheet.png" class="masterImg transparent"/></div>
+<div><h3>Enemy Atlas</h3><img src="/master/enemy-atlas.png" class="masterImg transparent"/></div>
+</div>
+<div class="json-grid"><div><h3>Locked Vision Packet</h3><pre id="packetOut">Load checkpoint</pre></div><div><h3>Interpreter Blueprint</h3><pre id="blueprintOut">Load checkpoint</pre></div></div>
+</section>
+
+<section class="panel">
+<h2>Six Style Builds</h2>
+<div id="styleGrid" class="style-grid"></div>
+</section>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

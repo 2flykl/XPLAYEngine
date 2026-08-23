@@ -1,0 +1,32 @@
+{
+  "64bit": {
+    "label": "64-bit Arcade",
+    "description": "Late-90s / early-2000s arcade-console brawler. Use the canonical checkpoint directly by default.",
+    "prompt": "Preserve the exact frame layout and identity. Render as a polished late-1990s / early-2000s 64-bit arcade-console brawler with bold silhouettes, chunky readable forms, saturated night lighting, and crisp arcade HUD readability."
+  },
+  "ps2": {
+    "label": "PlayStation 2 Era",
+    "description": "Early-2000s 3D-action visual language with stronger geometry, textures and baked lighting.",
+    "prompt": "Re-render the exact canonical asset into an early-2000s PlayStation 2 era action-game style. Preserve pose, silhouette, frame position, identity, composition and gameplay readability. Add richer 3D-like shading, era-appropriate textures, baked-lighting feel, slightly gritty materials, and stronger depth."
+  },
+  "xboxgc": {
+    "label": "Xbox / GameCube Era",
+    "description": "Mid-2000s console clarity with cleaner materials, stronger lighting and sharper characters.",
+    "prompt": "Re-render the exact canonical asset into a mid-2000s Xbox / GameCube era action-game style. Preserve every pose, grid cell, silhouette, identity and scene landmark. Improve geometry definition, materials, lighting, texture clarity and effects while keeping strong console readability."
+  },
+  "hdremaster": {
+    "label": "HD Remaster",
+    "description": "High-resolution 2D/2.5D remaster that keeps the original arcade soul.",
+    "prompt": "Re-render the exact canonical asset as a high-definition remaster. Preserve pose, grid, silhouette, colors, identity, camera, landmarks and game readability. Increase resolution, edge quality, material detail, lighting, clean shadows and effects without redesigning the characters or scene."
+  },
+  "modernstylized": {
+    "label": "Modern Stylized PC",
+    "description": "Contemporary high-end stylized PC game graphics with cinematic but readable presentation.",
+    "prompt": "Re-render the exact canonical asset as a contemporary high-end stylized PC action game. Preserve pose, silhouette, frame positions, character identity, camera and landmarks. Add advanced lighting, detailed materials, atmospheric depth, modern VFX and polished game-ready rendering without becoming photorealistic."
+  },
+  "modernreal": {
+    "label": "Modern Realistic PC",
+    "description": "Contemporary high-fidelity realistic PC graphics while preserving the exact game structure.",
+    "prompt": "Re-render the exact canonical asset as a modern high-fidelity realistic PC action game. Preserve the exact character identity, pose, silhouette, frame layout, camera, landmark placement and gameplay readability. Add realistic materials, physically plausible lighting, detailed skin and fabric, atmospheric depth and modern cinematic rendering. Do not change the underlying game design."
+  }
+}

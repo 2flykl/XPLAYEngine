@@ -1,0 +1,101 @@
+{
+  "buildId": "xplay64_checkpoint",
+  "runtimeGenre": "beat-em-up",
+  "sourceTitle": "Unknown \u2014 Stage 3-1",
+  "player": {
+    "id": "player_alex",
+    "displayName": "Alex",
+    "identity": "Black male martial artist",
+    "hp": 160,
+    "lives": 3,
+    "speed": 185,
+    "attackRange": 92,
+    "attackDamage": 30
+  },
+  "enemies": [
+    {
+      "id": "enemy_1_knife",
+      "displayName": "Knife",
+      "weapon": "knife",
+      "role": "armed_melee",
+      "region": "Left side",
+      "hp": 90,
+      "speed": 85
+    },
+    {
+      "id": "enemy_2_bandanna_red",
+      "displayName": "Bandanna (red)",
+      "weapon": "none visible",
+      "role": "unarmed_melee",
+      "region": "Center-right",
+      "hp": 90,
+      "speed": 85
+    },
+    {
+      "id": "enemy_3_bandanna_blue",
+      "displayName": "Bandanna (blue)",
+      "weapon": "none visible",
+      "role": "unarmed_melee",
+      "region": "Far right",
+      "hp": 90,
+      "speed": 85
+    }
+  ],
+  "stage": {
+    "worldWidth": 2800,
+    "targetSeconds": 20,
+    "camera": "side-scroll",
+    "combatPlaneDepth": true,
+    "winCondition": "defeat_all_enemies"
+  },
+  "artDirection": {
+    "target": "canonical master checkpoint",
+    "sourcePalette": [
+      "black",
+      "midnight blue",
+      "rust red",
+      "brick brown",
+      "steel gray",
+      "amber yellow",
+      "electric blue",
+      "olive green",
+      "white"
+    ],
+    "landmarks": [
+      "Nighttime industrial rooftop or loading yard",
+      "Illuminated city skyline and moon",
+      "B7 wall sign",
+      "Security Level 3 door",
+      "Chain-link fence with CAUTION / KEEP OUT sign",
+      "Green industrial barrels",
+      "Rust-red ZENITH INDUSTRIES container",
+      "DANGER electrical sign",
+      "Metal ladder, pipes, stairs, and elevated catwalk",
+      "Hazard-striped pavement",
+      "Large foreground barrel at the lower-right edge"
+    ],
+    "noGraybox": true,
+    "noLegacyAssets": true
+  },
+  "hud": {
+    "present": true,
+    "elements": [
+      "Alex portrait and name ALEX",
+      "score 0124500",
+      "yellow player health bar",
+      "blue secondary meter",
+      "life count x3",
+      "TIME 74",
+      "PRESS START",
+      "KNIFE portrait, label, and health bar",
+      "BANDANNA portrait, label, and health bar",
+      "STAGE 3-1"
+    ]
+  },
+  "qa": [
+    "Spawn Alex near center-left with exactly three visible enemies.",
+    "Alex's punch must create a bright impact flash and make the struck enemy recoil.",
+    "Keep player and enemies grounded on the same side-on combat lane with limited vertical depth movement.",
+    "Allow horizontal camera scrolling while preserving the screenshot's side-on scale and composition."
+  ]
+}
