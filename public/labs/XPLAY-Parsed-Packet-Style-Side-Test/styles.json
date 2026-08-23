@@ -1,7 +1,7 @@
 {
   "source64": {
     "label": "Source / 64-bit",
-    "description": "Uses the current successful parsed checkpoint directly. Zero image-generation calls.",
+    "description": "Uses the saved canonical checkpoint directly. Zero image-generation calls.",
     "prompt": "Use the canonical current asset set exactly as provided. Preserve frame order, identity, layout and style."
   },
   "ps2": {
@@ -23,5 +23,25 @@
     "label": "Modern Realistic PC",
     "description": "Modern high-fidelity realistic version while preserving exact game structure.",
     "prompt": "Re-render the canonical asset as a modern realistic PC action game. Preserve exact pose order, frame layout, identity, silhouette, camera and landmark placement. Add realistic materials, physically-plausible lighting, atmospheric depth and high-fidelity rendering while keeping gameplay readability."
+  },
+  "photoreal": {
+    "label": "Photorealistic",
+    "description": "Photoreal action-game build using the same packet and gameplay structure.",
+    "prompt": "Re-render the canonical asset as a photorealistic action game. Preserve exact pose order, frame layout, character identity, silhouettes, side-on camera, gameplay readability and landmark placement. Use realistic human proportions, cinematic industrial night lighting, detailed materials, skin detail, fabric folds, metal wear and atmospheric depth without changing the gameplay composition."
+  },
+  "pixar3d": {
+    "label": "Feature Animation 3D",
+    "description": "Polished theatrical 3D animation look with appealing stylized forms and cinematic lighting.",
+    "prompt": "Re-render the canonical asset as a polished theatrical 3D animated-feature look with appealing stylized proportions, expressive faces, clean sculpted forms, rich materials and cinematic family-animation lighting. Preserve exact pose order, frame layout, character identity, silhouettes, side-on gameplay readability and landmark placement. Do not imitate any specific studio mascot or copyrighted character."
+  },
+  "boondocks": {
+    "label": "Urban Anime-Inspired Cartoon",
+    "description": "Bold urban TV-cartoon / anime-inspired look with sharp linework, expressive faces and kinetic action.",
+    "prompt": "Re-render the canonical asset as a bold urban action-cartoon with anime-influenced proportions, sharp clean linework, strong silhouettes, expressive faces, cel shading, angular dynamic poses and graphic TV-animation energy. Preserve exact pose order, frame layout, character identity, side-on camera, landmarks and gameplay readability. Do not copy any specific copyrighted character."
+  },
+  "claymation": {
+    "label": "Claymation / Stop-Motion",
+    "description": "Handcrafted stop-motion clay characters and miniature-set environment with tactile detail.",
+    "prompt": "Re-render the canonical asset as handcrafted stop-motion clay animation. Preserve exact pose order, frame layout, character identity, silhouettes, side-on camera, landmark placement and gameplay readability. Use sculpted clay characters, visible handmade texture, miniature-set construction, tactile materials, practical lighting and stop-motion charm. Keep the player and enemy sheets on transparent backgrounds."
   }
 }

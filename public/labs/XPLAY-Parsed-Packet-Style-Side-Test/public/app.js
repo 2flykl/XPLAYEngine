@@ -15,6 +15,16 @@ window.addEventListener('keyup', (e) => {
   keys[e.key.toLowerCase()] = false;
 });
 
+
+async function fetchJsonAllowPartial(url, opts = {}) {
+  const res = await fetch(url, opts);
+  const text = await res.text();
+  let data;
+  try { data = JSON.parse(text); }
+  catch { throw new Error(`Non-JSON response (${res.status}): ${text.slice(0, 180)}`); }
+  if (!res.ok && !data.failed) throw new Error(data.error || `Request failed (${res.status})`);
+  return data;
+}
 async function fetchJson(url, opts = {}) {
   const res = await fetch(url, opts);
   const text = await res.text();
@@ -144,8 +154,12 @@ async function generateMissing(style, btn) {
   try {
     btn.disabled = true;
     btn.textContent = 'Generating…';
-    await fetchJson(`/api/generate-missing/${style}`, { method: 'POST' });
+    const result = await fetchJsonAllowPartial(`/api/generate-missing/${style}`, { method: 'POST' });
     await refreshCache();
+    if (result.failed?.length) {
+      const detail = result.failed.map(x => `${x.kind}: ${x.error}`).join('\n');
+      alert(`${styles[style].label} partially generated.\n\n${detail}`);
+    }
   } catch (e) {
     alert(e.message);
   } finally {

@@ -8,19 +8,13 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Robust env discovery: this lab may live under XPLAYEngine/public/labs/...
-// Walk upward and look for either .env or server/.env.
-const envCandidates = [];
-let cursor = __dirname;
-for (let i = 0; i < 8; i++) {
-  envCandidates.push(path.join(cursor, '.env'));
-  envCandidates.push(path.join(cursor, 'server', '.env'));
-  const parent = path.dirname(cursor);
-  if (parent === cursor) break;
-  cursor = parent;
-}
+const envCandidates = [
+  path.join(__dirname, '.env'),
+  path.resolve(__dirname, '../server/.env'),
+  path.resolve(__dirname, '../../server/.env')
+];
 let envLoadedFrom = null;
-for (const p of [...new Set(envCandidates)]) {
+for (const p of envCandidates) {
   if (fs.existsSync(p)) {
     dotenv.config({ path: p, override: false });
     envLoadedFrom = p;
@@ -29,7 +23,7 @@ for (const p of [...new Set(envCandidates)]) {
 }
 if (!envLoadedFrom) dotenv.config();
 
-const PORT = Number(process.env.PORT || 8808);
+const PORT = Number(process.env.PORT || 8812);
 const IMAGE_MODEL = process.env.OPENAI_IMAGE_MODEL || 'gpt-image-1';
 
 const app = express();
@@ -85,18 +79,30 @@ async function generateVariant(style, kind) {
   const out = cachePath(style, kind);
   const file = await toFile(fs.createReadStream(src), path.basename(src), { type: 'image/png' });
 
-  const result = await client.images.edit({
+  const request = {
     model: IMAGE_MODEL,
     image: file,
     prompt: assetPrompt(style, kind),
-    size: '1536x1024',
+    size: kind === 'stage' ? '1536x1024' : '1024x1024',
     quality: 'medium',
     background: kind === 'stage' ? 'opaque' : 'transparent',
     output_format: 'png'
-  });
+  };
+
+  let result;
+  try {
+    result = await client.images.edit(request);
+  } catch (firstError) {
+    console.warn(`Primary image edit failed for ${style}/${kind}:`, firstError?.message || firstError);
+    // Compatibility retry: some model/account combinations are pickier about transparent
+    // backgrounds or aspect ratios. Retry with the safest square PNG settings.
+    const retry = { ...request, size: '1024x1024' };
+    if (kind !== 'stage') retry.background = 'transparent';
+    result = await client.images.edit(retry);
+  }
 
   const b64 = result.data?.[0]?.b64_json;
-  if (!b64) throw new Error('Image model returned no image data.');
+  if (!b64) throw new Error(`Image model returned no image data for ${style}/${kind}.`);
   fs.writeFileSync(out, Buffer.from(b64, 'base64'));
   return out;
 }
@@ -112,7 +118,7 @@ app.get('/api/health', (_req, res) => {
     keyLength: key.length,
     envLoadedFrom: envLoadedFrom || 'default process env',
     visionCallsRequired: false,
-    note: 'This lab starts from the saved parsed packet and saved source assets.'
+    note: 'This lab starts from the saved parsed packet and saved source assets. Only non-source style generations use the image API, and generated variants are cached.'
   });
 });
 
@@ -182,16 +188,22 @@ app.post('/api/generate-missing/:style', async (req, res) => {
     }
     const generated = [];
     const skipped = [];
+    const failed = [];
     for (const kind of ['stage', 'player', 'enemies']) {
       const existing = cachePath(style, kind);
       if (fs.existsSync(existing)) {
         skipped.push(kind);
       } else {
-        await generateVariant(style, kind);
-        generated.push(kind);
+        try {
+          await generateVariant(style, kind);
+          generated.push(kind);
+        } catch (kindError) {
+          console.error(`Generate missing failed for ${style}/${kind}`, kindError);
+          failed.push({ kind, error: kindError?.message || String(kindError) });
+        }
       }
     }
-    res.json({ ok: true, generated, skipped });
+    res.json({ ok: failed.length === 0, generated, skipped, failed });
   } catch (err) {
     console.error('GENERATE MISSING ERROR', err);
     res.status(err.status || 500).json({ ok: false, error: err.message || String(err) });
@@ -215,13 +227,12 @@ app.post('/api/cache/clear/:style', (req, res) => {
 
 app.listen(PORT, () => {
   console.log('============================================================');
-  console.log('XPLAY PARSED PACKET STYLE SIDE TEST');
+  console.log('XPLAY PARSED PACKET STYLE BUILD MATRIX LAB V2 FIXED');
   console.log(`Open: http://localhost:${PORT}`);
   console.log(`Image model: ${IMAGE_MODEL}`);
   console.log(`Key configured: ${!!(process.env.OPENAI_API_KEY || '').trim()}`);
-  console.log(`Env loaded from: ${envLoadedFrom || 'none found'}`);
   console.log('Vision is NOT called in this lab.');
-  console.log('Source / 64-bit uses the saved checkpoint with zero image-generation calls.');
+  console.log('Source / 64-bit uses the saved checkpoint with zero image-generation calls. All additional style outputs are cached after first generation.');
   console.log('Other styles are cached after first generation.');
   console.log('============================================================');
 });
