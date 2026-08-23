@@ -4,6 +4,7 @@ const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 const OpenAI = require('openai');
+const localUpscaler = require('./localUpscaler');
 
 const app = express();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 16 * 1024 * 1024 } });
@@ -27,7 +28,6 @@ function strip(s) {
 }
 
 const VISION_PROMPT = `Return ONLY valid JSON. Analyze the image as an XPLAY game screenshot and freeze the visible truth. Do not drift to another preset or genre. Required fields: title, primaryGenre, genreCandidates, player, enemies, landmarks, palette, camera, gameplay, world, hud, summary, buildPrompt. For a side-view multi-enemy beat-em-up, primaryGenre must be fighting and genreCandidates should include beat-em-up. Preserve visible player identity, enemy roles, scene landmarks, camera, HUD hierarchy, and gameplay cues. Unknown stays unknown. Do not replace visible facts with generic city/street/rooftop content.`;
-
 
 const VISION_SCHEMA = {
   type: 'object',
@@ -140,8 +140,54 @@ app.get('/api/health', (_q, res) => res.json({
   configured: !!process.env.OPENAI_API_KEY,
   visionModel: process.env.OPENAI_VISION_MODEL || 'gpt-4.1-mini',
   imageModel: process.env.OPENAI_IMAGE_MODEL || 'gpt-image-2',
+  localUpscaler: localUpscaler.status(),
   mode: 'vision-lock-interpreter-64bit-asset-forge-v4-mime-source-fix'
 }));
+
+app.get('/api/upscale/health', (_q, res) => {
+  const upscaler = localUpscaler.status();
+  res.status(upscaler.available ? 200 : 503).json({
+    ok: upscaler.available,
+    zeroApiUsage: true,
+    upscaler
+  });
+});
+
+app.post('/api/upscale/:scale', upload.single('image'), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ ok: false, error: 'PNG image is required.' });
+    if (!req.file.mimetype || !req.file.mimetype.startsWith('image/')) {
+      return res.status(400).json({ ok: false, error: 'Only image uploads can be upscaled.' });
+    }
+
+    const scale = Number(String(req.params.scale || '').replace(/x$/i, ''));
+    const kind = String(req.body.kind || 'general').toLowerCase();
+    const requestedModel = req.body.model ? String(req.body.model) : undefined;
+    const result = await localUpscaler.upscaleBuffer(req.file.buffer, {
+      scale,
+      kind,
+      model: requestedModel
+    });
+
+    res.json({
+      ok: true,
+      scale: result.scale,
+      model: result.model,
+      zeroApiUsage: true,
+      mimeType: 'image/png',
+      image: `data:image/png;base64,${result.buffer.toString('base64')}`
+    });
+  } catch (e) {
+    const message = e.message || String(e);
+    const missingExe = /executable not found/i.test(message);
+    res.status(missingExe ? 503 : 500).json({
+      ok: false,
+      zeroApiUsage: true,
+      error: message,
+      upscaler: localUpscaler.status()
+    });
+  }
+});
 
 app.post('/api/vision/analyze', upload.single('image'), async (req, res) => {
   try {
@@ -184,8 +230,6 @@ app.post('/api/vision/analyze', upload.single('image'), async (req, res) => {
         max_output_tokens: 2200
       });
     } catch (schemaError) {
-      // Compatibility fallback: still force valid JSON even if strict schema
-      // is unavailable for a particular model/account configuration.
       structured = false;
       r = await c.responses.create({
         model,
@@ -201,8 +245,6 @@ app.post('/api/vision/analyze', upload.single('image'), async (req, res) => {
     try {
       packet = JSON.parse(raw);
     } catch (parseError) {
-      // One repair attempt. Send only the bad text back and ask the model to
-      // normalize it into the same strict packet schema.
       const repair = await c.responses.create({
         model,
         input: [
@@ -315,4 +357,8 @@ app.post('/api/assets/forge64/:kind', upload.single('image'), async (req, res) =
   }
 });
 
-app.listen(PORT, () => console.log(`XPLAY Vision → Interpreter → 64-bit Asset Forge Lab: http://localhost:${PORT}`));
+app.listen(PORT, () => {
+  const upscaler = localUpscaler.status();
+  console.log(`XPLAY Vision → Interpreter → 64-bit Asset Forge Lab: http://localhost:${PORT}`);
+  console.log(`Local Upscale Beast: ${upscaler.available ? 'READY' : 'WAITING FOR REAL-ESRGAN'} (${upscaler.exePath})`);
+});
