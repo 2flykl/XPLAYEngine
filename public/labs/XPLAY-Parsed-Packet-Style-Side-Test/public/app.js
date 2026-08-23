@@ -81,6 +81,7 @@ function renderStyles() {
         <button data-generate="${id}:enemies">Enemies</button>
         <button data-genall="${id}">Generate Missing</button>
         <button data-build="${id}" class="secondary">Build Playable</button>
+        <button data-rerender="${id}" class="warn">Force Re-render Style</button>
         <button data-clear="${id}" class="warn">Clear Cache</button>
       </div>
       <div class="assets">
@@ -104,6 +105,9 @@ function renderStyles() {
   });
   document.querySelectorAll('[data-build]').forEach((btn) => {
     btn.onclick = () => buildPlayable(btn.dataset.build);
+  });
+  document.querySelectorAll('[data-rerender]').forEach((btn) => {
+    btn.onclick = () => forceRerenderStyle(btn.dataset.rerender, btn);
   });
   document.querySelectorAll('[data-clear]').forEach((btn) => {
     btn.onclick = () => clearStyle(btn.dataset.clear);
@@ -159,6 +163,27 @@ async function generateMissing(style, btn) {
     if (result.failed?.length) {
       const detail = result.failed.map(x => `${x.kind}: ${x.error}`).join('\n');
       alert(`${styles[style].label} partially generated.\n\n${detail}`);
+    }
+  } catch (e) {
+    alert(e.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = old;
+  }
+}
+
+async function forceRerenderStyle(style, btn) {
+  const old = btn.textContent;
+  try {
+    if (style === 'source64') return alert('Source / 64-bit is the canonical checkpoint and is not re-rendered.');
+    btn.disabled = true;
+    btn.textContent = 'Re-rendering all 3…';
+    const result = await fetchJsonAllowPartial(`/api/regenerate-style/${style}`, { method: 'POST' });
+    await refreshCache();
+    if (result.failed?.length) {
+      alert(`${styles[style].label} re-render completed with failures:\n\n${result.failed.map(x => `${x.kind}: ${x.error}`).join('\n')}`);
+    } else {
+      alert(`${styles[style].label} completely re-rendered with new style-divergence prompts.`);
     }
   } catch (e) {
     alert(e.message);

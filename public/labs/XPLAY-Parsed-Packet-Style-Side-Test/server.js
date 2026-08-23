@@ -23,7 +23,7 @@ for (const p of envCandidates) {
 }
 if (!envLoadedFrom) dotenv.config();
 
-const PORT = Number(process.env.PORT || 8812);
+const PORT = Number(process.env.PORT || 8824);
 const IMAGE_MODEL = process.env.OPENAI_IMAGE_MODEL || 'gpt-image-1';
 
 const app = express();
@@ -61,16 +61,81 @@ function cachePath(style, kind) {
 
 function assetPrompt(style, kind) {
   const s = styles[style];
-  const common = `STYLE TRANSFORM ONLY. Preserve the canonical parsed checkpoint structure. ${s.prompt}`;
-  if (kind === 'stage') {
-    return `${common}\n\nASSET TYPE: environment plate. Preserve the same side-on camera, combat floor, skyline, moon, B7 security building, chain-link fence with caution sign, green barrels, rust-red Zenith Industries container, danger sign, ladder, pipes, catwalk, hazard stripes, and foreground barrel. No characters. No HUD. Keep it gameplay-readable and horizontally scroll-friendly.`;
-  }
-  if (kind === 'player') {
-    return `${common}\n\nASSET TYPE: Alex player sheet. Preserve EXACT 4 columns by 2 rows, the same eight poses, same frame ordering, same transparent background, same Alex identity: Black male martial artist, large afro, white sleeveless gi, black belt, barefoot. No cropping, no labels, no HUD, no environment, no extra characters.`;
-  }
-  return `${common}\n\nASSET TYPE: enemy atlas. Preserve EXACT 4 columns by 3 rows. Row 1 = Knife enemy, row 2 = red-bandanna fighter, row 3 = blue-bandanna fighter. Columns remain idle, walk/advance, attack, hurt/knockback. Transparent background only. Preserve correct identity, outfits and weapon. No labels, no HUD, no environment.`;
-}
+  const invariant = `SOURCE IS REFERENCE ONLY FOR CONTENT AND LAYOUT.
+STYLE DIVERGENCE IS MANDATORY.
+Preserve: Alex identity, enemy identities, pose meaning, frame count, grid geometry, environment landmarks, side-view composition, gameplay readability.
+DO NOT preserve the original pixel-art rendering unless the selected style explicitly calls for it.
+The output should be immediately distinguishable from every other style at a glance.
 
+SELECTED STYLE: ${s.label}
+STYLE DNA: ${s.prompt}`;
+
+  if (kind === 'stage') {
+    return `${invariant}
+
+ASSET TYPE: ENVIRONMENT PLATE.
+Rebuild the environment visually in the selected style while preserving the same spatial composition:
+- moonlit skyline
+- B7 / Security Level 3 building
+- chain-link fence and caution sign
+- green barrels
+- rust-red Zenith Industries container
+- danger sign
+- ladder, pipes, catwalk
+- hazard-striped pavement
+- foreground barrel
+
+CRITICAL:
+- environment only
+- no characters
+- no HUD
+- no gameplay UI
+- do not simply color-grade the source
+- re-render materials, lighting, texture language and dimensionality so the selected style is unmistakable
+- retain a side-view combat plane suitable for scrolling`;
+  }
+
+  if (kind === 'player') {
+    return `${invariant}
+
+ASSET TYPE: ALEX CHARACTER ACTION SHEET.
+Alex remains a Black male martial artist with a large afro, white sleeveless gi, black belt and bare feet.
+
+STRICT SHEET CONTRACT:
+- EXACT 4 columns × 2 rows
+- eight full-body frames
+- same pose meanings:
+  row 1 = idle, walk A, walk B, walk C
+  row 2 = attack windup, attack impact, hurt reaction, victory
+- transparent background
+- consistent baseline and character scale
+- no environment, labels, borders, vignettes or HUD
+
+STYLE ENFORCEMENT:
+- completely re-render the body, clothing, hair, shading, dimensionality and material treatment into the selected style
+- do not preserve pixel-art pixels or pixel-art surface shading unless selected style is Source/64-bit
+- all eight cells must visibly belong to the selected style`;
+  }
+
+  return `${invariant}
+
+ASSET TYPE: ENEMY ACTION ATLAS.
+STRICT ATLAS CONTRACT:
+- EXACT 4 columns × 3 rows
+- row 1 = Knife enemy, pink mohawk, knife
+- row 2 = red-bandanna fighter
+- row 3 = blue-bandanna muscular fighter
+- columns = idle, advance, attack, hurt/knockback
+- transparent background
+- consistent baseline and scale within each row
+- no environment, labels, borders, vignettes or HUD
+
+STYLE ENFORCEMENT:
+- fully reconstruct every enemy into the selected style
+- do not preserve original pixel-art pixels or sprite-surface shading
+- preserve recognizable outfit colors, silhouette role, weapon identity and action meaning
+- the selected style must be obvious even when viewing the atlas by itself`;
+}
 async function generateVariant(style, kind) {
   const client = getClient();
   if (!client) throw new Error('OPENAI_API_KEY is not configured.');
@@ -210,6 +275,34 @@ app.post('/api/generate-missing/:style', async (req, res) => {
   }
 });
 
+
+app.post('/api/regenerate-style/:style', async (req, res) => {
+  try {
+    const { style } = req.params;
+    if (!styles[style]) throw new Error('Unknown style.');
+    if (style === 'source64') {
+      return res.json({ ok: true, generated: [], note: 'Source / 64-bit uses the canonical master assets.' });
+    }
+    const dir = path.join(__dirname, 'cache', style);
+    if (fs.existsSync(dir)) fs.rmSync(dir, { recursive: true, force: true });
+    fs.mkdirSync(dir, { recursive: true });
+
+    const generated = [];
+    const failed = [];
+    for (const kind of ['stage', 'player', 'enemies']) {
+      try {
+        await generateVariant(style, kind);
+        generated.push(kind);
+      } catch (err) {
+        failed.push({ kind, error: err?.message || String(err) });
+      }
+    }
+    res.json({ ok: failed.length === 0, generated, failed });
+  } catch (err) {
+    res.status(err.status || 500).json({ ok: false, error: err.message || String(err) });
+  }
+});
+
 app.post('/api/cache/clear/:style', (req, res) => {
   try {
     const { style } = req.params;
@@ -227,7 +320,7 @@ app.post('/api/cache/clear/:style', (req, res) => {
 
 app.listen(PORT, () => {
   console.log('============================================================');
-  console.log('XPLAY PARSED PACKET STYLE BUILD MATRIX LAB V2 FIXED');
+  console.log('XPLAY STYLE DIVERGENCE LAB V3');
   console.log(`Open: http://localhost:${PORT}`);
   console.log(`Image model: ${IMAGE_MODEL}`);
   console.log(`Key configured: ${!!(process.env.OPENAI_API_KEY || '').trim()}`);
