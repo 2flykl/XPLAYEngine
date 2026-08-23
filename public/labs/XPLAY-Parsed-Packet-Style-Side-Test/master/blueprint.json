@@ -1,0 +1,103 @@
+{
+  "buildId": "xplay64_mt5ur13d",
+  "runtimeGenre": "beat-em-up",
+  "sourceTitle": "Unknown \u2014 Stage 3-1",
+  "player": {
+    "id": "player_alex",
+    "displayName": "Alex",
+    "identity": "Black male martial artist",
+    "hp": 160,
+    "lives": 3,
+    "speed": 185,
+    "attackRange": 92,
+    "attackDamage": 30
+  },
+  "enemies": [
+    {
+      "id": "enemy_1_knife",
+      "displayName": "Knife",
+      "weapon": "knife",
+      "role": "armed_melee",
+      "region": "Left side, facing Alex in a fighting stance.",
+      "hp": 90,
+      "speed": 85
+    },
+    {
+      "id": "enemy_2_bandanna_red_",
+      "displayName": "Bandanna (red)",
+      "weapon": "none visible",
+      "role": "unarmed_melee",
+      "region": "Center-right, recoiling from Alex's punch.",
+      "hp": 90,
+      "speed": 85
+    },
+    {
+      "id": "enemy_3_bandanna_blue_",
+      "displayName": "Bandanna (blue)",
+      "weapon": "none visible",
+      "role": "unarmed_melee",
+      "region": "Far right, approaching with raised fists.",
+      "hp": 90,
+      "speed": 85
+    }
+  ],
+  "stage": {
+    "worldWidth": 2800,
+    "targetSeconds": 20,
+    "camera": "side-scroll",
+    "combatPlaneDepth": true,
+    "winCondition": "defeat_all_enemies"
+  },
+  "artDirection": {
+    "target": "polished late-1990s/early-2000s 64-bit arcade brawler",
+    "sourcePalette": [
+      "black",
+      "midnight blue",
+      "rust red",
+      "brick brown",
+      "steel gray",
+      "amber yellow",
+      "electric blue",
+      "olive green",
+      "white"
+    ],
+    "landmarks": [
+      "Nighttime industrial rooftop or loading yard",
+      "Illuminated city skyline and moon",
+      "B7 wall sign",
+      "Security Level 3 door",
+      "Chain-link fence with CAUTION / KEEP OUT sign",
+      "Green industrial barrels",
+      "Rust-red ZENITH INDUSTRIES container",
+      "DANGER electrical sign",
+      "Metal ladder, pipes, stairs, and elevated catwalk",
+      "Hazard-striped pavement",
+      "Large foreground barrel at the lower-right edge"
+    ],
+    "noGraybox": true,
+    "noLegacyAssets": true
+  },
+  "hud": {
+    "present": true,
+    "elements": [
+      "Alex portrait and name ALEX",
+      "score 0124500",
+      "yellow player health bar",
+      "blue secondary meter",
+      "life count x3",
+      "TIME 74",
+      "PRESS START",
+      "KNIFE portrait, label, and red/yellow health bar",
+      "BANDANNA portrait, label, and red/yellow health bar",
+      "STAGE 3-1"
+    ]
+  },
+  "qa": [
+    "Spawn Alex near center-left with exactly three visible enemies: one knife wielder on the left and two bandanna fighters on the right.",
+    "Alex's punch must create a bright impact flash and make the struck enemy recoil.",
+    "Keep player and enemies grounded on the same side-on combat lane with limited vertical depth movement.",
+    "Display the English HUD with ALEX, score 0124500, life count x3, TIME 74, PRESS START, STAGE 3-1, and enemy bars labeled KNIFE and BANDANNA.",
+    "Preserve the visible industrial landmarks, nighttime skyline, moon, Zenith Industries container, B7 sign, warning signs, fence, barrels, ladder, pipes, and catwalk.",
+    "Allow horizontal camera scrolling while preserving the screenshot's side-on scale and composition."
+  ]
+}

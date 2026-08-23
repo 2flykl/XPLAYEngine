@@ -1,0 +1,27 @@
+{
+  "source64": {
+    "label": "Source / 64-bit",
+    "description": "Uses the current successful parsed checkpoint directly. Zero image-generation calls.",
+    "prompt": "Use the canonical current asset set exactly as provided. Preserve frame order, identity, layout and style."
+  },
+  "ps2": {
+    "label": "PlayStation 2 Era",
+    "description": "Reinterpret the same asset structure as an early-2000s PS2 action brawler.",
+    "prompt": "Re-render the canonical asset in an early-2000s PlayStation 2 era action-game style. Preserve exact pose order, character identity, silhouette, landmark placement and gameplay readability. Add era-appropriate 3D-like shading, gritty materials and baked-lighting feel."
+  },
+  "hdremaster": {
+    "label": "HD Remaster",
+    "description": "Keeps the same poses and layout but sharpens everything into a clean HD remaster.",
+    "prompt": "Re-render the canonical asset as a faithful HD remaster. Preserve exact pose order, character identity, silhouette, landmark placement, environment composition and gameplay readability. Improve edge quality, material detail, clean shadows, and effects without redesigning the content."
+  },
+  "modernStylized": {
+    "label": "Modern Stylized PC",
+    "description": "High-end stylized PC action-game interpretation.",
+    "prompt": "Re-render the canonical asset as a contemporary high-end stylized PC action game. Preserve exact pose order, frame layout, identity, silhouette, side-on camera and landmarks. Add advanced lighting, stylized materials, atmosphere and modern game-ready polish without becoming photorealistic."
+  },
+  "modernReal": {
+    "label": "Modern Realistic PC",
+    "description": "Modern high-fidelity realistic version while preserving exact game structure.",
+    "prompt": "Re-render the canonical asset as a modern realistic PC action game. Preserve exact pose order, frame layout, identity, silhouette, camera and landmark placement. Add realistic materials, physically-plausible lighting, atmospheric depth and high-fidelity rendering while keeping gameplay readability."
+  }
+}

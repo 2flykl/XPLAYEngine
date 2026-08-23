@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>XPLAY Parsed Packet Style Side Test</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <header class="hero">
+      <div class="pill">XPLAY · PARSED PACKET → STYLE SIDE TEST</div>
+      <h1>Parsed Packet Style Side Test</h1>
+      <p>This side test skips Vision and starts directly from the parsed packet, blueprint, and current working source assets. Build from here into different visual styles and test the playable runtime.</p>
+      <div class="toolbar">
+        <button id="healthBtn">Check API</button>
+        <button id="checkpointBtn">Load Parsed Checkpoint</button>
+        <button id="cacheBtn">Refresh Cache</button>
+      </div>
+    </header>
+
+    <section class="panel">
+      <h2>Canonical Source Checkpoint</h2>
+      <div class="sourceGrid">
+        <div class="assetPane"><h3>Stage</h3><img src="/master/stage.png" class="masterImg" alt="stage" /></div>
+        <div class="assetPane"><h3>Alex Sheet</h3><img src="/master/alex-sheet.png" class="masterImg checker" alt="player" /></div>
+        <div class="assetPane"><h3>Enemy Atlas</h3><img src="/master/enemy-atlas.png" class="masterImg checker" alt="enemies" /></div>
+      </div>
+      <div class="jsonGrid">
+        <div><h3>Parsed Packet</h3><pre id="packetOut">Load Parsed Checkpoint</pre></div>
+        <div><h3>Interpreter Blueprint</h3><pre id="blueprintOut">Load Parsed Checkpoint</pre></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Style Builds</h2>
+      <div id="styleGrid" class="styleGrid"></div>
+    </section>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
