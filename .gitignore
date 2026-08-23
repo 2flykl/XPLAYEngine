@@ -6,3 +6,8 @@ dist/
 !server/.env.example
 server/.env
 *.log
+
+# Local Real-ESRGAN runtime is installed per-machine; do not commit binaries/models.
+tools/realesrgan/*.exe
+tools/realesrgan/*.dll
+tools/realesrgan/models/
