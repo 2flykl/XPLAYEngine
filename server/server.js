@@ -140,7 +140,7 @@ app.get('/api/health', (_q, res) => res.json({
   configured: !!process.env.OPENAI_API_KEY,
   visionModel: process.env.OPENAI_VISION_MODEL || 'gpt-4.1-mini',
   imageModel: process.env.OPENAI_IMAGE_MODEL || 'gpt-image-2',
-  mode: 'vision-lock-interpreter-64bit-asset-forge-structured-v3'
+  mode: 'vision-lock-interpreter-64bit-asset-forge-v4-mime-source-fix'
 }));
 
 app.post('/api/vision/analyze', upload.single('image'), async (req, res) => {
@@ -148,6 +148,12 @@ app.post('/api/vision/analyze', upload.single('image'), async (req, res) => {
     const c = client();
     if (!c) return res.status(400).json({ ok: false, error: 'OPENAI_API_KEY is not configured.' });
     if (!req.file) return res.status(400).json({ ok: false, error: 'No image uploaded.' });
+    if (!req.file.mimetype || !req.file.mimetype.startsWith('image/')) {
+      return res.status(400).json({
+        ok: false,
+        error: `Rejected non-image upload before OpenAI call. Received MIME: ${req.file.mimetype || 'unknown'}`
+      });
+    }
 
     const model = process.env.OPENAI_VISION_MODEL || 'gpt-4.1-mini';
     const dataUrl = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
