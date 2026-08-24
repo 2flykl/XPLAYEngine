@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>XPLAY Local Upscale Beast</title>
+<style>
+:root{font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;color:#102f4f;background:#f5fbfd}
+*{box-sizing:border-box}body{margin:0;padding:28px}.wrap{max-width:1180px;margin:auto}.card{background:white;border:1px solid #cfe3ec;border-radius:24px;padding:24px;box-shadow:0 10px 30px rgba(16,47,79,.06)}h1{margin:0 0 8px;font-size:32px}.sub{color:#52718d;margin-bottom:20px}.status{display:inline-block;padding:8px 12px;border-radius:999px;background:#eef5f7;font-weight:800}.ready{background:#daf6ea;color:#086d52}.waiting{background:#fff0d7;color:#8a5200}.controls{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}button,select,input[type=file]{font:inherit}button{border:0;border-radius:14px;padding:12px 18px;font-weight:800;cursor:pointer;background:#16a7b5;color:white}button.secondary{background:#173e63}button:disabled{opacity:.5;cursor:not-allowed}select{border:1px solid #cfe3ec;border-radius:12px;padding:10px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px}@media(max-width:800px){.grid{grid-template-columns:1fr}}.pane{border:1px solid #d8e8ee;border-radius:18px;padding:14px;min-height:280px;background:#fbfeff}.pane img{display:block;max-width:100%;max-height:600px;margin:auto;image-rendering:auto}.meta{font-size:14px;color:#58728b;margin-top:10px;white-space:pre-wrap}.drop{border:2px dashed #9ecbd6;border-radius:16px;padding:22px;text-align:center;background:#f7fcfd}.note{margin-top:16px;color:#61788c;font-size:14px}.error{color:#a02b2b;font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>XPLAY Local Upscale Beast</h1>
+    <div class="sub">Free local 2× / 4× Real-ESRGAN upscaling. No OpenAI image call.</div>
+    <span id="status" class="status waiting">Checking Real-ESRGAN…</span>
+
+    <div class="controls">
+      <input id="file" type="file" accept="image/png,image/webp,image/jpeg" />
+      <select id="kind">
+        <option value="general">General / realistic</option>
+        <option value="anime">Anime / cel / cartoon</option>
+      </select>
+      <button id="up2" disabled>Upscale 2×</button>
+      <button id="up4" disabled>Upscale 4×</button>
+      <button id="download" class="secondary" disabled>Save PNG</button>
+    </div>
+
+    <div id="message" class="meta"></div>
+
+    <div class="grid">
+      <div class="pane"><strong>Original</strong><img id="before" alt="Original preview" /></div>
+      <div class="pane"><strong>Upscaled</strong><img id="after" alt="Upscaled preview" /></div>
+    </div>
+
+    <div class="note">This enhances an already-correct image. It cannot restore a hand, foot, hair, pose, or weapon that was clipped in the source generation.</div>
+  </div>
+</div>
+<script>
+const $ = id => document.getElementById(id);
+let selectedFile = null;
+let outputDataUrl = null;
+
+async function checkHealth(){
+  try{
+    const r = await fetch('/api/upscale/health');
+    const j = await r.json();
+    const s = $('status');
+    if(j.ok){
+      s.textContent = 'Real-ESRGAN READY — zero API usage';
+      s.className = 'status ready';
+    }else{
+      s.textContent = 'Waiting for Real-ESRGAN executable';
+      s.className = 'status waiting';
+      $('message').textContent = j.upscaler?.exePath ? `Expected: ${j.upscaler.exePath}` : '';
+    }
+  }catch(e){
+    $('status').textContent = 'Backend not reachable';
+    $('message').textContent = String(e.message || e);
+  }
+}
+
+$('file').addEventListener('change', () => {
+  selectedFile = $('file').files?.[0] || null;
+  outputDataUrl = null;
+  $('after').removeAttribute('src');
+  $('download').disabled = true;
+  if(selectedFile){
+    $('before').src = URL.createObjectURL(selectedFile);
+    $('up2').disabled = false;
+    $('up4').disabled = false;
+  }
+});
+
+async function upscale(scale){
+  if(!selectedFile) return;
+  $('up2').disabled = $('up4').disabled = true;
+  $('message').className = 'meta';
+  $('message').textContent = `Upscaling ${scale}× locally…`;
+  const fd = new FormData();
+  fd.append('image', selectedFile, selectedFile.name || 'input.png');
+  fd.append('kind', $('kind').value);
+  try{
+    const r = await fetch(`/api/upscale/${scale}x`, {method:'POST', body:fd});
+    const j = await r.json();
+    if(!r.ok || !j.ok) throw new Error(j.error || `Upscale failed (${r.status})`);
+    outputDataUrl = j.image;
+    $('after').src = outputDataUrl;
+    $('download').disabled = false;
+    $('message').textContent = `Done — ${j.scale}× • ${j.model} • zero API usage: ${j.zeroApiUsage}`;
+  }catch(e){
+    $('message').className = 'meta error';
+    $('message').textContent = e.message || String(e);
+  }finally{
+    $('up2').disabled = $('up4').disabled = !selectedFile;
+  }
+}
+
+$('up2').onclick = () => upscale(2);
+$('up4').onclick = () => upscale(4);
+$('download').onclick = () => {
+  if(!outputDataUrl) return;
+  const a = document.createElement('a');
+  a.href = outputDataUrl;
+  a.download = 'xplay-upscaled.png';
+  a.click();
+};
+checkHealth();
+</script>
+</body>
+</html>
