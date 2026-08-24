@@ -1,47 +1,14 @@
 <!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>XPLAY Cutout Beast — 8 Game Lab</title>
-<link rel="stylesheet" href="/css/app.css">
-</head>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>XPLAY Sprite-Sheet Beast V2</title><link rel="stylesheet" href="/css/app.css"></head>
 <body>
-<header>
-  <div><b>XPLAY</b> CUTOUT BEAST</div>
-  <span>8-Game Precision Asset Lab</span>
-</header>
+<header><div><b>XPLAY</b> SPRITE-SHEET BEAST V2</div><span>8-Game Sheet-Native Test Lab</span></header>
 <main>
-  <aside>
-    <div class="status" id="health">Checking server…</div>
-    <h3>Test Deck</h3>
-    <div id="games"></div>
-  </aside>
-  <section class="work">
-    <div class="hero">
-      <img id="source" alt="source screenshot">
-      <div>
-        <h1 id="title"></h1>
-        <div class="chips"><span id="genre"></span><span id="style"></span><span id="duration"></span></div>
-        <details open><summary>Locked post-analysis build prompt</summary><pre id="analysis"></pre></details>
-      </div>
-    </div>
-    <div class="toolbar">
-      <button id="stageBtn">Generate clean stage</button>
-      <button id="proofBtn">Generate 3-call proof set</button>
-      <button id="refreshBtn" class="ghost">Refresh cache</button>
-      <label><input id="force" type="checkbox"> Force regenerate</label>
-    </div>
-    <div class="note">
-      <b>Precision workflow:</b> one pose per image → transparent RGBA → alpha silhouette scan → trim → 15% safety padding → bottom-center anchor → border validation → atlas assembly.
-      This deliberately avoids rectangular sprite-sheet cell extraction.
-    </div>
-    <div id="actors"></div>
-    <h2>Generated / Cached Assets</h2>
-    <div id="gallery" class="gallery"></div>
-    <div id="log" class="log"></div>
-  </section>
-</main>
-<script src="/js/app.js"></script>
-</body>
-</html>
+<aside><div class="status" id="health">Checking…</div><h3>Test Deck</h3><div id="games"></div></aside>
+<section class="work">
+<div class="hero"><img id="source"><div><h1 id="title"></h1><div class="chips"><span id="genre"></span><span id="style"></span><span id="duration"></span></div>
+<details open><summary>Locked post-analysis build prompt</summary><pre id="analysis"></pre></details></div></div>
+<div class="toolbar"><button id="stageBtn">Generate clean stage</button><button id="proofBtn">Generate proof sheets</button><button id="refreshBtn" class="ghost">Refresh cache</button><label><input id="force" type="checkbox"> Force regenerate</label></div>
+<div class="note"><b>Sheet-native workflow:</b> ONE API call produces a complete sprite sheet per character → strict grid/gutters → XPLAY slices each cell locally → alpha-trims each cell to its silhouette → adds 12% safety margin → bottom-centers → repacks a clean final atlas. You still get sprite sheets, but the runtime never uses the dirty raw sheet directly.</div>
+<div id="actors"></div><h2>Generated / Cached</h2><div id="gallery" class="gallery"></div><div id="log" class="log"></div>
+</section></main><script src="/js/app.js"></script></body></html>

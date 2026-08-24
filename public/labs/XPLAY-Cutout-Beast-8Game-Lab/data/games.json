@@ -23,7 +23,13 @@
           "hurt",
           "knockdown",
           "victory"
-        ]
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
       },
       {
         "id": "knife-punk",
@@ -37,7 +43,13 @@
           "attack",
           "hurt",
           "knockdown"
-        ]
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
       },
       {
         "id": "bandanna-brawler",
@@ -51,7 +63,13 @@
           "punch",
           "hurt",
           "knockdown"
-        ]
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
       },
       {
         "id": "purple-bruiser",
@@ -65,7 +83,13 @@
           "heavy_attack",
           "hurt",
           "knockdown"
-        ]
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
       }
     ],
     "props": [
@@ -99,7 +123,13 @@
           "crouch",
           "hurt",
           "downed"
-        ]
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
       },
       {
         "id": "wraith",
@@ -113,7 +143,13 @@
           "aim",
           "fire",
           "crouch"
-        ]
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
       },
       {
         "id": "hostile",
@@ -128,7 +164,13 @@
           "fire",
           "hurt",
           "downed"
-        ]
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
       }
     ],
     "props": [
@@ -161,7 +203,13 @@
           "water_crop",
           "wave",
           "celebrate"
-        ]
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
       },
       {
         "id": "fox-villager",
@@ -175,7 +223,13 @@
           "talk",
           "receive_gift",
           "happy"
-        ]
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
       },
       {
         "id": "rabbit-villager",
@@ -189,7 +243,13 @@
           "talk",
           "receive_gift",
           "happy"
-        ]
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
       }
     ],
     "props": [
@@ -222,7 +282,13 @@
           "lunge",
           "recoil",
           "vanish"
-        ]
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
       }
     ],
     "props": [
@@ -257,7 +323,13 @@
           "dodge",
           "hurt",
           "victory"
-        ]
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
       },
       {
         "id": "crystal-guardian",
@@ -272,7 +344,13 @@
           "blast",
           "hurt",
           "break"
-        ]
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
       }
     ],
     "props": [
@@ -304,7 +382,13 @@
           "boost",
           "brake",
           "hit"
-        ]
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
       },
       {
         "id": "rival-bike",
@@ -318,7 +402,13 @@
           "lean_right",
           "boost",
           "hit"
-        ]
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
       }
     ],
     "props": [
@@ -352,7 +442,13 @@
           "sound_cast",
           "hurt",
           "victory"
-        ]
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
       },
       {
         "id": "bass-rival",
@@ -367,7 +463,13 @@
           "sound_cast",
           "hurt",
           "defeated"
-        ]
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
       }
     ],
     "props": [
@@ -401,7 +503,13 @@
           "dodge",
           "hurt",
           "board"
-        ]
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
       },
       {
         "id": "clockwork-sentry",
@@ -416,7 +524,13 @@
           "attack",
           "hurt",
           "disabled"
-        ]
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
       }
     ],
     "props": [
