@@ -33,7 +33,7 @@ async function boot(){
   scene.add(new THREE.HemisphereLight(0xdaf5ff,0x27361c,2.1));
   const sun=new THREE.DirectionalLight(0xffffff,2.2); sun.position.set(30,50,25); sun.castShadow=true; scene.add(sun);
   debugGroup=new THREE.Group(); debugGroup.visible=false; scene.add(debugGroup);
-  setupInput(); await loadWorld('suburban'); animate();
+  setupInput(); setupUploadWorkbench(); await loadWorld('suburban'); animate();
   addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
 }
 
@@ -53,9 +53,73 @@ function setupInput(){
   $('world-select').addEventListener('change',e=>loadWorld(e.target.value));
   $('reset').onclick=()=>resetPlayer();
   $('debug').onclick=()=>{debug=!debug;debugGroup.visible=debug};
-  $('mode-reference').onclick=()=>setMode('reference');
+  $('mode-reference').onclick=()=>{setMode('reference'); const t=$('reference-image'); t.style.display='block'; const u=document.getElementById('user-reference-image'); if(u)u.style.display='none'; document.querySelector('.ref-label').textContent='TEST REFERENCE SCREENSHOT';};
   $('mode-match').onclick=()=>setMode('match');
   $('mode-play').onclick=()=>setMode('play');
+}
+
+
+function setupUploadWorkbench(){
+  const root=document.getElementById('upload-workbench');
+  const file=document.getElementById('screenshot-file');
+  const img=document.getElementById('upload-preview');
+  const empty=document.getElementById('empty-preview');
+  const name=document.getElementById('selected-file-name');
+  const info=document.getElementById('selected-file-info');
+
+  const syncHeight=()=>document.documentElement.style.setProperty('--workbench-h', `${root.offsetHeight}px`);
+  syncHeight(); addEventListener('resize',syncHeight);
+
+  file.addEventListener('change',()=>{
+    const f=file.files && file.files[0];
+    if(!f) return;
+    if(!/^image\/(png|jpeg|webp)$/.test(f.type)){
+      name.textContent='Unsupported file type';
+      info.textContent='Choose PNG, JPG, or WEBP';
+      file.value=''; return;
+    }
+    const url=URL.createObjectURL(f);
+    if(img.dataset.url) URL.revokeObjectURL(img.dataset.url);
+    img.dataset.url=url; img.src=url; img.style.display='block'; empty.style.display='none';
+    name.textContent=f.name;
+    info.textContent=`${(f.size/1024/1024).toFixed(2)} MB · loaded as visual reference`;
+    document.body.classList.add('has-upload');
+    document.getElementById('beast-vision').textContent='SOURCE LOADED';
+    document.querySelector('[data-beast="vision"]').classList.add('loaded');
+    document.getElementById('beast-scene').textContent='NOT RUN YET';
+    document.getElementById('pipeline-note').textContent=
+      'Screenshot loaded. This proves the upload/reference interface. Vision → Scene Rig → Blender must be run by the connected XPLAY/Antigravity pipeline; this browser lab will not pretend those steps ran.';
+    let userRef=document.getElementById('user-reference-image');
+    if(!userRef){
+      userRef=document.createElement('img'); userRef.id='user-reference-image'; userRef.alt='Uploaded reference';
+      document.getElementById('reference-panel').appendChild(userRef);
+    }
+    userRef.src=url;
+    document.querySelector('.ref-label').textContent='MY SCREENSHOT';
+    syncHeight();
+  });
+
+  document.getElementById('clear-upload').addEventListener('click',()=>{
+    if(img.dataset.url) URL.revokeObjectURL(img.dataset.url);
+    img.removeAttribute('src'); img.style.display='none'; img.dataset.url='';
+    empty.style.display='block'; file.value='';
+    name.textContent='No screenshot selected'; info.textContent='PNG, JPG, or WEBP';
+    document.body.classList.remove('has-upload');
+    document.getElementById('beast-vision').textContent='WAITING';
+    document.querySelector('[data-beast="vision"]').classList.remove('loaded');
+    const userRef=document.getElementById('user-reference-image'); if(userRef) userRef.remove();
+    document.querySelector('.ref-label').textContent='REFERENCE SCREENSHOT';
+    document.getElementById('pipeline-note').textContent=
+      'This lab does not fake AI processing. Selecting a file loads it as the current visual reference; the existing test GLBs remain the walkable validation worlds until the Vision → Scene Rig → Blender automation is connected.';
+  });
+
+  document.getElementById('mode-upload').addEventListener('click',()=>{
+    if(!(file.files && file.files[0])){ file.click(); return; }
+    setMode('reference');
+    document.querySelector('.ref-label').textContent='MY SCREENSHOT';
+    const test=document.getElementById('reference-image'); test.style.display='none';
+    const user=document.getElementById('user-reference-image'); if(user) user.style.display='block';
+  });
 }
 
 function setMode(mode){

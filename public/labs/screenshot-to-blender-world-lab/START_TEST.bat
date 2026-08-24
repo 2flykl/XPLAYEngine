@@ -1,5 +1,7 @@
 @echo off
 cd /d "%~dp0"
-start "" http://localhost:8788/
-node server.js
-pause
+echo Starting XPLAY Screenshot-to-Blender World Lab on port 8791...
+start "XPLAY Screenshot World Lab Server" cmd /k node server.js
+timeout /t 2 /nobreak >nul
+start "" http://localhost:8791/
+exit

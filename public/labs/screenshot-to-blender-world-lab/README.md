@@ -22,7 +22,7 @@ Double-click `START_TEST.bat`, or run:
 
 Then open:
 
-    http://localhost:8788/
+    http://localhost:8791/
 
 Do not open `index.html` with `file://`.
 
@@ -86,3 +86,27 @@ Recommended isolated location:
 `C:\Users\2flyk\Documents\GitHub\XPLAY\XPLAYEngine\public\labs\screenshot-to-blender-world-lab`
 
 This is a complete replacement lab folder, not a patch against unrelated XPLAY pages.
+
+
+## Dedicated Port
+This build is intentionally isolated on port `8791` so it does not conflict with the existing XPLAY server on `8788`.
+
+
+## V4 Upload Workbench
+
+The interface now restores an XPLAY-style screenshot workbench at the top:
+
+- **CHOOSE SCREENSHOT** button
+- selected filename / file size
+- local screenshot preview
+- **MY SCREENSHOT** comparison mode
+- visible Active XPLAY Beasts:
+  - Vision Beast
+  - Scene Rig Beast
+  - Blender MCP Beast
+  - Style / Material Beast
+  - XPLAY Runtime Beast
+
+Important: the browser test does **not** fake Vision/Scene-Rig completion. Selecting an image marks the visual source as loaded; the actual Vision → Scene Rig → Blender MCP execution still belongs to the connected XPLAY/Antigravity pipeline.
+
+Port remains dedicated to `8791`.
