@@ -1,0 +1,27 @@
+{
+  "lab": "SCREENSHOT_TO_BLENDER_WORLD_LAB",
+  "version": 1,
+  "tests": [
+    {
+      "id": "suburban",
+      "title": "Suburban Boulevard",
+      "reference": "references/suburban.png",
+      "rig": "rigs/suburban.json",
+      "glb": "worlds/suburban.glb"
+    },
+    {
+      "id": "desert",
+      "title": "Desert Outpost",
+      "reference": "references/desert.png",
+      "rig": "rigs/desert.json",
+      "glb": "worlds/desert.glb"
+    },
+    {
+      "id": "neon",
+      "title": "Neon Industrial District",
+      "reference": "references/neon.png",
+      "rig": "rigs/neon.json",
+      "glb": "worlds/neon.glb"
+    }
+  ]
+}

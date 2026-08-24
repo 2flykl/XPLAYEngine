@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>XPLAY Screenshot → Blender World Lab</title>
+<link rel="stylesheet" href="style.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.179.1/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.179.1/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+<div id="viewport"></div>
+<div id="hud">
+  <div class="brand">
+    <strong>SCREENSHOT → BLENDER WORLD LAB</strong>
+    <span>3-world spatial validation harness</span>
+  </div>
+  <div class="controls">
+    <label>Environment
+      <select id="world-select">
+        <option value="suburban">1 — Suburban Boulevard</option>
+        <option value="desert">2 — Desert Outpost</option>
+        <option value="neon">3 — Neon Industrial District</option>
+      </select>
+    </label>
+    <button id="mode-reference">REFERENCE</button>
+    <button id="mode-match">MATCH</button>
+    <button id="mode-play" class="active">PLAY</button>
+    <button id="reset">RESET PLAYER</button>
+    <button id="debug">COLLISION DEBUG</button>
+  </div>
+  <div class="stats">
+    <span>XYZ: <b id="xyz">0,0,0</b></span>
+    <span>Heading: <b id="heading">0°</b></span>
+    <span>Nearest: <b id="nearest">—</b></span>
+    <span>Distance: <b id="distance">—</b></span>
+    <span>Input: <b id="input">NONE</b></span>
+    <span>Pointer: <b id="pointer">UNLOCKED</b></span>
+  </div>
+  <div class="help">Click the world for mouse look · WASD move · Shift sprint · Esc releases mouse</div>
+</div>
+<div id="reference-panel">
+  <div class="ref-label">REFERENCE SCREENSHOT</div>
+  <img id="reference-image" alt="test reference">
+</div>
+<div id="match-overlay"><img id="match-image" alt=""></div>
+<div id="crosshair">+</div>
+<script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+{
+  "worldName": "Desert Outpost",
+  "worldId": "desert",
+  "units": "meters",
+  "sourceReference": "../references/desert.png",
+  "playerStart": {
+    "x": 0,
+    "y": -40,
+    "z": 1.7,
+    "heading": 0
+  },
+  "landmarks": [
+    {
+      "id": "adobe_a",
+      "objectName": "XPLAY_ADOBE_A",
+      "x": -18,
+      "y": 5,
+      "z": 0
+    },
+    {
+      "id": "adobe_b",
+      "objectName": "XPLAY_ADOBE_B",
+      "x": 20,
+      "y": 20,
+      "z": 0
+    },
+    {
+      "id": "stone_arch",
+      "objectName": "XPLAY_STONE_ARCH",
+      "x": 0,
+      "y": 30,
+      "z": 0
+    },
+    {
+      "id": "radio_tower",
+      "objectName": "XPLAY_RADIO_TOWER",
+      "x": 34,
+      "y": 45,
+      "z": 0
+    }
+  ],
+  "objects": [
+    {
+      "type": "box",
+      "name": "XPLAY_GROUND",
+      "center": [
+        0,
+        0,
+        -0.25
+      ],
+      "size": [
+        120,
+        120,
+        0.5
+      ]
+    },
+    {
+      "type": "box",
+      "name": "XPLAY_ROAD",
+      "center": [
+        0,
+        2,
+        0.03
+      ],
+      "size": [
+        11,
+        94,
+        0.1
+      ]
+    },
+    {
+      "type": "box",
+      "name": "XPLAY_ADOBE_A",
+      "center": [
+        -18,
+        5,
+        4
+      ],
+      "size": [
+        16,
+        16,
+        8
+      ]
+    },
+    {
+      "type": "box",
+      "name": "XPLAY_ADOBE_B",
+      "center": [
+        20,
+        20,
+        5
+      ],
+      "size": [
+        18,
+        13,
+        10
+      ]
+    },
+    {
+      "type": "arch",
+      "name": "XPLAY_STONE_ARCH",
+      "center": [
+        0,
+        30,
+        0
+      ],
+      "width": 16,
+      "height": 9,
+      "depth": 4
+    },
+    {
+      "type": "cylinder",
+      "name": "XPLAY_RADIO_TOWER",
+      "center": [
+        34,
+        45,
+        17.5
+      ],
+      "radius": 1.6,
+      "height": 35
+    }
+  ]
+}

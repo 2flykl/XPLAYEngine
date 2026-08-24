@@ -1,0 +1,123 @@
+{
+  "worldName": "Neon Industrial District",
+  "worldId": "neon",
+  "units": "meters",
+  "sourceReference": "../references/neon.png",
+  "playerStart": {
+    "x": 0,
+    "y": -38,
+    "z": 1.7,
+    "heading": 0
+  },
+  "landmarks": [
+    {
+      "id": "warehouse",
+      "objectName": "XPLAY_WAREHOUSE",
+      "x": -22,
+      "y": 10,
+      "z": 0
+    },
+    {
+      "id": "lab_block",
+      "objectName": "XPLAY_LAB_BLOCK",
+      "x": 24,
+      "y": 18,
+      "z": 0
+    },
+    {
+      "id": "overpass",
+      "objectName": "XPLAY_OVERPASS",
+      "x": 0,
+      "y": 31,
+      "z": 0
+    },
+    {
+      "id": "neon_spire",
+      "objectName": "XPLAY_NEON_SPIRE",
+      "x": 38,
+      "y": 43,
+      "z": 0
+    }
+  ],
+  "objects": [
+    {
+      "type": "box",
+      "name": "XPLAY_GROUND",
+      "center": [
+        0,
+        0,
+        -0.25
+      ],
+      "size": [
+        120,
+        120,
+        0.5
+      ]
+    },
+    {
+      "type": "box",
+      "name": "XPLAY_ROAD",
+      "center": [
+        0,
+        0,
+        0.03
+      ],
+      "size": [
+        12,
+        94,
+        0.1
+      ]
+    },
+    {
+      "type": "box",
+      "name": "XPLAY_WAREHOUSE",
+      "center": [
+        -22,
+        10,
+        5
+      ],
+      "size": [
+        20,
+        20,
+        10
+      ]
+    },
+    {
+      "type": "box",
+      "name": "XPLAY_LAB_BLOCK",
+      "center": [
+        24,
+        18,
+        6.5
+      ],
+      "size": [
+        18,
+        15,
+        13
+      ]
+    },
+    {
+      "type": "arch",
+      "name": "XPLAY_OVERPASS",
+      "center": [
+        0,
+        31,
+        0
+      ],
+      "width": 18,
+      "height": 8,
+      "depth": 5
+    },
+    {
+      "type": "cylinder",
+      "name": "XPLAY_NEON_SPIRE",
+      "center": [
+        38,
+        43,
+        18
+      ],
+      "radius": 2.3,
+      "height": 36
+    }
+  ]
+}

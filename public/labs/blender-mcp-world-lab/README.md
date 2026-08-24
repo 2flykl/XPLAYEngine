@@ -65,3 +65,11 @@ http://localhost:3000/labs/blender-mcp-world-lab/index.html
 
 ## Input fix (keyboard/pointer lock)
 The viewer now listens for `KeyboardEvent.code` on `window`, allows WASD movement independently of pointer-lock state, focuses the canvas on click, and uses pointer lock only for mouse look. The HUD exposes live `Input` and `Pointer` status for validation.
+
+## Important: do not open `index.html` directly
+
+This lab uses ES modules plus `fetch()` for the GLB manifest and assets. Opening `index.html` by double-clicking it produces a `file:///...` URL and the browser will block required module/asset loading.
+
+Use `START_LAB.bat` from this folder, or start the XPLAY server from the repo root and open:
+
+`http://localhost:8788/labs/blender-mcp-world-lab/index.html`
