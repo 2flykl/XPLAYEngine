@@ -1,0 +1,15 @@
+XPLAY Visual Style -> Blender World Lab
+
+CORRECT FOLDER:
+XPLAY-VisualStyle-Blender-Lab-8792
+
+CORRECT URL:
+http://localhost:8792/
+
+DO NOT launch server.js from:
+public\labs\screenshot-to-blender-world-lab
+
+That older lab uses port 8791.
+
+Double-click:
+START_VISUAL_BLENDER_LAB.bat
