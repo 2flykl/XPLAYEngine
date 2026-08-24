@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>XPLAY Open World FPV V2</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <h1>XPLAY Open World FPV — Playable World V2</h1>
+    <p>Screenshot → world regions → first-person navigation → persistent landmark memory</p>
+  </div>
+  <div class="pillstack">
+    <span class="pill" id="apiStatus">Checking API…</span>
+    <span class="pill">World memory</span>
+    <span class="pill">Visual continuity</span>
+  </div>
+</header>
+
+<main class="layout">
+  <aside class="panel left">
+    <section class="card">
+      <h2>1) Screenshot seed</h2>
+      <input id="fileInput" type="file" accept="image/*">
+      <div class="buttonRow">
+        <button id="generatePlayableBtn" class="heroBtn">✨ Generate Playable World</button>
+        <button id="saveBtn">Save Memory</button>
+        <button id="loadBtn">Load Memory</button>
+        <button id="clearBtn" class="danger">Clear Memory</button>
+      </div>
+      <div class="meta">
+        <div><strong>World:</strong> <span id="worldText">—</span></div>
+        <div><strong>Regions:</strong> <span id="regionText">0</span></div>
+        <div><strong>Landmarks:</strong> <span id="landmarkText">0</span></div>
+      </div>
+      <div id="progress" class="progress">Upload a screenshot, then generate the world.</div>
+    </section>
+
+    <section class="card">
+      <h2>2) Landmark memory</h2>
+      <p class="small">Capture memorable landmarks from the screenshot, then place them in the generated world. Their world coordinates are saved.</p>
+      <label class="checkline"><input id="captureToggle" type="checkbox"> Capture landmark from screenshot</label>
+      <label class="checkline"><input id="placeToggle" type="checkbox"> Place selected landmark in world</label>
+      <div class="sliderGroup">
+        <label>Crop size <span id="cropSizeLabel">128</span></label>
+        <input id="cropSize" type="range" min="64" max="256" value="128" step="16">
+      </div>
+      <div id="landmarkGallery" class="gallery"></div>
+    </section>
+
+    <section class="card">
+      <h2>3) Navigation</h2>
+      <ul class="small keylist">
+        <li><strong>W/S</strong> move forward / back</li>
+        <li><strong>A/D</strong> strafe</li>
+        <li><strong>Q/E</strong> rotate</li>
+        <li><strong>mouse drag</strong> look around</li>
+        <li><strong>Shift</strong> sprint</li>
+      </ul>
+      <div class="miniStats small">
+        <div><strong>X:</strong> <span id="posX">0</span></div>
+        <div><strong>Y:</strong> <span id="posY">0</span></div>
+        <div><strong>Heading:</strong> <span id="heading">0</span>°</div>
+      </div>
+    </section>
+  </aside>
+
+  <section class="panel center">
+    <section class="card viewCard">
+      <div class="viewHeader">
+        <h2>Playable first-person world</h2>
+        <div class="small">No colored geometry — the viewport is rendered from screenshot-matched environment regions.</div>
+      </div>
+      <canvas id="viewCanvas" width="1280" height="720"></canvas>
+    </section>
+
+    <section class="card minimapCard">
+      <div class="viewHeader">
+        <h2>World memory map</h2>
+        <div class="small">Regions and landmark coordinates persist locally.</div>
+      </div>
+      <canvas id="mapCanvas" width="760" height="300"></canvas>
+    </section>
+  </section>
+
+  <aside class="panel right">
+    <section class="card screenshotCard">
+      <h2>Screenshot preview</h2>
+      <canvas id="sourceCanvas" width="512" height="288"></canvas>
+      <div class="previewHint small">Landmark capture uses this image only. The playable world uses the generated regions.</div>
+    </section>
+
+    <section class="card">
+      <h2>Generated regions</h2>
+      <div id="regionGallery" class="regionGallery"></div>
+    </section>
+  </aside>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
