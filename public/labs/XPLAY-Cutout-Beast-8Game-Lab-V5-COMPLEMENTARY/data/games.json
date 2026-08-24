@@ -1,0 +1,543 @@
+[
+  {
+    "id": "neon-harbor-uprising",
+    "title": "Neon Harbor Uprising",
+    "genre": "Side-scrolling beat-em-up",
+    "style": "high-detail late-90s/early-2000s arcade pixel art",
+    "targetSeconds": 90,
+    "analysisPrompt": "Build a side-scrolling beat-em-up directly from the screenshot. Preserve the Black martial-artist hero in a white sleeveless gi, three distinct street-gang enemies, moonlit harbor skyline, red shipping container, chain-link fencing, caution signage, barrels, wet reflective pavement and impact-flash combat. The player advances horizontally through a dock stage, fights multiple enemies at close range, uses punch/kick/guard, receives hit reactions and knockback, and clears three enemy waves before a short elite encounter. Preserve the screenshot camera scale and nocturnal blue/red palette. Runtime target: about 90 seconds, not a micro-demo.",
+    "backgroundPrompt": "Create a clean side-view scrolling environment plate of the same moonlit industrial harbor. Preserve skyline, water reflections, chain-link fence, red shipping container, barrels, cranes, warning signs and wet pavement. Remove all characters, hit sparks and HUD. Extend the environment horizontally in a coherent way for a 90-second beat-em-up stage.",
+    "actors": [
+      {
+        "id": "hero",
+        "name": "Kai",
+        "role": "player",
+        "description": "Black male martial artist, large natural afro, white sleeveless gi, black belt, barefoot, athletic muscular build",
+        "facing": "right",
+        "states": [
+          "idle",
+          "walk_a",
+          "walk_b",
+          "punch_windup",
+          "punch_impact",
+          "hurt",
+          "knockdown",
+          "victory"
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
+      },
+      {
+        "id": "knife-punk",
+        "name": "Knife Punk",
+        "role": "enemy",
+        "description": "muscular punk fighter, red mohawk, dark sleeveless vest, red trousers, boots, armed with a knife",
+        "facing": "left",
+        "states": [
+          "idle",
+          "advance",
+          "attack",
+          "hurt",
+          "knockdown"
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
+      },
+      {
+        "id": "bandanna-brawler",
+        "name": "Bandanna Brawler",
+        "role": "enemy",
+        "description": "street brawler with red bandanna, dark sleeveless vest, jeans, boots",
+        "facing": "left",
+        "states": [
+          "idle",
+          "advance",
+          "punch",
+          "hurt",
+          "knockdown"
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
+      },
+      {
+        "id": "purple-bruiser",
+        "name": "Purple Bruiser",
+        "role": "enemy",
+        "description": "stocky street fighter in purple cap and purple sleeveless top, dark trousers and sneakers",
+        "facing": "left",
+        "states": [
+          "idle",
+          "advance",
+          "heavy_attack",
+          "hurt",
+          "knockdown"
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
+      }
+    ],
+    "props": [
+      "green-barrel",
+      "red-container-fragment",
+      "wood-crate",
+      "warning-sign"
+    ]
+  },
+  {
+    "id": "ashfall-command",
+    "title": "Ashfall Command",
+    "genre": "Third-person tactical extraction shooter",
+    "style": "photorealistic modern PC military cinematography",
+    "targetSeconds": 120,
+    "analysisPrompt": "Build a third-person tactical extraction shooter from the screenshot. A four-person modern tactical squad advances through a rain-soaked ruined city beneath an erupting volcano. Preserve ruined vehicles, wet streets, ash, embers, emergency lights, distant hostile silhouettes and the grounded over-the-shoulder camera. Gameplay centers on cover movement, short firefights, squad support and reaching a marked extraction point. Include limited ammo, health, two enemy groups and a final extraction holdout. Runtime target: roughly 120 seconds.",
+    "backgroundPrompt": "Create a clean cinematic ruined-city battlefield environment plate based on the screenshot: wet blacktop, damaged storefronts, wrecked vehicles, ash and embers, erupting volcano, emergency vehicle lights and smoky atmosphere. Remove all soldiers, enemies, weapons, drone and HUD while preserving cover objects and navigable street depth.",
+    "actors": [
+      {
+        "id": "raider",
+        "name": "Raider",
+        "role": "player",
+        "description": "modern tactical operator with dark helmet, plate carrier, backpack, gloves and assault rifle",
+        "facing": "right",
+        "states": [
+          "idle_rifle",
+          "walk_rifle",
+          "aim",
+          "fire",
+          "reload",
+          "crouch",
+          "hurt",
+          "downed"
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
+      },
+      {
+        "id": "wraith",
+        "name": "Wraith",
+        "role": "ally",
+        "description": "recon tactical operator with helmet, compact rifle, dark modern combat gear",
+        "facing": "right",
+        "states": [
+          "idle",
+          "advance",
+          "aim",
+          "fire",
+          "crouch"
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
+      },
+      {
+        "id": "hostile",
+        "name": "Hostile",
+        "role": "enemy",
+        "description": "hostile paramilitary fighter in dark mixed tactical clothing with rifle",
+        "facing": "left",
+        "states": [
+          "idle",
+          "advance",
+          "aim",
+          "fire",
+          "hurt",
+          "downed"
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
+      }
+    ],
+    "props": [
+      "recon-drone",
+      "rifle",
+      "ammo-crate",
+      "medical-kit"
+    ]
+  },
+  {
+    "id": "mooncrumb-village",
+    "title": "Mooncrumb Village",
+    "genre": "Cozy life-sim / village management",
+    "style": "feature-animation 3D miniature diorama",
+    "targetSeconds": 180,
+    "analysisPrompt": "Build a cozy village life-sim from the moonlit bakery village screenshot. Preserve the miniature diorama camera, warm bakery windows, mushroom homes, stone paths, well, fenced vegetable plots, seaside moonlight and friendly animal villagers. The player walks the village, harvests three crop types, delivers bread to two villagers, repairs one lamp and returns to the bakery. Add a short day-to-night task loop lasting about three minutes.",
+    "backgroundPrompt": "Create a clean isometric miniature village environment plate from the screenshot with bakery, mushroom cottages, stone square, well, lanterns, garden plots, fence, flowers, trees and moonlit sea. Remove all villagers, player, cat and loose carried objects while keeping clear walking paths and warm nighttime lighting.",
+    "actors": [
+      {
+        "id": "baker",
+        "name": "Mina",
+        "role": "player",
+        "description": "small friendly young baker in cozy vest, blouse and boots, carrying no object by default",
+        "facing": "right",
+        "states": [
+          "idle",
+          "walk_a",
+          "walk_b",
+          "carry_bread",
+          "water_crop",
+          "wave",
+          "celebrate"
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
+      },
+      {
+        "id": "fox-villager",
+        "name": "Fox Villager",
+        "role": "npc",
+        "description": "friendly anthropomorphic fox villager in small green coat and trousers",
+        "facing": "left",
+        "states": [
+          "idle",
+          "walk",
+          "talk",
+          "receive_gift",
+          "happy"
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
+      },
+      {
+        "id": "rabbit-villager",
+        "name": "Rabbit Villager",
+        "role": "npc",
+        "description": "friendly anthropomorphic rabbit villager wearing village clothes",
+        "facing": "left",
+        "states": [
+          "idle",
+          "walk",
+          "talk",
+          "receive_gift",
+          "happy"
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
+      }
+    ],
+    "props": [
+      "bread-basket",
+      "watering-can",
+      "pumpkin",
+      "cabbage",
+      "lantern"
+    ]
+  },
+  {
+    "id": "whisper-motel",
+    "title": "Whisper Motel",
+    "genre": "First-person survival horror",
+    "style": "cinematic grim photorealism",
+    "targetSeconds": 150,
+    "analysisPrompt": "Build a first-person survival-horror sequence from the decayed motel hallway screenshot. Preserve the rain outside, Whisper Motel neon, peeling corridor walls, room 108, overturned luggage cart, blood trail, flashlight beam and distant humanlike silhouette. The player searches two rooms for a fuse and motel key, restores hallway power, then escapes while the creature begins pursuing. Keep ammunition minimal or absent; tension, light and resource management are primary. Runtime target: about 150 seconds.",
+    "backgroundPrompt": "Create a clean first-person motel hallway environment plate based on the screenshot with decayed walls, rain-streaked window, exterior neon motel sign, overturned luggage cart, room 108, blood trail and dim practical lights. Remove the player's hand/flashlight, distant creature and HUD. Keep navigable corridor depth and doorways.",
+    "actors": [
+      {
+        "id": "stalker",
+        "name": "The Stalker",
+        "role": "enemy",
+        "description": "tall gaunt humanlike motel creature, soaked dark silhouette, unsettling long limbs, readable but not gory",
+        "facing": "front",
+        "states": [
+          "distant_idle",
+          "stalk",
+          "approach",
+          "lunge",
+          "recoil",
+          "vanish"
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
+      }
+    ],
+    "props": [
+      "flashlight",
+      "motel-key",
+      "fuse",
+      "first-aid-kit",
+      "luggage-cart"
+    ]
+  },
+  {
+    "id": "sunblade-legends",
+    "title": "Sunblade Legends",
+    "genre": "Action RPG",
+    "style": "bright high-fidelity anime-inspired fantasy 3D",
+    "targetSeconds": 120,
+    "analysisPrompt": "Build a third-person action RPG encounter from the sunlit temple screenshot. Preserve the white-and-gold sword hero, monumental sandstone temple, red banners, winged statuary, waterfalls, giant clock-like gate and floating purple crystal enemies. Gameplay includes light attack, heavy attack, dodge, one radiant ability and a short elite crystal guardian phase. The player crosses the courtyard, destroys three crystal clusters and defeats the guardian. Runtime target: about 120 seconds.",
+    "backgroundPrompt": "Create a clean bright fantasy temple courtyard environment plate from the screenshot with sandstone stairs, red sun banners, winged statues, waterfalls, monumental golden clock-gate, vines and strong warm sunlight. Remove hero, enemies, attack trails and HUD. Preserve broad combat floor and approach to the stairs.",
+    "actors": [
+      {
+        "id": "sunblade",
+        "name": "Aurel",
+        "role": "player",
+        "description": "young heroic swordsman in white and gold fantasy armor with flowing coat tails and radiant sword",
+        "facing": "right",
+        "states": [
+          "idle",
+          "run",
+          "slash_windup",
+          "slash_impact",
+          "heavy_attack",
+          "dodge",
+          "hurt",
+          "victory"
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
+      },
+      {
+        "id": "crystal-guardian",
+        "name": "Crystal Guardian",
+        "role": "enemy",
+        "description": "floating angular purple crystal construct with glowing magenta-red core and orbiting shards",
+        "facing": "left",
+        "states": [
+          "idle",
+          "float_move",
+          "charge",
+          "blast",
+          "hurt",
+          "break"
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
+      }
+    ],
+    "props": [
+      "sunblade-sword",
+      "crystal-shard",
+      "sun-banner",
+      "temple-relic"
+    ]
+  },
+  {
+    "id": "skyrail-drift",
+    "title": "Skyrail Drift",
+    "genre": "Anti-gravity racing",
+    "style": "glossy stylized next-gen 3D arcade racing",
+    "targetSeconds": 120,
+    "analysisPrompt": "Build an anti-gravity racing game from the sunset megacity screenshot. Preserve suspended sky highways, glassy futuristic towers, orange sunset, cyan track lighting and neon hover motorcycles. The player races two rivals through three track sectors with boost pads, a drifting curve, one split path and a final sprint. Runtime target: about two minutes.",
+    "backgroundPrompt": "Create a clean futuristic suspended skyway environment plate based on the screenshot with sweeping elevated road, luminous cyan strips, orange sunset, dense futuristic skyline, flying traffic and curved barriers. Remove all racers and HUD while preserving readable track perspective and three-sector progression.",
+    "actors": [
+      {
+        "id": "player-bike",
+        "name": "Vanta-09",
+        "role": "vehicle",
+        "description": "black angular anti-gravity racing motorcycle with orange energy lighting and compact armored rider",
+        "facing": "forward",
+        "states": [
+          "neutral",
+          "lean_left",
+          "lean_right",
+          "boost",
+          "brake",
+          "hit"
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
+      },
+      {
+        "id": "rival-bike",
+        "name": "Rival",
+        "role": "vehicle",
+        "description": "sleek futuristic hover motorcycle with purple-blue neon lighting and armored rider",
+        "facing": "forward",
+        "states": [
+          "neutral",
+          "lean_left",
+          "lean_right",
+          "boost",
+          "hit"
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
+      }
+    ],
+    "props": [
+      "boost-pad",
+      "checkpoint-gate",
+      "track-barrier",
+      "energy-pickup"
+    ]
+  },
+  {
+    "id": "bassline-breakers",
+    "title": "Bassline Breakers",
+    "genre": "Rhythm-action battler",
+    "style": "urban anime-inspired cel-shaded illustration",
+    "targetSeconds": 100,
+    "analysisPrompt": "Build a rhythm-action battler from the neon rooftop screenshot. Preserve the Black female lead with locs and headphones, rooftop speakers, graffiti, nighttime skyline, purple sound-wave attacks and rival crew. Four beat lanes feed actions for strike, dodge, counter and special. Successful timing powers sound-based combat and a crowd-energy meter. Use several musical phrases and a short rival finale for about 100 seconds of play.",
+    "backgroundPrompt": "Create a clean urban rooftop battle environment plate from the screenshot with wet painted rooftop, graffiti walls, large speakers, turntable/DJ area, neon skyline and purple-blue night lighting. Remove all fighters, sound-wave effects and HUD while preserving a clear combat center and performance space.",
+    "actors": [
+      {
+        "id": "remi",
+        "name": "Remi",
+        "role": "player",
+        "description": "Black female rhythm fighter with high loc ponytail, headphones, cropped black/yellow jacket, loose dark streetwear pants and sneakers",
+        "facing": "right",
+        "states": [
+          "idle_bounce",
+          "step",
+          "strike",
+          "counter",
+          "dodge",
+          "sound_cast",
+          "hurt",
+          "victory"
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
+      },
+      {
+        "id": "bass-rival",
+        "name": "Bass Rival",
+        "role": "enemy",
+        "description": "stylized rival performer in edgy black-magenta streetwear with spiked hair and headphones",
+        "facing": "left",
+        "states": [
+          "idle",
+          "advance",
+          "strike",
+          "sound_cast",
+          "hurt",
+          "defeated"
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
+      }
+    ],
+    "props": [
+      "turntable",
+      "speaker-stack",
+      "mic",
+      "beat-orb"
+    ]
+  },
+  {
+    "id": "clockwork-frontier",
+    "title": "Clockwork Frontier",
+    "genre": "Open-world action adventure",
+    "style": "cinematic steampunk realism",
+    "targetSeconds": 150,
+    "analysisPrompt": "Build an open-world action-adventure encounter from the steampunk canyon screenshot. Preserve the long-coated explorer, brass machinery, desert canyon, industrial catwalks, semaphore tower, steam, windmill and colossal clock-faced walking locomotive. The player crosses catwalks, activates two steam valves, avoids mechanical sentries and boards the walking locomotive before it leaves the canyon. Runtime target: roughly 150 seconds.",
+    "backgroundPrompt": "Create a clean cinematic steampunk canyon environment plate from the screenshot with brass factories, industrial catwalks, red-rock canyon, steam plumes, signal tower, windmill and colossal clock-faced walking locomotive. Remove player, workers and HUD while preserving traversal routes and mechanical landmarks.",
+    "actors": [
+      {
+        "id": "frontier-explorer",
+        "name": "Mara Voss",
+        "role": "player",
+        "description": "steampunk frontier explorer in dark long coat, wide-brim hat, brass utility harness, gloves and compact mechanical tools",
+        "facing": "right",
+        "states": [
+          "idle",
+          "walk",
+          "run",
+          "interact_valve",
+          "aim_tool",
+          "dodge",
+          "hurt",
+          "board"
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
+      },
+      {
+        "id": "clockwork-sentry",
+        "name": "Clockwork Sentry",
+        "role": "enemy",
+        "description": "small brass mechanical security automaton with articulated legs and glowing optic",
+        "facing": "left",
+        "states": [
+          "idle",
+          "patrol",
+          "alert",
+          "attack",
+          "hurt",
+          "disabled"
+        ],
+        "sheet": {
+          "columns": 4,
+          "rows": 2,
+          "cellPaddingPct": 0.12,
+          "gutterPx": 48
+        }
+      }
+    ],
+    "props": [
+      "steam-valve",
+      "signal-lever",
+      "brass-tool",
+      "boarding-hook"
+    ]
+  }
+]
