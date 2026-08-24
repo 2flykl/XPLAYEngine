@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XPLAY Open World FPV Side Test</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>XPLAY Open World FPV Side Test</h1>
+      <p>Screenshot-seeded first-person exploration • persistent landmarks • local world extension</p>
+    </div>
+    <div class="pillstack">
+      <span class="pill">No API calls</span>
+      <span class="pill">World memory</span>
+      <span class="pill">Procedural extension</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="panel left">
+      <section class="card">
+        <h2>1) Screenshot seed</h2>
+        <input id="fileInput" type="file" accept="image/*" />
+        <div class="buttonRow">
+          <button id="generateBtn">Generate / Reset World</button>
+          <button id="saveBtn">Save Memory</button>
+          <button id="loadBtn">Load Memory</button>
+          <button id="clearBtn" class="danger">Clear Memory</button>
+        </div>
+        <div class="meta">
+          <div><strong>Seed:</strong> <span id="seedText">—</span></div>
+          <div><strong>Chunks:</strong> <span id="chunkText">0</span></div>
+          <div><strong>Landmarks:</strong> <span id="landmarkText">0</span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>2) Landmark beast</h2>
+        <p class="small">Turn on landmark capture, then click the screenshot preview to capture square crops.</p>
+        <label class="checkline"><input id="captureToggle" type="checkbox" /> Landmark Mode: capture crop from screenshot</label>
+        <label class="checkline"><input id="placeToggle" type="checkbox" /> Place Landmark in world view</label>
+        <div class="sliderGroup">
+          <label>Crop size <span id="cropSizeLabel">128</span></label>
+          <input id="cropSize" type="range" min="64" max="256" value="128" step="16" />
+        </div>
+        <div id="landmarkGallery" class="gallery"></div>
+      </section>
+
+      <section class="card">
+        <h2>3) Navigation</h2>
+        <ul class="small keylist">
+          <li><strong>W/S</strong> move forward/back</li>
+          <li><strong>A/D</strong> strafe left/right</li>
+          <li><strong>Q/E</strong> rotate</li>
+          <li><strong>mouse drag</strong> look</li>
+          <li><strong>click world</strong> place selected landmark</li>
+        </ul>
+        <div class="miniStats small">
+          <div><strong>X:</strong> <span id="posX">0</span></div>
+          <div><strong>Y:</strong> <span id="posY">0</span></div>
+          <div><strong>Heading:</strong> <span id="heading">0</span>°</div>
+        </div>
+      </section>
+    </aside>
+
+    <section class="panel center">
+      <section class="card viewCard">
+        <div class="viewHeader">
+          <h2>First-person world view</h2>
+          <div class="small">Click and drag to look • the world extends around you</div>
+        </div>
+        <canvas id="viewCanvas" width="1280" height="720"></canvas>
+      </section>
+      <section class="card minimapCard">
+        <h2>Chunk / landmark memory map</h2>
+        <canvas id="mapCanvas" width="460" height="460"></canvas>
+      </section>
+    </section>
+
+    <aside class="panel right">
+      <section class="card screenshotCard">
+        <h2>Screenshot preview</h2>
+        <div class="previewWrap">
+          <canvas id="sourceCanvas" width="512" height="288"></canvas>
+          <div class="previewHint small">In Landmark Mode, click the screenshot to capture a crop.</div>
+        </div>
+      </section>
+      <section class="card notesCard">
+        <h2>What this side test proves</h2>
+        <ul class="small keylist">
+          <li>World can be seeded from a screenshot.</li>
+          <li>Landmarks can be captured and remembered.</li>
+          <li>Chunks can extend as the player explores.</li>
+          <li>Placement can stay persistent across sessions.</li>
+        </ul>
+      </section>
+    </aside>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
