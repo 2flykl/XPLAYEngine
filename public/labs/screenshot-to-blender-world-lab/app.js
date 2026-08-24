@@ -2,6 +2,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
+import { SourceTruthGuard } from './source_guard.js';
 
 const WORLDS = {
   suburban:{glb:'assets/worlds/suburban.glb',rig:'assets/rigs/suburban.json',reference:'assets/references/suburban.png'},
@@ -10,6 +11,8 @@ const WORLDS = {
 };
 
 let scene,camera,renderer,controls,clock,currentRoot,rig;
+let sourcePackets=null;
+const sourceGuard=new SourceTruthGuard();
 let obstacleBoxes=[],groundBox=null,debugGroup;
 let velocityY=0, grounded=false, debug=false;
 const PLAYER_HEIGHT=1.7, PLAYER_RADIUS=.55, GRAVITY=24, WALK=6, SPRINT=12;
@@ -20,6 +23,7 @@ function b2t(p){return new THREE.Vector3(p.x,p.z,-p.y)}
 function t2b(p){return {x:p.x,y:-p.z,z:p.y}}
 
 async function boot(){
+  sourcePackets = await fetch('assets/source_packets.json').then(r=>r.json());
   scene=new THREE.Scene(); scene.background=new THREE.Color(0x07131d); scene.fog=new THREE.FogExp2(0x07131d,.008);
   camera=new THREE.PerspectiveCamera(72,innerWidth/innerHeight,.1,500);
   renderer=new THREE.WebGLRenderer({antialias:true}); renderer.setSize(innerWidth,innerHeight); renderer.setPixelRatio(devicePixelRatio);
@@ -63,6 +67,32 @@ function setMode(mode){
 }
 
 async function loadWorld(id){
+  // HARD SOURCE RESET: each world owns a sealed downstream namespace.
+  const packet = sourcePackets[id];
+  sourceGuard.lock(packet);
+  document.getElementById('source-packet').textContent = packet.sourcePacketId;
+  document.getElementById('source-player').textContent = packet.player?.name || 'Unknown';
+  document.getElementById('source-enemies').textContent = `${(packet.enemies||[]).length} detected`;
+  document.getElementById('stale-check').textContent = 'PASS';
+  try {
+    // Build only from CURRENT source truth. No inherited Alex/enemy/dockyard state.
+    sourceGuard.derive('interpreter', {
+      worldId: id,
+      player: {id:'player', name: packet.player?.name || 'Unknown'},
+      enemies: packet.enemies || [],
+      winCondition: (packet.enemies||[]).length ? 'source_defined' : 'none_from_source'
+    });
+    sourceGuard.derive('assetPrompt', {
+      environmentOnly: true,
+      playerGeneration: packet.player?.name && packet.player.name !== 'Unknown' ? 'conditional' : 'insufficient_visual_evidence',
+      enemyGeneration: (packet.enemies||[]).length ? 'conditional' : 'no_enemies_detected'
+    });
+  } catch (e) {
+    console.error(e);
+    document.getElementById('stale-check').textContent = 'BLOCKED';
+    throw e;
+  }
+
   if(controls.isLocked) controls.unlock();
   if(currentRoot){scene.remove(currentRoot);currentRoot.traverse(o=>{if(o.geometry)o.geometry.dispose()});}
   obstacleBoxes=[];groundBox=null; debugGroup.clear();

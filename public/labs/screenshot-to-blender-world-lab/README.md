@@ -48,3 +48,41 @@ These three worlds are **controlled baseline test scenes** packaged to validate 
 Recommended next pipeline:
 
 Screenshot → Vision/Scene Rig → Blender MCP → geometry → style/material pass → GLB → XPLAY runtime.
+
+
+## V2: Source-Truth Isolation Guard
+
+This version adds a hard stale-state boundary between screenshots/worlds.
+
+Each environment now has:
+- `sourcePacketId`
+- `sourceImageId`
+- `buildId`
+- a sealed derived-state namespace
+
+Switching environments calls `sourceGuard.lock(...)`, which immediately invalidates all prior interpreter/asset/runtime derived state.
+
+The guard blocks known stale entities such as:
+- Alex
+- B7
+- Zenith Industries
+- dockyard
+- shipping container
+- green barrels
+
+unless explicitly allowed by the CURRENT source packet.
+
+Character and enemy generation are conditional:
+- unknown player -> no inherited named character
+- no detected enemies -> no enemy atlas / no `defeat_all_enemies` source claim
+
+Files added:
+- `source_guard.js`
+- `source_guard_test.js`
+- `assets/source_packets.json`
+
+### Paste location
+Recommended isolated location:
+`C:\Users\2flyk\Documents\GitHub\XPLAY\XPLAYEngine\public\labs\screenshot-to-blender-world-lab`
+
+This is a complete replacement lab folder, not a patch against unrelated XPLAY pages.

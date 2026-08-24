@@ -1,0 +1,84 @@
+{
+  "suburban": {
+    "sourcePacketId": "src_suburban_001",
+    "sourceImageId": "ref_suburban",
+    "buildId": "build_suburban_001",
+    "title": "Suburban Boulevard",
+    "player": {
+      "name": "Unknown",
+      "evidence": "No named character established by source image."
+    },
+    "enemies": [],
+    "allowedTerms": [
+      "suburban boulevard",
+      "house",
+      "road",
+      "gate",
+      "water tower"
+    ],
+    "forbiddenTerms": [
+      "alex",
+      "b7",
+      "zenith industries",
+      "dockyard",
+      "shipping container",
+      "green barrels",
+      "hazard-striped concrete",
+      "moonlit industrial"
+    ]
+  },
+  "desert": {
+    "sourcePacketId": "src_desert_001",
+    "sourceImageId": "ref_desert",
+    "buildId": "build_desert_001",
+    "title": "Desert Outpost",
+    "player": {
+      "name": "Unknown",
+      "evidence": "No named character established by source image."
+    },
+    "enemies": [],
+    "allowedTerms": [
+      "desert outpost",
+      "adobe",
+      "stone arch",
+      "radio tower",
+      "road"
+    ],
+    "forbiddenTerms": [
+      "alex",
+      "b7",
+      "zenith industries",
+      "dockyard",
+      "shipping container",
+      "green barrels",
+      "hazard-striped concrete",
+      "moonlit industrial"
+    ]
+  },
+  "neon": {
+    "sourcePacketId": "src_neon_001",
+    "sourceImageId": "ref_neon",
+    "buildId": "build_neon_001",
+    "title": "Neon Industrial District",
+    "player": {
+      "name": "Unknown",
+      "evidence": "No named character established by source image."
+    },
+    "enemies": [],
+    "allowedTerms": [
+      "neon industrial district",
+      "warehouse",
+      "lab block",
+      "overpass",
+      "neon spire"
+    ],
+    "forbiddenTerms": [
+      "alex",
+      "b7",
+      "zenith industries",
+      "dockyard",
+      "shipping container",
+      "green barrels"
+    ]
+  }
+}
