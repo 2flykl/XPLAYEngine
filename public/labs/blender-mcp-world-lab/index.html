@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blender MCP World Lab</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <!-- HUD overlay -->
+  <div id="hud">
+    <div class="panel header">
+      <h2>Blender MCP World Lab</h2>
+      <p>POC Pipeline Verification</p>
+    </div>
+    <div class="panel status">
+      <div class="stat"><span class="label">X:</span> <span id="stat-x">0.00</span>m</div>
+      <div class="stat"><span class="label">Y:</span> <span id="stat-y">0.00</span>m</div>
+      <div class="stat"><span class="label">Z:</span> <span id="stat-z">0.00</span>m</div>
+      <div class="stat"><span class="label">Heading:</span> <span id="stat-heading">0</span>°</div>
+      <div class="stat"><span class="label">Nearest Landmark:</span> <span id="stat-nearest">None</span></div>
+      <div class="stat"><span class="label">Distance:</span> <span id="stat-dist">0.00</span>m</div>
+      <div class="stat"><span class="label">Input:</span> <span id="stat-input">NONE</span></div>
+      <div class="stat"><span class="label">Pointer:</span> <span id="stat-pointer">UNLOCKED</span></div>
+    </div>
+    <div class="panel controls">
+      <button id="btn-reset" class="btn">Reset Player</button>
+      <button id="btn-debug" class="btn">Toggle Debug</button>
+    </div>
+    <div id="instructions">
+      Click world to capture mouse.<br>
+      WASD to walk. Shift to sprint.<br>
+      Keyboard movement also works unlocked.
+    </div>
+  </div>
+
+  <div id="crosshair"></div>
+
+  <!-- Three.js container -->
+  <div id="canvas-container"></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

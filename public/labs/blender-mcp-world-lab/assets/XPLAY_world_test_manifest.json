@@ -1,0 +1,43 @@
+{
+  "worldName": "XPLAY_WORLD_TEST",
+  "units": "meters",
+  "playerStart": {
+    "x": 0.0,
+    "y": -38.0,
+    "z": 1.7000000476837158
+  },
+  "landmarks": [
+    {
+      "id": "building_a",
+      "objectName": "XPLAY_BUILDING_A",
+      "anchorName": "XPLAY_LANDMARK_BUILDING_A",
+      "x": -20.0,
+      "y": 5.0,
+      "z": 0.0
+    },
+    {
+      "id": "building_b",
+      "objectName": "XPLAY_BUILDING_B",
+      "anchorName": "XPLAY_LANDMARK_BUILDING_B",
+      "x": 22.0,
+      "y": 20.0,
+      "z": 0.0
+    },
+    {
+      "id": "bridge",
+      "objectName": "XPLAY_BRIDGE",
+      "anchorName": "XPLAY_LANDMARK_BRIDGE",
+      "x": -4.0,
+      "y": 32.0,
+      "z": 0.0
+    },
+    {
+      "id": "tower",
+      "objectName": "XPLAY_TOWER",
+      "anchorName": "XPLAY_LANDMARK_TOWER",
+      "x": 38.0,
+      "y": 42.0,
+      "z": 0.0
+    }
+  ]
+}
